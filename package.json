@@ -1,0 +1,12 @@
+{
+  "name": "cpu-engi-app",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "angular2-meteor": "^0.7.0-beta.1",
+    "meteor-node-stubs": "~0.2.0",
+    "ui-router-ng2": "^1.0.0-beta.2"
+  }
+}
