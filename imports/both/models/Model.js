@@ -48,7 +48,7 @@ class Model {
     }
   }
 
-  setup()
+  setup(){}
 }
 
 export default Model
