@@ -1,22 +1,28 @@
-"use strict";
 function Idempotent(target, key, descriptor) {
-    var getter = descriptor.get;
-    var previous = new Map();
-    function idempotentVersion() {
-        var result = getter.call(this);
-        var identifier = key + ":" + this._id;
-        var latestJson = JSON.stringify(result);
-        var cachedJson = '';
-        if (previous.has(identifier)) {
-            cachedJson = JSON.stringify(previous.get(identifier));
-        }
-        if (latestJson === cachedJson) {
-            result = previous.get(identifier);
-        }
-        previous.set(identifier, result);
-        return result;
+  const getter = descriptor.get
+  const previous = new Map()
+
+  function idempotentVersion() {
+    let result = getter.call(this)
+
+    // assume that there's always an ID, since we're doing relationships
+    const identifier = `${key}:${this._id}`
+    const latestJson = JSON.stringify(result)
+    let cachedJson = ''
+
+    if (previous.has(identifier)) {
+      cachedJson = JSON.stringify(previous.get(identifier))
     }
-    descriptor.get = idempotentVersion;
+
+    if (latestJson === cachedJson) {
+      result = previous.get(identifier)
+    }
+
+    previous.set(identifier, result)
+    return result
+  }
+
+  descriptor.get = idempotentVersion // eslint-disable-line
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Idempotent;
+
+export default Idempotent

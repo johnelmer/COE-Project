@@ -1,0 +1,13 @@
+{
+
+  "presets": [
+    "meteor",
+    "es2015",
+    "stage-1"
+  ],
+
+  "plugins": [
+  	"transform-decorators-legacy"
+  ]
+
+}

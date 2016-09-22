@@ -1,10 +1,16 @@
-import { Component, State, bootstrap } from 'ng2now'
+import { Component, State, bootstrap } from 'angular2-now'
 import './init.js'
 import '../views/banner-view.html'
 
 @Component({
-  name: 'banner',
-  templateUrl: 'imports/clients/views/banner-view.html'
+  selector: 'banner',
+  templateUrl: 'imports/client/views/banner-view.html',
+  transclude: true,
+  replace: true
 })
-export default class BannerViewComponent() {
+export default class BannerViewComponent {
+  constructor() {
+  }
 }
+
+bootstrap(BannerViewComponent)

@@ -7,14 +7,23 @@ class Student extends Model{
 
     constructor(doc){
         super(doc)
+        this.isGraduating || false
+    }
+
+    get isGraduating() {
+        return this.isGraduating
+    }
+
+    get status() {
+        return status
     }
 
     changeStatus(status){
-        Student.update(this._id, { $set: {status: status}})
+        this.status = status
     }
 
     changeAsGraduatingStudent(){
-        Student.update(this._id, { $set: {isGraduating: true}})
+        this.isGraduating = true
     }
 
 
