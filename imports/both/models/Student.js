@@ -9,7 +9,7 @@ class Student extends Model{
         super(doc)
     }
 
-    changeStatus(status: string){
+    changeStatus(status){
         Student.update(this._id, { $set: {status: status}})
     }
 
@@ -43,7 +43,7 @@ class Student extends Model{
                 type: String
             },
             middleInitial:{
-                type: String
+                type: String,
                 max: 3
             },
             gender:{
@@ -97,6 +97,9 @@ class Student extends Model{
                     "active",
                     "shifted"
                 ]
+            },
+            dateRegistered:{
+                type: Date
             }
 
         }))
