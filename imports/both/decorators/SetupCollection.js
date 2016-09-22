@@ -1,11 +1,11 @@
-"use strict";
-var mongo_1 = require('meteor/mongo');
+import { Mongo } from 'meteor/mongo'
+
 function SetupCollection(name) {
-    return function setupCollection(target) {
-        target.collection = new mongo_1.Mongo.Collection(name, {
-            transform: function (doc) {
-                return new target(doc);
-            }
-        });
-    };
+  return function setupCollection(target) {
+    target.collection = new Mongo.Collection(name, {
+      transform(doc) {
+        return new target(doc)
+      }
+    })
+  }
 }

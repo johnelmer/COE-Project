@@ -12,9 +12,9 @@
     "angular-touch": "^1.5.8",
     "angular-ui-bootstrap": "^2.1.3",
     "angular-ui-router": "^1.0.0-beta.2",
+    "angular2-now": "^1.1.6",
     "bootstrap-sass": "^3.3.7",
     "meteor-node-stubs": "~0.2.0",
-    "ng2now": "0.0.13",
     "underscore": "^1.8.3"
   }
 }
