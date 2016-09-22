@@ -7,6 +7,7 @@ class Model {
     }
 
     _(this).extend(doc)
+    setup()
   }
 
   // I can't seem to make this work using functional programming, on the
@@ -47,6 +48,7 @@ class Model {
     }
   }
 
+  setup()
 }
 
 export default Model

@@ -5,28 +5,6 @@ import Model from './Model'
 @SetupCollection('Students')
 class Student extends Model{
 
-    constructor(doc){
-        super(doc)
-        this.isGraduating || false
-    }
-
-    get isGraduating() {
-        return this.isGraduating
-    }
-
-    get status() {
-        return status
-    }
-
-    changeStatus(status){
-        this.status = status
-    }
-
-    changeAsGraduatingStudent(){
-        this.isGraduating = true
-    }
-
-
     addClassRecord(classRecordId){
         //To be implemented
     }
