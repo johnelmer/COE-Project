@@ -7,6 +7,7 @@ class Model {
     }
 
     _(this).extend(doc)
+    this.setup() //automatic call for schema
   }
 
   // I can't seem to make this work using functional programming, on the
@@ -46,6 +47,8 @@ class Model {
       return this.constructor.insert(this.doc, callback)
     }
   }
+
+  setup(){} //Schema: to be implemented in the subclasses
 
 }
 
