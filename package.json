@@ -17,5 +17,11 @@
     "meteor-node-stubs": "~0.2.0",
     "semantic-ui": "^2.2.4",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-meteor": "^6.9.0",
+    "babel-preset-stage-1": "^6.5.0"
   }
 }
