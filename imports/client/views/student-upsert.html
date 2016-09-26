@@ -1,0 +1,25 @@
+<div style="border : 2px solid black">
+	<form>
+		<table>
+      <tr>
+        <td rowspan="2">
+          Student Registration
+        </td>
+      </tr>
+			<tr>
+				<td>First Name: </td>
+				<td><input type="text" ng-model="studentUpsert.student.firstName"></td>
+			</tr>
+      <tr>
+        <td>Last Name: </td>
+        <td>
+          <td><input type="text" ng-model="studentUpsert.student.lastName"></td>
+        </td>
+      </tr>
+		</table>
+		<button class="btn btn-primary" ng-click="studentUpsert.save()">
+			{{ studentUpsert.buttonLabel }}
+		</button>
+		<!-- <button class="btn btn-default" ui-sref="app.logged.products">View Students</button> -->
+	</form>
+</div>
