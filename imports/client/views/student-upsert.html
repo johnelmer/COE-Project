@@ -1,22 +1,21 @@
-<template id="stud-registration">
-    <div class="ui segment">
-        <h2 class="ui left floated header">Student Information</h2>
-        <div class="ui clearing divider"></div>
-        <form class="ui form">
-            <div class="field">
-                <label>Name</label>
-                <div class="three fields">
-                    <div class="field">
-                        <input type="text" name="first-name" placeholder="First Name" ng-model= "" required/>
-                    </div>
-                    <div class="field">
-                        <input type="text" name="last-name" placeholder="Last Name" ng-model ="" required/>
-                    </div>
-                    <div class="field">
-                        <input type="text" name="middle-name" placeholder="Last Name" ng-model ="" required/>
-                    </div>
+<student-upsert>
+    <form>
+        <fieldset>
+            <legend>Student Information</legend>
+            <label>Name</label>
+            <div class="row-fluid">
+                <div class="span4">
+                    <input type="text" name="first-name" placeholder="First Name" ng-model="" required/>
+                </div>
+                <div class="span4">
+                    <input type="text" name="last-name" placeholder="Last Name" ng-model="" required/>
+                </div>
+                <div class="span4">
+                    <input type="text" name="middle-name" placeholder="Last Name" ng-model="" required/>
                 </div>
             </div>
+            <label>Student I.D.</label>
+            <input type="text" name="student-id">
             <label>Birthday</label>
             <input type="date" name="birthday" placeholder="yyyy-mm-dd" ng-model="" required/>
             <label>Gender</label>
@@ -25,20 +24,21 @@
                 <option value="0">Female</option>
             </select>
             <label>Address</label>
-            <input type="text" name="Address" ng-model=""/>
+            <input type="text" name="Address" ng-model="" />
             <label>Contact Number</label>
-            <input type="text" name="contact-number" ng-model=""/>
+            <input type="text" name="contact-number" ng-model="" />
             <label>Parent/Guardian</label>
-            <input type="text" name="parent-name" ng-model=""/>
+            <input type="text" name="parent-name" ng-model="" />
             <label>Course</label>
             <input type="text" name="course" ng-model="" required/>
             <label>Year</label>
-            <input type="text" name="year-entered" ng-model=""/>
+            <!-- year entered -->
+            <input type="text" name="year-entered" ng-model="" />
             <div class="ui checkbox">
-                <input type="checkbox" tabindex="0" class="hidden" ng-model="" ng-click=""/>
+                <input type="checkbox" tabindex="0" class="hidden" ng-model="" ng-click="" />
                 <label>I'm a Graduating Student</label>
             </div>
-            <button class="ui submit" type="submit" ng-click=""> {{ studentUpsert.button }}</button>
-        </form>
-    </div>
-</template>
+            <button class="ui submit" type="submit" ng-click=""> {{ studentUpsert.buttonLabel }}</button>
+        </fieldset>
+    </form>
+    </student-usert>

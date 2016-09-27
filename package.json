@@ -15,7 +15,6 @@
     "angular2-now": "^1.1.6",
     "bootstrap-sass": "^3.3.7",
     "meteor-node-stubs": "~0.2.0",
-    "semantic-ui": "^2.2.4",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
