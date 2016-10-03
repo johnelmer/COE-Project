@@ -6,6 +6,7 @@ import ngAnimate from 'angular-animate'
 import ngTouch from 'angular-touch'
 import ngSanitize from 'angular-sanitize'
 import uiRouter from 'angular-ui-router'
+import uiSelect from 'ui-select'
 
 init()
 
@@ -15,6 +16,6 @@ const dependencies = [
   ngAnimate,
   ngTouch,
   ngSanitize,
-  uiRouter
+  uiRouter,
 ]
-SetModule('banner', dependencies)
+SetModule('app', dependencies)

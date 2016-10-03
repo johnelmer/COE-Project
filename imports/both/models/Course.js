@@ -4,4 +4,4 @@ class Course extends Model {
 
 }
 
-export default class Course
+export default Course
