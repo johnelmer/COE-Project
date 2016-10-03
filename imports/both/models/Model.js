@@ -7,7 +7,7 @@ class Model {
     }
 
     _(this).extend(doc)
-    setup()
+    this.setSchema()
   }
 
   // I can't seem to make this work using functional programming, on the
@@ -48,7 +48,7 @@ class Model {
     }
   }
 
-  setup(){}
+  static setSchema(){}
 }
 
 export default Model

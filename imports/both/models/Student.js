@@ -1,6 +1,7 @@
 import SetupCollection from '../decorators/SetupCollection'
 
 import Model from './Model'
+import Course from './Course'
 
 @SetupCollection('Students')
 class Student extends Model{
@@ -21,13 +22,17 @@ class Student extends Model{
         //To be implemented
     }
 
-    setup(){
+    static setSchema(){
+        const coursesDoc = Course.find()
+        let coursesList = []
+        coursesDoc.forEach(course => coursesList += course.name)
         this.constructor.attachSchema(new SimpleSchema({
             firstName:{
                 type: String
             },
             lastName:{
-                type: String
+                type: String,
+                optional: false
             },
             middleInitial:{
                 type: String,
@@ -42,32 +47,25 @@ class Student extends Model{
             },
             course:{
                 type: String,
-                allowedValues: [
-                    "BSSE",
-                    "BSEE",
-                    "BSECE",
-                    "BSChE",
-                    "BSCE",
-                    "BSPkgE",
-                    "BSME"
-                ]
+                allowedValues: coursesList
             },
             birthDate:{
                 type: Date
             },
-            mobileNumber:{ //need some RegEx here
+            mobileNumber:{
                 type: String,
                 min:11,
-                max:11
+                max:11,
+                regEx: /^(09)\\d{9}/
             },
             isGraduating:{
                 type: Boolean
             },
             classRecords:{
-                type: [Object]
+                type: [String]
             },
             consultations:{
-                type: [Object]
+                type: [String]
             },
             "guardian.fullName":{
                 type: String,
@@ -76,7 +74,8 @@ class Student extends Model{
             "guadian.mobileNumber":{
                 type: String,
                 min: 11,
-                max: 11
+                max: 11,
+                regEx: /^(09)\\d{9}/
             },
             status:{
                 type: String,
