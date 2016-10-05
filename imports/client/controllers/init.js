@@ -17,5 +17,6 @@ const dependencies = [
   ngTouch,
   ngSanitize,
   uiRouter,
+  uiSelect,
 ]
 SetModule('app', dependencies)
