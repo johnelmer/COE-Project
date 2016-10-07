@@ -18,11 +18,12 @@ import Student from '/imports/both/models/Student'
   selector: 'student-upsert',
   templateUrl: 'imports/client/views/student-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'studentUpsert')
 class StudentUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, studentUpsert) {
     $reactive(this).attach($scope)
+    console.log(studentUpsert);
     this.buttonLabel = ''
     this.message = ''
     const { studentId } = $stateParams
