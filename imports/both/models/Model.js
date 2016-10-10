@@ -1,5 +1,7 @@
 import _ from 'underscore'
 
+// to be promisified.
+
 class Model {
   constructor(doc) {
     if (this.constructor.name === 'Model') {
@@ -35,9 +37,9 @@ class Model {
   }
 
   save(callback){
-    if(this._id){
+    if(this._id) {
       return this.constructor.update(this._id, { $set : this.doc }, {}, callback)
-    }else{
+    } else {
       return this.constructor.insert(this.doc, callback)
     }
   }

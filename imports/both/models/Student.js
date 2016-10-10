@@ -3,25 +3,25 @@ import SetupCollection from '../decorators/SetupCollection'
 import Model from './Model'
 
 @SetupCollection('Students')
-class Student extends Model{
+class Student extends Model {
 
   constructor(doc) {
     super(doc)
   }
 
-  addClassRecord(classRecordId){
+  addClassRecord(classRecordId) {
       //To be implemented
   }
 
-  addConsultation(consultationId){
+  addConsultation(consultationId) {
       //To be implemented
   }
 
-  get classRecords(){
+  get classRecords() {
       //To be implemented
   }
 
-  get consultations(){
+  get consultations() {
       //To be implemented
   }
 
