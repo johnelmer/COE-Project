@@ -3,7 +3,7 @@ import Model from './Model'
 
 import SetupAccount from '../decorators/SetupAccount'
 
-@SetupAccount
+@SetupAccount()
 class User extends Model {
 
 }
