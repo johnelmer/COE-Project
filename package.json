@@ -14,7 +14,6 @@
     "angular-ui-router": "^1.0.0-beta.2",
     "angular2-now": "^1.1.6",
     "bootstrap-sass": "^3.3.7",
-    "core-decorators": "^0.12.3",
     "meteor-node-stubs": "~0.2.0",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3"
