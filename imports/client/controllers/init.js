@@ -10,12 +10,12 @@ import uiSelect from 'ui-select'
 
 init()
 const dependencies = [
-    angularMeteor,
-    angularUiBootstrap,
-    ngAnimate,
-    ngTouch,
-    ngSanitize,
-    uiRouter,
-    uiSelect
+  angularMeteor,
+  angularUiBootstrap,
+  ngAnimate,
+  ngTouch,
+  ngSanitize,
+  uiRouter,
+  uiSelect,
 ]
 SetModule('app', dependencies)
