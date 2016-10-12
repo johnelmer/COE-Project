@@ -1,5 +1,7 @@
 import _ from 'underscore'
 
+// to be promisified.
+
 class Model {
   constructor(doc) {
     if (this.constructor.name === 'Model') {
@@ -10,12 +12,6 @@ class Model {
     this.setSchema()
   }
 
-  // I can't seem to make this work using functional programming, on the
-  // decorator -- gets a 'cannot call `find` on undefined', probably because
-  // the collection property of the Mongo.Collection instance is not
-  // yet instantiated
-  //
-  // Good ol' delegation it is then!
   static find(selector = {}, options = {}) {
     return this.collection.find(selector, options)
   }
@@ -41,14 +37,15 @@ class Model {
   }
 
   save(callback){
-    if(this._id){
+    if(this._id) {
       return this.constructor.update(this._id, { $set : this.doc }, {}, callback)
-    }else{
+    } else {
       return this.constructor.insert(this.doc, callback)
     }
   }
 
-  static setSchema(){}
+  static setSchema() {}
+
 }
 
 export default Model
