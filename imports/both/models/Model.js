@@ -9,7 +9,7 @@ class Model {
     }
 
     _(this).extend(doc)
-    // setup()
+    this.setSchema()
   }
 
   static find(selector = {}, options = {}) {
@@ -43,7 +43,7 @@ class Model {
     return this.constructor.insert(this.doc, callback)
   }
 
-  // setup(){}
+  static setSchema() {}
 }
 
 export default Model
