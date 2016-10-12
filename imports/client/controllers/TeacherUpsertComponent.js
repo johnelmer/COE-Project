@@ -16,7 +16,7 @@ import '../views/teacher-upsert'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class TeacherUpsertComponent {
-  
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''

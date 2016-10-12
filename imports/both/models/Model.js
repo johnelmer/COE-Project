@@ -9,7 +9,7 @@ class Model {
     }
 
     _(this).extend(doc)
-    this.setSchema()
+    // this.setSchema()
   }
 
   static find(selector = {}, options = {}) {
