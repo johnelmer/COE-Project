@@ -50,7 +50,7 @@ class StudentUpsertComponent {
       this.student = new Student
     })
   }
-
 }
+
 
 export default StudentUpsertComponent
