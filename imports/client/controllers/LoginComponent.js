@@ -1,5 +1,5 @@
 import {Component, State} from 'angular2-now'
-import '../views/login-view'
+import '../views/login-view.html'
 
 @State({
   name: 'app.login',

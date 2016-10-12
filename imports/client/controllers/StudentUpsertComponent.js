@@ -1,7 +1,7 @@
 /* eslint no-alert: "off" */
 
 import { Component, State, Inject } from 'angular2-now'
-import '../views/student-upsert'
+import '../views/student-upsert.html'
 
 import Student from '/imports/both/models/Student'
 
