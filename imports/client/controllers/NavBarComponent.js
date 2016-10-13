@@ -7,4 +7,5 @@ import '../views/nav-bar.html'
 })
 class NavBarComonent {
 }
+
 export default NavBarComonent
