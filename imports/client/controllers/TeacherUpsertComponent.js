@@ -4,7 +4,6 @@ import '../views/teacher-upsert'
 @State({
   name: 'app.teacher.create',
   url: '/teacher/create',
-  defaultRoute: true,
 })
 @State({
   name: 'app.teacher.edit',
