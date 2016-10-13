@@ -17,6 +17,7 @@ module.exports = {
       "no-underscore-dangle": ["error", { "allowAfterThis": true }],
       "object-shorthand": ["off", "always", { "ignoreConstructors": true }],
       "no-underscore-dangle": "off",
-      "func-names": ["off", "always"]
+      "func-names": ["off", "always"],
+      "linebreak-style": ["error", "windows"]
    }
 };

@@ -4,7 +4,6 @@ import '../views/teacher-upsert.html'
 @State({
   name: 'app.teacher.create',
   url: '/teacher/create',
-  defaultRoute: true,
 })
 @State({
   name: 'app.teacher.edit',
@@ -16,6 +15,7 @@ import '../views/teacher-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class TeacherUpsertComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''

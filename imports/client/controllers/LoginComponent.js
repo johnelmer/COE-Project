@@ -12,7 +12,7 @@ import '../views/login-view.html'
 })
 
 class LoginComponent {
-  // something ...
+  // something
 }
 
 export default LoginComponent
