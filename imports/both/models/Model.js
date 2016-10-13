@@ -43,7 +43,7 @@ class Model {
     return this.constructor.insert(this.doc, callback)
   }
 
-  static setSchema() {}
+  // static setSchema() {}
 }
 
 export default Model

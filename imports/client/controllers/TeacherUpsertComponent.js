@@ -1,5 +1,5 @@
 import { Component, State, Inject } from 'angular2-now'
-import '../views/teacher-upsert'
+import '../views/teacher-upsert.html'
 
 @State({
   name: 'app.teacher.create',
@@ -30,14 +30,14 @@ class TeacherUpsertComponent {
         if ($state.current.name.endsWith('create')) {
           return new Teacher
         }
-        return Teacher.findOne({ _id: teacherId})
+        return Teacher.findOne({ _id: teacherId })
       }
     })
   }
 
   save() {
     this.teacher.save((err, doc) => {
-      if(err) {
+      if (err) {
         alert(err)
       }
       else {
