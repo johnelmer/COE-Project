@@ -1,12 +1,12 @@
-import {Component} from 'angular2-now'
-import '../views/footer-view'
+import { Component } from 'angular2-now'
+import '../views/footer-view.html'
 
 @Component({
   selector: 'footer-view',
   templateUrl: 'imports/client/views/footer-view.html',
-  abstract:true
+  abstract: true,
 })
 class FooterView {
-  //something ...
+  // something ...
 }
 export default FooterView

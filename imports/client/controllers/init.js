@@ -18,4 +18,5 @@ const dependencies = [
   uiRouter,
   uiSelect,
 ]
+
 SetModule('app', dependencies)

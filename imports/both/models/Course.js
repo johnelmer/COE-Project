@@ -2,7 +2,7 @@ import Model from './Model'
 
 class Course extends Model {
 
-  get list(){ //not yet async, to be fix
+  get list(){ // not yet async, to be fixed
     const courses = Course.find().fetch()
     let list = []
     courses.forEach(course => list.push(course.name))
@@ -12,8 +12,8 @@ class Course extends Model {
   static setSchema() {
     this.constructor.attachSchema(new SimpleSchema({
       name: {
-        type: String
-      }
+        type: String,
+      },
     }))
   }
 }

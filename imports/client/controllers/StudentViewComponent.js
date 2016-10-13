@@ -1,7 +1,6 @@
-import { Component, State, Inject } from 'angular2-now'
-import '../views/student-view'
-
 import Student from '/imports/both/models/Student'
+import { Component, State, Inject } from 'angular2-now'
+import '../views/student-view.html'
 
 @State({
   name: 'app.student.list',

@@ -1,13 +1,12 @@
+import _ from 'underscore'
 import { Component, State, bootstrap } from 'angular2-now'
-import './init.js'
+import './init'
 import '../views/app.html'
 
-import _ from 'underscore'
-
 @State({
-	name: 'app',
-	abstract: true,
-	html5Mode: true,
+  name: 'app',
+  abstract: true,
+  html5Mode: true,
 })
 @State({
   name: 'app.student',

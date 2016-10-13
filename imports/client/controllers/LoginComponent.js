@@ -1,15 +1,18 @@
-import {Component, State} from 'angular2-now'
-import '../views/login-view'
+import { Component, State } from 'angular2-now'
+import '../views/login-view.html'
 
 @State({
   name: 'app.login',
-  url: '/login'
+  url: '/login',
 })
+
 @Component({
   selector: 'login-view',
-  templateUrl: 'imports/client/views/login-view.html'
+  templateUrl: 'imports/client/views/login-view.html',
 })
+
 class LoginComponent {
-  //something ...
+  // something ...
 }
+
 export default LoginComponent
