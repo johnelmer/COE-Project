@@ -52,7 +52,7 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-2"><label>Birthday:</label></div>
-                  <div class="col-sm-4"><label>{{ studentView.student.birthday }}</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.birthday | date:'fullDate' }}</label></div>
                 </div>
               </div>
               <div class="form-group">
