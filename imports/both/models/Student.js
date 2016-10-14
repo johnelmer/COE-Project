@@ -11,80 +11,80 @@ class Student extends Model {
   }
 
   addClassRecord(classRecordId) {
-      //To be implemented
+      // To be implemented
   }
 
   addConsultation(consultationId) {
-      //To be implemented
+      // To be implemented
   }
 
   get classRecords() {
-      //To be implemented
+      // To be implemented
   }
 
   static setSchema() {
     const courses = Course.list()
     this.constructor.attachSchema(new SimpleSchema({
       firstName: {
-        type: String
+        type: String,
       },
       lastName: {
         type: String,
-        optional: false
+        optional: false,
       },
       middleInitial: {
         type: String,
-        max: 3
+        max: 3,
       },
       gender: {
         type: String,
         allowedValues: [
-          "Male",
-          "Female"
-        ]
+          'Male',
+          'Female',
+        ],
       },
       course: {
         type: String,
-        allowedValues: courses
+        allowedValues: courses,
       },
       birthDate: {
-        type: Date
+        type: Date,
       },
       mobileNumber: {
         type: String,
-        min:11,
-        max:11,
-        regEx: /^(09)\\d{9}/
+        min: 11,
+        max: 11,
+        regEx: /^(09)\\d{9}/,
       },
       isGraduating: {
-        type: Boolean
+        type: Boolean,
       },
       classRecordsIds: {
-        type: [String]
+        type: [String],
       },
-      consultationsIds:{
-        type: [String]
+      consultationsIds: {
+        type: [String],
       },
-      "guardian.fullName": {
+      'guardian.fullName': {
         type: String,
-        min: 4
+        min: 4,
       },
-      "guadian.mobileNumber": {
+      'guadian.mobileNumber': {
         type: String,
         min: 11,
         max: 11,
-        regEx: /^(09)\\d{9}/
+        regEx: /^(09)\\d{9}/,
       },
       status: {
         type: String,
         allowedValues: [
-          "active",
-          "shifted"
-        ]
+          'active',
+          'shifted',
+        ],
       },
       dateRegistered: {
-        type: Date
-      }
+        type: Date,
+      },
     }))
   }
 }

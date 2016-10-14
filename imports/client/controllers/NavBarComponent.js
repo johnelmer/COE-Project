@@ -1,5 +1,5 @@
 import { Component } from 'angular2-now'
-import '../views/nav-bar'
+import '../views/nav-bar.html'
 
 @Component({
   selector: 'nav-bar',
@@ -7,4 +7,5 @@ import '../views/nav-bar'
 })
 class NavBarComonent {
 }
+
 export default NavBarComonent
