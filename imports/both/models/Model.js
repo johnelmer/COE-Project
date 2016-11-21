@@ -9,7 +9,7 @@ class Model {
     }
 
     _(this).extend(doc)
-    // setup()
+    // this.setSchema()
   }
 
   static find(selector = {}, options = {}) {
@@ -32,19 +32,18 @@ class Model {
     return this.collection.remove(selector, callback)
   }
 
-  get doc(){
+  get doc() {
     return _(this).omit('_id')
   }
 
-  save(callback){
-    if(this._id) {
-      return this.constructor.update(this._id, { $set : this.doc }, {}, callback)
-    } else {
-      return this.constructor.insert(this.doc, callback)
+  save(callback) {
+    if (this._id) {
+      return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
     }
+    return this.constructor.insert(this.doc, callback)
   }
 
-  // setup(){}
+  // static setSchema() {}
 }
 
 export default Model

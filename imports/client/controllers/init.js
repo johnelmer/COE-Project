@@ -9,7 +9,6 @@ import uiRouter from 'angular-ui-router'
 import uiSelect from 'ui-select'
 
 init()
-
 const dependencies = [
   angularMeteor,
   angularUiBootstrap,
@@ -17,5 +16,7 @@ const dependencies = [
   ngTouch,
   ngSanitize,
   uiRouter,
+  uiSelect,
 ]
+
 SetModule('app', dependencies)
