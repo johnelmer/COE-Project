@@ -2,11 +2,11 @@
 import { Meteor } from 'meteor/meteor'
 
 function SetupAccount(schema) {
-  return function setupAccount(target) {
+  return function setupAccount(Target) {
     Meteor.users._transform = function (doc) {
-      return new target(doc)
+      return new Target(doc)
     }
-    target.collection = Meteor.users
+    Target.collection = Meteor.users
     // schema code here
   }
 }
