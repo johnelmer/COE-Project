@@ -3,11 +3,9 @@
 import { Mongo } from 'meteor/mongo'
 
 function SetupCollection(collectionName) {
-  return function setupCollection(target) {
-    target.collection = new Mongo.Collection(collectionName, {
-      transform(doc) {
-        return new target(doc)
-      },
+  return function setupCollection(Target) {
+    Target.collection = new Mongo.Collection(collectionName, {
+      transform: doc => new Target(doc),
     })
   }
 }
