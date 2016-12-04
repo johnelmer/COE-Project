@@ -1,5 +1,8 @@
+import SetupCollection from '../decorators/SetupCollection'
+
 import Model from './Model'
 
+@SetupCollection('Courses')
 class Course extends Model {
 
   get list(){ // not yet async, to be fixed
