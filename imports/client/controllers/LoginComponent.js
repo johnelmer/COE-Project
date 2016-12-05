@@ -1,5 +1,7 @@
 import { Component, State } from 'angular2-now'
 import '../views/login-view.html'
+import User from '/imports/both/models/User'
+import { Meteor } from 'meteor/meteor'
 
 @State({
   name: 'app.login',
@@ -12,7 +14,20 @@ import '../views/login-view.html'
 })
 
 class LoginComponent {
-  // something
+  constructor($scope, $reactive, $state) {
+    $reactive(this).attach($scope)
+    this.user = {}
+    this.$state = $state
+  }
+  login() {
+    Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
+      if (err) {
+        alert(`${err}`)
+      } else {
+        this.$state.go('app.student')
+      }
+    })
+  }
 }
 
 export default LoginComponent
