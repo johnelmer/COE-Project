@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable new-cap */
 
 import { Mongo } from 'meteor/mongo'
 
@@ -9,6 +10,7 @@ function SetupCollection(collectionName) {
         return new target(doc)
       },
     })
+    target.collection.attachSchema(target.schema)
   }
 }
 
