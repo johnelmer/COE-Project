@@ -7,6 +7,8 @@ function SetupCollection(collectionName) {
     Target.collection = new Mongo.Collection(collectionName, {
       transform: doc => new Target(doc),
     })
+
+    Target.collection.attachSchema(Target.schema)
   }
 }
 
