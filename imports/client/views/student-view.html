@@ -5,19 +5,21 @@
         <h2>List of Students</h2></legend>
         <div class="form-group" ng-repeat="student in studentView.students">
           <div class="col-sm-4">
-            <label>{{ student.lastName }}</label>
+            <label> {{ student.lastName }}</label>
           </div>
           <div class="col-sm-4">
-            <label>{{ student.firstName }}</label>
+            <label> {{ student.firstName }}</label>
           </div>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#studentInfoModal" ng-click="studentView.view(student)">
-            View Information
-          </button>
+          <div class="col-sm-4">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#studentInfoModal" ng-click="studentView.view(student)">
+              View Information
+            </button>
+          </div>
         </div>
       </div>
     </form>
   </div>
-  
+
   <div class="modal fade" id="studentInfoModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -29,47 +31,64 @@
           <div class="container">
             <form>
               <div class="form-group">
-                <label>Fullname:</label>
-                <label>{{ studentView.student.firstName}} {{ studentView.student.lastName }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Fullname:</label></div>
+                  <div class="col-sm-4"><label> {{ studentView.student.lastName }} ,
+                    {{ studentView.student.firstName}} {{ studentView.student.middleName }} </label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Student I.D:</label>
-                <label>{{ studentView.student.studentId }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Student I.D:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.studentId }}</label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Course:</label>
-                <label>{{ studentView.student.course }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Course:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.course }}</label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Birthday:</label>
-                <label>{{ studentView.student.birthday }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Birthday:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.birthday | date:'fullDate' }}</label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Gender:</label>
-                <label>{{ studentView.student.gender }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Gender:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.gender }}</label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Address:</label>
-                <label>{{ studentView.student.address }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Address:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.address }}</label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Contact Number:</label>
-                <label>{{ studentView.student.contactNumber }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Contact Number:</label></div>
+                  <div class="col-sm-4"><label>{{ studentView.student.contactNumber }}</label></label></div>
+                </div>
               </div>
               <div class="form-group">
-                <label>Parent/Guardian:</label>
-                <label>{{ studentView.student.guardian }}</label>
+                <div class="row">
+                  <div class="col-sm-2"><label>Parent/Guardian:</label></div>
+                  <div class="col-sm-4">  <label>{{ studentView.student.guardian }}</label></div>
+                </div>
               </div>
               <div class="form-group">
                 <label>{{isGraduating}}</label>
               </div>
-              </form>
-            </div>
+            </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" ui-sref="app.student.edit">Edit</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" ui-sref="app.student.edit">Edit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
