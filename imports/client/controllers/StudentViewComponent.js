@@ -3,12 +3,12 @@ import { Component, State, Inject } from 'angular2-now'
 import '../views/student-view.html'
 
 @State({
-    name: 'app.student.list',
-    url: '/students/list',
+  name: 'app.student.list',
+  url: '/students/list',
 })
 @Component({
-    selector: 'student-view',
-    templateUrl: 'imports/client/views/student-view.html',
+  selector: 'student-view',
+  templateUrl: 'imports/client/views/student-view.html',
 })
 @Inject('$scope', '$reactive')
 class StudentViewComponent {
@@ -18,7 +18,7 @@ class StudentViewComponent {
     this.helpers({
       students() {
         return Student.find().fetch()
-      }
+      },
     })
   }
 

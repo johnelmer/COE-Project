@@ -1,4 +1,3 @@
-import _ from 'underscore'
 import { Component, State, bootstrap } from 'angular2-now'
 import './init'
 import '../views/app.html'
