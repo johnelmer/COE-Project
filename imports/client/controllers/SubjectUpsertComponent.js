@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
+import Subject from '/imports/both/models/Subject'
+
 import { Component, State, Inject } from 'angular2-now'
 import '../views/subject-upsert.html'
-
-import Subject from '/imports/both/models/Subject'
 
 @State({
   name: 'app.subject.create',

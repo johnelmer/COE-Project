@@ -1,12 +1,11 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 
-import _ from 'underscore'
 import Model from './Model'
 
 import SetupAccount from '../decorators/SetupAccount'
 
-@SetupAccount()
+@SetupAccount
 class User extends Model {
 
   static login(username, password) {

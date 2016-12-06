@@ -1,24 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
+import Schemas from '../Schemas'
 
 import Model from './Model'
 
 @SetupCollection('Courses')
 class Course extends Model {
 
-  get list(){ // not yet async, to be fixed
-    const courses = Course.find().fetch()
-    let list = []
-    courses.forEach(course => list.push(course.name))
-    return list
-  }
-
-  static setSchema() {
-    this.constructor.attachSchema(new SimpleSchema({
-      name: {
-        type: String,
-      },
-    }))
-  }
+  static schema = Schemas.Course
 }
 
 export default Course
