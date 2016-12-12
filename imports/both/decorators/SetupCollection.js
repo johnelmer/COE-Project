@@ -10,7 +10,9 @@ function SetupCollection(collectionName) {
         return new target(doc)
       },
     })
-    target.collection.attachSchema(target.schema)
+    if (target.schema) {
+      target.collection.attachSchema(target.schema)
+    }
   }
 }
 
