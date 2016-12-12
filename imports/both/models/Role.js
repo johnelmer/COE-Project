@@ -29,8 +29,7 @@ class Role extends Model {
   }
 
   hasARole(roleName) {
-    return this.is(roleName) ||
-          (this.hasAChild && this.children.some(child => child.hasARole(roleName)))
+    return this.is(roleName) || this.children.some(child => child.hasARole(roleName))
   }
 
 }
