@@ -23,3 +23,5 @@ practicalmeteor:mocha
 accounts-password
 aldeed:collection2-core
 aldeed:simple-schema
+practicalmeteor:faker
+practicalmeteor:chai
