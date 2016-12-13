@@ -22,3 +22,4 @@ fourseven:scss
 practicalmeteor:mocha
 accounts-password
 aldeed:collection2-core
+dispatch:mocha-phantomjs
