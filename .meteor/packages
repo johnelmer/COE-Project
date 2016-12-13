@@ -25,3 +25,4 @@ aldeed:collection2-core
 aldeed:simple-schema
 practicalmeteor:faker
 practicalmeteor:chai
+dispatch:mocha-phantomjs
