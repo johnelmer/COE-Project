@@ -52,7 +52,33 @@ Schemas.subject = new SimpleSchema({
   },
 })
 
-Schemas.student = 
+Schemas.student = new SimpleSchema({
+  name: {
+    type: String,
+    min: 2,
+  },
+  studentId: {
+    type: String,
+  },
+  gender: {
+    type: String,
+  },
+  degree: {
+    type: Object,
+  },
+  yearLevel: {
+    type: String,
+  },
+  birthday: {
+    type: Date,
+  },
+  contactNumber: {
+    type: String,
+  },
+  isGraduating: {
+    type: Boolean,
+  },
+})
 
 Schemas.Course = {}
 
