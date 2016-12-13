@@ -23,6 +23,7 @@ class StudentUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
+    this.subscribe('roles')
     const { studentId } = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add Student'
