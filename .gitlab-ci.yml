@@ -9,7 +9,7 @@ services:
   - mongo
 
 variables:
-  MONGO_URI: "mongodb://mongo/quidditchdb"
+  MONGO_URI: "mongodb://mongo/coe"
   NODE_ENV: 'ci'
 
 all_tests:
