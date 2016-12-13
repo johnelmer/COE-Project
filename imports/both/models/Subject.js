@@ -1,12 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
-import { Subjects } from '../Schemas'
+import Schemas from '../Schemas'
 
 import Model from './Model'
 
 @SetupCollection('Subjects')
 class Subject extends Model {
 
-  static schema = Subjects
+  static schema = Schemas.subject
 
   hasLaboratory() {
     return this.laboratory instanceof 'object'
