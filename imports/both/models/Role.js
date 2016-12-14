@@ -21,7 +21,7 @@ class Role extends Model {
   }
 
   is(roleName) {
-    return this.name === roleName || this.children.some(child => (child.name === roleName))
+    return this.name === roleName
   }
 
   get hasAChild() {
@@ -32,6 +32,9 @@ class Role extends Model {
     return this.is(roleName) || this.children.some(child => child.hasARole(roleName))
   }
 
+  get ancestors() {
+    return Role.find({ childIds: { $elemMatch: { $in: [this._id] } } }).fetch()
+  }
 }
 
 export default Role
