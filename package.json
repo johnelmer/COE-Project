@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
+    "production": "meteor --production",
+    "reset": "meteor reset",
     "test": "meteor test --driver-package practicalmeteor:mocha -p 3100",
     "phantom": "meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm",
-    "ci": "curl https://install.meteor.com/?release=1.4.1.1 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coe meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm"
+    "ci": "curl https://install.meteor.com/?release=1.4.1.1 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coedb meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm"
   },
   "dependencies": {
     "angular": "^1.5.8",

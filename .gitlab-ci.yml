@@ -9,7 +9,7 @@ services:
   - mongo
 
 variables:
-  MONGO_URI: "mongodb://mongo/coe"
+  MONGO_URI: "mongodb://mongo/coedb"
   NODE_ENV: 'ci'
 
 all_tests:
