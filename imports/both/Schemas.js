@@ -52,6 +52,8 @@ Schemas.subject = new SimpleSchema({
   },
 })
 
-Schemas.Course = {}
+Schemas.student = {}
+
+Schemas.course = {}
 
 export default Schemas
