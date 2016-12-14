@@ -1,10 +1,11 @@
 import SetupCollection from '../decorators/SetupCollection'
+import Schemas from '../Schemas'
 
 import Model from './Model'
 
 @SetupCollection('Students')
 class Student extends Model {
-  /* Please add schema for this collection */
+  // TODO
   static schema = {}
 
   enrollACourse(course) {
