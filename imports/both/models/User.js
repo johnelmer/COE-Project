@@ -1,8 +1,6 @@
-import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
+import _ from 'underscore'
 
 import Model from './Model'
-
 import SetupAccount from '../decorators/SetupAccount'
 
 @SetupAccount
@@ -17,22 +15,29 @@ class User extends Model {
 
   assignSubject(subject) {
     const subjectDoc = subject
-    delete subjectDoc.courseIds
-    delete subjectDoc.instructors
+    delete subjectDoc.courses
+    delete subjectDoc.teachersAssigned
     this.profile.subjectsAssigned.push(subjectDoc)
   }
 
   removeSubjectAssignment(subjectId) {
-    const subjects = this.profile.subjectsAssigned
-    const index = subjects.findIndex(subject => subject._id === subjectId)
-    if (index !== -1) {
-      subjects.splice(index, 1)
-    }
+    this.removeObjectFromArray('subjects', '_id', subjectId)
   }
 
   addSubjectAssignment(subject, teacher) {
     teacher.assignSubject(subject)
     subject.assignTeacher(teacher)
+  }
+
+  addCourse(course) {
+    const courseDoc = course
+    const subject = course.subject
+    delete subject.courses
+    delete subject.teachersAssigned
+    courseDoc.subject = subject
+    delete courseDoc.sessions
+    delete courseDoc.students
+    this.profile.courses.push(courseDoc)
   }
 
 }
