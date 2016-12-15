@@ -15,4 +15,4 @@ variables:
 all_tests:
   script:
     - npm install && npm install --only=dev
-    - npm run ci
+    - curl https://install.meteor.com/?release=1.4.1.1 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coedb meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm
