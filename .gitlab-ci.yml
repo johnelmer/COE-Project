@@ -15,4 +15,4 @@ variables:
 all_tests:
   script:
     - npm install && npm install --only=dev
-    - npm run ci
+    - npm run ci --verbose
