@@ -1,4 +1,4 @@
-image: node:7.1.0
+image: node:7.2.1
 
 cache:
   key: "$CI_BUILD_REF_NAME"
@@ -9,7 +9,7 @@ services:
   - mongo
 
 variables:
-  MONGO_URI: "mongodb://mongo/quidditchdb"
+  MONGO_URI: "mongodb://mongo/coedb"
   NODE_ENV: 'ci'
 
 all_tests:
