@@ -80,6 +80,46 @@ Schemas.student = new SimpleSchema({
   },
 })
 
-Schemas.course = {}
+Schemas.course = {
+  subject: {
+    type: Object,
+  },
+  stubCode: {
+    type: String,
+  },
+  'lecture.$': {
+    type: Object,
+  },
+  'lecture.$.time': {
+    type: Date,
+  },
+  'lecture.$.room': {
+    type: String,
+  },
+  'lecture.$.instructor': {
+    type: Object,
+  },
+  'laboratory.$': {
+    type: Object,
+  },
+  'laboratory.$.time': {
+    type: Date,
+  },
+  'laboratory.$.room': {
+    type: String,
+  },
+  'laboratory.$.instructor': {
+    type: String,
+  },
+  sessions: {
+    type: Array,
+  },
+  students: {
+    type: Array,
+  },
+  semester: {
+    type: String,
+  },
+}
 
 export default Schemas
