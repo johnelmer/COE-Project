@@ -4,8 +4,8 @@ import Schemas from '../Schemas'
 import Model from './Model'
 
 @SetupCollection('Sessions')
-class Course extends Model {
-
+class Session extends Model {
+// TODO: Add schema for Session
 //  static schema = Schemas.Session
 
   addActivity(activity) {
@@ -25,4 +25,4 @@ class Course extends Model {
   }
 }
 
-export default Course
+export default Session
