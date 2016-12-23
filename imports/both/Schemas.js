@@ -131,4 +131,31 @@ Schemas.role = new SimpleSchema({
   },
 })
 
+Schemas.session = new SimpleSchema({
+  courseId: {
+    type: String,
+  },
+  'attendance.$': {
+    type: Object,
+  },
+  'attendance.$.presents': {
+    type: Array,
+  },
+  'attendance.$.lates': {
+    type: Array,
+  },
+  'attendance.$.absents': {
+    type: Array,
+  },
+  'attendance.$.excuses': {
+    type: Array,
+  },
+  activities: {
+    type: Array,
+  },
+  date: {
+    type: Date,
+  },
+})
+
 export default Schemas
