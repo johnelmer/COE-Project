@@ -8,10 +8,6 @@ class Subject extends Model {
 
   static schema = Schemas.subject
 
-  hasLaboratory() {
-    return this.laboratory instanceof 'object'
-  }
-
   assignTeacher(teacher) {
     this.teachersAssigned.push({
       _id: teacher._id,
@@ -21,11 +17,7 @@ class Subject extends Model {
   }
 
   removeTeacher(teacherId) {
-    const teachers = this.teachersAssigned
-    const index = teachers.findIndex(teacher => teacher._id === teacherId)
-    if (index !== -1) {
-      teachers.splice(index, 1)
-    }
+    this.removeObjectFromArray('teachersAssigned', '_id', teacherId)
   }
 }
 

@@ -1,12 +1,19 @@
 import SetupCollection from '../decorators/SetupCollection'
+import Schemas from '../Schemas'
 
 import Model from './Model'
-import Course from './Course'
-import Schemas from '../Schemas'
 
 @SetupCollection('Students')
 class Student extends Model {
-  static schema = Schemas.student
+  // TODO
+  static schema = {}
+
+  enrollACourse(course) {
+    const courseDoc = course
+    delete courseDoc.sessions
+    delete courseDoc.students
+    this.courses.push(courseDoc)
+  }
 }
 
 export default Student
