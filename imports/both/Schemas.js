@@ -80,7 +80,7 @@ Schemas.student = new SimpleSchema({
   },
 })
 
-Schemas.course = {
+Schemas.course = new SimpleSchema({
   subject: {
     type: Object,
   },
@@ -120,6 +120,15 @@ Schemas.course = {
   semester: {
     type: String,
   },
-}
+})
+
+Schemas.role = new SimpleSchema({
+  role: {
+    type: String,
+  },
+  children: {
+    type: [String],
+  },
+})
 
 export default Schemas
