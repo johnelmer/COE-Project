@@ -3,27 +3,24 @@ import { Component, State, Inject } from 'angular2-now'
 import '../views/student-view.html'
 
 @State({
-  name: 'app.student.list',
-  url: '/students/list',
+  name: 'app.student.view',
+  url: '/students/view/:studentId',
 })
 @Component({
   selector: 'student-view',
   templateUrl: 'imports/client/views/student-view.html',
 })
-@Inject('$scope', '$reactive')
+@Inject('$scope', '$reactive', '$stateParams')
 class StudentViewComponent {
-  constructor($scope, $reactive) {
+  constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
-    this.student = {}
+    const { studentId } = $stateParams
+    this.subscribe('students')
     this.helpers({
-      students() {
-        return Student.find().fetch()
+      student() {
+        return Student.findOne({ _id: studentId })
       },
     })
-  }
-
-  view(student) {
-    this.student = student
   }
 }
 
