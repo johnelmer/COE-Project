@@ -12,7 +12,6 @@ class Role extends Model {
     }))
   }
 
-<<<<<<< HEAD
   is(roleName) {
     return this.name === roleName
   }
@@ -24,8 +23,6 @@ class Role extends Model {
   hasARole(roleName) {
     return this.is(roleName) || this.children.some(child => child.hasARole(roleName))
   }
-=======
->>>>>>> 3b6a7c13c642bae0b4c7625f76b1d8d7ba4ece4c
 
   get ancestors() {
     return Role.find({ childIds: { $elemMatch: { $in: [this._id] } } }).fetch()
