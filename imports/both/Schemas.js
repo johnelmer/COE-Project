@@ -80,6 +80,82 @@ Schemas.student = new SimpleSchema({
   },
 })
 
-Schemas.course = {}
+Schemas.course = new SimpleSchema({
+  subject: {
+    type: Object,
+  },
+  stubCode: {
+    type: String,
+  },
+  'lecture.$': {
+    type: Object,
+  },
+  'lecture.$.time': {
+    type: Date,
+  },
+  'lecture.$.room': {
+    type: String,
+  },
+  'lecture.$.instructor': {
+    type: Object,
+  },
+  'laboratory.$': {
+    type: Object,
+  },
+  'laboratory.$.time': {
+    type: Date,
+  },
+  'laboratory.$.room': {
+    type: String,
+  },
+  'laboratory.$.instructor': {
+    type: String,
+  },
+  sessions: {
+    type: Array,
+  },
+  students: {
+    type: Array,
+  },
+  semester: {
+    type: String,
+  },
+})
+
+Schemas.role = new SimpleSchema({
+  role: {
+    type: String,
+  },
+  children: {
+    type: [String],
+  },
+})
+
+Schemas.session = new SimpleSchema({
+  courseId: {
+    type: String,
+  },
+  'attendance.$': {
+    type: Object,
+  },
+  'attendance.$.presents': {
+    type: Array,
+  },
+  'attendance.$.lates': {
+    type: Array,
+  },
+  'attendance.$.absents': {
+    type: Array,
+  },
+  'attendance.$.excuses': {
+    type: Array,
+  },
+  activities: {
+    type: Array,
+  },
+  date: {
+    type: Date,
+  },
+})
 
 export default Schemas
