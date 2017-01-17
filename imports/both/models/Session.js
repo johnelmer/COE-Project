@@ -4,9 +4,9 @@ import Schemas from '../Schemas'
 import Model from './Model'
 
 @SetupCollection('Sessions')
-class Course extends Model {
+class Session extends Model {
 
-//  static schema = Schemas.Session
+  static schema = Schemas.Session
 
   addActivity(activity) {
     this.activities.push(activity)
@@ -17,4 +17,4 @@ class Course extends Model {
   }
 }
 
-export default Course
+export default Session
