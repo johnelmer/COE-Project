@@ -1,3 +1,4 @@
+import User from '/imports/both/models/User'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-upsert.html'
 
@@ -28,9 +29,9 @@ class TeacherUpsertComponent {
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
-          return new Teacher
+          return new User
         }
-        return Teacher.findOne({ _id: teacherId })
+        return User.findOne({ _id: teacherId })
       }
     })
   }
@@ -46,3 +47,5 @@ class TeacherUpsertComponent {
     })
   }
 }
+
+export default TeacherUpsertComponent

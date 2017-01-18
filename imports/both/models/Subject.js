@@ -1,16 +1,15 @@
+import _ from 'underscore'
+
 import SetupCollection from '../decorators/SetupCollection'
 import Schemas from '../Schemas'
 
 import Model from './Model'
+import Course from './Course'
 
 @SetupCollection('Subjects')
 class Subject extends Model {
 
   static schema = Schemas.subject
-
-  hasLaboratory() {
-    return this.laboratory instanceof 'object'
-  }
 
   assignTeacher(teacher) {
     this.teachersAssigned.push({
@@ -21,11 +20,20 @@ class Subject extends Model {
   }
 
   removeTeacher(teacherId) {
-    const teachers = this.teachersAssigned
-    const index = teachers.findIndex(teacher => teacher._id === teacherId)
-    if (index !== -1) {
-      teachers.splice(index, 1)
-    }
+    this.removeObjectFromArray('teachersAssigned', '_id', teacherId)
+  }
+
+  generateCourse(doc) {
+    const course = new Course({
+      suject: _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units'),
+      stubcode: doc.stubcode,
+      lecture: doc.lecture,
+      laboratory: doc.laboratory,
+      semester: doc.semester,
+    })
+    course.save((err) => {
+      if (err) { throw new Error('Failed to generate course') }
+    })
   }
 }
 

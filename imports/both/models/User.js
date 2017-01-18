@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
 
 import Model from './Model'
-
 import SetupAccount from '../decorators/SetupAccount'
 
 @SetupAccount
@@ -14,25 +13,38 @@ class User extends Model {
     }
     this.profile.role = role
   }
-
+  // teacher
   assignSubject(subject) {
     const subjectDoc = subject
-    delete subjectDoc.courseIds
-    delete subjectDoc.instructors
+    delete subjectDoc.courses
+    delete subjectDoc.teachersAssigned
     this.profile.subjectsAssigned.push(subjectDoc)
   }
-
+  // teacher
   removeSubjectAssignment(subjectId) {
-    const subjects = this.profile.subjectsAssigned
-    const index = subjects.findIndex(subject => subject._id === subjectId)
-    if (index !== -1) {
-      subjects.splice(index, 1)
-    }
+    this.removeObjectFromArray('subjects', '_id', subjectId)
+  }
+  // teacher
+  removeCourse(courseId) {
+    this.removeObjectFromArray('courses', '_id', courseId)
+  }
+  // teacher
+  addCourse(course) {
+    const courseDoc = course
+    const subject = course.subject
+    delete subject.courses
+    delete subject.teachersAssigned
+    courseDoc.subject = subject
+    delete courseDoc.sessions
+    delete courseDoc.students
+    this.profile.courses.push(courseDoc)
   }
 
-  addSubjectAssignment(subject, teacher) {
-    teacher.assignSubject(subject)
-    subject.assignTeacher(teacher)
+  save(callback) {
+    if (this._id) {
+      return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
+    }
+    return Accounts.createUser(this.doc, callback)
   }
 
 }

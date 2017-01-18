@@ -1,25 +1,9 @@
 import Model from './Model'
+import Schemas from '../Schemas'
 
-import SetupCollection from '../decorators/SetupCollection'
-import Idempotent from '../decorators/Idempotent'
-
-import Schema from '../Schemas'
-
-@SetupCollection('Roles')
 class Role extends Model {
 
-  static schema = Schema.role
-
-  constructor(doc) {
-    super(doc)
-    this.childIds = this.childIds || []
-  }
-
-  @Idempotent
-  get children() {
-    return Role.find({ _id: { $in: this.childIds } }).fetch()
-  }
-
+  static schema = Schemas.role
   is(roleName) {
     return this.name === roleName
   }
