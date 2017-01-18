@@ -114,7 +114,7 @@ Schemas.course = new SimpleSchema({
   'laboratory.$.instructor': {
     type: String,
   },
-  // TODO: specify fields
+  /* TODO: specify fields
   sessions: {
     type: Array,
   },
@@ -124,7 +124,7 @@ Schemas.course = new SimpleSchema({
   },
   semester: {
     type: String,
-  },
+  },*/
 })
 
 Schemas.role = new SimpleSchema({
@@ -143,6 +143,7 @@ Schemas.session = new SimpleSchema({
   'attendance.$': {
     type: Object,
   },
+  /* TODO: Pls complete the schema to avoid error
   'attendance.$.presents': {
     type: Array,
   },
@@ -158,7 +159,7 @@ Schemas.session = new SimpleSchema({
   // TODO: specify fields
   activities: {
     type: Array,
-  },
+  },*/
   date: {
     type: Date,
   },
