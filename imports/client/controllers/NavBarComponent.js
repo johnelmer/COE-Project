@@ -5,7 +5,7 @@ import '../views/nav-bar.html'
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
 })
-class NavBarComonent {
+class NavBarComponent {
 }
 
-export default NavBarComonent
+export default NavBarComponent

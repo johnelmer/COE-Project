@@ -3,8 +3,11 @@ import Schemas from '../Schemas'
 
 class Role extends Model {
 
+<<<<<<< HEAD
   static schema = Schemas.role
 
+=======
+>>>>>>> e24b337a8086258b8c21fc14a77fe13962a58eb4
   is(roleName) {
     return this.name === roleName
   }

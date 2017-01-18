@@ -53,6 +53,7 @@ Schemas.subject = new SimpleSchema({
 })
 
 Schemas.student = new SimpleSchema({
+// TODO: update schema
   name: {
     type: String,
     min: 2,
@@ -63,6 +64,7 @@ Schemas.student = new SimpleSchema({
   gender: {
     type: String,
   },
+  // TODO: allowed values
   degree: {
     type: Object,
   },
@@ -72,6 +74,7 @@ Schemas.student = new SimpleSchema({
   birthday: {
     type: Date,
   },
+  // TODO: regex
   contactNumber: {
     type: String,
   },
@@ -111,9 +114,11 @@ Schemas.course = new SimpleSchema({
   'laboratory.$.instructor': {
     type: String,
   },
+  // TODO: specify fields
   sessions: {
     type: Array,
   },
+  // TODO: specify fields
   students: {
     type: Array,
   },
@@ -150,6 +155,7 @@ Schemas.session = new SimpleSchema({
   'attendance.$.excuses': {
     type: Array,
   },
+  // TODO: specify fields
   activities: {
     type: Array,
   },

@@ -1,0 +1,21 @@
+<div class="container">
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <legend>
+        <h2>List of Students</h2></legend>
+        <div class="form-group" ng-repeat="student in studentList.students">
+          <div class="col-sm-4">
+            <label> {{ student.lastName }}</label>
+          </div>
+          <div class="col-sm-4">
+            <label> {{ student.firstName }}</label>
+          </div>
+          <div class="col-sm-4">
+            <button class="btn btn-primary" ui-sref="app.student.view({ studentId: student._id })">
+              View Information
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
