@@ -12,7 +12,7 @@ import '../views/teacher-upsert.html'
 })
 @Component({
   selector: 'teacher-upsert',
-  templateUrl: 'imports/client/views/teacher-upsert.html',
+  templateUrl: 'imports/client/views/teacher-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class TeacherUpsertComponent {
