@@ -6,7 +6,7 @@ import '../views/course-upsert.html'
 
 @State({
   name: 'app.course.create',
-  url: '/subjects/create',
+  url: '/course/create',
 })
 
 @Component({
