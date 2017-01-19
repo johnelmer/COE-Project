@@ -1,24 +1,11 @@
-import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
 
 import Model from './Model'
-
 import SetupAccount from '../decorators/SetupAccount'
 
 @SetupAccount
 class User extends Model {
-
-  static login(username, password) {
-    Meteor.loginWithPassword(username, password)
-  }
-
-  static logout() {
-    return Meteor.logout()
-  }
-
-  getRole() {
-    return this.profile.role
-  }
 
   setRole(role) {
     if (role === 'Dean') {
@@ -26,10 +13,40 @@ class User extends Model {
     }
     this.profile.role = role
   }
-
-  changePassword(oldPassword, newPassword, callback) {
-    Accounts.changePassword(oldPassword, newPassword, callback)
+  // teacher
+  assignSubject(subject) {
+    const subjectDoc = subject
+    delete subjectDoc.courses
+    delete subjectDoc.teachersAssigned
+    this.profile.subjectsAssigned.push(subjectDoc)
   }
+  // teacher
+  removeSubjectAssignment(subjectId) {
+    this.removeObjectFromArray('subjects', '_id', subjectId)
+  }
+  // teacher
+  removeCourse(courseId) {
+    this.removeObjectFromArray('courses', '_id', courseId)
+  }
+  // teacher
+  addCourse(course) {
+    const courseDoc = course
+    const subject = course.subject
+    delete subject.courses
+    delete subject.teachersAssigned
+    courseDoc.subject = subject
+    delete courseDoc.sessions
+    delete courseDoc.students
+    this.profile.courses.push(courseDoc)
+  }
+
+  save(callback) {
+    if (this._id) {
+      return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
+    }
+    return Accounts.createUser(this.doc, callback)
+  }
+
 }
 
 export default User
