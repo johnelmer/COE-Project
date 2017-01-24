@@ -4,6 +4,52 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 const Schemas = {}
 // const degrees = Degree.find().fetch().map(degree => degree.name)
 
+Schemas.embeddedProfile = new SimpleSchema({
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  middleName: {
+    type: String,
+  },
+  idNumber: {
+    type: String,
+  },
+  contactNumber: {
+    type: String,
+  },
+  department: {
+    type: String,
+  },
+  courses: {
+    type: [Object],
+    optional: true,
+  },
+})
+
+Schemas.user = new SimpleSchema({
+  username: {
+    type: String,
+  },
+  role: {
+    type: String,
+    optional: true,
+  },
+  createdAt: {
+    type: Date,
+  },
+  profile: {
+    type: Schemas.embeddedProfile,
+  },
+  services: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+})
+
 Schemas.degree = new SimpleSchema({
   name: {
     type: String,
@@ -11,7 +57,7 @@ Schemas.degree = new SimpleSchema({
   },
 })
 
-Schemas.embededTeacher = new SimpleSchema({
+Schemas.embeddedTeacher = new SimpleSchema({
   _id: {
     type: String,
   },
@@ -66,11 +112,11 @@ Schemas.subject = new SimpleSchema({
     optional: true,
   },
   'teachersAssigned.$': {
-    type: Schemas.embededTeacher,
+    type: Schemas.embeddedTeacher,
   },
 })
 
-Schemas.embededGuardian = new SimpleSchema({
+Schemas.embeddedGuardian = new SimpleSchema({
   fullName: {
     type: String,
     min: 2,
@@ -91,11 +137,10 @@ Schemas.student = new SimpleSchema({
     type: String,
     min: 2,
   },
-  middelName: {
+  middleName: {
     type: String,
-    min: 2,
   },
-  studentId: {
+  idNumber: {
     type: String,
   },
   gender: {
@@ -119,8 +164,9 @@ Schemas.student = new SimpleSchema({
     type: Boolean,
   },
   guardian: {
-    type: Schemas.embededGuardian,
+    type: Schemas.embeddedGuardian,
   },
+/* //TODO
   createdAt: {
     type: Date,
     autoValue: () => {
@@ -129,10 +175,10 @@ Schemas.student = new SimpleSchema({
       }
       return new Date()
     },
-  },
+  },*/
 })
 
-Schemas.embededCourseType = new SimpleSchema({
+Schemas.embeddedCourseType = new SimpleSchema({
   time: {
     type: String,
   },
@@ -140,11 +186,11 @@ Schemas.embededCourseType = new SimpleSchema({
     type: String,
   },
   instructor: {
-    type: Schemas.embededTeacher,
+    type: Schemas.embeddedTeacher,
   },
 })
 
-Schemas.embededStudent = new SimpleSchema({
+Schemas.embeddedStudent = new SimpleSchema({
   _id: {
     type: String,
   },
@@ -154,7 +200,7 @@ Schemas.embededStudent = new SimpleSchema({
   lastName: {
     type: String,
   },
-  middelName: {
+  middleName: {
     type: String,
   },
   degree: {
@@ -174,10 +220,10 @@ Schemas.course = new SimpleSchema({
     type: String,
   },
   'lecture.$': {
-    type: Schemas.embededCourseType,
+    type: Schemas.embeddedCourseType,
   },
   'laboratory.$': {
-    type: Schemas.embededCourseType,
+    type: Schemas.embeddedCourseType,
   },
   sessions: {
     type: Array,
@@ -197,7 +243,7 @@ Schemas.course = new SimpleSchema({
     type: Array,
   },
   'students.$': {
-    type: Schemas.embededStudent,
+    type: Schemas.embeddedStudent,
   },
   semester: {
     type: String,
