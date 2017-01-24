@@ -80,6 +80,5 @@ Schemas.student = new SimpleSchema({
   },
 })
 
-Schemas.course = {}
 
 export default Schemas

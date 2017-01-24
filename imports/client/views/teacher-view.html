@@ -2,8 +2,82 @@
   <form class="form-horizontal">
     <div class="jumbotron">
       <legend>
-        <h2>Teacher Subject Assignment</h2>
+        <h2>Teacher Information</h2>
       </legend>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2"><label>Fullname:</label></div>
+          <div class="col-sm-4"> {{ teacherView.teacher.lastName }} ,
+            {{ teacherView.teacher.firstName}} {{ teacherView.teacher.middleName }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Teacher I.D:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.teacherId }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Department:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.course }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Position:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.position}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Employee's Status:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.status}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Birthday:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.birthday | date:'fullDate' }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Gender:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.gender }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Address:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.address }}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Contact Number:</label></div>
+            <div class="col-sm-4">{{ teacherView.teacher.contactNumber }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="jumbotron">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <button class="btn btn-default btn-block" ng-click="">
+              Edit
+            </button>
+          </div>
+          <div class="col-sm-4">
+            <button class="btn btn-default btn-block" ng-click="">
+              Action2
+            </button>
+          </div>
+          <div class="col-sm-4">
+            <button class="btn btn-default btn-block" ng-click="">
+              Assign
+            </button>
+          </div>
+        </div>
       </div>
   </form>
 </div>

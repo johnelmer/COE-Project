@@ -20,7 +20,7 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
-  name: 'app.course',
+  name: 'app.degree',
   abstract: true,
 })
 @Component({
