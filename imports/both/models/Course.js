@@ -9,7 +9,7 @@ import Session from './Session'
 @SetupCollection('Courses')
 class Course extends Model {
 
-  static schema = Schemas.Course
+  static schema = Schemas.course
 
   hasLaboratory() {
     return this.laboratory instanceof 'object'
