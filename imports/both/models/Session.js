@@ -4,25 +4,17 @@ import Schemas from '../Schemas'
 import Model from './Model'
 
 @SetupCollection('Sessions')
-class Course extends Model {
+class Session extends Model {
 
-//  static schema = Schemas.Session
+  static schema = Schemas.Session
 
   addActivity(activity) {
     this.activities.push(activity)
   }
 
-  getQuizActivities() {
-    return this.getFilteredObjectsFromArray('activities', 'type', 'Quiz')
-  }
-
-  getHomeworkActivities() {
-    return this.getFilteredObjectsFromArray('activities', 'type', 'Homework')
-  }
-
-  getMajorExamActivities() {
-    return this.getFilteredObjectsFromArray('activities', 'type', 'Exam')
+  getActivitiesByType(type) {
+    return this.getFilteredObjectsFromArray('activities', 'type', type)
   }
 }
 
-export default Course
+export default Session

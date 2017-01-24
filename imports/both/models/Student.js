@@ -5,8 +5,8 @@ import Model from './Model'
 
 @SetupCollection('Students')
 class Student extends Model {
-  // TODO
-  static schema = {}
+
+  static schema = Schemas.student
 
   enrollACourse(course) {
     const courseDoc = course

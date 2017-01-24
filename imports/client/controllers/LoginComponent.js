@@ -7,7 +7,6 @@ import { Meteor } from 'meteor/meteor'
   name: 'app.login',
   url: '/login',
 })
-
 @Component({
   selector: 'login-view',
   templateUrl: 'imports/client/views/login-view.html',
