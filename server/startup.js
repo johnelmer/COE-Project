@@ -13,6 +13,7 @@ function loadAccounts() {
         middleName: 'M',
         idNumber: '10-1000-10',
         contactNumber: '09101010110',
+        address: 'Jaro',
         department: '-',
       },
     })
