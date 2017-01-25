@@ -19,6 +19,7 @@ const data = {
       yearLevel: 4,
       birthday: new Date('04/19/96'),
       contactNumber: '09277838893',
+      address: 'Pavia',
       isGraduating: false,
       guardian: {
         fullName: 'Mrs. Lasaga',
@@ -35,6 +36,7 @@ const data = {
       yearLevel: 4,
       birthday: new Date('06/09/96'),
       contactNumber: '09060606066',
+      address: 'Jaro',
       isGraduating: false,
       guardian: {
         fullName: 'Mrs. Barte',
@@ -51,6 +53,7 @@ const data = {
       yearLevel: 4,
       birthday: new Date('11/11/96'),
       contactNumber: '09280538501',
+      address: 'Aklan',
       isGraduating: false,
       guardian: {
         fullName: 'Mrs. Matutina',
@@ -67,6 +70,7 @@ const data = {
       yearLevel: 4,
       birthday: new Date('09/10/96'),
       contactNumber: '09060238402',
+      address: 'Gensan',
       isGraduating: false,
       guardian: {
         fullName: 'Mrs. Loretizo',
@@ -83,6 +87,7 @@ const data = {
       yearLevel: 4,
       birthday: new Date('07/22/96'),
       contactNumber: '09988532501',
+      address: 'Capiz',
       isGraduating: false,
       guardian: {
         fullName: 'Mrs. dela Cruz',
@@ -101,6 +106,7 @@ const data = {
         middleName: 'C',
         idNumber: '05-1234-22',
         contactNumber: '09161628911',
+        address: 'Pavia',
         department: 'SE',
       },
     },
@@ -114,6 +120,7 @@ const data = {
         middleName: 'E',
         idNumber: '04-1134-12',
         contactNumber: '09262527921',
+        address: 'Jaro',
         department: 'SE',
       },
     },
@@ -179,5 +186,24 @@ Meteor.startup(() => {
       const newSubject = new Subject(subject)
       newSubject.save()
     })
+  }
+  if (Course.find().count() === 0) {
+    const subjects = Subject.find().fetch()
+    const teachers = User.find().fetch()
+    subjects[1].generateCourse({
+      stubcode: '123',
+      lecture: {
+        time: '7:00-8:30 TTh',
+        room: 'En205',
+        instructor: {
+          _id: teachers[1]._id,
+          firstName: teachers[1].profile.firstName,
+          lastName: teachers[1].profile.lastName,
+        },
+      },
+      laboratory: {},
+      semester: '2016-2017',
+    })
+    subjects[0].save()
   }
 })

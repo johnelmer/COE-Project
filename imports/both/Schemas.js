@@ -20,6 +20,9 @@ Schemas.embeddedProfile = new SimpleSchema({
   contactNumber: {
     type: String,
   },
+  address: {
+    type: String,
+  },
   department: {
     type: String,
   },
@@ -160,6 +163,9 @@ Schemas.student = new SimpleSchema({
   contactNumber: {
     type: String,
   },
+  address: {
+    type: String,
+  },
   isGraduating: {
     type: Boolean,
   },
@@ -176,6 +182,24 @@ Schemas.student = new SimpleSchema({
       return new Date()
     },
   },*/
+})
+
+Schemas.embeddedSubject = new SimpleSchema({
+  _id: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+  courseNumber: {
+    type: String,
+  },
+  credits: {
+    type: Number,
+  },
+  units: {
+    type: Number,
+  },
 })
 
 Schemas.embeddedCourseType = new SimpleSchema({
@@ -214,19 +238,22 @@ Schemas.embeddedStudent = new SimpleSchema({
 
 Schemas.course = new SimpleSchema({
   subject: {
-    type: Object,
+    type: Schemas.embeddedSubject,
   },
-  stubCode: {
+  stubcode: {
     type: String,
   },
-  'lecture.$': {
+  lecture: {
     type: Schemas.embeddedCourseType,
   },
-  'laboratory.$': {
-    type: Schemas.embeddedCourseType,
+  laboratory: {
+    type: Object,
+    optional: true,
+    blackbox: true,
   },
   sessions: {
     type: Array,
+    optional: true,
   },
   'sessions.$': {
     type: Object,
@@ -241,6 +268,7 @@ Schemas.course = new SimpleSchema({
   // TODO: specify fields
   students: {
     type: Array,
+    optional: true,
   },
   'students.$': {
     type: Schemas.embeddedStudent,
@@ -259,30 +287,60 @@ Schemas.role = new SimpleSchema({
   },
 })
 
+Schemas.embeddedAttendance = new SimpleSchema({
+  presents: {
+    type: [String],
+  },
+  lates: {
+    type: [String],
+  },
+  absents: {
+    type: [String],
+  },
+  excuses: {
+    type: [String],
+  },
+})
+
+Schemas.embeddedRecord = new SimpleSchema({
+  studentId: {
+    type: String,
+  },
+  score: {
+    type: Number,
+  },
+})
+
+Schemas.embeddedActivity = new SimpleSchema({
+  /* TODO: allowed values */
+  type: {
+    type: String,
+  },
+  totalScore: {
+    type: Number,
+  },
+  records: {
+    type: Array,
+  },
+  'records.$': {
+    type: Schemas.embeddedRecord,
+  },
+})
+
 Schemas.session = new SimpleSchema({
   courseId: {
     type: String,
   },
-  'attendance.$': {
-    type: Object,
+  attendance: {
+    type: Schemas.embeddedAttendance,
+    optional: true,
   },
-  /* TODO: Pls complete the schema to avoid error
-  'attendance.$.presents': {
-    type: Array,
-  },
-  'attendance.$.lates': {
-    type: Array,
-  },
-  'attendance.$.absents': {
-    type: Array,
-  },
-  'attendance.$.excuses': {
-    type: Array,
-  },
-  // TODO: specify fields
   activities: {
     type: Array,
-  },*/
+  },
+  'activities.$': {
+    type: Object,
+  },
   date: {
     type: Date,
   },
