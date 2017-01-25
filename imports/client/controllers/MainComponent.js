@@ -12,10 +12,6 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
-  name: 'app.teacher',
-  abstract: true,
-})
-@State({
   name: 'app.subject',
   abstract: true,
 })
