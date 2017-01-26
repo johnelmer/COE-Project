@@ -9,30 +9,45 @@ import '../views/course-student-enroll.html'
 })
 @Component({
   selector: 'course-student-enroll',
-  templateUrl: 'imports/client/views/course-student-enroll',
+  templateUrl: 'imports/client/views/course-student-enroll.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
-class CourseStudentEnrollComponent {
+export default class CourseStudentEnrollComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
-    this.studentList = []
-    const { courseId } = $stateParams
+    this.students = []
+    this.student = {}
+    const { courseIdParam } = $stateParams
+    /* TODO: publication for unenrolled students for this course */
+    this.subscribe('students')
+    this.subscribe('courses')
     this.helpers({
       course() {
-        return Course.findOne({ courseId })
+        const couseId = this.courseIdParam
+        return Course.findOne({ couseId })
+      },
+      studentList() {
+        return this.students
       },
     })
-    this.enrolledStudents = this.course.students
   }
 
-  addToList(idNumber) {
-    const student = Student.findOne({ studentId: idNumber })
-    if (!student) {
+  addToList() {
+    const idNumber = this.student.idNumber
+    const students = this.students
+    const studentToBeAdded = Student.findOne({ idNumber: idNumber })
+    if (!studentToBeAdded) {
       console.log('Student not found')
     }
-    this.studentList.push(student)
+    const isStudentExist = students.some(student => student.idNumber === idNumber)
+    if (!isStudentExist) {
+      students.push(studentToBeAdded)
+    } else {
+      console.log('Student is already on the list!')
+    }
   }
 
+/* TODO: select student from table */
   removeFromList(idNumber) {
     const studentIndex = this.studentList.findIndex(student => student.studentId === idNumber)
     if (studentIndex === -1) {
@@ -42,19 +57,12 @@ class CourseStudentEnrollComponent {
   }
 
   enrollStudents() {
+    console.log(this.course)
     this.studentList.forEach((student) => {
       this.course.enrollAStudent(student)
-      this.course.save()
-    })
-  }
-
-  removeStudentFromClass(idNumber) {
-    const course = this.course
-    course.removeStudentFromClass(idNumber)
-    course.save((err) => {
-      if (err) {
-        console.log('Error')
-      }
+      this.course.save((err) => {
+        if (err) { console.log(err) }
+      })
     })
   }
 }
