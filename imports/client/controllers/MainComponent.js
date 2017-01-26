@@ -15,6 +15,14 @@ import '../views/app.html'
   name: 'app.subject',
   abstract: true,
 })
+@State({
+  name: 'app.teacher',
+  abstract: true,
+})
+@State({
+  name: 'app.degree',
+  abstract: true,
+})
 @Component({
   selector: 'app',
   templateUrl: 'imports/client/views/app.html',

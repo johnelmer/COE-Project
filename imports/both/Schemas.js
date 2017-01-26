@@ -1,11 +1,74 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+// import Degree from './models/Degree'
 
 const Schemas = {}
+// const degrees = Degree.find().fetch().map(degree => degree.name)
+
+Schemas.embeddedProfile = new SimpleSchema({
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  middleName: {
+    type: String,
+  },
+  idNumber: {
+    type: String,
+  },
+  contactNumber: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  department: {
+    type: String,
+  },
+  courses: {
+    type: [Object],
+    optional: true,
+  },
+})
+
+Schemas.user = new SimpleSchema({
+  username: {
+    type: String,
+  },
+  role: {
+    type: String,
+    optional: true,
+  },
+  createdAt: {
+    type: Date,
+  },
+  profile: {
+    type: Schemas.embeddedProfile,
+  },
+  services: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+})
 
 Schemas.degree = new SimpleSchema({
   name: {
     type: String,
     min: 4,
+  },
+})
+
+Schemas.embeddedTeacher = new SimpleSchema({
+  _id: {
+    type: String,
+  },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
   },
 })
 
@@ -34,39 +97,61 @@ Schemas.subject = new SimpleSchema({
     type: Object,
     optional: true,
   },
+  'courses.$.stubcode': {
+    type: String,
+  },
+  'courses.$.lecture': {
+    type: Object,
+  },
+  'courses.$.laboratory': {
+    type: Object,
+    optional: true,
+  },
+  'courses.$.schoolYear': {
+    type: String,
+  },
   teachersAssigned: {
     type: Array,
     optional: true,
   },
   'teachersAssigned.$': {
-    type: Object,
+    type: Schemas.embeddedTeacher,
   },
-  'teachersAssigned.$._id': {
+})
+
+Schemas.embeddedGuardian = new SimpleSchema({
+  fullName: {
     type: String,
+    min: 2,
   },
-  'teachersAssigned.$.firstName': {
-    type: String,
-  },
-  'teachersAssigned.$.lastName': {
+// TODO: RegEx
+  contactNumber: {
     type: String,
   },
 })
 
 Schemas.student = new SimpleSchema({
 // TODO: update schema
-  name: {
+  firstName: {
     type: String,
     min: 2,
   },
-  studentId: {
+  lastName: {
+    type: String,
+    min: 2,
+  },
+  middleName: {
+    type: String,
+  },
+  idNumber: {
     type: String,
   },
   gender: {
     type: String,
   },
-  // TODO: allowed values
   degree: {
-    type: Object,
+    type: String,
+    // allowedValues: degrees,
   },
   yearLevel: {
     type: String,
@@ -78,53 +163,119 @@ Schemas.student = new SimpleSchema({
   contactNumber: {
     type: String,
   },
+  address: {
+    type: String,
+  },
   isGraduating: {
     type: Boolean,
+  },
+  guardian: {
+    type: Schemas.embeddedGuardian,
+  },
+/* //TODO
+  createdAt: {
+    type: Date,
+    autoValue: () => {
+      if (!this.isInsert) {
+        this.unset()
+      }
+      return new Date()
+    },
+  },*/
+})
+
+Schemas.embeddedSubject = new SimpleSchema({
+  _id: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+  courseNumber: {
+    type: String,
+  },
+  credits: {
+    type: Number,
+  },
+  units: {
+    type: Number,
+  },
+})
+
+Schemas.embeddedCourseType = new SimpleSchema({
+  time: {
+    type: String,
+  },
+  room: {
+    type: String,
+  },
+  instructor: {
+    type: Schemas.embeddedTeacher,
+  },
+})
+
+Schemas.embeddedStudent = new SimpleSchema({
+  _id: {
+    type: String,
+  },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  middleName: {
+    type: String,
+  },
+  degree: {
+    type: String,
+    // allowedValues: degrees,
+  },
+  yearLevel: {
+    type: Number,
   },
 })
 
 Schemas.course = new SimpleSchema({
   subject: {
-    type: Object,
+    type: Schemas.embeddedSubject,
   },
-  stubCode: {
+  stubcode: {
     type: String,
   },
-  'lecture.$': {
+  lecture: {
+    type: Schemas.embeddedCourseType,
+  },
+  laboratory: {
     type: Object,
+    optional: true,
+    blackbox: true,
   },
-  'lecture.$.time': {
-    type: Date,
-  },
-  'lecture.$.room': {
-    type: String,
-  },
-  'lecture.$.instructor': {
-    type: Object,
-  },
-  'laboratory.$': {
-    type: Object,
-  },
-  'laboratory.$.time': {
-    type: Date,
-  },
-  'laboratory.$.room': {
-    type: String,
-  },
-  'laboratory.$.instructor': {
-    type: String,
-  },
-  /* TODO: specify fields
   sessions: {
     type: Array,
+    optional: true,
+  },
+  'sessions.$': {
+    type: Object,
+    optional: true,
+  },
+  'sessions.$._id': {
+    type: String,
+  },
+  'sessions.$.date': {
+    type: Date,
   },
   // TODO: specify fields
   students: {
     type: Array,
+    optional: true,
+  },
+  'students.$': {
+    type: Schemas.embeddedStudent,
   },
   semester: {
     type: String,
-  },*/
+  },
 })
 
 Schemas.role = new SimpleSchema({
@@ -136,30 +287,60 @@ Schemas.role = new SimpleSchema({
   },
 })
 
+Schemas.embeddedAttendance = new SimpleSchema({
+  presents: {
+    type: [String],
+  },
+  lates: {
+    type: [String],
+  },
+  absents: {
+    type: [String],
+  },
+  excuses: {
+    type: [String],
+  },
+})
+
+Schemas.embeddedRecord = new SimpleSchema({
+  studentId: {
+    type: String,
+  },
+  score: {
+    type: Number,
+  },
+})
+
+Schemas.embeddedActivity = new SimpleSchema({
+  /* TODO: allowed values */
+  type: {
+    type: String,
+  },
+  totalScore: {
+    type: Number,
+  },
+  records: {
+    type: Array,
+  },
+  'records.$': {
+    type: Schemas.embeddedRecord,
+  },
+})
+
 Schemas.session = new SimpleSchema({
   courseId: {
     type: String,
   },
-  'attendance.$': {
-    type: Object,
+  attendance: {
+    type: Schemas.embeddedAttendance,
+    optional: true,
   },
-  /* TODO: Pls complete the schema to avoid error
-  'attendance.$.presents': {
-    type: Array,
-  },
-  'attendance.$.lates': {
-    type: Array,
-  },
-  'attendance.$.absents': {
-    type: Array,
-  },
-  'attendance.$.excuses': {
-    type: Array,
-  },
-  // TODO: specify fields
   activities: {
     type: Array,
-  },*/
+  },
+  'activities.$': {
+    type: Object,
+  },
   date: {
     type: Date,
   },

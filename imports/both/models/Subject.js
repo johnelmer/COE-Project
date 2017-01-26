@@ -25,7 +25,7 @@ class Subject extends Model {
 
   generateCourse(doc) {
     const course = new Course({
-      suject: _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units'),
+      subject: _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units'),
       stubcode: doc.stubcode,
       lecture: doc.lecture,
       laboratory: doc.laboratory,
