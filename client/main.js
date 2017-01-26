@@ -8,5 +8,6 @@ import '/imports/client/controllers/StudentViewComponent'
 import '/imports/client/controllers/SubjectUpsertComponent'
 import '/imports/client/controllers/TeacherListComponent'
 import '/imports/client/controllers/TeacherViewComponent'
+import '/imports/client/controllers/CourseStudentEnrollComponent'
 
 import '../node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js'
