@@ -3,10 +3,13 @@ import { Accounts } from 'meteor/accounts-base'
 
 import Model from './Model'
 import SetupAccount from '../decorators/SetupAccount'
+import Schemas from '../Schemas'
+
+
 
 @SetupAccount
 class User extends Model {
-
+  static schema = Schemas.user
   setRole(role) {
     if (role === 'Dean') {
       throw new Error('Not allowed!')
