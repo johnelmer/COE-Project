@@ -21,7 +21,7 @@ class LoginComponent {
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
-        alert(`${err}`)
+        alert(`${err.reason}`)
       } else {
         this.$state.go('app.student')
       }

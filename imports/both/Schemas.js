@@ -1,8 +1,8 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
-// import Degree from './models/Degree'
+import Degree from './models/Degree'
 
 const Schemas = {}
-// const degrees = Degree.find().fetch().map(degree => degree.name)
+const degrees = Degree.find().fetch().map(degree => degree.name)
 
 Schemas.embeddedProfile = new SimpleSchema({
   firstName: {
@@ -151,7 +151,7 @@ Schemas.student = new SimpleSchema({
   },
   degree: {
     type: String,
-    // allowedValues: degrees,
+    allowedValues: degrees,
   },
   yearLevel: {
     type: String,
@@ -229,7 +229,7 @@ Schemas.embeddedStudent = new SimpleSchema({
   },
   degree: {
     type: String,
-    // allowedValues: degrees,
+    allowedValues: degrees,
   },
   yearLevel: {
     type: Number,

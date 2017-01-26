@@ -1,0 +1,35 @@
+<div class="container">
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <label class="col-sm-1 control-label">Degree:</label>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Add Degree" ng-model="degreeUpsert.degree">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button" ng-click="degreeUpsert.save()">Add</button>
+        </span>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>
+                List of Degree
+              </td>
+              <td>
+                Delete
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr ng-repeat="">
+            <td>{{ table1 }}</td>
+            <td><button type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-remove"></span> Remove
+          </button></td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>
+</form>
+</div>

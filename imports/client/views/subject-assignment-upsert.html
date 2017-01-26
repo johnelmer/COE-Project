@@ -1,0 +1,59 @@
+<div class="container">
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <legend></legend>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2"><label>Fullname:</label></div>
+          <div class="col-sm-4"> {{ lastName }} ,
+            {{ firstName }} {{ middleName }} </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Department:</label></div>
+            <div class="col-sm-4"> {{department}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2"><label>Subject:</label></div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Add Subject" ng-model="">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button" ng-click="">Assign</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="jumbotron">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>
+                Last Name
+              </td>
+              <td>
+                First Name
+              </td>
+              <td>
+                Action
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="">
+              <td>{{ assigned subject }}</td>
+              <td class="text-center">
+                <button class="btn btn-default btn-sm btn-block">
+                  <span class="glyphicon glyphicon-remove-circle"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+    </form>
+  </div>
