@@ -7,8 +7,8 @@ import '../views/teacher-list.html'
   url: '/teacher/list',
 })
 @Component({
-  selector: 'teacher-view',
-  templateUrl: 'imports/client/views/teacher-view.html',
+  selector: 'teacher-list',
+  templateUrl: 'imports/client/views/teacher-list.html',
 })
 @Inject('$scope', '$reactive')
 class TeacherListComponent {

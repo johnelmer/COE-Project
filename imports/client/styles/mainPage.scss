@@ -7,10 +7,30 @@
     padding: 2% 4% 5%;
 }
 
-.container{
+.container {
   padding-top: 7%
 }
 
-a,p,li {
+p,a {
     color: #ffffff;
+}
+
+.container {
+  ul {
+    li {
+      a {
+        color: #000000;
+      }
+    }
+  }
+}
+
+.div {
+  .div {
+    .div {
+      .button {
+        color: #1bc120;
+      }
+    }
+  }
 }

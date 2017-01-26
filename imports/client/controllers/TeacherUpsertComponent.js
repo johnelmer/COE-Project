@@ -37,13 +37,10 @@ class TeacherUpsertComponent {
   }
 
   save() {
-    this.teacher.save((err, doc) => {
-      if (err) {
-        alert(err)
-      }
-      else {
-        alert("saved!")
-      }
+    this.user.save(() => {
+      const { firstName, lastName } = this.user
+      alert(`${lastName}, ${firstName} ${this.message}!`)
+      this.user = new User
     })
   }
 }
