@@ -26,14 +26,21 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Student I.D</label>
                 <div class="col-sm-9">
-                    <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.studentId">
+                    <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Course</label>
+                <label class="col-sm-2 control-label">Degree</label>
                 <div class="col-sm-9">
-                    <select class="form-control">
-                        <optgroup label="Course">
+                    <select class="form-control" ng-model="studentUpsert.student.degree">
+                        <optgroup label="Degree">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Year Level:</label>
+                <div class="col-sm-9">
+                    <select class="form-control"  ng-model="studentUpsert.student.yearLevel">
                     </select>
                 </div>
             </div>
@@ -68,12 +75,18 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Parent/Guardian</label>
                 <div class="col-sm-9">
-                    <input type="text" name="parent-name" placeholder="Enter Guardian" class="form-control" ng-model="studentUpsert.student.guardian" />
+                    <input type="text" name="parent-name" placeholder="Enter Guardian" class="form-control" ng-model="studentUpsert.student.guardian.fullName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Guardian Contact No</label>
+                <div class="col-sm-9">
+                    <input type="text" name="parent-name" placeholder="Contact Number" class="form-control" ng-model="studentUpsert.student.guardian.contactNumber" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-9">
-                    <input type="checkbox" name="status" /><b> I'm a Graduating Student</b>
+                    <input type="checkbox" name="status" ng-model="studentUpsert.student.isGraduating"/><b> I'm a Graduating Student</b>
                 </div>
             </div>
             <div class="form-group">

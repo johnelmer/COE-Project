@@ -5,10 +5,10 @@
         <h2>List of Teachers</h2></legend>
         <div class="form-group" ng-repeat="teacher in teacherList.teachers">
           <div class="col-sm-4">
-            <label>{{ teacher.lastName }}</label>
+            <label>{{ teacher.profile.lastName }}</label>
           </div>
           <div class="col-sm-4">
-            <label>{{ teacher.firstName }}</label>
+            <label>{{ teacher.profile.firstName }}</label>
           </div>
           <button class="btn btn-primary">
             Add Subject

@@ -1,98 +1,123 @@
 <div class="container">
-    <form class="form-horizontal">
-        <div class="jumbotron">
-            <legend>
-                <h2>Teacher Information</h2></legend>
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <legend>
+        <h2>Teacher Information</h2></legend>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" name="last-name" placeholder="Enter last name"
+            class="form-control" ng-model="teacherUpsert.teacher.profile.lastName" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">First Name</label>
+          <div class="col-sm-9">
+            <input type="text" name="first-name" placeholder="Enter first name"
+            class="form-control" ng-model="teacherUpsert.teacher.profile.firstName" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Middle Name</label>
+          <div class="col-sm-9">
+            <input type="text" name="middle-name" placeholder="Enter middle name" class="form-control"
+            ng-model="teacherUpsert.teacher.profile.middleName" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Teachers' I.D</label>
+          <div class="col-sm-9">
+            <input type="text" id="teacher-id" placeholder="Enter Student ID" class="form-control"
+            ng-model="teacherUpsert.teacher.profile.idNumber">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Department</label>
+          <div class="col-sm-9">
+            <select id="position" class="form-control" ng-model="teacherUpsert.teacher.profile.department">
+              <optgroup label="Department">
+                <option value='{{department}}'>{{department}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Role</label>
+            <div class="col-sm-9">
+              <select id="position" class="form-control"  ng-model="teacherUpsert.teacher.role">
+                <optgroup label="Role">
+                  <option value='Department Head'>Department Head</option>
+                  <option value='Teacher'>Faculty</option>
+                </select>
+              </div>
+            </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Last Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="last-name" placeholder="Enter last name"
-                    class="form-control" ng-model="teacherUpsert.teacher.lastName" required/>
+              <label class="col-sm-2 control-label">Employee's Status</label>
+              <div class="col-sm-9">
+                <select id="employeeStatus" class="form-control"  ng-model="teacherUpsert.teacher.profile.status">
+                  <optgroup label="Status">
+                    <option value="male">Full-time Faculty</option>
+                    <option value="female">Part-time Faculty</option>
+                  </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">First Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="first-name" placeholder="Enter first name"
-                    class="form-control" ng-model="teacherUpsert.teacher.firstName" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Middle Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="middle-name" placeholder="Enter middle name" class="form-control"
-                     ng-model="teacherUpsert.teacher.middleName" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Teachers' I.D</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="teacher-id" placeholder="Enter Student ID" class="form-control"
-                         ng-model="teacherUpsert.teacher.teacherId">
-                    </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Department</label>
-                <div class="col-sm-9">
-                    <select id="position" class="form-control">
-                        <optgroup label="Department">
-                            <option value='{{department}}'>{{department}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Position</label>
-                <div class="col-sm-9">
-                    <select id="position" class="form-control"  ng-model="teacherUpsert.teacher.position">
-                        <optgroup label="position">
-                            <option value='Department Head'>Department Head</option>
-                              <option value='Teacher'>Teacher</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Employee's Status</label>
-                <div class="col-sm-9">
-                    <select id="employeeStatus" class="form-control"  ng-model="teacherUpsert.teacher.status">
-                        <optgroup label="Gender">
-                            <option value="male">Full-time Employee</option>
-                            <option value="female">Part-time Employee</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
+              </div>
+              <div class="form-group">
                 <label class="col-sm-2 control-label">Birthday</label>
                 <div class="col-sm-9">
-                    <input type="date" id="birthday" placeholder="yyyy-mm-dd" class="form-control"  ng-model="teacherUpsert.teacher.birthday" required/>
+                  <input type="date" id="birthday" placeholder="yyyy-mm-dd" class="form-control"  ng-model="teacherUpsert.teacher.profile.birthday" required/>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Gender</label>
-                <div class="col-sm-9">
-                    <select id="gender" class="form-control"  ng-model="teacherUpsert.teacher.gender">
-                        <optgroup label="Gender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Address</label>
-                <div class="col-sm-9">
-                    <input type="text" name="Address" placeholder="Enter Address" class="form-control"  ng-model="teacherUpsert.teacher.address" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Contact Number</label>
-                <div class="col-sm-9">
-                    <input type="text" name="contact-number" placeholder="Enter contact number" class="form-control"  ng-model="teacherUpsert.teacher.contactNumber"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-4">
-                    <button class="btn btn-primary btn-lg btn-block" ng-click="teacherUpsert.save()"> {{ teacherUpsert.buttonLabel }}</button>
-                </div>
-            </div>
-        </div>
-    </form>
+              </div>
+              <!-- <div class="form-group">
+              <label class="col-sm-2 control-label">Gender</label>
+              <div class="col-sm-9">
+              <select id="gender" class="form-control"  ng-model="teacherUpsert.teacher.profile.gender">
+              <optgroup label="Gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div> -->
+        <!-- <div class="form-group">
+        <label class="col-sm-2 control-label">Address</label>
+        <div class="col-sm-9">
+        <input type="text" name="Address" placeholder="Enter Address" class="form-control"  ng-model="teacherUpsert.teacher.profile.address" />
+      </div>
+    </div> -->
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Contact Number</label>
+      <div class="col-sm-9">
+        <input type="text" name="contact-number" placeholder="Enter contact number" class="form-control"  ng-model="teacherUpsert.teacher.profile.contactNumber"/>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron">
+    <legend><h2>Account<h2></legend>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Username</label>
+      <div class="col-sm-9">
+        <input type="text" placeholder="Enter username"
+        class="form-control" ng-model="teacherUpsert.teacher.username" required/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-9">
+        <input type="password" placeholder="password"
+        class="form-control" ng-model="teacherUpsert.teacher.password" required/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Re-enter password</label>
+      <div class="col-sm-9">
+        <input type="password" placeholder="Enter first name" class="form-control"/>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron">
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-4">
+        <button class="btn btn-primary btn-lg btn-block" ng-click="teacherUpsert.save()"> {{ teacherUpsert.buttonLabel }}</button>
+      </div>
+    </div>
+  </div>
+</form>
 </div>

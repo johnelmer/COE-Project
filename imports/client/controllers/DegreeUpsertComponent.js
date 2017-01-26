@@ -16,6 +16,7 @@ class DegreeUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { degreeId } = $stateParams
+    this.subscribe('degrees')
     this.helpers({
       degree() {
         if ($state.current.name.endsWith('create')) {
@@ -23,6 +24,9 @@ class DegreeUpsertComponent {
         }
         return Degree.findOne({ _id: degreeId })
       },
+      degrees() {
+        return Degree.find().fetch()
+      }
     })
   }
 

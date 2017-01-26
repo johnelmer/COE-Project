@@ -14,13 +14,13 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-2"><label>Student I.D:</label></div>
-            <div class="col-sm-4">{{ studentView.student.studentId }}</div>
+            <div class="col-sm-4">{{ studentView.student.idNumber }}</div>
           </div>
         </div>
         <div class="form-group">
           <div class="row">
-            <div class="col-sm-2"><label>Course:</label></div>
-            <div class="col-sm-4">{{ studentView.student.course }}</div>
+            <div class="col-sm-2"><label>Degree:</label></div>
+            <div class="col-sm-4">{{ studentView.student.degree }} - {{studentView.student.yearLevel}}</div>
           </div>
         </div>
         <div class="form-group">
@@ -50,7 +50,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-2"><label>Parent/Guardian:</label></div>
-            <div class="col-sm-4">{{ studentView.student.guardian }}</div>
+            <div class="col-sm-4">{{ studentView.student.guardian.fullName }}</div>
           </div>
         </div>
         <div class="form-group">

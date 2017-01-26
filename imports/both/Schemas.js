@@ -1,8 +1,8 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
-import Degree from './models/Degree'
+// import Degree from './models/Degree'
 
 const Schemas = {}
-const degrees = Degree.find().fetch().map(degree => degree.name)
+// const degrees = Degree.find().fetch().map(degree => degree.name)
 
 Schemas.embeddedProfile = new SimpleSchema({
   firstName: {
@@ -17,6 +17,12 @@ Schemas.embeddedProfile = new SimpleSchema({
   idNumber: {
     type: String,
   },
+  status: {
+    type: String,
+  },
+  birthday: {
+    type: String,
+  },
   contactNumber: {
     type: String,
   },
@@ -26,6 +32,9 @@ Schemas.embeddedProfile = new SimpleSchema({
   courses: {
     type: [Object],
     optional: true,
+  },
+  guardian: {
+    type: String,
   },
 })
 
@@ -148,7 +157,7 @@ Schemas.student = new SimpleSchema({
   },
   degree: {
     type: String,
-    allowedValues: degrees,
+    // allowedValues: degrees,
   },
   yearLevel: {
     type: String,
@@ -162,9 +171,13 @@ Schemas.student = new SimpleSchema({
   },
   isGraduating: {
     type: Boolean,
+    optional: true,
   },
   guardian: {
     type: Schemas.embeddedGuardian,
+  },
+  address: {
+    type: String,
   },
 /* //TODO
   createdAt: {
@@ -205,7 +218,7 @@ Schemas.embeddedStudent = new SimpleSchema({
   },
   degree: {
     type: String,
-    allowedValues: degrees,
+    // allowedValues: degrees,
   },
   yearLevel: {
     type: Number,
