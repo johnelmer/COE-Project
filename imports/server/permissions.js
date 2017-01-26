@@ -5,8 +5,8 @@ import Subject from '/imports/both/models/Subject'
 import Degree from '/imports/both/models/Degree'
 
 Course.collection.allow({
-  insert: userId => userId,
-  update: userId => userId,
+  insert: () => true,
+  update: () => true,
   remove: () => false,
 })
 
@@ -23,7 +23,7 @@ Subject.collection.allow({
 })
 
 Degree.collection.allow({
-  insert: userId => userId,
+  insert: () => true,
   update: () => false,
   remove: userId => userId,
 })
