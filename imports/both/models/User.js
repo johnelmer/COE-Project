@@ -1,5 +1,6 @@
 import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
+import { Meteor } from 'meteor/meteor'
 
 import Model from './Model'
 import Role from './Role'
@@ -16,7 +17,7 @@ class User extends Model {
     const subjectDoc = subject
     delete subjectDoc.courses
     delete subjectDoc.teachersAssigned
-    this.profile.subjectsAssigned.push(subjectDoc)
+    this.subjectsAssigned.push(subjectDoc)
   }
   // teacher
   removeSubjectAssignment(subjectId) {
@@ -35,7 +36,7 @@ class User extends Model {
     courseDoc.subject = subject
     delete courseDoc.sessions
     delete courseDoc.students
-    this.profile.courses.push(courseDoc)
+    this.courses.push(courseDoc)
   }
 
   get role() {
@@ -44,9 +45,10 @@ class User extends Model {
 
   save(callback) {
     if (this._id) {
+      // TODO: Use meteor.call, specify the docs to be update
       return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
     }
-    return Accounts.createUser(this.doc, callback)
+    return Meteor.call('createNewUser', this.doc)
   }
 
 }
