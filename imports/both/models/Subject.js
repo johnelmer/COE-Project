@@ -12,11 +12,16 @@ class Subject extends Model {
   static schema = Schemas.subject
 
   assignTeacher(teacher) {
-    this.teachersAssigned.push({
-      _id: teacher._id,
-      firstName: teacher.firstName,
-      lastName: teacher.lastname,
-    })
+    const isTeacherExist = this.teachersAssigned.findByIndex((teacherDoc) => {
+      return teacherDoc._id === teacher._id
+    }) !== -1
+    if (!isTeacherExist) {
+      this.teachersAssigned.push({
+        _id: teacher._id,
+        firstName: teacher.firstName,
+        lastName: teacher.lastname,
+      })
+    }
   }
 
   removeTeacher(teacherId) {
