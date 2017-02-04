@@ -4,7 +4,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 const Schemas = {}
 // const degrees = Degree.find().fetch().map(degree => degree.name)
 
-Schemas.embeddedProfile = new SimpleSchema({
+Schemas.user = new SimpleSchema({
+  username: {
+    type: String,
+  },
   firstName: {
     type: String,
   },
@@ -30,13 +33,7 @@ Schemas.embeddedProfile = new SimpleSchema({
     type: [Object],
     optional: true,
   },
-})
-
-Schemas.user = new SimpleSchema({
-  username: {
-    type: String,
-  },
-  role: {
+  roleName: {
     type: String,
     optional: true,
   },

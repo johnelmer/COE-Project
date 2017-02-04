@@ -2,6 +2,7 @@ import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
 
 import Model from './Model'
+import Role from './Role'
 import SetupAccount from '../decorators/SetupAccount'
 import Schemas from '../Schemas'
 
@@ -35,6 +36,10 @@ class User extends Model {
     delete courseDoc.sessions
     delete courseDoc.students
     this.profile.courses.push(courseDoc)
+  }
+
+  get role() {
+    return Role.findOne({ roleName: this.roleName })
   }
 
   save(callback) {

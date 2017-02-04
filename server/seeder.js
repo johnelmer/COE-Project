@@ -100,7 +100,6 @@ const data = {
     {
       username: 'sircoo',
       password: 'sircoo',
-      role: 'Dept. Head',
       profile: {
         firstName: 'Richard Michael',
         lastName: 'Coo',
@@ -109,12 +108,12 @@ const data = {
         contactNumber: '09161628911',
         address: 'Pavia',
         department: 'SE',
+        roleName: 'dept. head',
       },
     },
     {
       username: 'sirjune',
       password: 'sirjune',
-      role: 'Faculty',
       profile: {
         firstName: 'June Dick',
         lastName: 'Espinosa',
@@ -123,6 +122,7 @@ const data = {
         contactNumber: '09262527921',
         address: 'Jaro',
         department: 'SE',
+        roleName: 'faculty',
       },
     },
   ],
@@ -206,8 +206,8 @@ Meteor.startup(() => {
         room: 'En205',
         instructor: {
           _id: teachers[1]._id,
-          firstName: teachers[1].profile.firstName,
-          lastName: teachers[1].profile.lastName,
+          firstName: teachers[1].firstName,
+          lastName: teachers[1].lastName,
         },
       },
       laboratory: {},

@@ -6,7 +6,6 @@ function loadAccounts() {
     const secretary = new User({
       username: 'secretary',
       password: 'iamsecretary',
-      role: 'secretary',
       profile: {
         firstName: 'Maam',
         lastName: 'Secretary',
@@ -15,6 +14,7 @@ function loadAccounts() {
         contactNumber: '09101010110',
         address: 'Jaro',
         department: '-',
+        roleName: 'secretary',
       },
     })
     secretary.save()
