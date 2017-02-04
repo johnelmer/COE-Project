@@ -290,15 +290,19 @@ Schemas.role = new SimpleSchema({
 Schemas.embeddedAttendance = new SimpleSchema({
   presents: {
     type: [String],
+    optional: true,
   },
   lates: {
     type: [String],
+    optional: true,
   },
   absents: {
     type: [String],
+    optional: true,
   },
   excuses: {
     type: [String],
+    optional: true,
   },
 })
 
@@ -339,7 +343,8 @@ Schemas.session = new SimpleSchema({
     type: Array,
   },
   'activities.$': {
-    type: Object,
+    type: Schemas.embeddedActivity,
+    optional: true,
   },
   date: {
     type: Date,
