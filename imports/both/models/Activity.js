@@ -13,7 +13,6 @@ class Activity extends Model {
       }
       return -1;
     })
-
     if (index !== -1) {
       this.scores.splice(index, 1)
       this.scores.push(score)
