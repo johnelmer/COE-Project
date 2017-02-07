@@ -41,9 +41,9 @@ describe('Role', () => {
       const teacher = Role.findOne({ name: 'teacher' })
       const conditions = [
         dean.isRoot,
-        secretary.isRoot,
-        technician.isRoot,
-        teacher.isRoot,
+        !secretary.isRoot,
+        !technician.isRoot,
+        !teacher.isRoot,
       ]
       conditions.every(condition => condition).should.be.true
     })
