@@ -46,6 +46,5 @@ class Role extends Model {
   get root() {
     return ((this.isRoot && this.hasAChild) && this) || this.parent.root
   }
-
 }
 export default Role
