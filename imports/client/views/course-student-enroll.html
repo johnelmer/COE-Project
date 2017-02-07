@@ -1,6 +1,27 @@
 <div class="container">
   <div>
-    <label></label>
+    <label>I.D. Number:</label>
+    <input type="text" ng-model="courseStudentEnroll.student.idNumber">
+    <button type="button" ng-click="courseStudentEnroll.addToList()">Add to list</button>
+  </div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>I.D. Number</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="student in courseStudentEnroll.students">
+          <td>{{ student.idNumber }}</td>
+          <td>{{ student.firstName }}</td>
+          <td>{{ student.lastName }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" ng-click="courseStudentEnroll.enrollStudents()">Enroll students</button>
   </div>
   <div>
   </div>
