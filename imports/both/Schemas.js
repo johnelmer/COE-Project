@@ -33,22 +33,8 @@ Schemas.user = new SimpleSchema({
     type: [Object],
     optional: true,
   },
-  roleName: {
-    type: String,
-    optional: true,
-  },
-  createdAt: {
-    type: Date,
-  },
-  profile: {
-    type: Schemas.embeddedProfile,
-  },
-  services: {
-    type: Object,
-    optional: true,
-    blackbox: true,
-  },
 })
+
 
 Schemas.degree = new SimpleSchema({
   name: {
@@ -276,10 +262,10 @@ Schemas.course = new SimpleSchema({
 })
 
 Schemas.role = new SimpleSchema({
-  role: {
+  name: {
     type: String,
   },
-  children: {
+  childIds: {
     type: [String],
   },
 })

@@ -12,7 +12,7 @@ Accounts.onCreateUser((options, user) => {
   user.profile = {}
   const profileOptions = options.profile
   Object.keys(profileOptions).forEach((key) => {
-      user[key] = profileOptions[key]
+    user[key] = profileOptions[key]
   })
   return user
 })
