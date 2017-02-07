@@ -1,7 +1,8 @@
 import Role from '/imports/both/models/Role'
+import User from '/imports/both/models/User'
 
 function loadRoles() {
-  if (Role.find().count === 0) {
+  if (Role.find().count() === 0) {
     const deanRole = new Role({ name: 'dean' })
     const secretaryRole = new Role({ name: 'secretary' })
     const technicianRole = new Role({ name: 'technician' })
@@ -22,9 +23,9 @@ function loadRoles() {
     const teacher = Role.findOne({ name: 'teacher' })
     const student = Role.findOne({ name: 'student' })
     const child = Role.findOne({ name: 'child' })
-    dean.childIds.push(secretary._id)
 
     // i don't know the real hierarchy just yet. lol
+    dean.childIds.push(secretary._id)
     secretary.childIds.push(...[technician._id, teacher._id])
     teacher.childIds.push(student._id)
     student.childIds.push(child._id)

@@ -1,15 +1,17 @@
 import Model from './Model'
+import Schemas from '../Schemas'
 
+import SetupCollection from '../decorators/SetupCollection'
+import Idempotent from '../decorators/Idempotent'
+
+@SetupCollection('Roles')
 class Role extends Model {
-  static setSchema() {
-    this.constructor.attachSchema(new SimpleSchema({
-      role: {
-        type: String,
-      },
-      children: {
-        type: [String],
-      },
-    }))
+
+  static schema = Schemas.role
+
+  constructor(doc) {
+    super(doc)
+    this.childIds = this.childIds || []
   }
 
   is(roleName) {
@@ -20,11 +22,31 @@ class Role extends Model {
     return this.children.length !== 0
   }
 
+  @Idempotent
+  get children() {
+    return Role.find({ _id: { $in: this.childIds } }).fetch()
+  }
+
   hasARole(roleName) {
     return this.is(roleName) || this.children.some(child => child.hasARole(roleName))
   }
 
-  get ancestors() {
-    return Role.find({ childIds: { $elemMatch: { $in: [this._id] } } }).fetch()
+  get hasAParent() {
+    return !!this.parent
   }
+
+  get isRoot() {
+    return !this.hasAParent
+  }
+
+  get parent() {
+    return Role.findOne({ childIds: this._id })
+  }
+
+  get root() {
+    return ((this.isRoot && this.hasAChild) && this) || this.parent.root
+  }
+
 }
+
+export default Role

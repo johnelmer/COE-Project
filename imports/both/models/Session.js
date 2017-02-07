@@ -6,7 +6,7 @@ import Model from './Model'
 @SetupCollection('Sessions')
 class Session extends Model {
 
-  static schema = Schemas.Session
+  static schema = Schemas.session
 
   addActivity(activity) {
     this.activities.push(activity)

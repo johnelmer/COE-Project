@@ -23,6 +23,7 @@ practicalmeteor:mocha
 accounts-password@1.3.3
 practicalmeteor:faker
 practicalmeteor:chai
-dispatch:mocha-phantomjs@=0.1.7
+dispatch:mocha-phantomjs
+dispatch:phantomjs-tests@=0.0.5
 aldeed:simple-schema
 aldeed:collection2
