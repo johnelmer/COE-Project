@@ -1,11 +1,17 @@
-import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 
-import loadAccounts from './startup'
 import Degree from '/imports/both/models/Degree'
 import Student from '/imports/both/models/Student'
 import Course from '/imports/both/models/Course'
 import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
+import Session from '/imports/both/models/Session'
+import Role from '/imports/both/models/Role'
+
+import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
+
+import loadAccounts from './startup'
 
 const data = {
   students: [
@@ -99,7 +105,6 @@ const data = {
     {
       username: 'sircoo',
       password: 'sircoo',
-      role: 'Dept. Head',
       profile: {
         firstName: 'Richard Michael',
         lastName: 'Coo',
@@ -108,12 +113,12 @@ const data = {
         contactNumber: '09161628911',
         address: 'Pavia',
         department: 'SE',
+        roleName: 'dept. head',
       },
     },
     {
       username: 'sirjune',
       password: 'sirjune',
-      role: 'Faculty',
       profile: {
         firstName: 'June Dick',
         lastName: 'Espinosa',
@@ -122,34 +127,35 @@ const data = {
         contactNumber: '09262527921',
         address: 'Jaro',
         department: 'SE',
+        roleName: 'faculty',
       },
     },
   ],
   subjects: [
     {
-      name: 'SE',
-      courseNumber: '4102',
+      name: 'SE Subject',
+      courseNumber: 'SE4102',
       credits: 3.0,
       units: 3.0,
       isOffered: true,
     },
     {
-      name: 'SE',
-      courseNumber: '4201',
+      name: 'SE Subject',
+      courseNumber: 'SE4201',
       credits: 3.0,
       units: 3.0,
       isOffered: false,
     },
     {
-      name: 'EMath',
-      courseNumber: '2001',
+      name: 'Math',
+      courseNumber: 'EMath2001',
       credits: 3.0,
       units: 3.0,
       isOffered: true,
     },
     {
-      name: 'Engr',
-      courseNumber: '301',
+      name: 'Mech',
+      courseNumber: 'Mech301',
       credits: 3.0,
       units: 3.0,
       isOffered: true,
@@ -162,6 +168,36 @@ const data = {
 }
 
 Meteor.startup(() => {
+  if (Role.find().count() === 0) {
+    const deanRole = new Role({ name: 'dean' })
+    const secretaryRole = new Role({ name: 'secretary' })
+    const technicianRole = new Role({ name: 'technician' })
+    const teacherRole = new Role({ name: 'teacher' })
+    const studentRole = new Role({ name: 'student' })
+
+    deanRole.save()
+    secretaryRole.save()
+    technicianRole.save()
+    teacherRole.save()
+    studentRole.save()
+
+    const dean = Role.findOne({ name: 'dean' })
+    const secretary = Role.findOne({ name: 'secretary' })
+    const technician = Role.findOne({ name: 'technician' })
+    const teacher = Role.findOne({ name: 'teacher' })
+    const student = Role.findOne({ name: 'student' })
+    dean.childIds.push(secretary._id)
+
+    // i don't know the real hierarchy just yet. lol
+    secretary.childIds.push(...[technician._id, teacher._id])
+    teacher.childIds.push(student._id)
+
+    dean.save()
+    secretary.save()
+    teacher.save()
+    student.save()
+
+  }
   if (Degree.find().count() === 0) {
     data.degrees.forEach((degree) => {
       const newDegree = new Degree(degree)
@@ -188,22 +224,63 @@ Meteor.startup(() => {
     })
   }
   if (Course.find().count() === 0) {
-    const subjects = Subject.find().fetch()
+    const subject = Subject.find().fetch()[1]
+    const students = Student.find().fetch()
     const teachers = User.find().fetch()
-    subjects[1].generateCourse({
+    const newCourse = new Course({
       stubcode: '123',
+      subject: {
+        _id: subject._id,
+        name: subject.name,
+        courseNumber: subject.courseNumber,
+        credits: subject.credits,
+        units: subject.units,
+      },
       lecture: {
         time: '7:00-8:30 TTh',
         room: 'En205',
         instructor: {
           _id: teachers[1]._id,
-          firstName: teachers[1].profile.firstName,
-          lastName: teachers[1].profile.lastName,
+          firstName: teachers[1].firstName,
+          lastName: teachers[1].lastName,
         },
       },
       laboratory: {},
+      students: [],
+      sessions: [],
       semester: '2016-2017',
     })
-    subjects[0].save()
+    newCourse.save()
+    const addedCourse = Course.find().fetch()[0]
+    students.forEach((student) => {
+      addedCourse.enrollAStudent(student)
+      addedCourse.save()
+    })
+  }
+  if (Session.find().count() === 0) {
+    const students = Student.find().fetch()
+    const course = Course.find().fetch()[0]
+    course.createSession(new Date('01/27/17'))
+    course.save()
+    const session = Session.find().fetch()[0]
+    session.activities.push({
+      type: 'Seatwork',
+      totalScore: 10,
+      records: [
+        {
+          studentId: students[0]._id,
+          studentFirstName: students[0].firstName,
+          studentLastName: students[0].lastName,
+          score: 5,
+        },
+        {
+          studentId: students[3]._id,
+          studentFirstName: students[0].firstName,
+          studentLastName: students[0].lastName,
+          score: 7,
+        },
+      ],
+    })
+    session.save()
   }
 })

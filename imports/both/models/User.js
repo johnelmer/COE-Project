@@ -1,27 +1,22 @@
-import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
+import { Meteor } from 'meteor/meteor'
 
 import Model from './Model'
+import Role from './Role'
 import SetupAccount from '../decorators/SetupAccount'
 import Schemas from '../Schemas'
 
-
-
 @SetupAccount
 class User extends Model {
+
   static schema = Schemas.user
-  setRole(role) {
-    if (role === 'Dean') {
-      throw new Error('Not allowed!')
-    }
-    this.profile.role = role
-  }
+
   // teacher
   assignSubject(subject) {
     const subjectDoc = subject
     delete subjectDoc.courses
     delete subjectDoc.teachersAssigned
-    this.profile.subjectsAssigned.push(subjectDoc)
+    this.subjectsAssigned.push(subjectDoc)
   }
   // teacher
   removeSubjectAssignment(subjectId) {
@@ -40,14 +35,32 @@ class User extends Model {
     courseDoc.subject = subject
     delete courseDoc.sessions
     delete courseDoc.students
-    this.profile.courses.push(courseDoc)
+    this.courses.push(courseDoc)
+  }
+
+  get role() {
+    return Role.findOne({ roleName: this.roleName })
+  }
+
+  get fullName() {
+    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+  }
+
+  get isRoot() {
+    const { isRoot } = this.role
+    return isRoot
+  }
+
+  hasARole(roleName) {
+    return this.role.hasARole(roleName)
   }
 
   save(callback) {
     if (this._id) {
+      // TODO: Use meteor.call, specify the docs to be update
       return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
     }
-    return Accounts.createUser(this.doc, callback)
+    return Meteor.call('createNewUser', this.doc)
   }
 
 }
