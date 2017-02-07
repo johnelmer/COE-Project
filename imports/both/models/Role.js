@@ -1,16 +1,8 @@
 import Model from './Model'
 
 class Role extends Model {
-  static setSchema() {
-    this.constructor.attachSchema(new SimpleSchema({
-      role: {
-        type: String,
-      },
-      children: {
-        type: [String],
-      },
-    }))
-  }
+
+  static schema = Schemas.role
 
   is(roleName) {
     return this.name === roleName
@@ -28,3 +20,4 @@ class Role extends Model {
     return Role.find({ childIds: { $elemMatch: { $in: [this._id] } } }).fetch()
   }
 }
+export default Role
