@@ -1,21 +1,13 @@
-import _ from 'underscore'
+import { Meteor } from 'meteor/meteor'
 
+import loadAccounts from './startup'
 import Degree from '/imports/both/models/Degree'
 import Student from '/imports/both/models/Student'
 import Course from '/imports/both/models/Course'
 import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
-<<<<<<< HEAD
 import ActivityType from '/imports/both/models/ActivityType'
-=======
-import Role from '/imports/both/models/Role'
-
-import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
-
-import loadAccounts from './startup'
->>>>>>> f2d0353a2db93a18418a5c01e3bd845591dd35be
 
 const data = {
   students: [
@@ -184,36 +176,6 @@ const data = {
 }
 
 Meteor.startup(() => {
-  if (Role.find().count() === 0) {
-    const deanRole = new Role({ name: 'dean' })
-    const secretaryRole = new Role({ name: 'secretary' })
-    const technicianRole = new Role({ name: 'technician' })
-    const teacherRole = new Role({ name: 'teacher' })
-    const studentRole = new Role({ name: 'student' })
-
-    deanRole.save()
-    secretaryRole.save()
-    technicianRole.save()
-    teacherRole.save()
-    studentRole.save()
-
-    const dean = Role.findOne({ name: 'dean' })
-    const secretary = Role.findOne({ name: 'secretary' })
-    const technician = Role.findOne({ name: 'technician' })
-    const teacher = Role.findOne({ name: 'teacher' })
-    const student = Role.findOne({ name: 'student' })
-    dean.childIds.push(secretary._id)
-
-    // i don't know the real hierarchy just yet. lol
-    secretary.childIds.push(...[technician._id, teacher._id])
-    teacher.childIds.push(student._id)
-
-    dean.save()
-    secretary.save()
-    teacher.save()
-    student.save()
-
-  }
   if (Degree.find().count() === 0) {
     data.degrees.forEach((degree) => {
       const newDegree = new Degree(degree)
@@ -302,8 +264,8 @@ Meteor.startup(() => {
         },
         {
           studentId: students[3]._id,
-          studentFirstName: students[0].firstName,
-          studentLastName: students[0].lastName,
+          studentFirstName: students[3].firstName,
+          studentLastName: students[3].lastName,
           score: 7,
         },
       ],
