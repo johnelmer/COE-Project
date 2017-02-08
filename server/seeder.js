@@ -7,6 +7,7 @@ import Course from '/imports/both/models/Course'
 import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
+import ActivityType from '/imports/both/models/ActivityType'
 
 const data = {
   students: [
@@ -26,6 +27,7 @@ const data = {
         fullName: 'Mrs. Lasaga',
         contactNumber: '09292929292',
       },
+      courses: [],
     },
     {
       firstName: 'James',
@@ -43,6 +45,7 @@ const data = {
         fullName: 'Mrs. Barte',
         contactNumber: '09060666123',
       },
+      courses: [],
     },
     {
       firstName: 'Daryl Faith',
@@ -60,6 +63,7 @@ const data = {
         fullName: 'Mrs. Matutina',
         contactNumber: '09282529152',
       },
+      courses: [],
     },
     {
       firstName: 'John Elmer',
@@ -77,6 +81,7 @@ const data = {
         fullName: 'Mrs. Loretizo',
         contactNumber: '09061125252',
       },
+      courses: [],
     },
     {
       firstName: 'Vince Paul',
@@ -94,6 +99,7 @@ const data = {
         fullName: 'Mrs. dela Cruz',
         contactNumber: '09182329145',
       },
+      courses: [],
     },
   ],
   teachers: [
@@ -133,6 +139,7 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
+      teacherAssignedIds: [],
     },
     {
       name: 'SE Subject',
@@ -140,6 +147,7 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: false,
+      teacherAssignedIds: [],
     },
     {
       name: 'Math',
@@ -147,6 +155,7 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
+      teacherAssignedIds: [],
     },
     {
       name: 'Mech',
@@ -154,11 +163,15 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
+      teacherAssignedIds: [],
     },
   ],
   degrees: [
     { name: 'BSSE' }, { name: 'BSCE' }, { name: 'BSEE' }, { name: 'BSECE' },
     { name: 'BSChE' }, { name: 'BSME' }, { name: 'BSPkgE' },
+  ],
+  activityTypes: [
+    { name: 'Quiz' }, { name: 'Homework' }, { name: 'Seatwork' }, { name: 'Prelim Exam' }, { name: 'Midterm Exam' }, { name: 'Final Exam' },
   ],
 }
 
@@ -167,6 +180,14 @@ Meteor.startup(() => {
     data.degrees.forEach((degree) => {
       const newDegree = new Degree(degree)
       newDegree.save()
+    })
+  }
+  if (ActivityType.find().count() === 0) {
+    data.activityTypes.forEach((type) => {
+      const activityType = new ActivityType({
+        name: type.name,
+      })
+      activityType.save()
     })
   }
   if (Student.find().count() === 0) {
@@ -204,15 +225,11 @@ Meteor.startup(() => {
       lecture: {
         time: '7:00-8:30 TTh',
         room: 'En205',
-        instructor: {
-          _id: teachers[1]._id,
-          firstName: teachers[1].firstName,
-          lastName: teachers[1].lastName,
-        },
+        instructorId: teachers[1]._id,
       },
       laboratory: {},
       students: [],
-      sessions: [],
+      sessionIds: [],
       semester: '2016-2017',
     })
     newCourse.save()
@@ -225,10 +242,17 @@ Meteor.startup(() => {
   if (Session.find().count() === 0) {
     const students = Student.find().fetch()
     const course = Course.find().fetch()[0]
-    course.createSession(new Date('01/27/17'))
+    const session = new Session({
+      courseId: course._id,
+      attendance: {},
+      activities: [],
+      date: new Date('02/07/2017'),
+    })
+    session.save()
+    const addedSession = Session.find().fetch()[0]
+    course.addSession(addedSession._id)
     course.save()
-    const session = Session.find().fetch()[0]
-    session.activities.push({
+    addedSession.activities.push({
       type: 'Seatwork',
       totalScore: 10,
       records: [
