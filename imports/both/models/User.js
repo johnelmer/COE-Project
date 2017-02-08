@@ -1,4 +1,3 @@
-import _ from 'underscore'
 import { Accounts } from 'meteor/accounts-base'
 import { Meteor } from 'meteor/meteor'
 
@@ -36,6 +35,19 @@ class User extends Model {
 
   get role() {
     return Role.findOne({ roleName: this.roleName })
+  }
+
+  get fullName() {
+    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+  }
+
+  get isRoot() {
+    const { isRoot } = this.role
+    return isRoot
+  }
+
+  hasARole(roleName) {
+    return this.role.hasARole(roleName)
   }
 
   save(callback) {

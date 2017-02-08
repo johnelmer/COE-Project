@@ -51,6 +51,7 @@ Schemas.user = new SimpleSchema({
   },
 })
 
+
 Schemas.degree = new SimpleSchema({
   name: {
     type: String,
@@ -275,10 +276,10 @@ Schemas.course = new SimpleSchema({
 })
 
 Schemas.role = new SimpleSchema({
-  roleName: {
+  name: {
     type: String,
   },
-  children: {
+  childIds: {
     type: [String],
   },
 })

@@ -1,5 +1,4 @@
 import User from '/imports/both/models/User'
-import Degree from '/imports/both/models/Degree'
 
 function loadAccounts() {
   if (User.find().count() === 0) {
