@@ -10,7 +10,7 @@ class Student extends Model {
 
   enrollACourse(course) {
     const courseDoc = course
-    delete courseDoc.sessions
+    delete courseDoc.sessionIds
     delete courseDoc.students
     this.courses.push(courseDoc)
   }

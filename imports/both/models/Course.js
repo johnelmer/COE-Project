@@ -12,7 +12,7 @@ class Course extends Model {
   static schema = Schemas.course
 
   hasLaboratory() {
-    return this.laboratory instanceof 'object'
+    return this.laboratory instanceof 'object' && Object.keys(this.laboratory).length === 0
   }
 
   enrollAStudent(student) {
@@ -21,12 +21,11 @@ class Course extends Model {
 
   removeStudentFromClass(idNumber) {
     const studentIndex = this.students.findIndex(student => student.studentId === idNumber)
-    if (studentIndex === -1) {
-      throw new Error('Student is not enrolled on the class.')
+    if (studentIndex !== -1) {
+      this.students.splice(studentIndex, 1)
     }
-    this.students.splice(studentIndex, 1)
   }
-
+/*
   getAllActivities() {
     return this.sessionIds.map((sessionId) => {
       return Session.findOne(sessionId).activities
@@ -38,7 +37,7 @@ class Course extends Model {
       return Session.findOne(sessionId).getActivitiesByType(type)
     })
   }
-
+*/
   getStudentsSortedByLastName() {
     return this.students.sort((a, b) => {
       const nameA = a.lastName.toUpperCase();
@@ -53,25 +52,37 @@ class Course extends Model {
     })
   }
 
+  addSession(sessionId) {
+    const isKeyExist = Object.prototype.hasOwnProperty.call(this, 'sessionIds')
+    if (isKeyExist) {
+      const sessionIds = this.sessionIds
+      const isSessionExist = sessionIds.some(id => id === sessionId)
+      if (!isSessionExist) {
+        sessionIds.push(sessionId)
+      }
+    } else {
+      this.sessionIds = [sessionId]
+    }
+  }
+
+  get sessions() {
+    return Session.find({ courseId: this._id }).fetch()
+  }
+
+/*
   createSession(date, callback) {
     const isSessionExist = this.sessions.some(session => session.date === date)
     if (isSessionExist) {
       console.log('Session is already exist')
     } else {
-      const newSession = new Session({
+      return newSession = new Session({
         courseId: this._id,
         attendance: {},
         activities: [],
         date: date,
       })
-      newSession.save(callback)
-      const newlyCreatedSession = Session.findOne({ date: date })
-      this.sessions.push({
-        _id: newlyCreatedSession._id,
-        date: date,
-      })
     }
-  }
+  }*/
 }
 
 export default Course
