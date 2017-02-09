@@ -16,7 +16,7 @@ class Course extends Model {
   }
 
   enrollAStudent(student) {
-    this.students.push(_.pick(student, '_id', 'firstName', 'middleName', 'lastName', 'degree', 'yearLevel'))
+    this.students.push(_.pick(student, '_id', 'idNumber', 'firstName', 'middleName', 'lastName', 'degree', 'yearLevel'))
   }
 
   removeStudentFromClass(idNumber) {
