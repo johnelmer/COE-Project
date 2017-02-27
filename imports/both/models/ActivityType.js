@@ -1,11 +1,11 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/ActivityType'
 
 import Model from './Model'
 
 @SetupCollection('ActivityTypes')
 class ActivityType extends Model {
-  static schema = Schemas.activitytype
+  static schema = schema
 }
 
 export default ActivityType

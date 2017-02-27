@@ -1,7 +1,7 @@
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Course'
 
 import Model from './Model'
 import Session from './Session'
@@ -9,7 +9,7 @@ import Session from './Session'
 @SetupCollection('Courses')
 class Course extends Model {
 
-  static schema = Schemas.course
+  static schema = schema
 
   hasLaboratory() {
     return this.laboratory instanceof 'object' && Object.keys(this.laboratory).length === 0
@@ -25,19 +25,7 @@ class Course extends Model {
       this.students.splice(studentIndex, 1)
     }
   }
-/*
-  getAllActivities() {
-    return this.sessionIds.map((sessionId) => {
-      return Session.findOne(sessionId).activities
-    })
-  }
 
-  getAllActivitiesByType(type) {
-    return this.sessionIds.map((sessionId) => {
-      return Session.findOne(sessionId).getActivitiesByType(type)
-    })
-  }
-*/
   getStudentsSortedByLastName() {
     return this.students.sort((a, b) => {
       const nameA = a.lastName.toUpperCase();

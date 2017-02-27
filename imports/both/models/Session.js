@@ -1,5 +1,5 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Session'
 
 import Model from './Model'
 import Activity from './Activity'
@@ -7,7 +7,7 @@ import Activity from './Activity'
 @SetupCollection('Sessions')
 class Session extends Model {
 
-  static schema = Schemas.session
+  static schema = schema
 
   addActivity(activityId) {
     const activityIds = this.activityIds

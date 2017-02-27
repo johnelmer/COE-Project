@@ -1,5 +1,5 @@
 import Model from './Model'
-import Schemas from '../Schemas'
+import schema from '../schemas/Role'
 
 import SetupCollection from '../decorators/SetupCollection'
 import Idempotent from '../decorators/Idempotent'
@@ -7,7 +7,7 @@ import Idempotent from '../decorators/Idempotent'
 @SetupCollection('Roles')
 class Role extends Model {
 
-  static schema = Schemas.role
+  static schema = schema
 
   constructor(doc) {
     super(doc)

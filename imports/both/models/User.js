@@ -5,12 +5,12 @@ import Model from './Model'
 import Role from './Role'
 import Course from './Course'
 import SetupAccount from '../decorators/SetupAccount'
-import Schemas from '../Schemas'
+import schema from '../schemas/User'
 
 @SetupAccount
 class User extends Model {
 
-  static schema = Schemas.user
+  static schema = schema
 
   // teacher
   removeCourse(courseId) {

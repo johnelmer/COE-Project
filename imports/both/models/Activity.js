@@ -1,12 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Activity'
 
 import Model from './Model'
 
 @SetupCollection('Activities')
 class Activity extends Model {
 
-  static schema = Schemas.activity
+  static schema = schema
 
   addScore(student, score) {
     const records = this.records
