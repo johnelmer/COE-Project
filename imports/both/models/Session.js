@@ -1,19 +1,25 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Session'
 
 import Model from './Model'
+import Activity from './Activity'
 
 @SetupCollection('Sessions')
 class Session extends Model {
 
-  static schema = Schemas.session
+  static schema = schema
 
-  addActivity(activity) {
-    this.activities.push(activity)
+  addActivity(activityId) {
+    const activityIds = this.activityIds
+    const isExist = activityIds.some(id => id === activityId)
+    if (!isExist) {
+      activityIds.push(activityId)
+    }
   }
 
-  getActivitiesByType(type) {
-    return this.getFilteredObjectsFromArray('activities', 'type', type)
+  getActivities(options = {}) {
+    options.sessionId = this._id
+    return Activity.find(options).fetch()
   }
 }
 

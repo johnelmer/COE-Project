@@ -4,7 +4,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 const Schemas = {}
 // const degrees = Degree.find().fetch().map(degree => degree.name)
 
-Schemas.embeddedProfile = new SimpleSchema({
+Schemas.user = new SimpleSchema({
+  username: {
+    type: String,
+  },
   firstName: {
     type: String,
   },
@@ -26,17 +29,11 @@ Schemas.embeddedProfile = new SimpleSchema({
   department: {
     type: String,
   },
-  courses: {
-    type: [Object],
+  courseIds: {
+    type: [String],
     optional: true,
   },
-})
-
-Schemas.user = new SimpleSchema({
-  username: {
-    type: String,
-  },
-  role: {
+  roleName: {
     type: String,
     optional: true,
   },
@@ -44,7 +41,8 @@ Schemas.user = new SimpleSchema({
     type: Date,
   },
   profile: {
-    type: Schemas.embeddedProfile,
+    type: Object,
+    optional: true,
   },
   services: {
     type: Object,
@@ -52,6 +50,7 @@ Schemas.user = new SimpleSchema({
     blackbox: true,
   },
 })
+
 
 Schemas.degree = new SimpleSchema({
   name: {
@@ -89,33 +88,13 @@ Schemas.subject = new SimpleSchema({
   isOffered: {
     type: Boolean,
   },
-  courses: {
-    type: Array,
+  courseIds: {
+    type: [String],
     optional: true,
   },
-  'courses.$': {
-    type: Object,
+  teachersAssignedIds: {
+    type: [String],
     optional: true,
-  },
-  'courses.$.stubcode': {
-    type: String,
-  },
-  'courses.$.lecture': {
-    type: Object,
-  },
-  'courses.$.laboratory': {
-    type: Object,
-    optional: true,
-  },
-  'courses.$.schoolYear': {
-    type: String,
-  },
-  teachersAssigned: {
-    type: Array,
-    optional: true,
-  },
-  'teachersAssigned.$': {
-    type: Schemas.embeddedTeacher,
   },
 })
 
@@ -126,6 +105,23 @@ Schemas.embeddedGuardian = new SimpleSchema({
   },
 // TODO: RegEx
   contactNumber: {
+    type: String,
+  },
+})
+
+Schemas.embeddedCourse = new SimpleSchema({
+  subject: {
+    type: Schemas.embeddedSubject,
+  },
+  lecture: {
+    type: Schemas.embeddedCourseType,
+  },
+  laboratory: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+  semester: {
     type: String,
   },
 })
@@ -172,6 +168,11 @@ Schemas.student = new SimpleSchema({
   guardian: {
     type: Schemas.embeddedGuardian,
   },
+  courses: {
+    type: [Schemas.embeddedCourse],
+    optional: true,
+  },
+
 /* //TODO
   createdAt: {
     type: Date,
@@ -209,8 +210,8 @@ Schemas.embeddedCourseType = new SimpleSchema({
   room: {
     type: String,
   },
-  instructor: {
-    type: Schemas.embeddedTeacher,
+  instructorId: {
+    type: String,
   },
 })
 
@@ -236,6 +237,12 @@ Schemas.embeddedStudent = new SimpleSchema({
   },
 })
 
+Schemas.activitytype = new SimpleSchema({
+  name: {
+    type: String,
+  },
+})
+
 Schemas.course = new SimpleSchema({
   subject: {
     type: Schemas.embeddedSubject,
@@ -251,19 +258,9 @@ Schemas.course = new SimpleSchema({
     optional: true,
     blackbox: true,
   },
-  sessions: {
-    type: Array,
+  sessionIds: {
+    type: [String],
     optional: true,
-  },
-  'sessions.$': {
-    type: Object,
-    optional: true,
-  },
-  'sessions.$._id': {
-    type: String,
-  },
-  'sessions.$.date': {
-    type: Date,
   },
   // TODO: specify fields
   students: {
@@ -279,10 +276,10 @@ Schemas.course = new SimpleSchema({
 })
 
 Schemas.role = new SimpleSchema({
-  role: {
+  name: {
     type: String,
   },
-  children: {
+  childIds: {
     type: [String],
   },
 })
@@ -310,12 +307,18 @@ Schemas.embeddedRecord = new SimpleSchema({
   studentId: {
     type: String,
   },
+  studentFirstName: {
+    type: String,
+  },
+  studentLastName: {
+    type: String,
+  },
   score: {
     type: Number,
   },
 })
 
-Schemas.embeddedActivity = new SimpleSchema({
+Schemas.activity = new SimpleSchema({
   /* TODO: allowed values */
   type: {
     type: String,
@@ -339,11 +342,8 @@ Schemas.session = new SimpleSchema({
     type: Schemas.embeddedAttendance,
     optional: true,
   },
-  activities: {
-    type: Array,
-  },
-  'activities.$': {
-    type: Schemas.embeddedActivity,
+  activityIds: {
+    type: [String],
     optional: true,
   },
   date: {
