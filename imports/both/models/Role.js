@@ -1,5 +1,5 @@
 import Model from './Model'
-import Schemas from '../Schemas'
+import schema from '../schemas/Role'
 
 import SetupCollection from '../decorators/SetupCollection'
 import Idempotent from '../decorators/Idempotent'
@@ -7,7 +7,7 @@ import Idempotent from '../decorators/Idempotent'
 @SetupCollection('Roles')
 class Role extends Model {
 
-  static schema = Schemas.role
+  static schema = schema
 
   constructor(doc) {
     super(doc)
@@ -36,7 +36,7 @@ class Role extends Model {
   }
 
   get isRoot() {
-    return !this.hasAParent
+    return !this.hasAParent && this.hasAChild
   }
 
   get parent() {
@@ -44,7 +44,7 @@ class Role extends Model {
   }
 
   get root() {
-    return ((this.isRoot && this.hasAChild) && this) || this.parent.root
+    return (this.isRoot && this) || this.parent.root
   }
 }
 export default Role

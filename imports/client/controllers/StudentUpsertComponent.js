@@ -1,5 +1,6 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
+import Course from '/imports/both/models/Course'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-upsert.html'
 
