@@ -1,7 +1,7 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
-import Course from '/imports/both/models/Course'
 import { Component, State, Inject } from 'angular2-now'
+import Degree from '/imports/both/models/Degree'
 import '../views/student-upsert.html'
 
 @State({
@@ -40,15 +40,20 @@ class StudentUpsertComponent {
         }
         return Student.findOne({ _id: studentId })
       },
+      degrees() {
+        return Degree.find().fetch()
+      },
     })
   }
 
   save() {
     console.log(this.student)
-    this.student.save(() => {
+    this.student.save((doc, err) => {
       const { firstName, lastName } = this.student
       alert(`${lastName}, ${firstName} ${this.message}!`)
       this.student = new Student
+      console.log(doc)
+      console.log(err)
     })
   }
 }
