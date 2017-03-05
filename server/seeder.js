@@ -7,11 +7,10 @@ import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
 import Role from '/imports/both/models/Role'
-
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-
 import loadAccounts from './startup'
+import ActivityType from '/imports/both/models/ActivityType'
 
 const data = {
   students: [
@@ -260,10 +259,24 @@ Meteor.startup(() => {
   if (Session.find().count() === 0) {
     const students = Student.find().fetch()
     const course = Course.find().fetch()[0]
+<<<<<<< HEAD
     course.createSession(new Date('01/27/17'))
     course.save()
     const session = Session.find().fetch()[0]
     session.activities.push({
+=======
+    const session = new Session({
+      courseId: course._id,
+      attendance: {},
+      activities: [],
+      date: new Date('02/07/2017'),
+    })
+    session.save()
+    const addedSession = Session.find().fetch()[0]
+    course.addSession(addedSession._id)
+    course.save()
+    addedSession.activities.push({
+>>>>>>> parent of 8bbbac9... Updated seeder
       type: 'Seatwork',
       totalScore: 10,
       records: [
@@ -275,8 +288,13 @@ Meteor.startup(() => {
         },
         {
           studentId: students[3]._id,
+<<<<<<< HEAD
           studentFirstName: students[0].firstName,
           studentLastName: students[0].lastName,
+=======
+          studentFirstName: students[3].firstName,
+          studentLastName: students[3].lastName,
+>>>>>>> parent of 8bbbac9... Updated seeder
           score: 7,
         },
       ],
