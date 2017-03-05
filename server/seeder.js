@@ -1,13 +1,17 @@
-import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 
-import loadAccounts from './startup'
 import Degree from '/imports/both/models/Degree'
 import Student from '/imports/both/models/Student'
 import Course from '/imports/both/models/Course'
 import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
-import ActivityType from '/imports/both/models/ActivityType'
+import Role from '/imports/both/models/Role'
+
+import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
+
+import loadAccounts from './startup'
 
 const data = {
   students: [
@@ -27,7 +31,6 @@ const data = {
         fullName: 'Mrs. Lasaga',
         contactNumber: '09292929292',
       },
-      courses: [],
     },
     {
       firstName: 'James',
@@ -45,7 +48,6 @@ const data = {
         fullName: 'Mrs. Barte',
         contactNumber: '09060666123',
       },
-      courses: [],
     },
     {
       firstName: 'Daryl Faith',
@@ -63,7 +65,6 @@ const data = {
         fullName: 'Mrs. Matutina',
         contactNumber: '09282529152',
       },
-      courses: [],
     },
     {
       firstName: 'John Elmer',
@@ -81,7 +82,6 @@ const data = {
         fullName: 'Mrs. Loretizo',
         contactNumber: '09061125252',
       },
-      courses: [],
     },
     {
       firstName: 'Vince Paul',
@@ -99,7 +99,6 @@ const data = {
         fullName: 'Mrs. dela Cruz',
         contactNumber: '09182329145',
       },
-      courses: [],
     },
   ],
   teachers: [
@@ -139,7 +138,6 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
-      teacherAssignedIds: [],
     },
     {
       name: 'SE Subject',
@@ -147,7 +145,6 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: false,
-      teacherAssignedIds: [],
     },
     {
       name: 'Math',
@@ -155,7 +152,6 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
-      teacherAssignedIds: [],
     },
     {
       name: 'Mech',
@@ -163,31 +159,49 @@ const data = {
       credits: 3.0,
       units: 3.0,
       isOffered: true,
-      teacherAssignedIds: [],
     },
   ],
   degrees: [
     { name: 'BSSE' }, { name: 'BSCE' }, { name: 'BSEE' }, { name: 'BSECE' },
     { name: 'BSChE' }, { name: 'BSME' }, { name: 'BSPkgE' },
   ],
-  activityTypes: [
-    { name: 'Quiz' }, { name: 'Homework' }, { name: 'Seatwork' }, { name: 'Prelim Exam' }, { name: 'Midterm Exam' }, { name: 'Final Exam' },
-  ],
 }
 
 Meteor.startup(() => {
+  if (Role.find().count() === 0) {
+    const deanRole = new Role({ name: 'dean' })
+    const secretaryRole = new Role({ name: 'secretary' })
+    const technicianRole = new Role({ name: 'technician' })
+    const teacherRole = new Role({ name: 'teacher' })
+    const studentRole = new Role({ name: 'student' })
+
+    deanRole.save()
+    secretaryRole.save()
+    technicianRole.save()
+    teacherRole.save()
+    studentRole.save()
+
+    const dean = Role.findOne({ name: 'dean' })
+    const secretary = Role.findOne({ name: 'secretary' })
+    const technician = Role.findOne({ name: 'technician' })
+    const teacher = Role.findOne({ name: 'teacher' })
+    const student = Role.findOne({ name: 'student' })
+    dean.childIds.push(secretary._id)
+
+    // i don't know the real hierarchy just yet. lol
+    secretary.childIds.push(...[technician._id, teacher._id])
+    teacher.childIds.push(student._id)
+
+    dean.save()
+    secretary.save()
+    teacher.save()
+    student.save()
+
+  }
   if (Degree.find().count() === 0) {
     data.degrees.forEach((degree) => {
       const newDegree = new Degree(degree)
       newDegree.save()
-    })
-  }
-  if (ActivityType.find().count() === 0) {
-    data.activityTypes.forEach((type) => {
-      const activityType = new ActivityType({
-        name: type.name,
-      })
-      activityType.save()
     })
   }
   if (Student.find().count() === 0) {
@@ -225,11 +239,15 @@ Meteor.startup(() => {
       lecture: {
         time: '7:00-8:30 TTh',
         room: 'En205',
-        instructorId: teachers[1]._id,
+        instructor: {
+          _id: teachers[1]._id,
+          firstName: teachers[1].firstName,
+          lastName: teachers[1].lastName,
+        },
       },
       laboratory: {},
       students: [],
-      sessionIds: [],
+      sessions: [],
       semester: '2016-2017',
     })
     newCourse.save()
@@ -242,17 +260,10 @@ Meteor.startup(() => {
   if (Session.find().count() === 0) {
     const students = Student.find().fetch()
     const course = Course.find().fetch()[0]
-    const session = new Session({
-      courseId: course._id,
-      attendance: {},
-      activities: [],
-      date: new Date('02/07/2017'),
-    })
-    session.save()
-    const addedSession = Session.find().fetch()[0]
-    course.addSession(addedSession._id)
+    course.createSession(new Date('01/27/17'))
     course.save()
-    addedSession.activities.push({
+    const session = Session.find().fetch()[0]
+    session.activities.push({
       type: 'Seatwork',
       totalScore: 10,
       records: [
@@ -264,8 +275,8 @@ Meteor.startup(() => {
         },
         {
           studentId: students[3]._id,
-          studentFirstName: students[3].firstName,
-          studentLastName: students[3].lastName,
+          studentFirstName: students[0].firstName,
+          studentLastName: students[0].lastName,
           score: 7,
         },
       ],

@@ -26,7 +26,6 @@ class TeacherUpsertComponent {
     } else {
       this.buttonLabel = 'Update'
     }
-    this.subscribe('users-basic-infos')
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
