@@ -3,39 +3,34 @@ import { Meteor } from 'meteor/meteor'
 
 import Model from './Model'
 import Role from './Role'
+import Course from './Course'
 import SetupAccount from '../decorators/SetupAccount'
-import Schemas from '../Schemas'
+import schema from '../schemas/User'
 
 @SetupAccount
 class User extends Model {
 
-  static schema = Schemas.user
+  static schema = schema
 
   // teacher
-  assignSubject(subject) {
-    const subjectDoc = subject
-    delete subjectDoc.courses
-    delete subjectDoc.teachersAssigned
-    this.subjectsAssigned.push(subjectDoc)
-  }
-  // teacher
-  removeSubjectAssignment(subjectId) {
-    this.removeObjectFromArray('subjects', '_id', subjectId)
-  }
-  // teacher
   removeCourse(courseId) {
-    this.removeObjectFromArray('courses', '_id', courseId)
+    const courseIds = this.courseIds
+    const index = courseIds.findIndex(id => id === courseId)
+    if (index !== -1) {
+      courseIds.splice(index, 1)
+    }
   }
   // teacher
-  addCourse(course) {
-    const courseDoc = course
-    const subject = course.subject
-    delete subject.courses
-    delete subject.teachersAssigned
-    courseDoc.subject = subject
-    delete courseDoc.sessions
-    delete courseDoc.students
-    this.courses.push(courseDoc)
+  addCourse(courseId) {
+    const courseIds = this.courseIds
+    const isCourseExist = courseIds.some(id => id === courseId)
+    if (!isCourseExist) {
+      courseIds.push(courseId)
+    }
+  }
+
+  get courses() {
+    return Course.find({ $or: [{ 'lecture.instructorId': this._id }, { 'laboratory.instructorId': this._id }] }).fetch()
   }
 
   get role() {

@@ -1,23 +1,36 @@
 import SetupCollection from '../decorators/SetupCollection'
+import schema from '../schemas/Activity'
 
 import Model from './Model'
 
 @SetupCollection('Activities')
 class Activity extends Model {
-  // schema here...
 
-  addScore(score, studId) {
-    const index = this.scores.findIndex((scr) => {
-      if (scr.studentId === studId && score !== undefined) {
-        return scr
-      }
-      return -1;
-    })
+  static schema = schema
 
+  addScore(student, score) {
+    const records = this.records
+    const index = records.findIndex(record => record.studentId === student._id)
     if (index !== -1) {
-      this.scores.splice(index, 1)
-      this.scores.push(score)
+      records[index].score = score
+    } else {
+      records.push({
+        studentId: student._id,
+        studentFirstName: student.firstName,
+        studentLastName: student.lastName,
+        score: score,
+      })
     }
+  }
+
+  getPassers(passingPercentage) {
+    const passingScore = (passingPercentage / 100) * this.totalScore
+    return this.records.map(record => record.score >= passingScore)
+  }
+
+  getFailures(passingPercentage) {
+    const passingScore = (passingPercentage / 100) * this.totalScore
+    return this.records.map(record => record.score < passingScore)
   }
 }
 
