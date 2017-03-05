@@ -8,7 +8,6 @@ import Subject from '/imports/both/models/Subject'
 import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
 import ActivityType from '/imports/both/models/ActivityType'
-import Activity from '/imports/both/models/Activity'
 
 const data = {
   students: [
@@ -228,6 +227,7 @@ Meteor.startup(() => {
         room: 'En205',
         instructorId: teachers[1]._id,
       },
+      laboratory: {},
       students: [],
       sessionIds: [],
       semester: '2016-2017',
@@ -240,33 +240,36 @@ Meteor.startup(() => {
     })
   }
   if (Session.find().count() === 0) {
+    const students = Student.find().fetch()
     const course = Course.find().fetch()[0]
     const session = new Session({
       courseId: course._id,
       attendance: {},
       activities: [],
       date: new Date('02/07/2017'),
-      activityIds: [],
     })
     session.save()
     const addedSession = Session.find().fetch()[0]
     course.addSession(addedSession._id)
     course.save()
-  }
-  if (Activity.find().count() === 0) {
-    const activity = new Activity({
-      type: 'Quiz',
-      totalScore: 25,
-      records: [],
+    addedSession.activities.push({
+      type: 'Seatwork',
+      totalScore: 10,
+      records: [
+        {
+          studentId: students[0]._id,
+          studentFirstName: students[0].firstName,
+          studentLastName: students[0].lastName,
+          score: 5,
+        },
+        {
+          studentId: students[3]._id,
+          studentFirstName: students[3].firstName,
+          studentLastName: students[3].lastName,
+          score: 7,
+        },
+      ],
     })
-    activity.save()
-    const addedActivity = Activity.find().fetch()[0]
-    const students = Student.find().fetch()
-    const addedSession = Session.find().fetch()[0]
-    addedSession.addActivity(addedActivity._id)
-    addedSession.save()
-    addedActivity.addScore(students[0], 19)
-    addedActivity.addScore(students[3], 20)
-    addedActivity.save()
+    session.save()
   }
 })
