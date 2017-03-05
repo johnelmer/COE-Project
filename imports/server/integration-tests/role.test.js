@@ -45,6 +45,7 @@ describe('Role', () => {
         !technician.isRoot,
         !teacher.isRoot,
       ]
+      console.log(dean.root);
       conditions.every(condition => condition).should.be.true
     })
   })
