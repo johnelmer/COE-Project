@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor'
-
 import loadAccounts from './startup'
 import Degree from '/imports/both/models/Degree'
 import Student from '/imports/both/models/Student'
@@ -9,7 +8,6 @@ import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
 import ActivityType from '/imports/both/models/ActivityType'
 import Activity from '/imports/both/models/Activity'
-
 const data = {
   students: [
     {
@@ -175,7 +173,6 @@ const data = {
     { name: 'Quiz' }, { name: 'Homework' }, { name: 'Seatwork' }, { name: 'Prelim Exam' }, { name: 'Midterm Exam' }, { name: 'Final Exam' },
   ],
 }
-
 Meteor.startup(() => {
   if (Degree.find().count() === 0) {
     data.degrees.forEach((degree) => {
