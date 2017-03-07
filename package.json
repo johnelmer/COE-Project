@@ -6,7 +6,7 @@
     "production": "meteor --production",
     "reset": "meteor reset",
     "test": "meteor test --driver-package practicalmeteor:mocha -p 3100",
-    "phantom": "meteor test --once --driver-package dispatch:mocha",
+    "mocha": "meteor test --once --driver-package dispatch:mocha",
     "ci": "curl https://install.meteor.com/?release=1.4.2.3 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coedb meteor test --once --driver-package dispatch:mocha"
   },
   "dependencies": {
@@ -43,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "mocha": "^3.2.0",
+    "selenium-webdriver": "^3.0.0-beta-2",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0"
   },
