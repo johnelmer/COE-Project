@@ -12,7 +12,7 @@ Course.collection.allow({
 })
 
 Student.collection.allow({
-  insert: userId => userId,
+  insert: () => true,
   update: userId => userId,
   remove: userId => userId,
 })

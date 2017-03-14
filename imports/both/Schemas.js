@@ -20,6 +20,12 @@ Schemas.user = new SimpleSchema({
   idNumber: {
     type: String,
   },
+  status: {
+    type: String,
+  },
+  birthday: {
+    type: String,
+  },
   contactNumber: {
     type: String,
   },
@@ -37,6 +43,10 @@ Schemas.user = new SimpleSchema({
     type: String,
     optional: true,
   },
+<<<<<<< HEAD
+  guardian: {
+    type: String,
+=======
   createdAt: {
     type: Date,
   },
@@ -48,6 +58,7 @@ Schemas.user = new SimpleSchema({
     type: Object,
     optional: true,
     blackbox: true,
+>>>>>>> 8bbbac90747cbc3dccded7cb8d420f1e3c90e79d
   },
 })
 
@@ -164,15 +175,22 @@ Schemas.student = new SimpleSchema({
   },
   isGraduating: {
     type: Boolean,
+    optional: true,
   },
   guardian: {
     type: Schemas.embeddedGuardian,
   },
+<<<<<<< HEAD
+  address: {
+    type: String,
+  },
+=======
   courses: {
     type: [Schemas.embeddedCourse],
     optional: true,
   },
 
+>>>>>>> 8bbbac90747cbc3dccded7cb8d420f1e3c90e79d
 /* //TODO
   createdAt: {
     type: Date,
