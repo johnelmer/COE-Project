@@ -32,30 +32,9 @@ export default new SimpleSchema({
     optional: true,
   },
   // TODO: specify fields
-  students: {
-    type: [Object],
+  studentIds: {
+    type: [String],
     optional: true,
-  },
-  'students.$._id': {
-    type: String,
-  },
-  'students.$.firstName': {
-    type: String,
-  },
-  'students.$.middleName': {
-    type: String,
-  },
-  'students.$.lastName': {
-    type: String,
-  },
-  'students.$.idNumber': {
-    type: String,
-  },
-  'students.$.degree': {
-    type: String,
-  },
-  'students.$.yearLevel': {
-    type: Number,
   },
   semester: {
     type: String,
