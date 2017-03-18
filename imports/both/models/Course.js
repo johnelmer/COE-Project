@@ -18,9 +18,9 @@ class Course extends Model {
 
   enrollAStudent(student) {
     const studentIds = this.studentIds
-    const studentId = student._id
-    if (!this.isStringExists(studentIds, studentId)) {
-      studentIds.push(studentId)
+    const isStudentExists = studentIds.some(studentId => student._id === studentId)
+    if (!isStudentExists) {
+      studentIds.push(student._id)
     } else {
       throw new Error('Student is already enrolled.')
     }
