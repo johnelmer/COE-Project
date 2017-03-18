@@ -5,6 +5,7 @@ import Schemas from '../Schemas'
 
 import Model from './Model'
 import Session from './Session'
+import Student from './Student'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -16,7 +17,17 @@ class Course extends Model {
   }
 
   enrollAStudent(student) {
-    this.students.push(_.pick(student, '_id', 'firstName', 'middleName', 'lastName', 'degree', 'yearLevel'))
+    const studentIds = this.studentIds
+    const studentId = student._id
+    if (!this.isStringExists(studentIds, studentId)) {
+      studentIds.push(studentId)
+    } else {
+      throw new Error('Student is already enrolled.')
+    }
+  }
+
+  get students() {
+    return Student.find({ _id: { $in: this.studentIds } }, { sort: { lastName: 1 } }).fetch()
   }
 
   removeStudentFromClass(idNumber) {
