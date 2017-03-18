@@ -57,10 +57,9 @@ class User extends Model {
 
   save(callback) {
     if (this._id) {
-      // TODO: Use meteor.call, specify the docs to be update
-      return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
+      return Meteor.call('updateUser', this.doc, callback)
     }
-    return Meteor.call('createNewUser', this.doc)
+    return Meteor.call('createNewUser', this.doc, callback)
   }
 
 }

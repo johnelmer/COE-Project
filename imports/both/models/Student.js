@@ -14,6 +14,10 @@ class Student extends Model {
     delete courseDoc.students
     this.courses.push(courseDoc)
   }
+
+  get fullName() {
+    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+  }
 }
 
 export default Student
