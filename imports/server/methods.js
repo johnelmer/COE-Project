@@ -14,7 +14,7 @@ Meteor.methods({
     }
   },
   /* TODO: refactor. Verify what kind of updates, role restrictions */
-  'updateUser': (id, updateDoc, callback) => {
-    User.update({ _id: id }, updateDoc, callback)
+  'updateUser': (doc, callback) => {
+    User.update({ _id: doc._id }, { $set: doc }, {}, callback)
   },
 })
