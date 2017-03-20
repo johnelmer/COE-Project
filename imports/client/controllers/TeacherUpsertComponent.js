@@ -23,12 +23,9 @@ class TeacherUpsertComponent {
     const teacherId = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Register'
-      this.message = 'registered'
     } else {
       this.buttonLabel = 'Update'
-      this.message = 'updated'
     }
-    this.subscribe('users-basic-infos')
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
@@ -40,10 +37,10 @@ class TeacherUpsertComponent {
   }
 
   save() {
-    this.teacher.save(() => {
-      const { firstName, lastName } = this.teacher.profile
+    this.user.save(() => {
+      const { firstName, lastName } = this.user
       alert(`${lastName}, ${firstName} ${this.message}!`)
-      this.teacher = new User()
+      this.user = new User
     })
   }
 }

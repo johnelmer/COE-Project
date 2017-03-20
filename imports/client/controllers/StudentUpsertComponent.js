@@ -1,7 +1,6 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
 import { Component, State, Inject } from 'angular2-now'
-import Degree from '/imports/both/models/Degree'
 import '../views/student-upsert.html'
 
 @State({
@@ -24,7 +23,6 @@ class StudentUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
-    this.subscribe('degrees')
     const { studentId } = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add Student'
@@ -40,20 +38,14 @@ class StudentUpsertComponent {
         }
         return Student.findOne({ _id: studentId })
       },
-      degrees() {
-        return Degree.find().fetch()
-      },
     })
   }
 
   save() {
-    console.log(this.student)
-    this.student.save((doc, err) => {
+    this.student.save(() => {
       const { firstName, lastName } = this.student
       alert(`${lastName}, ${firstName} ${this.message}!`)
       this.student = new Student
-      console.log(doc)
-      console.log(err)
     })
   }
 }

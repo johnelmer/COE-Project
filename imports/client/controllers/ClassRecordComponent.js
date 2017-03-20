@@ -9,7 +9,7 @@ import '../views/classrecord.html'
   selector: 'class-record',
   templateUrl: 'imports/client/views/classrecord.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$uibModal')
 class ClassRecordComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)

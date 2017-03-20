@@ -2,17 +2,13 @@
   <form class="form-horizontal">
     <div class="jumbotron">
       <legend>
-        <h2>List of Teachers <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Assign</button>
-          <hr>
-          <div uib-collapse="isCollapsed">
-            <div class="well well-lg">Some content</div>
-          </div></h2></legend>
+        <h2>List of Teachers</h2></legend>
         <div class="form-group" ng-repeat="teacher in teacherList.teachers">
           <div class="col-sm-4">
-            <label>{{ teacher.profile.lastName }}</label>
+            <label>{{ teacher.lastName }}</label>
           </div>
           <div class="col-sm-4">
-            <label>{{ teacher.profile.firstName }}</label>
+            <label>{{ teacher.firstName }}</label>
           </div>
           <button class="btn btn-primary">
             Add Subject
