@@ -4,8 +4,10 @@ import Student from '/imports/both/models/Student'
 import Subject from '/imports/both/models/Subject'
 import Degree from '/imports/both/models/Degree'
 import Role from '/imports/both/models/Role'
+import Session from '/imports/both/models/Session'
 import Activity from '/imports/both/models/Activity'
 
+// To be update
 Course.collection.allow({
   insert: () => true,
   update: () => true,
@@ -31,6 +33,12 @@ Degree.collection.allow({
 })
 
 Role.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
+})
+
+Session.collection.allow({
   insert: () => true,
   update: () => true,
   remove: () => true,
