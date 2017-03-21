@@ -1,12 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Degree'
 
 import Model from './Model'
 
 @SetupCollection('Degrees')
 class Degree extends Model {
 
-  static schema = Schemas.degree
+  static schema = schema
 }
 
 export default Degree

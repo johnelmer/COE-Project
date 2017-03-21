@@ -1,7 +1,8 @@
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import Idempotent from '../decorators/Idempotent'
+import schema from '../schemas/Course'
 
 import Model from './Model'
 import Session from './Session'
@@ -10,7 +11,7 @@ import Student from './Student'
 @SetupCollection('Courses')
 class Course extends Model {
 
-  static schema = Schemas.course
+  static schema = schema
 
   hasLaboratory() {
     return this.laboratory instanceof 'object'
@@ -26,6 +27,7 @@ class Course extends Model {
     }
   }
 
+  @Idempotent
   get students() {
     return Student.find({ _id: { $in: this.studentIds } }, { sort: { lastName: 1 } }).fetch()
   }
@@ -82,6 +84,10 @@ class Course extends Model {
         date: date,
       })
     }
+  }
+
+  get sessions() {
+    return Session.find({ _id: { $in: this.sessionIds } }).fetch()
   }
 }
 

@@ -1,7 +1,7 @@
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Subject'
 
 import Model from './Model'
 import Course from './Course'
@@ -9,7 +9,7 @@ import Course from './Course'
 @SetupCollection('Subjects')
 class Subject extends Model {
 
-  static schema = Schemas.subject
+  static schema = schema
 
   assignTeacher(teacher) {
     const isTeacherExist = this.teachersAssigned.findByIndex((teacherDoc) => {

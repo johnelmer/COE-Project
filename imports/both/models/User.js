@@ -4,12 +4,12 @@ import { Meteor } from 'meteor/meteor'
 import Model from './Model'
 import Role from './Role'
 import SetupAccount from '../decorators/SetupAccount'
-import Schemas from '../Schemas'
+import schema from '../schemas/User'
 
 @SetupAccount
 class User extends Model {
 
-  static schema = Schemas.user
+  static schema = schema
 
   // teacher
   assignSubject(subject) {

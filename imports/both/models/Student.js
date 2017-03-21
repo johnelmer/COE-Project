@@ -1,12 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import schema from '../schemas/Student'
 
 import Model from './Model'
 
 @SetupCollection('Students')
 class Student extends Model {
 
-  static schema = Schemas.student
+  static schema = schema
 
   enrollACourse(course) {
     const courseDoc = course

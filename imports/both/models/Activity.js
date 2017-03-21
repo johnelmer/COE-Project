@@ -1,16 +1,17 @@
-import _ from 'underscore'
-
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Activity'
 
 import Model from './Model'
-import Student from './Student'
-import Idempotent from '../decorators/Idempotent'
+import Session from './Session'
 
 @SetupCollection('Activities')
 class Activity extends Model {
 
   static schema = schema
+
+  get session() {
+    return Session.findOne({ _id: this.sessionId })
+  }
 
   addScore(student, score) {
     const records = this.records
@@ -35,17 +36,18 @@ class Activity extends Model {
     return this.records.map(record => record.score < passingScore)
   }
 
-  @Idempotent
   get studentRecords() {
-     const records = this.records
-     const studentIds = this.studentIds
-     const students = Student.find({ _id: { $in: studentIds } }, { sort: { lastName: 1 },
-       fields: { firstName: 1, lastName: 1, middleName: 1 } }).fetch()
-     return students.map((student) => {
-       const recordIndex = records.findIndex(record => record.studentId === student._id)
-       student.score = records[recordIndex].score
-       return student
-     })
+    const records = this.records
+    const students = this.session.course.students
+    return students.map((student) => {
+      const recordIndex = records.findIndex(record => record.studentId === student._id)
+      if (recordIndex === -1) {
+        student.score = ''
+      } else {
+        student.score = records[recordIndex].score
+      }
+      return student
+    })
   }
 
   get studentIds() {
