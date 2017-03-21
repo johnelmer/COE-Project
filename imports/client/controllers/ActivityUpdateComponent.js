@@ -1,6 +1,5 @@
 import Course from '/imports/both/models/Course'
 import Activity from '/imports/both/models/Activity'
-import Session from '/imports/both/models/Session'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/activity-update.html'
 
@@ -19,20 +18,26 @@ export default class ActivityUpdateComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { activityId } = $stateParams
+    
     this.subscribe('activities', () => {
+      this.subscribe('sessions')
+      this.subscribe('courses')
+      this.subscribe('students')
       this.activity = Activity.findOne({ _id: activityId })
       if (this.activity) {
         this.students = this.activity.studentRecords
       }
     })
-    this.subscribe('students')
   }
 
   save() {
     const activity = this.activity
     activity.records = []
     this.students.forEach((student) => {
-      activity.addScore(student, student.score)
+      const score = student.score
+      if (score !== '') {
+        activity.addScore(student, student.score)
+      }
     })
     activity.save((err) => {
       if (err) { console.log(err) }
