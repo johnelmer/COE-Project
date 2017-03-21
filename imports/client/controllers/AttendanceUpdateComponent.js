@@ -20,7 +20,7 @@ export default class AttendanceUpdateComponent {
     const { sessionId } = $stateParams
     this.subscribe('sessions', () => {
       this.subscribe('courses')
-      this.subscribe('students')
+      this.subscribe('students-basic-infos')
       this.session = Session.findOne({ _id: sessionId })
       if (this.session) {
         this.students = this.session.attendances

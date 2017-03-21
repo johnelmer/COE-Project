@@ -29,7 +29,7 @@ class Course extends Model {
 
   @Idempotent
   get students() {
-    return Student.find({ _id: { $in: this.studentIds } }, { sort: { lastName: 1 } }).fetch()
+    return Student.find({ _id: { $in: this.studentIds } }).fetch()
   }
 
   removeStudentFromClass(idNumber) {

@@ -22,7 +22,7 @@ export default class ActivityUpdateComponent {
     this.subscribe('activities', () => {
       this.subscribe('sessions')
       this.subscribe('courses')
-      this.subscribe('students')
+      this.subscribe('students-basic-infos')
       this.activity = Activity.findOne({ _id: activityId })
       if (this.activity) {
         this.students = this.activity.studentRecords

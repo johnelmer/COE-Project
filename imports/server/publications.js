@@ -10,7 +10,12 @@ import Session from '/imports/both/models/Session'
 
 Meteor.publish('courses', () => Course.find())
 
-Meteor.publish('students', () => Student.find())
+Meteor.publish('students', () => Student.find({}, { sort: { lastName: 1 } }))
+
+Meteor.publish('students-basic-infos', () => {
+  return Student.find({}, { sort: { lastName: 1 },
+    fields: { firstName: 1, middleName: 1, lastName: 1 } })
+})
 
 Meteor.publish('subjects', () => Subject.find())
 
