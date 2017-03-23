@@ -5,7 +5,8 @@ import '../views/course-student-enroll.html'
 
 @State({
   name: 'app.course.enrollStudent',
-  url: '/teacher/course/:courseId',
+  //url: '/teacher/course/:courseId',
+  url: '/teacher/course',
 })
 @Component({
   selector: 'course-student-enroll',

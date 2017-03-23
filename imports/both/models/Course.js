@@ -1,3 +1,4 @@
+
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'

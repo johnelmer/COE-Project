@@ -4,10 +4,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 const Schemas = {}
 // const degrees = Degree.find().fetch().map(degree => degree.name)
 
-Schemas.user = new SimpleSchema({
-  username: {
-    type: String,
-  },
+Schemas.embeddedProfile = new SimpleSchema({
   firstName: {
     type: String,
   },
@@ -35,6 +32,26 @@ Schemas.user = new SimpleSchema({
   },
 })
 
+Schemas.user = new SimpleSchema({
+  username: {
+    type: String,
+  },
+  role: {
+    type: String,
+    optional: true,
+  },
+  createdAt: {
+    type: Date,
+  },
+  profile: {
+    type: Schemas.embeddedProfile,
+  },
+  services: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+})
 
 Schemas.degree = new SimpleSchema({
   name: {
@@ -262,10 +279,10 @@ Schemas.course = new SimpleSchema({
 })
 
 Schemas.role = new SimpleSchema({
-  name: {
+  role: {
     type: String,
   },
-  childIds: {
+  children: {
     type: [String],
   },
 })
@@ -273,19 +290,15 @@ Schemas.role = new SimpleSchema({
 Schemas.embeddedAttendance = new SimpleSchema({
   presents: {
     type: [String],
-    optional: true,
   },
   lates: {
     type: [String],
-    optional: true,
   },
   absents: {
     type: [String],
-    optional: true,
   },
   excuses: {
     type: [String],
-    optional: true,
   },
 })
 
@@ -326,8 +339,7 @@ Schemas.session = new SimpleSchema({
     type: Array,
   },
   'activities.$': {
-    type: Schemas.embeddedActivity,
-    optional: true,
+    type: Object,
   },
   date: {
     type: Date,
