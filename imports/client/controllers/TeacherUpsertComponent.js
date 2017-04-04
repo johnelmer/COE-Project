@@ -1,4 +1,5 @@
 import User from '/imports/both/models/User'
+import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-upsert.html'
 
@@ -20,6 +21,7 @@ class TeacherUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
+    this.subscribe('departments')
     const teacherId = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Register'
@@ -35,14 +37,18 @@ class TeacherUpsertComponent {
           return new User
         }
         return User.findOne({ _id: teacherId })
-      }
+      },
+      departments() {
+        return Department.find().fetch()
+      },
     })
   }
 
   save() {
-    this.teacher.save(() => {
-      const { firstName, lastName } = this.teacher.profile
-      alert(`${lastName}, ${firstName} ${this.message}!`)
+    console.log(this.teacher);
+    this.teacher.save((err, doc) => {
+      console.log(err)
+      console.log(doc)
       this.teacher = new User()
     })
   }

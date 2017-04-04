@@ -18,41 +18,9 @@ class SubjectAssignmentComponent {
   constructor($scope, $reactive, $state) {
     $reactive(this).attach($scope)
     this.$state = $state
-    this.subscribe('teachers')
+    this.subscribe('users')
     this.subscribe('subjects')
     this.subscribe('roles')
-    this.people = [
-      {
-        name: 'Adam',
-        email: 'adam@email.com',
-        age: 12,
-        country: 'United States',
-      },
-      {
-        name: 'Amalie',
-        email: 'amalie@email.com',
-        age: 12,
-        country: 'Argentina',
-      },
-      {
-        name: 'Estefanía',
-        email: 'estefania@email.com',
-        age: 21,
-        country: 'Argentina',
-      },
-      {
-        name: 'Adrian',
-        email: 'adrian@email.com',
-        age: 21,
-        country: 'Ecuador',
-      },
-      {
-        name: 'Wladimir',
-        email: 'wladimir@email.com',
-        age: 30,
-        country: 'Ecuador',
-      },
-    ]
     this.helpers({
       teachers() {
         return User.find().fetch()

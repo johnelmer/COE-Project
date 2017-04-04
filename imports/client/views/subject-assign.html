@@ -62,10 +62,21 @@
       <h4>Subject Assignment</h4>
     </div>
     <div class="panel-body">
-      Teacher: {{teacher.name}}
+      <div class="input-group col-sm-4" id="searchBar">
+        <input type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button">Search</button>
+        </span>
+      </div>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
+            <td>
+              ID No.
+            </td>
+            <td>
+              Teacher
+            </td>
             <td>
               Subject Code
             </td>

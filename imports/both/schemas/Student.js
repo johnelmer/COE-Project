@@ -5,20 +5,23 @@ export default new SimpleSchema({
   firstName: {
     type: String,
     min: 2,
+    optional: true,
   },
   lastName: {
     type: String,
     min: 2,
+    optional: true,
   },
   middleName: {
     type: String,
+    optional: true,
   },
   idNumber: {
     type: String,
+    optional: true,
   },
   gender: {
     type: String,
-    optional: true,
   },
   degree: {
     type: String,

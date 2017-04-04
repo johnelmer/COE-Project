@@ -22,6 +22,7 @@ class SubjectUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
+    this.subscribe('subjects')
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add'
       this.message = 'added'
@@ -36,11 +37,16 @@ class SubjectUpsertComponent {
         }
         return Subject.findOne(subjectId)
       },
+      subjects() {
+        return Subject.find().fetch()
+      },
     })
   }
-
   save() {
-    this.subject.save(() => {
+    console.log(this.subject);
+    this.subject.save((doc, err) => {
+      console.log(doc);
+      console.log(err);
       alert(`Subject ${this.message}!`)
     })
   }

@@ -40,12 +40,16 @@ p,a {
   margin-top: 1.5px;
 }
 
-label {
-  margin-bottom: 4px;
-  margin-top: 4px;
+label , #searchBar {
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .fileinput-preview {
   width: 200px;
   height: 150px;
+}
+
+#assignButton {
+  align-items: flex-end;
 }

@@ -45,7 +45,6 @@ class StudentUpsertComponent {
       },
     })
   }
-
   save() {
     console.log(this.student)
     this.student.save((doc, err) => {

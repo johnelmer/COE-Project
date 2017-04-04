@@ -4,10 +4,6 @@ export default new SimpleSchema({
   username: {
     type: String,
   },
-  password: {
-    // TODO: password
-    type: String,
-  },
   firstName: {
     type: String,
   },
@@ -30,6 +26,7 @@ export default new SimpleSchema({
     type: String,
   },
   department: {
+    optional: true,
     type: String,
   },
   status: {
@@ -45,7 +42,7 @@ export default new SimpleSchema({
   gender: {
     type: String,
   },
-  rankName: {
+  roleName: {
     type: String,
     optional: true,
   },
