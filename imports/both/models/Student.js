@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> b8b11e476858487767c0564e592165fa64cc87c6
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Student'
 

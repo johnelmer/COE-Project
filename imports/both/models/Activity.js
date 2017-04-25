@@ -1,4 +1,3 @@
-
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Activity'
 
