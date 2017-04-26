@@ -1,7 +1,8 @@
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/login-view.html'
-import User from '/imports/both/models/User'
-import { Meteor } from 'meteor/meteor'
+import User from '/imports/both/models/User' //TODO: double check if this line of code is not needed
+
 
 @State({
   name: 'app.login',
@@ -21,7 +22,7 @@ class LoginComponent {
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
-        alert(`${err.reason}`)
+        alert(`${err.reason}`) //TODO: Change the alert notification
       } else {
         this.$state.go('app.student')
       }
