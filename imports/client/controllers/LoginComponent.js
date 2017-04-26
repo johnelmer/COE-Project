@@ -3,7 +3,6 @@ import { Component, State, Inject } from 'angular2-now'
 import '../views/login-view.html'
 import User from '/imports/both/models/User' //TODO: double check if this line of code is not needed
 
-
 @State({
   name: 'app.login',
   url: '/login',
@@ -24,7 +23,7 @@ class LoginComponent {
       if (err) {
         alert(`${err.reason}`) //TODO: Change the alert notification
       } else {
-        this.$state.go('app.student')
+        this.$state.go('app.classrecord') // TODO: define the landing component after login
       }
     })
   }

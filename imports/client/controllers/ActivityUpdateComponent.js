@@ -18,7 +18,6 @@ export default class ActivityUpdateComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { activityId } = $stateParams
-    
     this.subscribe('activities', () => {
       this.subscribe('sessions')
       this.subscribe('courses')
@@ -40,7 +39,7 @@ export default class ActivityUpdateComponent {
       }
     })
     activity.save((err) => {
-      if (err) { console.log(err) }
+      if (err) { console.log(err) } //TODO: remove console log and change to dynamic ui content
     })
   }
 }
