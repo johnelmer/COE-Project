@@ -1,14 +1,16 @@
 <div class="container">
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="idNumberField">ID Number</label>
+      <input type="text" class="form-control" ng-model="courseStudentEnroll.student.idNumber" id="idNumberField" placeholder="ID Number">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="courseStudentEnroll.addToList()">Add Student</button>
+  </form>
   <div>
-    <label>I.D. Number:</label>
-    <input type="text" ng-model="courseStudentEnroll.student.idNumber">
-    <button type="button" ng-click="courseStudentEnroll.addToList()">Add to list</button>
-  </div>
-  <div>
-    <table>
+    <table class="table table-striped">
       <thead>
         <tr>
-          <th>I.D. Number</th>
+          <th>ID Number</th>
           <th>Firstname</th>
           <th>Lastname</th>
         </tr>
@@ -21,7 +23,8 @@
         </tr>
       </tbody>
     </table>
-    <button type="button" ng-click="courseStudentEnroll.enrollStudents()">Enroll students</button>
+    <button type="button"  class="btn btn-default" ng-click="courseStudentEnroll.enrollStudents()">Enroll Students</button>
+    <!-- TODO: Check what this button does -->
   </div>
   <div>
   </div>
