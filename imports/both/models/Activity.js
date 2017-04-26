@@ -1,6 +1,5 @@
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Activity'
-
 import Model from './Model'
 import Session from './Session'
 
