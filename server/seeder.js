@@ -175,6 +175,8 @@ const data = {
   ],
 }
 Meteor.startup(() => {
+  Student.collection._ensureIndex({ 'lastName': 1 })
+  User.collection._ensureIndex({ 'lastName': 1 })
   if (Degree.find().count() === 0) {
     data.degrees.forEach((degree) => {
       const newDegree = new Degree(degree)
@@ -226,7 +228,7 @@ Meteor.startup(() => {
         room: 'En205',
         instructorId: teachers[1]._id,
       },
-      students: [],
+      studentIds: [],
       sessionIds: [],
       semester: '2016-2017',
     })
@@ -252,15 +254,16 @@ Meteor.startup(() => {
     course.save()
   }
   if (Activity.find().count() === 0) {
+    const addedSession = Session.find().fetch()[0]
     const activity = new Activity({
       type: 'Quiz',
       totalScore: 25,
       records: [],
+      sessionId: addedSession._id,
     })
     activity.save()
     const addedActivity = Activity.find().fetch()[0]
     const students = Student.find().fetch()
-    const addedSession = Session.find().fetch()[0]
     addedSession.addActivity(addedActivity._id)
     addedSession.save()
     addedActivity.addScore(students[0], 19)

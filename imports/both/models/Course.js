@@ -2,22 +2,35 @@
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'
-import Schemas from '../Schemas'
+import Idempotent from '../decorators/Idempotent'
+import schema from '../schemas/Course'
 
 import Model from './Model'
 import Session from './Session'
+import Student from './Student'
 
 @SetupCollection('Courses')
 class Course extends Model {
 
-  static schema = Schemas.course
+  static schema = schema
 
   hasLaboratory() {
     return this.laboratory instanceof 'object'
   }
 
   enrollAStudent(student) {
-    this.students.push(_.pick(student, '_id', 'firstName', 'middleName', 'lastName', 'degree', 'yearLevel'))
+    const studentIds = this.studentIds
+    const isStudentExists = studentIds.some(studentId => student._id === studentId)
+    if (!isStudentExists) {
+      studentIds.push(student._id)
+    } else {
+      throw new Error('Student is already enrolled.')
+    }
+  }
+
+  @Idempotent
+  get students() {
+    return Student.find({ _id: { $in: this.studentIds } }).fetch()
   }
 
   removeStudentFromClass(idNumber) {
@@ -72,6 +85,10 @@ class Course extends Model {
         date: date,
       })
     }
+  }
+
+  get sessions() {
+    return Session.find({ _id: { $in: this.sessionIds } }).fetch()
   }
 }
 

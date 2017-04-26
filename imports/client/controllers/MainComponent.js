@@ -1,3 +1,4 @@
+
 import { Component, State, bootstrap } from 'angular2-now'
 import './init'
 import '../views/app.html'
@@ -25,6 +26,10 @@ import '../views/app.html'
 })
 @State({
   name: 'app.course',
+  abstract: true,
+})
+@State({
+  name: 'app.course.session',
   abstract: true,
 })
 @Component({

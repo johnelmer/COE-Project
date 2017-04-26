@@ -1,3 +1,4 @@
+
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import { Component, State, Inject } from 'angular2-now'
@@ -5,8 +6,7 @@ import '../views/course-student-enroll.html'
 
 @State({
   name: 'app.course.enrollStudent',
-  //url: '/teacher/course/:courseId',
-  url: '/teacher/course',
+  url: '/teacher/course/:courseId',
 })
 @Component({
   selector: 'course-student-enroll',
@@ -18,14 +18,17 @@ export default class CourseStudentEnrollComponent {
     $reactive(this).attach($scope)
     this.students = []
     this.student = {}
-    const { courseIdParam } = $stateParams
+    const { courseId } = $stateParams
     /* TODO: publication for unenrolled students for this course */
     this.subscribe('students')
     this.subscribe('courses')
     this.helpers({
       course() {
-        const couseId = this.courseIdParam
-        return Course.findOne({ couseId })
+        const course = Course.findOne({ _id: courseId })
+        if (!course) {
+          // redirect
+        }
+        return course
       },
       studentList() {
         return this.students
@@ -39,12 +42,15 @@ export default class CourseStudentEnrollComponent {
     const studentToBeAdded = Student.findOne({ idNumber: idNumber })
     if (!studentToBeAdded) {
       console.log('Student not found')
-    }
-    const isStudentExist = students.some(student => student.idNumber === idNumber)
-    if (!isStudentExist) {
-      students.push(studentToBeAdded)
+    } else if (students.length > 0) {
+      const isStudentExist = students.some(student => student.idNumber === idNumber)
+      if (!isStudentExist) {
+        students.push(studentToBeAdded)
+      } else {
+        console.log('Student is already on the list!')
+      }
     } else {
-      console.log('Student is already on the list!')
+      students.push(studentToBeAdded)
     }
   }
 
@@ -58,12 +64,16 @@ export default class CourseStudentEnrollComponent {
   }
 
   enrollStudents() {
-    console.log(this.course)
     this.studentList.forEach((student) => {
-      this.course.enrollAStudent(student)
-      this.course.save((err) => {
-        if (err) { console.log(err) }
-      })
+      try {
+        this.course.enrollAStudent(student)
+        this.course.save((err) => {
+          if (err) { console.log(err) }
+        })
+      } catch (e) {
+        console.log(`${student.firstName} ${student.lastName} is already enrolled!`)
+      }
     })
+    this.studentList = []
   }
 }

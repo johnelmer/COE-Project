@@ -4,12 +4,12 @@ import { Meteor } from 'meteor/meteor'
 import Model from './Model'
 import Role from './Role'
 import SetupAccount from '../decorators/SetupAccount'
-import Schemas from '../Schemas'
+import schema from '../schemas/User'
 
 @SetupAccount
 class User extends Model {
 
-  static schema = Schemas.user
+  static schema = schema
 
   // teacher
   assignSubject(subject) {
@@ -57,10 +57,9 @@ class User extends Model {
 
   save(callback) {
     if (this._id) {
-      // TODO: Use meteor.call, specify the docs to be update
-      return this.constructor.update(this._id, { $set: this.doc }, {}, callback)
+      return Meteor.call('updateUser', this.doc, callback)
     }
-    return Meteor.call('createNewUser', this.doc)
+    return Meteor.call('createNewUser', this.doc, callback)
   }
 
 }
