@@ -1,0 +1,36 @@
+<div class="container">
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Students</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="student in classRecord.students track by student._id">
+          <td>{{ student.fullName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <uib-tabset active="active">
+      <uib-tab index="$index + 1" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
+        <table>
+          <thead>
+            <tr ng-repeat="activity in classRecord.filterActivityList(activityType.name)">
+              <td>{{ activity.date }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="student in classRecord.students track by student._id">
+              <td ng-repeat="record in student[activityType.name]">
+                {{ record.score }}
+              </td>
+            </tr>
+          </tbody>
+        </table>  
+      <uib-tab/>
+    </uib-tabset>
+  </div>
+</div>

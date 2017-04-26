@@ -7,6 +7,7 @@ import schema from '../schemas/Course'
 import Model from './Model'
 import Session from './Session'
 import Student from './Student'
+import ActivityType from './ActivityType'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -29,7 +30,7 @@ class Course extends Model {
 
   @Idempotent
   get students() {
-    return Student.find({ _id: { $in: this.studentIds } }).fetch()
+    return Student.find({ _id: { $in: this.studentIds } }, { sort: { lastName: 1 } }).fetch()
   }
 
   removeStudentFromClass(idNumber) {
@@ -49,20 +50,6 @@ class Course extends Model {
   getAllActivitiesByType(type) {
     return this.sessionIds.map((sessionId) => {
       return Session.findOne(sessionId).getActivitiesByType(type)
-    })
-  }
-
-  getStudentsSortedByLastName() {
-    return this.students.sort((a, b) => {
-      const nameA = a.lastName.toUpperCase();
-      const nameB = b.lastName.toUpperCase();
-      if (nameA < nameB) {
-        return -1
-      }
-      if (nameA > nameB) {
-        return 1
-      }
-      return 0
     })
   }
 
@@ -87,7 +74,40 @@ class Course extends Model {
   }
 
   get sessions() {
-    return Session.find({ _id: { $in: this.sessionIds } }).fetch()
+    return Session.find({ _id: { $in: this.sessionIds } }, { sort: { date: 1 } }).fetch()
+  }
+
+  get classRecord() {
+    const sessions = this.sessions
+    const students = this.students
+    let activities = []
+    const activityList = []
+    const activityTypes = ActivityType.find().fetch()
+    sessions.forEach((session) => {
+      if (session.activityIds.length > 0) {
+        const sessionActivities = session.activities
+        activities = activities.concat(sessionActivities)
+        sessionActivities.forEach((activity) => {
+          activityList.push({
+            type: activity.type,
+            totalScore: activity.totalScore,
+            date: session.date.toLocaleDateString(),
+          })
+        })
+      }
+    })
+    activityTypes.forEach((type) => {
+      students.forEach(student => student[type.name] = [])
+    })
+    activities.forEach((activity) => {
+      activity.records.forEach((record) => {
+        const index = students.findIndex(student => record.studentId === student._id)
+        if (index !== -1) {
+          students[index][activity.type].push({ activityId: activity._id, score: record.score })
+        }
+      })
+    })
+    return { activityTypes: activityTypes, activityList: activityList, students: students }
   }
 }
 
