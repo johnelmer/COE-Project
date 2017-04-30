@@ -1,0 +1,79 @@
+Changes to teachers form/schema
+
+
+-Mailing address
+-Citizenship (optional)
+-Civil Status
+-Religion (optional)
+-Change employees status to employment status
+-Change position to rank
+-Faculty academic rank
+
+Degree.default.namedContext().validate(objectDoc)
+
+Changes to students form/schema
+
+-Student's phone number
+-email address (optional)
+-citizenship (optional)
+-religion (optional)
+-home address
+-mother
+-father
+-mother's contact number
+-father's contact number
+-address while studying at CPU
+-qualifying exam
+-picture
+
+Student's Schema
+-Student's phone number
+-email address (optional)
+-citizenship (optional)
+-religion (optional)
+-home address
+-mother
+-father
+-mother's contact number
+-father's contact number
+-address while studying at CPU
+-picture
+-status (enrolled, unenrolled, dropped, shifted, graduated) -x
+
+
+schema.context.validate(doc)
+Degree.default.namedContext().validate(objectDoc)
+
+List of student(/)
+Table Specifications
+ID Number
+Last Name
+First Name
+Course and Year
+(View details button/more button)
+
+In more button of student
+
+Edit button/
+Class schedule/
+Grades/
+
+in edit button of student ->
+link to original form
+
+in class schedule button ->
+populate class schedules for student
+
+in grades button ->
+populate subjects and get current grade standing
+
+List of Teacher's table
+Faculty ID Number
+Last Name
+First Name
+Department
+(More button)
+(assign class button for dep head/ dean and sec)
+
+in more button
+view teacher's teaching load and schedule

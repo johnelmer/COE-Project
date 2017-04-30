@@ -41,7 +41,6 @@ class StudentUpsertComponent {
       },
     })
   }
-
   save() {
     this.student.save(() => {
       const { firstName, lastName } = this.student

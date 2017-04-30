@@ -24,6 +24,10 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
+  name: 'app.department',
+  abstract: true,
+})
+@State({
   name: 'app.course',
   abstract: true,
 })

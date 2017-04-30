@@ -2,18 +2,42 @@
   <form class="form-horizontal">
     <div class="jumbotron">
       <legend>
-        <h2>List of Teachers</h2></legend>
-        <div class="form-group" ng-repeat="teacher in teacherList.teachers">
-          <div class="col-sm-4">
-            <label>{{ teacher.lastName }}</label>
-          </div>
-          <div class="col-sm-4">
-            <label>{{ teacher.firstName }}</label>
-          </div>
-          <button class="btn btn-primary">
-            Add Subject
-          </button>
-        </div>
+        <h2>List of Teachers
+        </h2></legend>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>
+                ID no.
+              </td>
+              <td>
+                Last Name
+              </td>
+              <td>
+                First Name
+              </td>
+              <td>
+                Department
+              </td>
+              <td>
+                Action
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="teacher in teacherList.teachers">
+              <td>{{ teacher.idNumber }}</td>
+              <td>{{ teacher.lastName }}</td>
+              <td>{{ teacher.firstName }}</td>
+              <td>{{ teacher.department }}</td>
+              <td class="text-center">
+                <button class="btn btn-primary btn-sm btn-block">
+                  More...
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </form>
   </div>

@@ -15,6 +15,7 @@ import '/imports/client/controllers/TeacherListComponent'
 import '/imports/client/controllers/TeacherViewComponent'
 import '/imports/client/controllers/CourseStudentEnrollComponent'
 import '/imports/client/controllers/DegreeUpsertComponent'
+import '/imports/client/controllers/DepartmentUpsertComponent'
 import '/imports/client/controllers/ClassRecordComponent'
 <<<<<<< HEAD
 
