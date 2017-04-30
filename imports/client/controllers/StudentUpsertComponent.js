@@ -1,3 +1,4 @@
+
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
 import { Component, State, Inject } from 'angular2-now'
@@ -40,7 +41,6 @@ class StudentUpsertComponent {
       },
     })
   }
-
   save() {
     this.student.save(() => {
       const { firstName, lastName } = this.student
