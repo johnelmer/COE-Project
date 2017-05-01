@@ -44,3 +44,4 @@ export default class ClassRecordComponent {
   }
 
 }
+// export default ClassRecordComponent
