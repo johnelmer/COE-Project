@@ -16,6 +16,8 @@ export default new SimpleSchema({
   },
   isOffered: {
     type: Boolean,
+    optional: true,
+    // defaultValue: true,
   },
   courseIds: {
     type: [String],

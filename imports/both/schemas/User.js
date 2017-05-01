@@ -19,17 +19,38 @@ export default new SimpleSchema({
   contactNumber: {
     type: String,
   },
+  civilStatus: {
+    type: String,
+  },
   address: {
     type: String,
   },
   department: {
+    optional: true,
     type: String,
+  },
+  status: {
+    type: String,
+  },
+  birthday: {
+    type: Date,
   },
   courseIds: {
     type: [String],
     optional: true,
   },
+  gender: {
+    type: String,
+  },
   roleName: {
+    type: String,
+    optional: true,
+  },
+  religion: {
+    type: String,
+    optional: true,
+  },
+  citizenship: {
     type: String,
     optional: true,
   },
@@ -46,4 +67,14 @@ export default new SimpleSchema({
     optional: true,
     blackbox: true,
   },
+  image: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+  email: {
+    // TODO: regex
+    type: String,
+    optional: true,
+  }
 })
