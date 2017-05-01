@@ -5,16 +5,20 @@ export default new SimpleSchema({
   firstName: {
     type: String,
     min: 2,
+    optional: true,
   },
   lastName: {
     type: String,
     min: 2,
+    optional: true,
   },
   middleName: {
     type: String,
+    optional: true,
   },
   idNumber: {
     type: String,
+    optional: true,
   },
   gender: {
     type: String,
@@ -25,28 +29,63 @@ export default new SimpleSchema({
   },
   yearLevel: {
     type: Number,
+    optional: true,
   },
   birthday: {
     type: Date,
+  },
+  homeAddress: {
+    type: String,
+  },
+  cityAddress: {
+    type: String,
   },
   // TODO: regex
   contactNumber: {
     type: String,
   },
-  address: {
-    type: String,
-  },
   isGraduating: {
     type: Boolean,
+    optional: true,
   },
-  guardian: {
+  religion: {
+    type: String,
+    optional: true,
+  },
+  citizenship: {
+    type: String,
+    optional: true,
+  },
+  email: {
+    // TODO: regex
+    type: String,
+    optional: true,
+  },
+  father: {
     type: Object,
   },
-  'guardian.fullName': {
+  'father.fullName': {
     type: String,
   },
-  'guardian.contactNumber': {
+  'father.contactNumber': {
+    // TODO: regex
     type: String,
+  },
+  mother: {
+    type: Object,
+  },
+  'mother.fullName': {
+    type: String,
+  },
+  'mother.contactNumber': {
+    // TODO: regex
+    type: String,
+  },
+  image: {
+    // TODO
+    type: Object,
+    optional: true,
+    blackbox: true,
   },
   courses: {
     type: [courseSchema.pick('subject', 'lecture', 'laboratory', 'semester')],

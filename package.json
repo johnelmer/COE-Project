@@ -1,3 +1,62 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+{
+  "name": "coe-project",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "production": "meteor --production",
+    "reset": "meteor reset",
+    "test": "meteor test --driver-package practicalmeteor:mocha -p 3100",
+    "phantom": "meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm",
+    "ci": "curl https://install.meteor.com/?release=1.4.1.1 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coedb meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm --verbose"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-meteor": "^1.3.11",
+    "angular-sanitize": "^1.5.8",
+    "angular-touch": "^1.5.8",
+    "angular-ui-bootstrap": "^2.1.3",
+    "angular-ui-router": "^1.0.0-beta.2",
+    "angular2-now": "^1.1.6",
+    "babel-runtime": "^6.22.0",
+    "bcrypt": "^1.0.2",
+    "bootstrap-sass": "^3.3.7",
+    "meteor-node-stubs": "~0.2.0",
+    "simpl-schema": "^0.1.0",
+    "ui-select": "^0.19.4",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-class-properties": "^6.16.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-meteor": "^6.9.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "babel-register": "^6.18.0",
+    "chai": "^3.5.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-import-resolver-meteor": "^0.3.4",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+=======
+=======
+>>>>>>> b8b11e476858487767c0564e592165fa64cc87c6
 {
   "name": "coe-project",
   "private": true,
@@ -53,3 +112,63 @@
     }
   }
 }
+<<<<<<< HEAD
+>>>>>>> backend-branch
+=======
+=======
+{
+  "name": "coe-project",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "production": "meteor --production",
+    "reset": "meteor reset",
+    "test": "meteor test --driver-package practicalmeteor:mocha -p 3100",
+    "phantom": "meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm",
+    "ci": "curl https://install.meteor.com/?release=1.4.1.1 | sh && export LC_All=en_US.UTF-8 && MONGO_URL=mongodb://mongo/coedb meteor test --once --driver-package dispatch:mocha-phantomjs --unsafe-perm --verbose"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-meteor": "^1.3.11",
+    "angular-sanitize": "^1.5.8",
+    "angular-touch": "^1.5.8",
+    "angular-ui-bootstrap": "^2.1.3",
+    "angular-ui-router": "^1.0.0-beta.2",
+    "angular2-now": "^1.1.6",
+    "babel-runtime": "^6.22.0",
+    "bcrypt": "^1.0.2",
+    "bootstrap-sass": "^3.3.7",
+    "meteor-node-stubs": "~0.2.0",
+    "simpl-schema": "^0.1.0",
+    "ui-select": "^0.19.4",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-class-properties": "^6.16.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-meteor": "^6.9.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "babel-register": "^6.18.0",
+    "chai": "^3.5.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-import-resolver-meteor": "^0.3.4",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+>>>>>>> 2083728d60a97d88a32afab71e6f4f510f0388f7
+>>>>>>> b8b11e476858487767c0564e592165fa64cc87c6

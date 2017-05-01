@@ -39,12 +39,9 @@ export default class ClassRecordComponent {
       }
     })
   }
-
-
   filterActivityList(type) {
     return this.activityList.filter(activity => activity.type === type)
   }
 
 }
-
-export default ClassRecordComponent
+// export default ClassRecordComponent
