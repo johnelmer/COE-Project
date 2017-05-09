@@ -34,3 +34,22 @@ p,a {
     }
   }
 }
+
+.col-sm-9, .col-sm-4, .col-sm-3, .form-group {
+  margin-bottom: 1.5px;
+  margin-top: 1.5px;
+}
+
+label , #searchBar {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.fileinput-preview {
+  width: 200px;
+  height: 150px;
+}
+
+#assignButton {
+  align-items: flex-end;
+}

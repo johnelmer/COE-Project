@@ -48,8 +48,6 @@ export default class ClassRecordComponent {
       opened: false,
     }
   }
-
-
   filterActivityList(type) {
     return this.activityList.filter(activity => activity.type === type)
   }

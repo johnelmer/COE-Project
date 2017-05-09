@@ -3,6 +3,7 @@ import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import Subject from '/imports/both/models/Subject'
 import Degree from '/imports/both/models/Degree'
+import Department from '/imports/both/models/Department'
 import User from '/imports/both/models/User'
 import Role from '/imports/both/models/Role'
 import Activity from '/imports/both/models/Activity'
@@ -19,6 +20,8 @@ Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstN
 Meteor.publish('subjects', () => Subject.find())
 
 Meteor.publish('degrees', () => Degree.find())
+
+Meteor.publish('departments', () => Department.find())
 
 Meteor.publish('teachers', () => User.find({ roleName: 'teacher' }))
 

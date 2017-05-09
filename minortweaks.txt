@@ -9,6 +9,8 @@ Changes to teachers form/schema
 -Change position to rank
 -Faculty academic rank
 
+Degree.default.namedContext().validate(objectDoc)
+
 Changes to students form/schema
 
 -Student's phone number
@@ -36,10 +38,13 @@ Student's Schema
 -father's contact number
 -address while studying at CPU
 -picture
--status (enrolled, unenrolled, dropped, shifted, graduated)
+-status (enrolled, unenrolled, dropped, shifted, graduated) -x
 
 
-List of student
+schema.context.validate(doc)
+Degree.default.namedContext().validate(objectDoc)
+
+List of student(/)
 Table Specifications
 ID Number
 Last Name
@@ -49,9 +54,9 @@ Course and Year
 
 In more button of student
 
-Edit button
-Class schedule
-Grades
+Edit button/
+Class schedule/
+Grades/
 
 in edit button of student ->
 link to original form

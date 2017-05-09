@@ -14,10 +14,16 @@
         <thead>
           <tr>
             <td>
+              ID no.
+            </td>
+            <td>
               Last Name
             </td>
             <td>
               First Name
+            </td>
+            <td>
+              Course & Year
             </td>
             <td>
               Action
@@ -26,13 +32,15 @@
         </thead>
         <tbody>
           <tr ng-repeat="student in studentList.students">
+            <td>{{ student.idNumber}}</td>
             <td>{{ student.lastName }}</td>
             <td>{{ student.firstName }}</td>
+            <td>{{ student.degree}} - {{ student.yearLevel }}</td>
             <td class="text-center">
-              <button class="btn btn-default btn-sm btn-block" ui-sref="app.student.view({ studentId: student._id })">
-              More...
-            </button>
-            <!-- <button type="button" class="btn btn-default btn-sm"  ui-sref="app.student.view({ studentId: student._id })">
+              <button class="btn btn-primary btn-sm btn-block" ui-sref="app.student.view({ studentId: student._id })">
+                More...
+              </button>
+              <!-- <button type="button" class="btn btn-default btn-sm"  ui-sref="app.student.view({ studentId: student._id })">
               <span class="glyphicon glyphicon-folder-close"></span> More...
             </button> -->
           </td>
