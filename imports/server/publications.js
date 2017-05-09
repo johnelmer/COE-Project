@@ -8,6 +8,7 @@ import Role from '/imports/both/models/Role'
 import Activity from '/imports/both/models/Activity'
 import ActivityType from '/imports/both/models/ActivityType'
 import Session from '/imports/both/models/Session'
+import AppSetting from '/imports/both/models/AppSetting'
 
 Meteor.publish('courses', () => Course.find())
 
@@ -21,6 +22,8 @@ Meteor.publish('degrees', () => Degree.find())
 
 Meteor.publish('teachers', () => User.find({ roleName: 'teacher' }))
 
+Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
+
 Meteor.publish('roles', () => Role.find())
 
 Meteor.publish('activities', () => Activity.find())
@@ -28,3 +31,5 @@ Meteor.publish('activities', () => Activity.find())
 Meteor.publish('activity-types', () => ActivityType.find({}, { fields: { name: 1 } }))
 
 Meteor.publish('sessions', () => Session.find())
+
+Meteor.publish('settings', () => AppSetting.find())
