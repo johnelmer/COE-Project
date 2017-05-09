@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor'
 
 import Model from './Model'
 import Role from './Role'
+import Course from './Course'
+import AppSetting from './AppSetting'
 import SetupAccount from '../decorators/SetupAccount'
 import schema from '../schemas/User'
 
@@ -36,6 +38,13 @@ class User extends Model {
     delete courseDoc.sessions
     delete courseDoc.students
     this.courses.push(courseDoc)
+  }
+
+  get courses() {
+    const setting = AppSetting.findOne()
+    const schoolYear = setting.currentSchoolYear
+    const semester = setting.currentSemester
+    return Course.find({ _id: { $in: this.courseIds }, schoolYear: schoolYear, semester: semester }).fetch()
   }
 
   get role() {
