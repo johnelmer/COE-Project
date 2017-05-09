@@ -9,7 +9,7 @@ import Student from '/imports/both/models/Student'
 
 @State({
   name: 'app.course.classRecord',
-  url: '/course/classrecord/:courseId',
+  url: '/teacher/course/classrecord/:courseId',
 })
 @Component({
   selector: 'class-record',
@@ -38,6 +38,15 @@ export default class ClassRecordComponent {
         this.activityList = classRecord.activityList
       }
     })
+    this.newActivity = { date: new Date(), totalScore: 5 }
+    this.dateOptions = {
+      formatYear: 'yy',
+      maxDate: new Date(), // cannot select date after the current day onwards
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
   }
 
 
@@ -45,6 +54,19 @@ export default class ClassRecordComponent {
     return this.activityList.filter(activity => activity.type === type)
   }
 
-}
+  addNewActivity(type) {
+    const newActivity = this.newActivity
+    console.log(newActivity)
+    const date = newActivity.date
+    const session = this.course.getSessionByDate(date)
+    console.log(session)
+    const activity = session.getNewActivity(type, newActivity.totalScore)
+    activity.save()
+    this.$state.go(`app.course.session.activityUpdate({ activityId: ${activity._id} })`)
+  }
 
-export default ClassRecordComponent
+  openPicker() {
+    this.popup.opened = true
+  }
+
+}
