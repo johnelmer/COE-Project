@@ -6,6 +6,7 @@ const records = new SimpleSchema({
   },
   score: {
     type: Number,
+    optional: true,
   },
 })
 

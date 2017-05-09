@@ -41,6 +41,10 @@ class Course extends Model {
     this.students.splice(studentIndex, 1)
   }
 
+  get sessionIds() {
+    return this.sessions.map(session => session._id)
+  }
+
   getAllActivities() {
     return this.sessionIds.map((sessionId) => {
       return Session.findOne(sessionId).activities
@@ -53,32 +57,40 @@ class Course extends Model {
     })
   }
 
-  createSession(date, callback) {
-    const isSessionExist = this.sessions.some(session => session.date === date)
-    if (isSessionExist) {
-      console.log('Session is already exist')
-    } else {
-      const newSession = new Session({
-        courseId: this._id,
-        attendance: {},
-        activities: [],
-        date: date,
-      })
-      newSession.save(callback)
-      const newlyCreatedSession = Session.findOne({ date: date })
-      this.sessions.push({
-        _id: newlyCreatedSession._id,
-        date: date,
-      })
+  getSessionByDate(date) {
+    const sessionObj = this.sessions.find((session) => {
+      return session.date.toLocaleDateString() === date.toLocaleDateString()
+    })
+    console.log(sessionObj)
+    if (!sessionObj) {
+      return this.getNewSession(date)
     }
+    return Session.findOne({ _id: sessionObj._id })
   }
 
-  get sessions() {
+  getNewSession(date, callback) {
+    const newSession = new Session({
+      courseId: this._id,
+      attendance: {},
+      activities: [],
+      date: date,
+    })
+    newSession.save(callback)
+    const newlyCreatedSession = Session.findOne({ date: date })
+    this.sessions.push({
+      _id: newlyCreatedSession._id,
+      date: date,
+    })
+    this.save()
+    return newlyCreatedSession
+  }
+
+  get fullSessions() {
     return Session.find({ _id: { $in: this.sessionIds } }, { sort: { date: 1 } }).fetch()
   }
 
   get classRecord() {
-    const sessions = this.sessions
+    const sessions = this.fullSessions
     const students = this.students
     let activities = []
     const activityList = []
@@ -89,6 +101,7 @@ class Course extends Model {
         activities = activities.concat(sessionActivities)
         sessionActivities.forEach((activity) => {
           activityList.push({
+            _id: activity._id,
             type: activity.type,
             totalScore: activity.totalScore,
             date: session.date.toLocaleDateString(),

@@ -14,15 +14,18 @@ class Session extends Model {
     return Course.findOne({ _id: this.courseId })
   }
 
-  generateAndGetNewActivity(type, totalScore) {
-    const activity = new Activity({
+  getNewActivity(type, totalScore) {
+    const activityId = new Activity({
       type: type,
       totalScore: totalScore,
       sessionId: this._id,
-    })
+    }).save()
+    this.addActivity(activityId)
+    const activity = Activity.findOne({ _id: activityId })
     activity.records = this.course.studentIds.map((studentId) => {
       return { studentId: studentId, score: '' }
     })
+    activity.save()
     return activity
   }
 
