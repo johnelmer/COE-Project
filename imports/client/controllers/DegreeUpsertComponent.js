@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import Degree from '/imports/both/models/Degree'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/degree-upsert.html'
