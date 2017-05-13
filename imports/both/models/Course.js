@@ -1,10 +1,13 @@
 import _ from 'underscore'
 
 import SetupCollection from '../decorators/SetupCollection'
+import Idempotent from '../decorators/Idempotent'
 import schema from '../schemas/Course'
 
 import Model from './Model'
 import Session from './Session'
+import Student from './Student'
+import ActivityType from './ActivityType'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -12,65 +15,113 @@ class Course extends Model {
   static schema = schema
 
   hasLaboratory() {
-    return this.laboratory instanceof 'object' && Object.keys(this.laboratory).length === 0
+    return this.laboratory instanceof 'object'
   }
 
   enrollAStudent(student) {
-    this.students.push(_.pick(student, '_id', 'idNumber', 'firstName', 'middleName', 'lastName', 'degree', 'yearLevel'))
+    const studentIds = this.studentIds
+    const isStudentExists = studentIds.some(studentId => student._id === studentId)
+    if (!isStudentExists) {
+      studentIds.push(student._id)
+    } else {
+      throw new Error('Student is already enrolled.')
+    }
+  }
+
+  @Idempotent
+  get students() {
+    return Student.find({ _id: { $in: this.studentIds } }, { sort: { lastName: 1 } }).fetch()
   }
 
   removeStudentFromClass(idNumber) {
     const studentIndex = this.students.findIndex(student => student.studentId === idNumber)
-    if (studentIndex !== -1) {
-      this.students.splice(studentIndex, 1)
+    if (studentIndex === -1) {
+      throw new Error('Student is not enrolled on the class.')
     }
+    this.students.splice(studentIndex, 1)
   }
 
-  getStudentsSortedByLastName() {
-    return this.students.sort((a, b) => {
-      const nameA = a.lastName.toUpperCase();
-      const nameB = b.lastName.toUpperCase();
-      if (nameA < nameB) {
-        return -1
-      }
-      if (nameA > nameB) {
-        return 1
-      }
-      return 0
+  get sessionIds() {
+    return this.sessions.map(session => session._id)
+  }
+
+  getAllActivities() {
+    return this.sessionIds.map((sessionId) => {
+      return Session.findOne(sessionId).activities
     })
   }
 
-  addSession(sessionId) {
-    const isKeyExist = Object.prototype.hasOwnProperty.call(this, 'sessionIds')
-    if (isKeyExist) {
-      const sessionIds = this.sessionIds
-      const isSessionExist = sessionIds.some(id => id === sessionId)
-      if (!isSessionExist) {
-        sessionIds.push(sessionId)
+  getAllActivitiesByType(type) {
+    return this.sessionIds.map((sessionId) => {
+      return Session.findOne(sessionId).getActivitiesByType(type)
+    })
+  }
+
+  getSessionByDate(date) {
+    const sessionObj = this.sessions.find((session) => {
+      return session.date.toLocaleDateString() === date.toLocaleDateString()
+    })
+    console.log(sessionObj)
+    if (!sessionObj) {
+      return this.getNewSession(date)
+    }
+    return Session.findOne({ _id: sessionObj._id })
+  }
+
+  getNewSession(date, callback) {
+    const newSession = new Session({
+      courseId: this._id,
+      attendance: {},
+      activities: [],
+      date: date,
+    })
+    newSession.save(callback)
+    const newlyCreatedSession = Session.findOne({ date: date })
+    this.sessions.push({
+      _id: newlyCreatedSession._id,
+      date: date,
+    })
+    this.save()
+    return newlyCreatedSession
+  }
+
+  get fullSessions() {
+    return Session.find({ _id: { $in: this.sessionIds } }, { sort: { date: 1 } }).fetch()
+  }
+
+  get classRecord() {
+    const sessions = this.fullSessions
+    const students = this.students
+    let activities = []
+    const activityList = []
+    const activityTypes = ActivityType.find().fetch()
+    sessions.forEach((session) => {
+      if (session.activityIds.length > 0) {
+        const sessionActivities = session.activities
+        activities = activities.concat(sessionActivities)
+        sessionActivities.forEach((activity) => {
+          activityList.push({
+            _id: activity._id,
+            type: activity.type,
+            totalScore: activity.totalScore,
+            date: session.date.toLocaleDateString(),
+          })
+        })
       }
-    } else {
-      this.sessionIds = [sessionId]
-    }
-  }
-
-  get sessions() {
-    return Session.find({ courseId: this._id }).fetch()
-  }
-
-/*
-  createSession(date, callback) {
-    const isSessionExist = this.sessions.some(session => session.date === date)
-    if (isSessionExist) {
-      console.log('Session is already exist')
-    } else {
-      return newSession = new Session({
-        courseId: this._id,
-        attendance: {},
-        activities: [],
-        date: date,
+    })
+    activityTypes.forEach((type) => {
+      students.forEach(student => student[type.name] = [])
+    })
+    activities.forEach((activity) => {
+      activity.records.forEach((record) => {
+        const index = students.findIndex(student => record.studentId === student._id)
+        if (index !== -1) {
+          students[index][activity.type].push({ activityId: activity._id, score: record.score })
+        }
       })
-    }
-  }*/
+    })
+    return { activityTypes: activityTypes, activityList: activityList, students: students }
+  }
 }
 
 export default Course

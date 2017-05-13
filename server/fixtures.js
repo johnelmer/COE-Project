@@ -1,5 +1,4 @@
 import Role from '/imports/both/models/Role'
-import User from '/imports/both/models/User'
 
 function loadRoles() {
   if (Role.find().count() === 0) {

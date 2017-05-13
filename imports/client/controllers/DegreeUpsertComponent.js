@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import Degree from '/imports/both/models/Degree'
 import Department from '/import/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'

@@ -1,4 +1,4 @@
-image: node:7.2.1
+image: 7.10.0
 
 cache:
   key: "$CI_BUILD_REF_NAME"

@@ -20,12 +20,6 @@ Schemas.user = new SimpleSchema({
   idNumber: {
     type: String,
   },
-  status: {
-    type: String,
-  },
-  birthday: {
-    type: String,
-  },
   contactNumber: {
     type: String,
   },
@@ -35,30 +29,9 @@ Schemas.user = new SimpleSchema({
   department: {
     type: String,
   },
-  courseIds: {
-    type: [String],
+  courses: {
+    type: [Object],
     optional: true,
-  },
-  roleName: {
-    type: String,
-    optional: true,
-  },
-<<<<<<< HEAD
-  guardian: {
-    type: String,
-=======
-  createdAt: {
-    type: Date,
-  },
-  profile: {
-    type: Object,
-    optional: true,
-  },
-  services: {
-    type: Object,
-    optional: true,
-    blackbox: true,
->>>>>>> 8bbbac90747cbc3dccded7cb8d420f1e3c90e79d
   },
 })
 
@@ -99,13 +72,33 @@ Schemas.subject = new SimpleSchema({
   isOffered: {
     type: Boolean,
   },
-  courseIds: {
-    type: [String],
+  courses: {
+    type: Array,
     optional: true,
   },
-  teachersAssignedIds: {
-    type: [String],
+  'courses.$': {
+    type: Object,
     optional: true,
+  },
+  'courses.$.stubcode': {
+    type: String,
+  },
+  'courses.$.lecture': {
+    type: Object,
+  },
+  'courses.$.laboratory': {
+    type: Object,
+    optional: true,
+  },
+  'courses.$.schoolYear': {
+    type: String,
+  },
+  teachersAssigned: {
+    type: Array,
+    optional: true,
+  },
+  'teachersAssigned.$': {
+    type: Schemas.embeddedTeacher,
   },
 })
 
@@ -116,23 +109,6 @@ Schemas.embeddedGuardian = new SimpleSchema({
   },
 // TODO: RegEx
   contactNumber: {
-    type: String,
-  },
-})
-
-Schemas.embeddedCourse = new SimpleSchema({
-  subject: {
-    type: Schemas.embeddedSubject,
-  },
-  lecture: {
-    type: Schemas.embeddedCourseType,
-  },
-  laboratory: {
-    type: Object,
-    optional: true,
-    blackbox: true,
-  },
-  semester: {
     type: String,
   },
 })
@@ -175,22 +151,15 @@ Schemas.student = new SimpleSchema({
   },
   isGraduating: {
     type: Boolean,
-    optional: true,
   },
   guardian: {
     type: Schemas.embeddedGuardian,
   },
-<<<<<<< HEAD
-  address: {
-    type: String,
-  },
-=======
   courses: {
     type: [Schemas.embeddedCourse],
     optional: true,
   },
 
->>>>>>> 8bbbac90747cbc3dccded7cb8d420f1e3c90e79d
 /* //TODO
   createdAt: {
     type: Date,
@@ -228,8 +197,8 @@ Schemas.embeddedCourseType = new SimpleSchema({
   room: {
     type: String,
   },
-  instructorId: {
-    type: String,
+  instructor: {
+    type: Schemas.embeddedTeacher,
   },
 })
 
@@ -255,12 +224,6 @@ Schemas.embeddedStudent = new SimpleSchema({
   },
 })
 
-Schemas.activitytype = new SimpleSchema({
-  name: {
-    type: String,
-  },
-})
-
 Schemas.course = new SimpleSchema({
   subject: {
     type: Schemas.embeddedSubject,
@@ -276,9 +239,19 @@ Schemas.course = new SimpleSchema({
     optional: true,
     blackbox: true,
   },
-  sessionIds: {
-    type: [String],
+  sessions: {
+    type: Array,
     optional: true,
+  },
+  'sessions.$': {
+    type: Object,
+    optional: true,
+  },
+  'sessions.$._id': {
+    type: String,
+  },
+  'sessions.$.date': {
+    type: Date,
   },
   // TODO: specify fields
   students: {
@@ -325,18 +298,12 @@ Schemas.embeddedRecord = new SimpleSchema({
   studentId: {
     type: String,
   },
-  studentFirstName: {
-    type: String,
-  },
-  studentLastName: {
-    type: String,
-  },
   score: {
     type: Number,
   },
 })
 
-Schemas.activity = new SimpleSchema({
+Schemas.embeddedActivity = new SimpleSchema({
   /* TODO: allowed values */
   type: {
     type: String,
@@ -360,8 +327,11 @@ Schemas.session = new SimpleSchema({
     type: Schemas.embeddedAttendance,
     optional: true,
   },
-  activityIds: {
-    type: [String],
+  activities: {
+    type: Array,
+  },
+  'activities.$': {
+    type: Schemas.embeddedActivity,
     optional: true,
   },
   date: {

@@ -10,7 +10,7 @@ import '../views/student-list.html'
   selector: 'student-list',
   templateUrl: 'imports/client/views/student-list.html',
 })
-@Inject('$scope', '$reactive')
+@Inject('$scope', '$reactive', '$uibModal')
 class StudentListComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)

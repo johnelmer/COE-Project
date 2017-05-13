@@ -32,6 +32,10 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
+  name: 'app.course.session',
+  abstract: true,
+})
+@State({
   name: 'app.meeting',
   abstract: true,
 })

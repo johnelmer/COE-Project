@@ -4,14 +4,9 @@ const records = new SimpleSchema({
   studentId: {
     type: String,
   },
-  studentFirstName: {
-    type: String,
-  },
-  studentLastName: {
-    type: String,
-  },
   score: {
     type: Number,
+    optional: true,
   },
 })
 
@@ -25,5 +20,8 @@ export default new SimpleSchema({
   records: {
     type: [records],
     optional: true,
+  },
+  sessionId: {
+    type: String,
   },
 })

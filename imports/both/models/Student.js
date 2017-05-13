@@ -10,9 +10,13 @@ class Student extends Model {
 
   enrollACourse(course) {
     const courseDoc = course
-    delete courseDoc.sessionIds
+    delete courseDoc.sessions
     delete courseDoc.students
     this.courses.push(courseDoc)
+  }
+
+  get fullName() {
+    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
   }
 }
 

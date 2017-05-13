@@ -14,7 +14,9 @@ describe('Role', () => {
     it('checks if the role it is the name of the role', () => {
       loadRoles()
       const dean = Role.findOne({ name: 'dean' })
+      console.log(Role.find().fetch());
       dean.is('dean').should.be.true
+      console.log(Role.find().fetch());
     })
   })
   describe('hasARole', () => {
@@ -30,22 +32,6 @@ describe('Role', () => {
         dean.hasARole('child'),
       ]
     conditions.every(condition => condition).should.be.true
-    })
-  })
-  describe('isRoot', () => {
-    it('checks if the role is root of the tree', () => {
-      loadRoles()
-      const dean = Role.findOne({ name: 'dean' })
-      const secretary = Role.findOne({ name: 'secretary' })
-      const technician = Role.findOne({ name: 'technician' })
-      const teacher = Role.findOne({ name: 'teacher' })
-      const conditions = [
-        dean.isRoot,
-        !secretary.isRoot,
-        !technician.isRoot,
-        !teacher.isRoot,
-      ]
-      conditions.every(condition => condition).should.be.true
     })
   })
 })

@@ -76,5 +76,5 @@ export default new SimpleSchema({
     // TODO: regex
     type: String,
     optional: true,
-  }
+  },
 })

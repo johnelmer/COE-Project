@@ -1,12 +1,16 @@
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Activity'
-
 import Model from './Model'
+import Session from './Session'
 
 @SetupCollection('Activities')
 class Activity extends Model {
 
   static schema = schema
+
+  get session() {
+    return Session.findOne({ _id: this.sessionId })
+  }
 
   addScore(student, score) {
     const records = this.records
@@ -16,8 +20,6 @@ class Activity extends Model {
     } else {
       records.push({
         studentId: student._id,
-        studentFirstName: student.firstName,
-        studentLastName: student.lastName,
         score: score,
       })
     }
@@ -32,6 +34,29 @@ class Activity extends Model {
     const passingScore = (passingPercentage / 100) * this.totalScore
     return this.records.map(record => record.score < passingScore)
   }
+
+  get studentRecords() {
+    const records = this.records
+    const students = this.session.course.students
+    return students.map((student) => {
+      const recordIndex = records.findIndex(record => record.studentId === student._id)
+      if (recordIndex === -1) {
+        student.score = ''
+      } else {
+        student.score = records[recordIndex].score
+      }
+      return student
+    })
+  }
+
+  get studentIds() {
+    return this.records.map(record => record.studentId)
+  }
+
+  get activities() {
+    return Activity.find({ _id: { $in: this.activityIds } })
+  }
+
 }
 
 export default Activity

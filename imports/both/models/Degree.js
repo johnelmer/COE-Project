@@ -1,17 +1,12 @@
 import SetupCollection from '../decorators/SetupCollection'
-import schema from '../schemas/Degree.js'
+// import schema from '../schemas/Degree' TODO: make degree schema
 
 import Model from './Model'
-import Student from './Student'
 
 @SetupCollection('Degrees')
 class Degree extends Model {
 
-  static schema = schema
-
-  getStudents() {
-    return Student.find({ degree: this.name })
-  }
+  // static schema = schema
 }
 
 export default Degree

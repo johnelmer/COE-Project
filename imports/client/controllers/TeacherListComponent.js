@@ -18,7 +18,7 @@ class TeacherListComponent {
     this.teacher = {}
     this.helpers({
       teachers() {
-        return User.find().fetch()
+        return User.find({ role: 'Teacher' }).fetch()
       },
     })
   }

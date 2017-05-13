@@ -1,5 +1,4 @@
 // import { Meteor } from 'meteor/meteor'
-//
 // import loadAccounts from './startup'
 // import Degree from '/imports/both/models/Degree'
 // import Student from '/imports/both/models/Student'
@@ -9,7 +8,6 @@
 // import Session from '/imports/both/models/Session'
 // import ActivityType from '/imports/both/models/ActivityType'
 // import Activity from '/imports/both/models/Activity'
-//
 // const data = {
 //   students: [
 //     {
@@ -20,7 +18,6 @@
 //       gender: 'Male',
 //       degree: 'BSSE',
 //       yearLevel: 4,
-//       address: 'Pavia',
 //       birthday: new Date('04/19/96'),
 //       contactNumber: '09277838893',
 //       address: 'Pavia',
@@ -39,7 +36,6 @@
 //       gender: 'Male',
 //       degree: 'BSSE',
 //       yearLevel: 4,
-//       address: 'New Lucena',
 //       birthday: new Date('06/09/96'),
 //       contactNumber: '09060606066',
 //       address: 'Jaro',
@@ -58,7 +54,6 @@
 //       gender: 'Male',
 //       degree: 'BSSE',
 //       yearLevel: 4,
-//       address:  'Angas',
 //       birthday: new Date('11/11/96'),
 //       contactNumber: '09280538501',
 //       address: 'Aklan',
@@ -77,7 +72,6 @@
 //       gender: 'Male',
 //       degree: 'BSSE',
 //       yearLevel: 4,
-//       address: 'GenSan',
 //       birthday: new Date('09/10/96'),
 //       contactNumber: '09060238402',
 //       address: 'Gensan',
@@ -96,7 +90,6 @@
 //       gender: 'Male',
 //       degree: 'BSSE',
 //       yearLevel: 4,
-//       address: 'Roxas',
 //       birthday: new Date('07/22/96'),
 //       contactNumber: '09988532501',
 //       address: 'Capiz',
@@ -117,11 +110,9 @@
 //         lastName: 'Coo',
 //         middleName: 'C',
 //         idNumber: '05-1234-22',
-//         status: 'Full-time Faculty',
 //         contactNumber: '09161628911',
 //         address: 'Pavia',
 //         department: 'SE',
-//         birthday: new Date('07/22/96'),
 //         roleName: 'dept. head',
 //       },
 //     },
@@ -132,12 +123,10 @@
 //         firstName: 'June Dick',
 //         lastName: 'Espinosa',
 //         middleName: 'E',
-//         status: 'Part-time Faculty',
 //         idNumber: '04-1134-12',
 //         contactNumber: '09262527921',
 //         address: 'Jaro',
 //         department: 'SE',
-//         birthday: new Date('07/12/96'),
 //         roleName: 'faculty',
 //       },
 //     },
@@ -184,8 +173,9 @@
 //     { name: 'Quiz' }, { name: 'Homework' }, { name: 'Seatwork' }, { name: 'Prelim Exam' }, { name: 'Midterm Exam' }, { name: 'Final Exam' },
 //   ],
 // }
-//
 // Meteor.startup(() => {
+//   Student.collection._ensureIndex({ 'lastName': 1 })
+//   User.collection._ensureIndex({ 'lastName': 1 })
 //   if (Degree.find().count() === 0) {
 //     data.degrees.forEach((degree) => {
 //       const newDegree = new Degree(degree)
@@ -235,9 +225,9 @@
 //       lecture: {
 //         time: '7:00-8:30 TTh',
 //         room: 'En205',
-//         instructorId: teachers[0]._id,
+//         instructorId: teachers[1]._id,
 //       },
-//       students: [],
+//       studentIds: [],
 //       sessionIds: [],
 //       semester: '2016-2017',
 //     })
@@ -263,15 +253,16 @@
 //     course.save()
 //   }
 //   if (Activity.find().count() === 0) {
+//     const addedSession = Session.find().fetch()[0]
 //     const activity = new Activity({
 //       type: 'Quiz',
 //       totalScore: 25,
 //       records: [],
+//       sessionId: addedSession._id,
 //     })
 //     activity.save()
 //     const addedActivity = Activity.find().fetch()[0]
 //     const students = Student.find().fetch()
-//     const addedSession = Session.find().fetch()[0]
 //     addedSession.addActivity(addedActivity._id)
 //     addedSession.save()
 //     addedActivity.addScore(students[0], 19)

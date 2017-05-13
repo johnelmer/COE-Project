@@ -1,3 +1,4 @@
+
 import User from '/imports/both/models/User'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
@@ -25,12 +26,9 @@ class TeacherUpsertComponent {
     const teacherId = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Register'
-      this.message = 'registered'
     } else {
       this.buttonLabel = 'Update'
-      this.message = 'updated'
     }
-    this.subscribe('users-basic-infos')
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
