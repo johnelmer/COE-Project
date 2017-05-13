@@ -11,9 +11,7 @@ import '../views/classrecord.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class ClassRecordComponent {
-  constructor($scope, $reactive, $state, $stateParams) {
-    $reactive(this).attach($scope)
-  }
+  // TODO: code here
 }
 
 export default ClassRecordComponent
