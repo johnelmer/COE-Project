@@ -1,6 +1,7 @@
 
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
+import Degree from '/imports/both/models/Degree'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-upsert.html'
 
@@ -39,6 +40,9 @@ class StudentUpsertComponent {
           return new Student
         }
         return Student.findOne({ _id: studentId })
+      },
+      degrees() {
+        return Degree.find().fetch()
       },
     })
   }
