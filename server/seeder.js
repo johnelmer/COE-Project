@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import loadAccounts from './startup'
+import { faker } from 'meteor/practicalmeteor:faker'
 import Degree from '/imports/both/models/Degree'
+import Department from '/imports/both/models/Department'
 import Student from '/imports/both/models/Student'
 import Course from '/imports/both/models/Course'
 import Subject from '/imports/both/models/Subject'
@@ -8,265 +9,141 @@ import User from '/imports/both/models/User'
 import Session from '/imports/both/models/Session'
 import ActivityType from '/imports/both/models/ActivityType'
 import Activity from '/imports/both/models/Activity'
+import AppSetting from '/imports/both/models/AppSetting'
+import Role from '/imports/both/models/Role'
+
+const name = faker.name
+const random = faker.random
+
+
 const data = {
-  students: [
-    {
-      firstName: 'Sian Paul',
-      lastName: 'Lasaga',
-      middleName: 'Bela-Ong',
-      idNumber: '13-1224-79',
-      gender: 'Male',
-      degree: 'BSSE',
-      yearLevel: 4,
-      birthday: new Date('04/19/96'),
-      contactNumber: '09277838893',
-      address: 'Pavia',
-      isGraduating: false,
-      guardian: {
-        fullName: 'Mrs. Lasaga',
-        contactNumber: '09292929292',
-      },
-      courses: [],
-    },
-    {
-      firstName: 'James',
-      lastName: 'Barte',
-      middleName: 'B',
-      idNumber: '13-6969-69',
-      gender: 'Male',
-      degree: 'BSSE',
-      yearLevel: 4,
-      birthday: new Date('06/09/96'),
-      contactNumber: '09060606066',
-      address: 'Jaro',
-      isGraduating: false,
-      guardian: {
-        fullName: 'Mrs. Barte',
-        contactNumber: '09060666123',
-      },
-      courses: [],
-    },
-    {
-      firstName: 'Daryl Faith',
-      lastName: 'Matutina',
-      middleName: 'S',
-      idNumber: '13-0114-02',
-      gender: 'Male',
-      degree: 'BSSE',
-      yearLevel: 4,
-      birthday: new Date('11/11/96'),
-      contactNumber: '09280538501',
-      address: 'Aklan',
-      isGraduating: false,
-      guardian: {
-        fullName: 'Mrs. Matutina',
-        contactNumber: '09282529152',
-      },
-      courses: [],
-    },
-    {
-      firstName: 'John Elmer',
-      lastName: 'Loretizo',
-      middleName: 'L',
-      idNumber: '13-0014-22',
-      gender: 'Male',
-      degree: 'BSSE',
-      yearLevel: 4,
-      birthday: new Date('09/10/96'),
-      contactNumber: '09060238402',
-      address: 'Gensan',
-      isGraduating: false,
-      guardian: {
-        fullName: 'Mrs. Loretizo',
-        contactNumber: '09061125252',
-      },
-      courses: [],
-    },
-    {
-      firstName: 'Vince Paul',
-      lastName: 'dela Cruz',
-      middleName: 'M',
-      idNumber: '13-0214-33',
-      gender: 'Male',
-      degree: 'BSSE',
-      yearLevel: 4,
-      birthday: new Date('07/22/96'),
-      contactNumber: '09988532501',
-      address: 'Capiz',
-      isGraduating: false,
-      guardian: {
-        fullName: 'Mrs. dela Cruz',
-        contactNumber: '09182329145',
-      },
-      courses: [],
-    },
+  defaultPassword: 'cpucoe',
+  genders: ['Male', 'Female'],
+  deptsAndDegress: [
+    { dept: 'Software Engineering', degree: 'BSSE' },
+    { dept: 'Civil Engineering', degree: 'BSCE' },
+    { dept: 'Chemical Engineering', degree: 'BSChE' },
+    { dept: 'Electrical Engineering', degree: 'BSEE' },
+    { dept: 'Electronics and Communications Engineering', degree: 'BSECE' },
+    { dept: 'Mechanical Engineering', degree: 'BSME' },
+    { dept: 'Packaging Engineering', degree: 'BSPkgE' },
   ],
-  teachers: [
-    {
-      username: 'sircoo',
-      password: 'sircoo',
-      profile: {
-        firstName: 'Richard Michael',
-        lastName: 'Coo',
-        middleName: 'C',
-        idNumber: '05-1234-22',
-        contactNumber: '09161628911',
-        address: 'Pavia',
-        department: 'SE',
-        roleName: 'dept. head',
-      },
-    },
-    {
-      username: 'sirjune',
-      password: 'sirjune',
-      profile: {
-        firstName: 'June Dick',
-        lastName: 'Espinosa',
-        middleName: 'E',
-        idNumber: '04-1134-12',
-        contactNumber: '09262527921',
-        address: 'Jaro',
-        department: 'SE',
-        roleName: 'faculty',
-      },
-    },
-  ],
-  subjects: [
-    {
-      name: 'SE Subject',
-      courseNumber: 'SE4102',
-      credits: 3.0,
-      units: 3.0,
-      isOffered: true,
-      teacherAssignedIds: [],
-    },
-    {
-      name: 'SE Subject',
-      courseNumber: 'SE4201',
-      credits: 3.0,
-      units: 3.0,
-      isOffered: false,
-      teacherAssignedIds: [],
-    },
-    {
-      name: 'Math',
-      courseNumber: 'EMath2001',
-      credits: 3.0,
-      units: 3.0,
-      isOffered: true,
-      teacherAssignedIds: [],
-    },
-    {
-      name: 'Mech',
-      courseNumber: 'Mech301',
-      credits: 3.0,
-      units: 3.0,
-      isOffered: true,
-      teacherAssignedIds: [],
-    },
-  ],
-  degrees: [
-    { name: 'BSSE' }, { name: 'BSCE' }, { name: 'BSEE' }, { name: 'BSECE' },
-    { name: 'BSChE' }, { name: 'BSME' }, { name: 'BSPkgE' },
-  ],
-  activityTypes: [
-    { name: 'Quiz' }, { name: 'Homework' }, { name: 'Seatwork' }, { name: 'Prelim Exam' }, { name: 'Midterm Exam' }, { name: 'Final Exam' },
-  ],
+  activityTypes: ['Quiz', 'Homework', 'Seatwork', 'Prelim Exam', 'Midterm Exam',
+    'Final Exam', 'Midsummer Exam', 'Lab Activities', 'Others'],
+  civitStatuses: ['Single', 'Married', 'Divorced', 'Widowed'],
+  roles: ['dean', 'secretary', 'department head', 'faculty'],
 }
-Meteor.startup(() => {
-  Student.collection._ensureIndex({ 'lastName': 1 })
-  User.collection._ensureIndex({ 'lastName': 1 })
-  if (Degree.find().count() === 0) {
-    data.degrees.forEach((degree) => {
-      const newDegree = new Degree(degree)
-      newDegree.save()
+
+const fakeAddress = () => {
+  return `${faker.address.streetName()}, ${faker.address.city()}`
+}
+
+const fakeContactNumber = () => {
+  return `09${random.number(1000000000, 9999999999)}`
+}
+
+const fakeIdNumber = () => {
+  return `${random.number({ min: 10, max: 17 })}-${random.number({ min: 1000, max: 9999 })}-${random.number({ min: 10, max: 99 })}`
+}
+
+const seeder = {
+  departmentsAndDegrees: () => {
+    data.deptsAndDegress.forEach((obj) => {
+      const degreeId = new Degree({ name: obj.degree }).save()
+      new Department({ name: obj.dept, degreeId: degreeId }).save()
     })
-  }
-  if (ActivityType.find().count() === 0) {
-    data.activityTypes.forEach((type) => {
-      const activityType = new ActivityType({
-        name: type.name,
-      })
-      activityType.save()
+  },
+  activityTypes: () => {
+    data.activityTypes.forEach(type => new ActivityType({ name: type }).save())
+  },
+  students: (n) => {
+    for (let i = 1; i <= n; i += 1) {
+      new Student({
+        firstName: name.firstName(),
+        lastName: name.lastName(),
+        middleName: name.lastName(),
+        idNumber: fakeIdNumber(),
+        gender: random.arrayElement(data.genders),
+        degree: random.arrayElement(data.deptsAndDegress).degree,
+        yearLevel: random.number({ min: 1, max: 5 }),
+        birthday: faker.date.past(20),
+        homeAddress: fakeAddress(),
+        cityAddress: fakeAddress(),
+        contactNumber: fakeContactNumber(),
+        isGraduating: false,
+        father: {
+          fullName: name.findName(),
+          contactNumber: fakeContactNumber(),
+        },
+        mother: {
+          fullName: name.findName(),
+          contactNumber: fakeContactNumber(),
+        },
+        courses: [],
+      }).save()
+    }
+  },
+  users: (role, department, n) => {
+    for (let i = 1; i <= n; i += 1) {
+      new User({
+        username: faker.internet.userName(),
+        password: data.defaultPassword,
+        profile: {
+          firstName: name.firstName(),
+          lastName: name.lastName(),
+          middleName: name.lastName(),
+          idNumber: fakeIdNumber(),
+          contactNumber: fakeContactNumber(),
+          civilStatus: random.arrayElement(data.civitStatuses),
+          address: fakeAddress(),
+          departments: [department],
+          status: 'Active',
+          birthday: faker.date.past(35),
+          gender: random.arrayElement(data.genders),
+          roleName: role,
+          subjectAssignedIds: [],
+          courseIds: [],
+        },
+      }).save()
+    }
+  },
+  appSetting: (schoolYear, semester) => {
+    new AppSetting({ type: 'Main', currentSchoolYear: schoolYear, currentSemester: semester }).save()
+  },
+  roles: () => {
+    const secretaryId = new Role({ name: 'secretary', childIds: [] }).save()
+    const facultyId = new Role({ name: 'faculty', childIds: [] }).save()
+    const deptHeadId = new Role({ name: 'department head', childIds: [facultyId] }).save()
+    new Role({ name: 'dean', childIds: [secretaryId, deptHeadId] }).save()
+  },
+  subject: (doc) => {
+    const subject = new Subject({
+      name: doc.name,
+      courseNumber: doc.courseNumber,
+      credits: 3,
+      units: 3,
+      courseIds: [],
     })
-  }
-  if (Student.find().count() === 0) {
-    data.students.forEach((student) => {
-      const newStudent = new Student(student)
-      newStudent.save()
-    })
-  }
-  if (User.find().count() === 0) {
-    loadAccounts()
-    data.teachers.forEach((teacher) => {
-      const newTeacher = new User(teacher)
-      newTeacher.save()
-    })
-  }
-  if (Subject.find().count() === 0) {
-    data.subjects.forEach((subject) => {
-      const newSubject = new Subject(subject)
-      newSubject.save()
-    })
-  }
-  if (Course.find().count() === 0) {
-    const subject = Subject.find().fetch()[1]
-    const students = Student.find().fetch()
-    const teachers = User.find().fetch()
-    const newCourse = new Course({
-      stubcode: '123',
-      subject: {
-        _id: subject._id,
-        name: subject.name,
-        courseNumber: subject.courseNumber,
-        credits: subject.credits,
-        units: subject.units,
-      },
-      lecture: {
-        time: '7:00-8:30 TTh',
-        room: 'En205',
-        instructorId: teachers[1]._id,
-      },
-      studentIds: [],
-      sessionIds: [],
-      semester: '2016-2017',
-    })
-    newCourse.save()
-    const addedCourse = Course.find().fetch()[0]
-    students.forEach((student) => {
-      addedCourse.enrollAStudent(student)
-      addedCourse.save()
-    })
-  }
-  if (Session.find().count() === 0) {
-    const course = Course.find().fetch()[0]
-    const session = new Session({
-      courseId: course._id,
-      attendance: {},
-      activities: [],
-      date: new Date('02/07/2017'),
-      activityIds: [],
-    })
-    session.save()
-    const addedSession = Session.find().fetch()[0]
-    course.addSession(addedSession._id)
+    if (doc.laboratoryType) {
+      subject.laboratoryType = doc.laboratoryType
+    }
+    subject.save()
+  },
+  course: (subject, doc) => {
+    doc.stubcode = random.number({ min: 1, max: 400 })
+    subject.getNewCourse(doc)
+    subject.save()
+  },
+  session: (course) => {
+    course.getSessionByDate(new Date())
     course.save()
-  }
-  if (Activity.find().count() === 0) {
-    const addedSession = Session.find().fetch()[0]
-    const activity = new Activity({
-      type: 'Quiz',
-      totalScore: 25,
-      records: [],
-      sessionId: addedSession._id,
-    })
+  },
+  activity: (session, type, totalScore) => {
+    const activity = session.getNewActivity(type, totalScore)
+    activity.records.forEach(record => record.score = random.number({ min: 0, max: totalScore }))
     activity.save()
-    const addedActivity = Activity.find().fetch()[0]
-    const students = Student.find().fetch()
-    addedSession.addActivity(addedActivity._id)
-    addedSession.save()
-    addedActivity.addScore(students[0], 19)
-    addedActivity.addScore(students[3], 20)
-    addedActivity.save()
-  }
-})
+    session.save()
+  },
+}
+
+export default seeder
