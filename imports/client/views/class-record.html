@@ -1,20 +1,53 @@
-<div class="container">
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Students</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="student in classRecord.students track by student._id">
-          <td>{{ student.fullName }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
+<div id="classRecordTemplate">
+  <form>
+    <div class="form-group">
+      <div class="col-sm-2">
+        Stub Code:
+        <label></label>
+      </div>
+      <div class="col-sm-4">
+        Subject:
+        <label></label>
+      </div>
+      <div class="col-sm-2">
+        Course Number:
+        <label></label>
+      </div>
+      <div class="col-sm-1">
+        Credits:
+        <label></label>
+      </div>
+      <div class="col-sm-1">
+        Units:
+        <label></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-3">
+        Time Schedule:
+        <label></label>
+      </div>
+      <div class="col-sm-3">
+        Room:
+      </div>
+    </div>
+  </form>
+  <form>
     <uib-tabset active="active">
+      <uib-tab index="0" heading="Class Record">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>Name of Students</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="student in classRecord.students track by student._id">
+              <td>{{ student.fullName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </uib-tab>
       <uib-tab index="$index + 1" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
         <label>Date:</label>
         <p class="input-group">
@@ -45,5 +78,5 @@
         </table>
       </uib-tab>
     </uib-tabset>
-  </div>
+  </form>
 </div>
