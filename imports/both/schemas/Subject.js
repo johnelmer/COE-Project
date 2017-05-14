@@ -14,6 +14,13 @@ export default new SimpleSchema({
   units: {
     type: Number,
   },
+  laboratoryType: {
+    type: String,
+    allowedValues: [
+      'Computational', 'With Hands-on', 'SE Subject',
+    ],
+    optional: true,
+  },
   isOffered: {
     type: Boolean,
     optional: true,
@@ -23,7 +30,7 @@ export default new SimpleSchema({
     type: [String],
     optional: true,
   },
-  teachersAssignedIds: {
+  teacherAssignedIds: {
     type: [String],
     optional: true,
   },

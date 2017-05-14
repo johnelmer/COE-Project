@@ -25,9 +25,9 @@ export default new SimpleSchema({
   address: {
     type: String,
   },
-  department: {
+  departments: {
     optional: true,
-    type: String,
+    type: [String],
   },
   status: {
     type: String,

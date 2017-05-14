@@ -20,6 +20,7 @@ export default class ClassRecordComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { courseId } = $stateParams
+    this.$state = $state
     this.subscribe('courses', () => {
       const sessionSubs = this.subscribe('sessions')
       const studentSubs = this.subscribe('students-basic-infos')
@@ -54,13 +55,13 @@ export default class ClassRecordComponent {
 
   addNewActivity(type) {
     const newActivity = this.newActivity
-    console.log(newActivity)
     const date = newActivity.date
     const session = this.course.getSessionByDate(date)
-    console.log(session)
     const activity = session.getNewActivity(type, newActivity.totalScore)
     activity.save()
-    this.$state.go(`app.course.session.activityUpdate({ activityId: ${activity._id} })`)
+    session.save()
+    this.course.save()
+    this.$state.go('app.course.session.activityUpdate', { activityId: activity._id })
   }
 
   openPicker() {

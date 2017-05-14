@@ -24,4 +24,7 @@ export default new SimpleSchema({
   sessionId: {
     type: String,
   },
+  isLocked: {
+    type: Boolean,
+  },
 })

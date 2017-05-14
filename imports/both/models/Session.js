@@ -19,6 +19,7 @@ class Session extends Model {
       type: type,
       totalScore: totalScore,
       sessionId: this._id,
+      isLocked: false,
     }).save()
     this.addActivity(activityId)
     const activity = Activity.findOne({ _id: activityId })
