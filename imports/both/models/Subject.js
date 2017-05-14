@@ -12,37 +12,37 @@ class Subject extends Model {
   static schema = schema
 
   assignTeacher(teacher) {
-    const isTeacherExist = this.teachersAssigned.findByIndex((teacherDoc) => {
-      return teacherDoc._id === teacher._id
-    }) !== -1
+    const isTeacherExist = this.teachersAssigned.some(teacherDoc => teacherDoc._id === teacher._id)
     if (!isTeacherExist) {
-      this.teachersAssigned.push({
-        _id: teacher._id,
-        firstName: teacher.firstName,
-        lastName: teacher.lastname,
-      })
+      this.teachersAssignedIds.push(teacher._id)
     }
   }
 
   removeTeacher(teacherId) {
-    this.removeObjectFromArray('teachersAssigned', '_id', teacherId)
+    const teacherIds = this.teacherIds
+    const index = teacherIds.findIndex(id => id === teacherId)
+    if (index !== 1) {
+      teacherIds.splice(index, 1)
+    }
   }
-/*
-  generateCourse(doc) {
-    const course = new Course({
-      subject: _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units'),
+
+  getNewCourse(doc, callback) {
+    const subject = _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units')
+    if (this.laboratyType) {
+      subject.laboratyType = this.laboratyType
+    }
+    const courseId = new Course({
+      subject: subject,
       stubcode: doc.stubcode,
       lecture: doc.lecture,
       laboratory: doc.laboratory,
       sessions: [],
-      students: [],
+      studentIds: [],
       semester: doc.semester,
-    })
-    course.save((err) => {
-      if (err) { throw new Error('Failed to generate course') }
-    })
+      schoolYear: doc.schoolYear,
+    }).save(callback)
+    this.courseIds.push(courseId)
   }
-*/
 }
 
 export default Subject

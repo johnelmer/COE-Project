@@ -58,31 +58,29 @@ class Course extends Model {
   }
 
   getSessionByDate(date) {
+    const formattedDate = date.toLocaleDateString()
     const sessionObj = this.sessions.find((session) => {
-      return session.date.toLocaleDateString() === date.toLocaleDateString()
+      return session.date.toLocaleDateString() === formattedDate
     })
-    console.log(sessionObj)
     if (!sessionObj) {
-      return this.getNewSession(date)
+      return Session.findOne({ _id: this.getNewSessionId(formattedDate) })
     }
     return Session.findOne({ _id: sessionObj._id })
   }
 
-  getNewSession(date, callback) {
+  getNewSessionId(date, callback) {
     const newSession = new Session({
       courseId: this._id,
       attendance: {},
-      activities: [],
+      activityIds: [],
       date: date,
     })
-    newSession.save(callback)
-    const newlyCreatedSession = Session.findOne({ date: date })
+    const sessionId = newSession.save(callback)
     this.sessions.push({
-      _id: newlyCreatedSession._id,
+      _id: sessionId,
       date: date,
     })
-    this.save()
-    return newlyCreatedSession
+    return sessionId
   }
 
   get fullSessions() {
