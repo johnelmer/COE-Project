@@ -14,7 +14,9 @@ describe('Role', () => {
     it('checks if the role it is the name of the role', () => {
       loadRoles()
       const dean = Role.findOne({ name: 'dean' })
+      console.log(Role.find().fetch());
       dean.is('dean').should.be.true
+      console.log(Role.find().fetch());
     })
   })
   describe('hasARole', () => {
