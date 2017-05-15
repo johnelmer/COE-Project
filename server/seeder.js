@@ -131,7 +131,12 @@ const seeder = {
   },
   course: (subject, doc) => {
     doc.stubcode = random.number({ min: 1, max: 400 })
-    subject.getNewCourse(doc)
+    const course = subject.getNewCourse(doc)
+    const lectInstructorId = doc.lecture.instructorId
+    User.update({ _id: lectInstructorId }, { $push: { courseIds: course._id } })
+    if (doc.laboratory && doc.laboratory.instructorId !== lectInstructorId) {
+      User.update({ _id: doc.laboratory.instructorId }, { $push: { courseIds: course._id } })
+    }
     subject.save()
   },
   session: (course) => {
