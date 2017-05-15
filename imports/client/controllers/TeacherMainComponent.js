@@ -6,7 +6,7 @@ import Course from '/imports/both/models/Course'
 
 @State({
   name: 'app.course.teacher',
-  url: '/teacher/main/',
+  url: '/teacher/main',
 })
 @Component({
   selector: 'teacher-main',
@@ -20,13 +20,12 @@ export default class TeacherMainComponent {
     this.subscribe('users', () => {
       const settingSubs = this.subscribe('settings')
       const courseSubs = this.subscribe('courses')
-      if (settingSubs.ready() && courseSubs.ready()) {
+      const userSubs = this.subscribe('users')
+      if (settingSubs.ready() && courseSubs.ready() && userSubs.ready()) {
         const user = Meteor.user()
-        console.log(user)
         this.user = user
         if (user) {
           this.courses = user.courses
-          console.log(this.courses)
         }
       }
     })
