@@ -52,7 +52,7 @@ class User extends Model {
   }
 
   get fullName() {
-    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+    return `${this.lastName}, ${this.firstName} ${this.middleName.slice(0, 1)}.`
   }
 
   get isRoot() {
@@ -70,7 +70,6 @@ class User extends Model {
     }
     return Meteor.call('createNewUser', this.doc, callback)
   }
-
 }
 
 export default User

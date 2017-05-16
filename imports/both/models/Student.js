@@ -16,7 +16,7 @@ class Student extends Model {
   }
 
   get fullName() {
-    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+    return `${this.lastName}, ${this.firstName} ${this.middleName.slice(0, 1)}.`
   }
 }
 
