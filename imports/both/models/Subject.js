@@ -42,6 +42,7 @@ class Subject extends Model {
       schoolYear: doc.schoolYear,
     }).save(callback)
     this.courseIds.push(courseId)
+    return Course.findOne({ _id: courseId })
   }
 }
 

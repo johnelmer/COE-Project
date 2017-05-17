@@ -7,10 +7,11 @@ import Department from '/imports/both/models/Department'
 import Role from '/imports/both/models/Role'
 import Session from '/imports/both/models/Session'
 import Activity from '/imports/both/models/Activity'
+import User from '/imports/both/models/User'
 
 // To be update
 Course.collection.allow({
-  insert: () => true,
+  insert: () => true, // TODO: secretary only
   update: () => true,
   remove: () => false,
 })
@@ -57,7 +58,7 @@ Activity.collection.allow({
   remove: () => true,
 })
 
-Meteor.users.allow({
+User.collection.allow({
   insert: () => true,
   update: (userId, user) => user._id === userId,
   remove: () => false,
