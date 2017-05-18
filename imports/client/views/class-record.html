@@ -5,18 +5,23 @@
         <div id="block">
           <ul>
             <label>Stub Code:</label>
+            {{ classRecord.course.stubcode }}
           </ul>
           <ul>
             <label>Subject: </label>
+            {{ classRecord.course.subject.name }}
           </ul>
           <ul>
             <label>Course Number: </label>
+            {{ classRecord.course.subject.courseNumber }}
           </ul>
           <ul>
             <label>Time Schedule:</label>
+            {{ classRecord.course.lecture.time }}
           </ul>
           <ul>
             <label>Room:</label>
+            <!-- NOTE: add room -->
           </ul>
         </div>
       </div>

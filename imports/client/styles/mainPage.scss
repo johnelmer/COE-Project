@@ -12,8 +12,11 @@
   align-content: center;
 }
 
-.block {
+#block {
   padding: 1% 1% 1%;
+  height: inherit;
+  width: inherit;
+  align-content: center;
 }
 
 .bg-4 {
