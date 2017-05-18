@@ -16,10 +16,23 @@
   <div>
     <uib-tabset active="active">
       <uib-tab index="$index + 1" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
+        <label>Date:</label>
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newActivity.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+        <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
+        <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType.name)">Add new {{ activityType.name }}</button>
         <table>
           <thead>
             <tr ng-repeat="activity in classRecord.filterActivityList(activityType.name)">
-              <td>{{ activity.date }}</td>
+              <td>
+                {{ activity.date }}
+                {{ activity.totalScore }}
+                <button type="button" class="btn btn-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+              </td>
             </tr>
           </thead>
           <tbody>
@@ -30,7 +43,7 @@
             </tr>
           </tbody>
         </table>
-      <uib-tab/>
+      </uib-tab>
     </uib-tabset>
   </div>
 </div>

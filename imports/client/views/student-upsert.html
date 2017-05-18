@@ -1,88 +1,179 @@
 <div class="container">
-    <form class="form-horizontal">
-        <div class="jumbotron">
-            <legend>
-                <h2>Student Information</h2></legend>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Last Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="last-name" placeholder="Enter last name" class="form-control"
-                    ng-model="studentUpsert.student.lastName"/>
-                </div>
+  <form>
+    <legend>
+      <h1>Student Information</h1></legend>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Personal Information</h4></div>
+      <div class="panel-body">
+        <div class="col-md-9">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Last Name:</label>
+            <div class="col-sm-9">
+              <input type="text" name="last-name" placeholder="Enter Last Name" class="form-control" ng-model="studentUpsert.student.lastName" />
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">First Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="first-name" placeholder="Enter first name" class="form-control"
-                    ng-model="studentUpsert.student.firstName"/>
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">First Name:</label>
+            <div class="col-sm-9">
+              <input type="text" name="first-name" placeholder="Enter First Name" class="form-control" ng-model="studentUpsert.student.firstName" />
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Middle Name</label>
-                <div class="col-sm-9">
-                    <input type="text" name="middle-name" placeholder="Enter middle name" class="form-control" ng-model="studentUpsert.student.middleName"/>
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Middle Name:</label>
+            <div class="col-sm-9">
+              <input type="text" name="middle-name" placeholder="Enter Middle Name" class="form-control" ng-model="studentUpsert.student.middleName" />
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Student I.D</label>
-                <div class="col-sm-9">
-                    <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.studentId">
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Student I.D:</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Course</label>
-                <div class="col-sm-9">
-                    <select class="form-control">
-                        <optgroup label="Course">
-                    </select>
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Degree:</label>
+            <div class="col-sm-4">
+              <select class="form-control" ng-model="studentUpsert.student.degree">
+                                  <optgroup label="Degree" />
+                                  <option ng-repeat="degree in studentUpsert.degrees" value="{{degree.name}}"> {{degree.name}}</option>
+                              </select>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Birthday</label>
-                <div class="col-sm-9">
-                    <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="studentUpsert.student.birthday"/>
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Year Level:</label>
+            <div class="col-sm-3">
+              <select class="form-control" ng-model="studentUpsert.student.yearLevel">
+                              </select>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Gender</label>
-                <div class="col-sm-9">
-                    <select class="form-control" ng-model="studentUpsert.student.gender">
-                        <optgroup label="Gender">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                    </select>
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Date of Birth:</label>
+            <div class="col-sm-4">
+              <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="studentUpsert.student.birthday" />
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Address</label>
-                <div class="col-sm-9">
-                    <input type="text" name="Address" placeholder="Enter Address" class="form-control" ng-model="studentUpsert.student.address" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Contact Number</label>
-                <div class="col-sm-9">
-                    <input type="text" name="contact-number" placeholder="Enter contact number" class="form-control" ng-model="studentUpsert.student.contactNumber"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Parent/Guardian</label>
-                <div class="col-sm-9">
-                    <input type="text" name="parent-name" placeholder="Enter Guardian" class="form-control" ng-model="studentUpsert.student.guardian" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-9">
-                    <input type="checkbox" name="status" /><b> I'm a Graduating Student</b>
-                </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-4 col-sm-4">
-                <button class="btn btn-primary btn-lg btn-block" ng-click="studentUpsert.save()">
-                  {{ studentUpsert.buttonLabel }}
-                </button>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Gender:</label>
+            <div class="col-sm-3">
+              <div class="btn-group">
+                <label class="btn btn-default" ng-model="studentUpsert.student.gender" uib-btn-radio="'Male'">Male</label>
+                <label class="btn btn-default" ng-model="studentUpsert.student.gender" uib-btn-radio="'Female'">Female</label>
               </div>
             </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Home Address:</label>
+            <div class="col-sm-9">
+              <input type="text" name="home-address" placeholder="Enter Home Address" class="form-control" ng-model="studentUpsert.student.homeAddress" />
+            </div>
+          </div>
+          
+          <div class="form-group ">
+            <label class="col-sm-2 control-label">City Address:</label>
+            <div class="col-sm-9">
+              <input type="text" name="home-address" placeholder="Enter City Address" class="form-control" ng-model="studentUpsert.student.cityAddress" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Contact No.:</label>
+            <div class="col-sm-9">
+              <input type="text" name="contact-number" placeholder="Enter Contact Number ex. 09912332211" class="form-control" ng-model="studentUpsert.student.contactNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Religion (Optional):</label>
+            <div class="col-sm-9">
+              <input type="text" name="religion" placeholder="Enter Religion" class="form-control" ng-model="studentUpsert.student.religion" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Citizenship(Optional):</label>
+            <div class="col-sm-9">
+              <input type="text" name="citizenship" placeholder="Enter your Citizenship ex. Filipino" class="form-control" ng-model="studentUpsert.student.citizenship" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Email Address:</label>
+            <div class="col-sm-9">
+              <input type="email" name="e-mail" placeholder="ex. juan@amazing.com" class="form-control" ng-model="studentUpsert.student.email" />
+            </div>
+          </div>
+          <div class="form-group">
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-9">
+              <input type="checkbox" name="status" ng-model="studentUpsert.student.isGraduating" /> I'm a Graduating Student
+            </div>
+          </div>
         </div>
-    </form>
+        <div class="col-md-3">
+          <div class="fileinput fileinput-new" data-provides="fileinput">
+            <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+            <div class="col-md-3">
+              <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span>
+              <input type="file" name="picture" ng-model="studentUpsert.student.image">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Emergency Contact Information</h4></div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Father:</label>
+          <div class="col-sm-5">
+            <input type="text" name="parent-name" placeholder="Enter the name of your Father" class="form-control" ng-model="studentUpsert.student.father.fullName" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Contact No.:</label>
+          <div class="col-sm-3">
+            <input type="text" name="parent-name" placeholder="ex. 09912332211" class="form-control" ng-model="studentUpsert.student.father.contactNumber" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Mother:</label>
+          <div class="col-sm-5">
+            <input type="text" name="parent-name" placeholder="Enter the name of your Mother" class="form-control" ng-model="studentUpsert.student.mother.fullName" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Contact No.:</label>
+          <div class="col-sm-3">
+            <input type="text" name="parent-name" placeholder="ex. 09912332211" class="form-control" ng-model="studentUpsert.student.mother.contactNumber" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- picture upload (undone) -->
+    <!-- <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Picture</h4></div>
+      <div class="panel-body">
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+          <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+          <div>
+            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span>
+            <input type="file" name="picture" ng-model="studentUpsert.student.image">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-sm-offset-4 col-sm-4">
+          <button class="btn btn-primary btn-lg btn-block" ng-click="studentUpsert.save()">
+                        {{ studentUpsert.buttonLabel }}
+                    </button>
+        </div>
+      </div>
+      <div class="panel-footer">
+      </div>
+    </div>
+  </form>
 </div>

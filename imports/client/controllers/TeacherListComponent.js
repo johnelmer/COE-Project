@@ -14,13 +14,10 @@ import '../views/teacher-list.html'
 class TeacherListComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.subscribe('users')
-    this.teacher = {}
-    this.helpers({
-      teachers() {
-        return User.find({ role: 'Teacher' }).fetch()
-      },
+    this.subscribe('users', () => {
+      this.teachers = User.find({ roleName: 'faculty' }).fetch()
     })
+    this.teacher = {}
   }
 
   view(teacher) {

@@ -39,7 +39,7 @@ export default class ActivityUpdateComponent {
       }
     })
     activity.save((err) => {
-      if (err) { console.log(err) }
+      if (err) { console.log(err) } //TODO: remove console log and change to dynamic ui content
     })
   }
 }

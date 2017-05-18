@@ -6,7 +6,7 @@ import Model from './Model'
 @SetupCollection('Degrees')
 class Degree extends Model {
 
-  static schema = schema
+   static schema = schema
 }
 
 export default Degree

@@ -4,7 +4,4 @@ export default new SimpleSchema({
   name: {
     type: String,
   },
-  degreeId: {
-    type: String,
-  },
 })
