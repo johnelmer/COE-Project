@@ -2,16 +2,30 @@
     background-color: #252839;
 }
 
+#classRecordTemplate {
+  padding: 3% 0.5% 0.5%;
+}
+
+.card {
+  padding: 2% 3% 3%;
+  width: 45rem;
+  align-content: center;
+}
+
+.block {
+  padding: 1% 1% 1%;
+}
+
 .bg-4 {
     margin-top: 10%;
     padding: 2% 4% 5%;
 }
 
 .container {
-  padding-top: 7%
+  padding-top: 7%;
 }
 
-p,a {
+a , p {
     color: #ffffff;
 }
 

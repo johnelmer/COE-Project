@@ -31,7 +31,7 @@
               <td>{{ teacher.firstName }}</td>
               <td>{{ teacher.departments[0] }}</td>
               <td class="text-center">
-                <button class="btn btn-primary btn-sm btn-block">
+                <button class="btn btn-primary btn-sm btn-block" ui-sref="app.teacher.view({ teacherId: teacher._id })">
                   More...
                 </button>
               </td>

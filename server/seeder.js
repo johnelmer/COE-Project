@@ -15,7 +15,6 @@ import Role from '/imports/both/models/Role'
 const name = faker.name
 const random = faker.random
 
-
 const data = {
   defaultPassword: 'cpucoe',
   genders: ['Male', 'Female'],

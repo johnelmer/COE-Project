@@ -23,11 +23,22 @@ class SubjectAssignmentComponent {
     this.subscribe('roles')
     this.helpers({
       teachers() {
-        return User.find().fetch()
+        return User.find({ roleName: 'faculty' }).fetch()
       },
       subjects() {
         return Subject.find().fetch()
       },
+    })
+  }
+
+  save() {
+    // NOTE: to be change
+    this.subject.save((doc, err) => {
+      if (err) {
+        console.log(err);
+      }
+      this.subject = new Subject
+      console.log(doc);
     })
   }
 
