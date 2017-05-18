@@ -19,17 +19,13 @@ class LoginComponent {
     this.user = {}
     this.$state = $state
     this.subscribe('users')
-    this.role = {
-      isSecretary: false,
-    }
   }
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
-        alert(`${err.reason}`) //TODO: Change the alert notification
-      } else if (Meteor.user().roleName === 'secretary') {
-        this.role.isSecretary = true
-        console.log(Meteor.user().roleName === 'secretary')
+        alert(`${err.reason}`) // TODO: Change the alert notification
+      } else {
+        // console.log(Meteor.user().roleName === 'secretary')
         this.$state.go('app.course.teacher') // TODO: define the landing component after login
       }
     })
