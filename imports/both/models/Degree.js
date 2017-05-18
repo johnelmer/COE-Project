@@ -1,5 +1,6 @@
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Degree'
+// TODO: make degree schema
 
 import Model from './Model'
 

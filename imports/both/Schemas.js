@@ -155,6 +155,11 @@ Schemas.student = new SimpleSchema({
   guardian: {
     type: Schemas.embeddedGuardian,
   },
+  courses: {
+    type: [Schemas.embeddedCourse],
+    optional: true,
+  },
+
 /* //TODO
   createdAt: {
     type: Date,

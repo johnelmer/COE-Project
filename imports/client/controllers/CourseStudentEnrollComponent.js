@@ -40,13 +40,13 @@ export default class CourseStudentEnrollComponent {
     const students = this.students
     const studentToBeAdded = Student.findOne({ idNumber: idNumber })
     if (!studentToBeAdded) {
-      console.log('Student not found')
+      console.log('Student not found') //TODO: change to dynamic popup alert
     } else if (students.length > 0) {
       const isStudentExist = students.some(student => student.idNumber === idNumber)
       if (!isStudentExist) {
         students.push(studentToBeAdded)
       } else {
-        console.log('Student is already on the list!')
+        console.log('Student is already on the list!') //TODO: change to dynamic popup alert
       }
     } else {
       students.push(studentToBeAdded)

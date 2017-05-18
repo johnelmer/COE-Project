@@ -24,11 +24,19 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
+  name: 'app.department',
+  abstract: true,
+})
+@State({
   name: 'app.course',
   abstract: true,
 })
 @State({
   name: 'app.course.session',
+  abstract: true,
+})
+@State({
+  name: 'app.meeting',
   abstract: true,
 })
 @Component({

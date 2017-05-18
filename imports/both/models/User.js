@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor'
 
 import Model from './Model'
 import Role from './Role'
+import Course from './Course'
+import AppSetting from './AppSetting'
 import SetupAccount from '../decorators/SetupAccount'
 import schema from '../schemas/User'
 
@@ -38,12 +40,19 @@ class User extends Model {
     this.courses.push(courseDoc)
   }
 
+  get courses() {
+    const setting = AppSetting.findOne()
+    const schoolYear = setting.currentSchoolYear
+    const semester = setting.currentSemester
+    return Course.find({ _id: { $in: this.courseIds }, schoolYear: schoolYear, semester: semester }).fetch()
+  }
+
   get role() {
     return Role.findOne({ roleName: this.roleName })
   }
 
   get fullName() {
-    return `${this.lastName}, ${this.firstName} ${this.middleName}.`
+    return `${this.lastName}, ${this.firstName} ${this.middleName.slice(0, 1)}.`
   }
 
   get isRoot() {
@@ -61,7 +70,6 @@ class User extends Model {
     }
     return Meteor.call('createNewUser', this.doc, callback)
   }
-
 }
 
 export default User

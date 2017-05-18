@@ -6,6 +6,7 @@ const records = new SimpleSchema({
   },
   score: {
     type: Number,
+    optional: true,
   },
 })
 
@@ -22,5 +23,8 @@ export default new SimpleSchema({
   },
   sessionId: {
     type: String,
+  },
+  isLocked: {
+    type: Boolean,
   },
 })
