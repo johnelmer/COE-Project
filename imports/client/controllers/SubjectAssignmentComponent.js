@@ -1,6 +1,8 @@
 import { Component, State, Inject } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import User from '/imports/both/models/User'
 import Subject from '/imports/both/models/Subject'
+import Course from '/imports/both/models/Course'
 import 'ui-select/dist/select.css'
 import '../views/subject-assign.html'
 
@@ -17,8 +19,8 @@ class SubjectAssignmentComponent {
 
   constructor($scope, $reactive, $state) {
     $reactive(this).attach($scope)
-    this.$state = $state
     this.subscribe('users')
+    this.subscribe('courses')
     this.subscribe('subjects')
     this.subscribe('roles')
     this.helpers({
@@ -31,16 +33,26 @@ class SubjectAssignmentComponent {
     })
   }
 
-  save() {
-    // NOTE: to be change
-    this.subject.save((doc, err) => {
-      if (err) {
-        console.log(err);
-      }
-      this.subject = new Subject
-      console.log(doc);
-    })
+  assignSubject() {
+    // for departmenthead
+    const teacherId = this.teacher._id
+    const role = Meteor.user().role
+    const canAssign = role.is('department head')
+    if (canAssign) {
+      this.subjectsAssigned.forEach((subject) => {
+        const course = subject.getNewCourse({ lecture: { instructorId: teacherId } })
+        subject.save()
+        console.log(course);
+        this.teacher.courseIds.push(course._id)
+        this.teacher.save()
+      })
+    }
   }
+
+  update() {
+    // for secretary
+  }
+
 
 }
 
