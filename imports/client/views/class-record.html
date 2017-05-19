@@ -30,8 +30,8 @@
   <form>
     <uib-tabset active="active">
       <uib-tab index="0" heading="Class Record">
-        <div id="block">
-          <table class="table table-bordered table-striped">
+        <div id="block" class="table-responsive">
+          <table class="table table-bordered table-striped table-condensed">
             <thead>
               <tr>
                 <td><label>Name of Students</label></td>
@@ -72,31 +72,33 @@
               </div>
             </div>
           </div>
-          <table class="table table-bordered table-striped" >
-            <thead>
-              <tr>
-                <td align="center"><label>
-                  Name of Students
-                </label></td>
-                <td ng-repeat="activity in classRecord.filterActivityList(activityType.name)" align="center">
-                  <label>Date: {{ activity.date }}
-                    <label>Total Score: {{ activity.totalScore }}</label>
-                    <label>
-                      <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed" >
+              <thead>
+                <tr>
+                  <td align="center"><label>
+                    Name of Students
+                  </label></td>
+                  <td ng-repeat="activity in classRecord.filterActivityList(activityType.name)" align="center">
+                    <label>Date: {{ activity.date }}
+                      <label>Total Score: {{ activity.totalScore }}</label>
+                      <label>
+                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+                      </label>
                     </label>
-                  </label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="student in classRecord.students track by student._id">
-                <td> {{ student.fullName }}</td>
-                <td ng-repeat="record in student[activityType.name]">
-                  {{ record.score }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="student in classRecord.students track by student._id">
+                  <td> {{ student.fullName }}</td>
+                  <td ng-repeat="record in student[activityType.name]">
+                    {{ record.score }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </uib-tab>
       </form>
     </uib-tabset>
