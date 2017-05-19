@@ -1,18 +1,32 @@
-
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
 import Degree from '/imports/both/models/Degree'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-upsert.html'
 
 @State({
   name: 'app.student.create',
   url: '/students/create',
-  defaultRoute: true,
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
 })
 @State({
   name: 'app.student.edit',
   url: '/students/edit/:studentId',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
 })
 @Component({
   selector: 'student-upsert',

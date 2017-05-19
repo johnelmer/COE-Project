@@ -15,9 +15,24 @@ class NavBarComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
     this.subscribe('users', () => {
-      this.isHidden = false
-      if (Meteor.user() === null) {
-        this.isHidden = true
+      this.isHidden = true
+      if (Meteor.user() !== null && Meteor.user() !== undefined) {
+        this.isHidden = false
+        this.isFacultyTabHidden = false
+        this.isStudentTabHidden = false
+        this.isSubjectAssignmentHidden = false
+        this.isDegreeTabHidden = false
+        this.isDepartmentTabHidden = false
+        if (Meteor.user().roleName === 'department head') {
+          this.isFacultyTabHidden = true
+          this.isStudentTabHidden = true
+        } else if (Meteor.user().roleName === 'faculty') {
+          this.isFacultyTabHidden = true
+          this.isStudentTabHidden = true
+          this.isSubjectAssignmentHidden = true
+          this.isDegreeTabHidden = true
+          this.isDepartmentTabHidden = true
+        }
       }
     })
   }
