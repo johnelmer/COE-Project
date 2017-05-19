@@ -1,4 +1,7 @@
-image: node:7.10.0
+image: node:4.2.2
+
+stages:
+  - test
 
 cache:
   key: "$CI_BUILD_REF_NAME"
@@ -13,6 +16,7 @@ variables:
   NODE_ENV: 'ci'
 
 all_tests:
+  stage: test
   script:
     - npm install && npm install --only=dev
     - npm run ci
