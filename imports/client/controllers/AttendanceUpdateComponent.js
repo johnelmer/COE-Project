@@ -1,18 +1,25 @@
 import Course from '/imports/both/models/Course'
 import Session from '/imports/both/models/Session'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/attendance-update.html'
 
 @State({
   name: 'app.course.session.attendanceUpdate',
   url: '/teacher/course/session/attendance/:sessionId',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('teacher') || $state.go('app.login')
+    },
+  },
 })
-
 @Component({
   selector: 'attendance-update',
   templateUrl: 'imports/client/views/attendance-update.html',
 })
-
 @Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
 export default class AttendanceUpdateComponent {
   constructor($scope, $reactive, $state, $stateParams) {
