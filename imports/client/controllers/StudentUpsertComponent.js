@@ -8,7 +8,6 @@ import '../views/student-upsert.html'
 @State({
   name: 'app.student.create',
   url: '/students/create',
-  defaultRoute: true,
 })
 @State({
   name: 'app.student.edit',

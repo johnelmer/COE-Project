@@ -6,6 +6,7 @@ import User from '/imports/both/models/User' //TODO: double check if this line o
 @State({
   name: 'app.login',
   url: '/login',
+  defaultRoute: true,
 })
 @Component({
   selector: 'login-view',
@@ -17,13 +18,15 @@ class LoginComponent {
     $reactive(this).attach($scope)
     this.user = {}
     this.$state = $state
+    this.subscribe('users')
   }
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
-        alert(`${err.reason}`) //TODO: Change the alert notification
+        alert(`${err.reason}`) // TODO: Change the alert notification
       } else {
-        this.$state.go('app.classrecord') // TODO: define the landing component after login
+        // console.log(Meteor.user().roleName === 'secretary')
+        this.$state.go('app.course.teacher') // TODO: define the landing component after login
       }
     })
   }
