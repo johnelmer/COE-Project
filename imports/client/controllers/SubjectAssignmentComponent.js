@@ -3,12 +3,20 @@ import { Meteor } from 'meteor/meteor'
 import User from '/imports/both/models/User'
 import Subject from '/imports/both/models/Subject'
 import Course from '/imports/both/models/Course'
+import Role from '/imports/both/models/Role'
 import 'ui-select/dist/select.css'
 import '../views/subject-assign.html'
 
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
+  resolve: {
+    redirect($state) {
+      const user = Meteor.user()
+      const role = user.role
+      return role.hasARole('department head') || $state.go('app.login')
+    },
+  },
 })
 @Component({
   selector: 'subject-assign',

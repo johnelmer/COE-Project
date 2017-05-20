@@ -1,11 +1,20 @@
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/course-student-enroll.html'
 
 @State({
   name: 'app.course.enrollStudent',
   url: '/teacher/course/:courseId',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('teacher') || $state.go('app.login')
+    },
+  },
 })
 @Component({
   selector: 'course-student-enroll',
