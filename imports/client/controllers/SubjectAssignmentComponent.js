@@ -49,14 +49,18 @@ class SubjectAssignmentComponent {
   assignSubject() {
     // for departmenthead, dean and secretary
     const teacherId = this.teacher._id
+    const idnumber = this.teacher.idNumber
+    const fullname = this.teacher.fullName
     const user = Meteor.user()
     const role = user.role
     const canAssign = role.hasARole('department head')
     if (canAssign) {
       this.subjectsAssigned.forEach((subject) => {
-        const courseId = subject.getNewCourseId({ lecture: { instructorId: teacherId } })
+        const courseId = subject.getNewCourseId({ lecture:{ instructor:{ _id: teacherId ,fullName: fullname ,idNumber: idnumber }} })
         subject.save()
         console.log(courseId);
+        console.log(this.teacher);
+        console.log(subject);
         this.teacher.addCourse(courseId)
         this.teacher.save((err, doc) => {
           console.log(err);
