@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import ngToast from '/node_modules/ng-toast'
 import '../views/login-view.html'
 import User from '/imports/both/models/User' //TODO: double check if this line of code is not needed
 
@@ -23,6 +24,10 @@ class LoginComponent {
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
+        ngToast.create({
+          className: 'warning',
+          content: '<a href="#" class="">a message</a>',
+        })
         alert(`${err.reason}`) // TODO: Change the alert notification
       } else {
         // console.log(Meteor.user().roleName === 'secretary')
