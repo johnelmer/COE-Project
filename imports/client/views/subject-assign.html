@@ -93,8 +93,8 @@
         </thead>
         <tbody>
           <tr ng-repeat="course in subjectAssign.courses">
-            <td contenteditable="true"> {{ course.lecture.idNumber }}</td>
-            <td contenteditable="true"> {{ course.lecture.fullName }}</td>
+            <td contenteditable="true"> {{ course.lecture.instructor.idNumber }}</td>
+            <td contenteditable="true"> {{ course.lecture.instructor.fullName }}</td>
             <td contenteditable="true"> {{ course.stubcode }}</td>
             <td contenteditable="true"> {{ course.subject.name }}</td>
             <td contenteditable="true"> {{ course.lecture.time }}</td>
