@@ -1,6 +1,5 @@
 import { Accounts } from 'meteor/accounts-base'
 import { Meteor } from 'meteor/meteor'
-
 import Model from './Model'
 import Role from './Role'
 import Course from './Course'
