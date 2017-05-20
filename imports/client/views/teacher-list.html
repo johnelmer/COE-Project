@@ -1,0 +1,43 @@
+<div class="container">
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <legend>
+        <h2>List of Teachers
+        </h2></legend>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>
+                ID no.
+              </td>
+              <td>
+                Last Name
+              </td>
+              <td>
+                First Name
+              </td>
+              <td>
+                Department
+              </td>
+              <td>
+                Action
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="teacher in teacherList.teachers">
+              <td>{{ teacher.idNumber }}</td>
+              <td>{{ teacher.lastName }}</td>
+              <td>{{ teacher.firstName }}</td>
+              <td>{{ teacher.departments[0] }}</td>
+              <td class="text-center">
+                <button class="btn btn-primary btn-sm btn-block" ui-sref="app.teacher.view({ teacherId: teacher._id })">
+                  More...
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,31 @@
+<div class="container">
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="idNumberField">ID Number</label>
+      <input type="text" class="form-control" ng-model="courseStudentEnroll.student.idNumber" id="idNumberField" placeholder="ID Number">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="courseStudentEnroll.addToList()">Add Student</button>
+  </form>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID Number</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="student in courseStudentEnroll.students">
+          <td>{{ student.idNumber }}</td>
+          <td>{{ student.firstName }}</td>
+          <td>{{ student.lastName }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button"  class="btn btn-default" ng-click="courseStudentEnroll.enrollStudents()">Enroll Students</button>
+    <!-- TODO: Check what this button does -->
+  </div>
+  <div>
+  </div>
+</div>

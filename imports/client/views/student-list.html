@@ -1,0 +1,51 @@
+<div class="container">
+  <form class="form-horizontal">
+    <div class="jumbotron">
+      <legend>
+        <h2>List of Students</h2>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button">Go!</button>
+          </span>
+        </div>
+      </legend>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <td>
+              ID no.
+            </td>
+            <td>
+              Last Name
+            </td>
+            <td>
+              First Name
+            </td>
+            <td>
+              Course & Year
+            </td>
+            <td>
+              Action
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="student in studentList.students">
+            <td>{{ student.idNumber}}</td>
+            <td>{{ student.lastName }}</td>
+            <td>{{ student.firstName }}</td>
+            <td>{{ student.degree}} - {{ student.yearLevel }}</td>
+            <td class="text-center">
+              <button class="btn btn-primary btn-sm btn-block" ui-sref="app.student.view({ studentId: student._id })">
+                More...
+              </button>
+              <!-- <button type="button" class="btn btn-default btn-sm"  ui-sref="app.student.view({ studentId: student._id })">
+              <span class="glyphicon glyphicon-folder-close"></span> More...
+            </button> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

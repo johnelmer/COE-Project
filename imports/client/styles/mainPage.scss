@@ -2,15 +2,75 @@
     background-color: #252839;
 }
 
+#classRecordTemplate {
+  padding: 3% 0.5% 0.5%;
+}
+
+.card {
+  padding: 2% 3% 3%;
+  width: 45rem;
+  align-content: center;
+}
+
+.uib-tab > a {
+  color: #005580;
+}
+
+#block {
+  padding: 2% 1% 1%;
+  height: inherit;
+  width: inherit;
+  align-content: center;
+}
+
 .bg-4 {
     margin-top: 10%;
     padding: 2% 4% 5%;
 }
 
-.container{
-  padding-top: 7%
+.container {
+  padding-top: 7%;
 }
 
-a,p,li {
+a , p {
     color: #ffffff;
+}
+
+.container {
+  ul {
+    li {
+      a {
+        color: #000000;
+      }
+    }
+  }
+}
+
+.div {
+  .div {
+    .div {
+      .button {
+        color: #1bc120;
+      }
+    }
+  }
+}
+
+.col-sm-9, .col-sm-4, .col-sm-3, .form-group {
+  margin-bottom: 1.5px;
+  margin-top: 1.5px;
+}
+
+label , #searchBar {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.fileinput-preview {
+  width: 200px;
+  height: 150px;
+}
+
+#assignButton {
+  align-items: flex-end;
 }

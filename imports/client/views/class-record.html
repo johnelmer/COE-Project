@@ -1,0 +1,106 @@
+<div id="classRecordTemplate">
+  <form>
+    <div id="block">
+      <div class="panel panel-default">
+        <div id="block">
+          <ul>
+            <label>Stub Code:</label>
+            {{ classRecord.course.stubcode }}
+          </ul>
+          <ul>
+            <label>Subject: </label>
+            {{ classRecord.course.subject.name }}
+          </ul>
+          <ul>
+            <label>Course Number: </label>
+            {{ classRecord.course.subject.courseNumber }}
+          </ul>
+          <ul>
+            <label>Time Schedule:</label>
+            {{ classRecord.course.lecture.time }}
+          </ul>
+          <ul>
+            <label>Room:</label>
+            <!-- NOTE: add room -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <uib-tabset active="active">
+      <uib-tab index="0" heading="Class Record">
+        <div id="block" class="table-responsive">
+          <table class="table table-bordered table-striped table-condensed">
+            <thead>
+              <tr>
+                <td><label>Name of Students</label></td>
+                <td ng-repeat="activity in classRecord.activityTypes">
+                  <label> {{ activity.name }}</label>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="student in classRecord.students track by student._id">
+                <td>{{ student.fullName }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-tab>
+      <uib-tab index="$index + 1" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
+        <form>
+          <div id="block">
+            <div class="panel panel-default">
+              <div class="card">
+                <div class="form-group">
+                  <label>Date:</label>
+                  <li class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newActivity.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </li>
+                </div>
+                <div class="form-group">
+                  <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType.name)">Add new {{ activityType.name }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed" >
+              <thead>
+                <tr>
+                  <td align="center"><label>
+                    Name of Students
+                  </label></td>
+                  <td ng-repeat="activity in classRecord.filterActivityList(activityType.name)" align="center">
+                    <label>Date: {{ activity.date }}
+                      <label>Total Score: {{ activity.totalScore }}</label>
+                      <label>
+                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+                      </label>
+                    </label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="student in classRecord.students track by student._id">
+                  <td> {{ student.fullName }}</td>
+                  <td ng-repeat="record in student[activityType.name]">
+                    {{ record.score }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </uib-tab>
+      </form>
+    </uib-tabset>
+  </form>
+</div>

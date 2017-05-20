@@ -11,10 +11,12 @@ describe('Role', () => {
     done()
   })
   describe('is', () => {
-    it('checks if the role is a parent of the parameter', () => {
+    it('checks if the role it is the name of the role', () => {
       loadRoles()
       const dean = Role.findOne({ name: 'dean' })
-      dean.is('secretary').should.be.true
+      console.log(Role.find().fetch());
+      dean.is('dean').should.be.true
+      console.log(Role.find().fetch());
     })
   })
   describe('hasARole', () => {

@@ -1,12 +1,23 @@
 import SetupCollection from '../decorators/SetupCollection'
+import schema from '../schemas/Student'
 
 import Model from './Model'
-import Course from './Course'
 
 @SetupCollection('Students')
 class Student extends Model {
-  /* Please add schema for this collection */
-  static schema = {}
+
+  static schema = schema
+
+  enrollACourse(course) {
+    const courseDoc = course
+    delete courseDoc.sessions
+    delete courseDoc.students
+    this.courses.push(courseDoc)
+  }
+
+  get fullName() {
+    return `${this.lastName}, ${this.firstName} ${this.middleName.slice(0, 1)}.`
+  }
 }
 
 export default Student

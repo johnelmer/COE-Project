@@ -9,7 +9,6 @@ class Model {
     }
 
     _(this).extend(doc)
-    // this.setSchema()
   }
 
   static find(selector = {}, options = {}) {
@@ -42,8 +41,6 @@ class Model {
     }
     return this.constructor.insert(this.doc, callback)
   }
-
-  // static setSchema() {}
 }
 
 export default Model

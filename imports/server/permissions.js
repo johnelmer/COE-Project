@@ -2,12 +2,17 @@ import { Meteor } from 'meteor/meteor'
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import Subject from '/imports/both/models/Subject'
-import Role from '/imports/both/models/Role'
 import Degree from '/imports/both/models/Degree'
+import Department from '/imports/both/models/Department'
+import Role from '/imports/both/models/Role'
+import Session from '/imports/both/models/Session'
+import Activity from '/imports/both/models/Activity'
+import User from '/imports/both/models/User'
 
+// To be update
 Course.collection.allow({
-  insert: userId => userId,
-  update: userId => userId,
+  insert: () => true, // TODO: secretary only
+  update: () => true,
   remove: () => false,
 })
 
@@ -18,8 +23,20 @@ Student.collection.allow({
 })
 
 Subject.collection.allow({
-  insert: userId => userId,
+  insert: () => true,
   update: userId => userId,
+  remove: userId => userId,
+})
+
+Degree.collection.allow({
+  insert: () => true,
+  update: () => false,
+  remove: userId => userId,
+})
+
+Department.collection.allow({
+  insert: () => true,
+  update: () => false,
   remove: userId => userId,
 })
 
@@ -29,13 +46,19 @@ Role.collection.allow({
   remove: () => true,
 })
 
-Degree.collection.allow({
-  insert: userId => userId,
-  update: () => false,
-  remove: userId => userId,
+Session.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
 })
 
-Meteor.users.allow({
+Activity.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
+})
+
+User.collection.allow({
   insert: () => true,
   update: (userId, user) => user._id === userId,
   remove: () => false,

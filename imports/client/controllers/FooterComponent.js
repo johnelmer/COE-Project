@@ -6,6 +6,5 @@ import '../views/footer-view.html'
   templateUrl: 'imports/client/views/footer-view.html',
 })
 class FooterView {
-  // something ...
 }
 export default FooterView

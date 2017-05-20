@@ -1,18 +1,25 @@
 import Model from './Model'
+import schema from '../schemas/Role'
 
 import SetupCollection from '../decorators/SetupCollection'
 import Idempotent from '../decorators/Idempotent'
 
-import Schema from '../Schemas'
-
 @SetupCollection('Roles')
 class Role extends Model {
 
-  static schema = Schema.role
+  static schema = schema
 
   constructor(doc) {
     super(doc)
     this.childIds = this.childIds || []
+  }
+
+  is(roleName) {
+    return this.name === roleName
+  }
+
+  get hasAChild() {
+    return this.children.length !== 0
   }
 
   @Idempotent
@@ -20,16 +27,24 @@ class Role extends Model {
     return Role.find({ _id: { $in: this.childIds } }).fetch()
   }
 
-  is(roleName) {
-    return this.name === roleName || this.children.some(child => (child.name === roleName))
-  }
-
-  get hasAChild() {
-    return this.children.length !== 0
-  }
-
   hasARole(roleName) {
     return this.is(roleName) || this.children.some(child => child.hasARole(roleName))
+  }
+
+  get hasAParent() {
+    return !!this.parent
+  }
+
+  get isRoot() {
+    return !this.hasAParent
+  }
+
+  get parent() {
+    return Role.findOne({ childIds: this._id })
+  }
+
+  get root() {
+    return ((this.isRoot && this.hasAChild) && this) || this.parent.root
   }
 
 }
