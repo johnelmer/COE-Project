@@ -66,7 +66,9 @@ class User extends Model {
 
   save(callback) {
     if (this._id) {
-      return Meteor.call('updateUser', this.doc, callback)
+      const doc = this.doc
+      doc._id = this._id
+      return Meteor.call('updateUser', doc, callback)
     }
     return Meteor.call('createNewUser', this.doc, callback)
   }
