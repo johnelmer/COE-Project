@@ -27,7 +27,7 @@ class Subject extends Model {
     }
   }
 
-  getNewCourse(doc, callback) {
+  getNewCourseId(doc, callback) {
     const setting = AppSetting.findOne()
     const subject = _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units')
     if (this.laboratoryType) {
@@ -44,7 +44,7 @@ class Subject extends Model {
       schoolYear: setting.currentSchoolYear,
     }).save(callback)
     this.courseIds.push(courseId)
-    return Course.findOne({ _id: courseId })
+    return courseId
   }
 }
 
