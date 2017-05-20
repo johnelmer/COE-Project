@@ -1,7 +1,6 @@
 import { Component, State, Inject } from 'angular2-now'
 import User from '/imports/both/models/User'
 import Subject from '/imports/both/models/Subject'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import 'ui-select/dist/select.css'
 import '../views/subject-assign.html'
@@ -10,10 +9,11 @@ import '../views/subject-assign.html'
   name: 'app.subject.assign',
   url: '/subject/assign',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('department head') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('department head') || $location.path('/login')
+      })
     },
   },
 })

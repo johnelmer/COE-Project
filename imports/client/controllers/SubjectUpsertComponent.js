@@ -9,10 +9,11 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('secretary') || $location.path('/login')
+      })
     },
   },
 })

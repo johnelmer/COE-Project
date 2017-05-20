@@ -7,6 +7,13 @@ import User from '/imports/both/models/User' //TODO: double check if this line o
   name: 'app.login',
   url: '/login',
   defaultRoute: true,
+  resolve: {
+    redirect($location) {
+      if (Meteor.user()) {
+        $location.path('/teacher/main')
+      }
+    },
+  },
 })
 @Component({
   selector: 'login-view',
@@ -14,12 +21,14 @@ import User from '/imports/both/models/User' //TODO: double check if this line o
 })
 @Inject('$scope', '$reactive', '$state')
 class LoginComponent {
+
   constructor($scope, $reactive, $state) {
     $reactive(this).attach($scope)
     this.user = {}
     this.$state = $state
     this.subscribe('users')
   }
+
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {

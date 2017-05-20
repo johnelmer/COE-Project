@@ -9,10 +9,11 @@ import '../views/degree-upsert.html'
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('dean') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('dean') || $location.path('/login')
+      })
     },
   },
 })
