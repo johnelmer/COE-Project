@@ -1,16 +1,31 @@
 /* eslint-disable no-alert */
 import Subject from '/imports/both/models/Subject'
-
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/subject-upsert.html'
 
 @State({
   name: 'app.subject.create',
   url: '/subjects/create',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
 })
 @State({
   name: 'app.subject.edit',
   url: '/subjects/edit/:subjectId',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
 })
 @Component({
   selector: 'subject-upsert',

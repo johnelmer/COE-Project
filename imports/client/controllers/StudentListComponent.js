@@ -1,10 +1,20 @@
 import Student from '/imports/both/models/Student'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-list.html'
 
 @State({
   name: 'app.student.list',
   url: '/students/list',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
+
 })
 @Component({
   selector: 'student-list',

@@ -1,11 +1,20 @@
 /* eslint-disable no-alert */
 import Department from '/imports/both/models/Department'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/department-upsert.html'
 
 @State({
   name: 'app.department.create',
   url: '/department/create',
+  resolve: {
+  redirect($state) {
+    const { roleName } = Meteor.user()
+    const role = Role.findOne({ name: roleName })
+    return role.hasARole('dean') || $state.go('app.login')
+  },
+},
 })
 @Component({
   selector: 'dept-upsert',

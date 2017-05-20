@@ -1,5 +1,6 @@
-
 import User from '/imports/both/models/User'
+import Role from '/imports/both/models/Role'
+import { Meteor } from 'meteor/meteor'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-upsert.html'
@@ -7,6 +8,13 @@ import '../views/teacher-upsert.html'
 @State({
   name: 'app.teacher.create',
   url: '/teacher/create',
+  resolve: {
+    redirect($state) {
+      const { roleName } = Meteor.user()
+      const role = Role.findOne({ name: roleName })
+      return role.hasARole('secretary') || $state.go('app.login')
+    },
+  },
 })
 @State({
   name: 'app.teacher.edit',
