@@ -69,7 +69,7 @@
               Teacher
             </td>
             <td>
-              Subject Code
+              Stub Code
             </td>
             <td>
               Subject Name
@@ -84,20 +84,24 @@
               Credits
             </td>
             <td>
-              Laboratory
+              Lab Room
+            </td>
+            <td>
+              Lab Schedule
             </td>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+          <tr ng-repeat="course in subjectAssign.courses">
+            <td contenteditable="true"> {{ course.lecture.idNumber }}</td>
+            <td contenteditable="true"> {{ course.lecture.fullName }}</td>
+            <td contenteditable="true"> {{ course.stubcode }}</td>
+            <td contenteditable="true"> {{ course.subject.name }}</td>
+            <td contenteditable="true"> {{ course.lecture.time }}</td>
+            <td contenteditable="true"> {{ course.lecture.room }}</td>
+            <td contenteditable="true"> {{ course.subject.credits }}</td>
+            <td contenteditable="true"> {{ course.laboratory.room }}</td>
+            <td contenteditable="true"> {{ course.laboratory.time }}</td>
           </tr>
         </tbody>
       </table>
