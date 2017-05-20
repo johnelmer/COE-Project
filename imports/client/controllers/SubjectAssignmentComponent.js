@@ -31,7 +31,6 @@ class SubjectAssignmentComponent {
     this.subscribe('users')
     this.subscribe('courses')
     this.subscribe('subjects')
-    this.subscribe('roles')
     this.helpers({
       teachers() {
         return User.find({ roleName: 'faculty' }).fetch()

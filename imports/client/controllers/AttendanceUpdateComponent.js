@@ -1,4 +1,4 @@
-import Course from '/imports/both/models/Course'
+// import Course from '/imports/both/models/Course'
 import Session from '/imports/both/models/Session'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
@@ -20,9 +20,9 @@ import '../views/attendance-update.html'
   selector: 'attendance-update',
   templateUrl: 'imports/client/views/attendance-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ng-toast')
 export default class AttendanceUpdateComponent {
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { sessionId } = $stateParams
     this.subscribe('sessions', () => {
@@ -33,6 +33,7 @@ export default class AttendanceUpdateComponent {
         this.students = this.session.attendances
       }
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -44,9 +45,15 @@ export default class AttendanceUpdateComponent {
         session.addStudentAttendance(student, attendanceType)
       }
     })
-    console.log(session)
+    console.log(session) // TODO: remove console log
     session.save((err) => {
-      if (err) { console.log(err) }
+      if (err) {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+      }
     })
   }
 }
