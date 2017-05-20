@@ -24,7 +24,7 @@ import '../views/teacher-upsert.html'
   selector: 'teacher-upsert',
   templateUrl: 'imports/client/views/teacher-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class TeacherUpsertComponent {
 
   constructor($scope, $reactive, $state, $stateParams, ngToast) {

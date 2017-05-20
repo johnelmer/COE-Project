@@ -9,7 +9,7 @@ import '../views/nav-bar.html'
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
 })
-@Inject('$scope', '$reactive', 'ng-toast')
+@Inject('$scope', '$reactive', 'ngToast')
 
 class NavBarComponent {
   constructor($scope, $reactive, ngToast) {

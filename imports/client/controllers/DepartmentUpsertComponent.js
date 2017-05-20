@@ -22,7 +22,7 @@ import '../views/department-upsert.html'
   selector: 'dept-upsert',
   templateUrl: 'imports/client/views/department-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DepartmentUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)

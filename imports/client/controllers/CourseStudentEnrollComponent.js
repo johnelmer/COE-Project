@@ -20,7 +20,7 @@ import '../views/course-student-enroll.html'
   selector: 'course-student-enroll',
   templateUrl: 'imports/client/views/course-student-enroll.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 export default class CourseStudentEnrollComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)

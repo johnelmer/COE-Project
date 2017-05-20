@@ -20,7 +20,7 @@ import '../views/attendance-update.html'
   selector: 'attendance-update',
   templateUrl: 'imports/client/views/attendance-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
 export default class AttendanceUpdateComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)

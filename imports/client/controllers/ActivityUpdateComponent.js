@@ -20,7 +20,7 @@ import '../views/activity-update.html'
   selector: 'activity-update',
   templateUrl: 'imports/client/views/activity-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
 export default class ActivityUpdateComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)

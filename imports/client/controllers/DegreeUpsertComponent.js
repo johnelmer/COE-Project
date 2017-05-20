@@ -20,7 +20,7 @@ import '../views/degree-upsert.html'
   selector: 'degree-upsert',
   templateUrl: 'imports/client/views/degree-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ng-toast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DegreeUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
