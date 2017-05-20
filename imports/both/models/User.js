@@ -48,7 +48,7 @@ class User extends Model {
   }
 
   get role() {
-    return Role.findOne({ roleName: this.roleName })
+    return Role.findOne({ name: this.roleName })
   }
 
   get fullName() {

@@ -1,9 +1,9 @@
 <div class="container" ng-cloak>
   <div>
-    <label>{{ activityUpdate.activity.type }}</label>
+    <label><h2>{{ activityUpdate.activity.type }}</h2></label>
   </div>
   <div>
-    <table>
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Students</th>
@@ -11,14 +11,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="student in activityUpdate.students track by student._id">
-          <td>{{ student.fullName }}</td>
-          <td><input type="number" ng-model="student.score"></td>
-        </tr>
+        <form>
+          <tr ng-repeat="student in activityUpdate.students track by student._id">
+            <td>{{ student.fullName }}</td>
+            <td><input type="number" ng-model="student.score" class="form-control"></td>
+          </tr>
+        </form>
       </tbody>
     </table>
   </div>
-  <div>
-    <button type="button" ng-click="activityUpdate.save()">Save</button>
+  <div class="col-sm-offset-9 col-sm-3">
+    <button type="button" ng-click="activityUpdate.save()" class="btn btn-primary btn-block">Save</button>
   </div>
 </div>
