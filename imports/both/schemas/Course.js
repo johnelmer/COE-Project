@@ -10,7 +10,16 @@ const courseType = new SimpleSchema({
     type: String,
     optional: true,
   },
-  instructorId: {
+  instructor: {
+    type: Object,
+  },
+  'instructor._id': {
+    type: String,
+  },
+  'instructor.fullName': {
+    type: String,
+  },
+  'instructor.idNumber': {
     type: String,
   },
 })
