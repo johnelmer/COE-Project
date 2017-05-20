@@ -27,7 +27,7 @@ const data = {
     { dept: 'Packaging Engineering', degree: 'BSPkgE' },
   ],
   activityTypes: ['Quiz', 'Homework', 'Seatwork', 'Prelim Exam', 'Midterm Exam',
-    'Final Exam', 'Midsummer Exam', 'Lab Activities', 'Others'],
+    'Final Exam', 'Midsummer Exam', 'Laboratory', 'Others'],
   civitStatuses: ['Single', 'Married', 'Divorced', 'Widowed'],
   roles: ['dean', 'secretary', 'department head', 'faculty'],
 }
@@ -129,11 +129,11 @@ const seeder = {
   },
   course: (subject, doc) => {
     doc.stubcode = random.number({ min: 1, max: 400 })
-    const course = subject.getNewCourse(doc)
-    const lectInstructorId = doc.lecture.instructorId
-    User.update({ _id: lectInstructorId }, { $push: { courseIds: course._id } })
+    const courseId = subject.getNewCourseId(doc)
+    const lectInstructorId = doc.lecture.instructor._id
+    User.update({ _id: lectInstructorId }, { $push: { courseIds: courseId } })
     if (doc.laboratory && doc.laboratory.instructorId !== lectInstructorId) {
-      User.update({ _id: doc.laboratory.instructorId }, { $push: { courseIds: course._id } })
+      User.update({ _id: doc.laboratory.instructorId }, { $push: { courseIds: courseId } })
     }
     subject.save()
   },

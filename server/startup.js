@@ -75,25 +75,75 @@ Meteor.startup(() => {
   let courses = []
   if (Course.find().count() === 0) {
     seeder.course(subjects[0], {
-      lecture: { time: '7:00-8:30 TTh', room: 'En305', instructorId: faculties[0]._id },
-      semester: 'Second Semester',
-      schoolYear: '2016-2017',
+      lecture: {
+        time: '7:00-8:30 TTh',
+        room: 'En305',
+        instructor: {
+          _id: faculties[0]._id,
+          fullName: faculties[0].fullName,
+          idNumber: faculties[0].idNumber,
+        },
+      },
     })
     seeder.course(subjects[1], {
-      lecture: { time: '10:00-11:30 TTh', room: 'En205', instructorId: faculties[1]._id },
-      laboratory: { time: '11:30-1:00 TTh', room: 'En204', instructorId: faculties[1]._id },
-      semester: 'Second Semester',
-      schoolYear: '2016-2017',
+      lecture: {
+        time: '10:00-11:30 TTh',
+        room: 'En205',
+        instructor: {
+          _id: faculties[1]._id,
+          fullName: faculties[1].fullName,
+          idNumber: faculties[1].idNumber,
+        },
+      },
+      laboratory: {
+        time: '11:30-1:00 TTh',
+        room: 'En204',
+        instructor: {
+          _id: faculties[1]._id,
+          fullName: faculties[1].fullName,
+          idNumber: faculties[1].idNumber,
+        },
+      },
     })
     seeder.course(subjects[2], {
-      lecture: { time: '9:00-10:00 WMF', room: 'En305', instructorId: faculties[2]._id },
-      laboratory: { time: '1:30-2:30 TTh', room: 'En204', instructorId: faculties[2]._id },
-      semester: 'Second Semester',
-      schoolYear: '2016-2017',
+      lecture: {
+        time: '9:00-10:00 WMF',
+        room: 'En305',
+        instructor: {
+          _id: faculties[2]._id,
+          fullName: faculties[2].fullName,
+          idNumber: faculties[2].idNumber,
+        },
+      },
+      laboratory: {
+        time: '1:30-2:30 TTh',
+        room: 'En204',
+        instructor: {
+          _id: faculties[2]._id,
+          fullName: faculties[2].fullName,
+          idNumber: faculties[2].idNumber,
+        },
+      },
     })
     seeder.course(subjects[3], {
-      lecture: { time: '7:00-8:30 TTh', room: 'En305', instructorId: faculties[3]._id },
-      laboratory: { time: '7:00-8:00 MWF', room: 'En204', instructorId: faculties[3]._id },
+      lecture: {
+        time: '7:00-8:30 TTh',
+        room: 'En305',
+        instructor: {
+          _id: faculties[3]._id,
+          fullName: faculties[3].fullName,
+          idNumber: faculties[3].idNumber,
+        },
+      },
+      laboratory: {
+        time: '7:00-8:00 MWF',
+        room: 'En204',
+        instructor: {
+          _id: faculties[3]._id,
+          fullName: faculties[3].fullName,
+          idNumber: faculties[3].idNumber,
+        },
+      },
       semester: 'Second Semester',
       schoolYear: '2016-2017',
     })

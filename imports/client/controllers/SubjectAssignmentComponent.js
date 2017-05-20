@@ -1,35 +1,38 @@
 import { Component, State, Inject } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import User from '/imports/both/models/User'
 import Subject from '/imports/both/models/Subject'
 import Role from '/imports/both/models/Role'
-import { Meteor } from 'meteor/meteor'
+import Course from '/imports/both/models/Course'
+
 import 'ui-select/dist/select.css'
 import '../views/subject-assign.html'
 
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('department head') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('department head') || $state.go('app.login')
+  //   },
+  // },
 })
 @Component({
   selector: 'subject-assign',
   templateUrl: 'imports/client/views/subject-assign.html',
 })
-@Inject('$scope', '$reactive', '$state')
+@Inject('$scope', '$reactive')
 class SubjectAssignmentComponent {
 
-  constructor($scope, $reactive, $state) {
+  constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.$state = $state
     this.subscribe('users')
+    this.subscribe('courses')
     this.subscribe('subjects')
     this.subscribe('roles')
+    this.subscribe('settings')
     this.helpers({
       teachers() {
         return User.find({ roleName: 'faculty' }).fetch()
@@ -37,20 +40,31 @@ class SubjectAssignmentComponent {
       subjects() {
         return Subject.find().fetch()
       },
+      courses() {
+        return Course.find().fetch()
+      },
     })
   }
 
-  save() {
-    // NOTE: to be change
-    this.subject.save((doc, err) => {
-      if (err) {
-        console.log(err);
-      }
-      this.subject = new Subject
-      console.log(doc);
-    })
+  assignSubject() {
+    // for departmenthead, dean and secretary
+    const teacherId = this.teacher._id
+    const user = Meteor.user()
+    const role = user.role
+    const canAssign = role.hasARole('department head')
+    if (canAssign) {
+      this.subjectsAssigned.forEach((subject) => {
+        const courseId = subject.getNewCourseId({ lecture: { instructorId: teacherId } })
+        subject.save()
+        console.log(courseId);
+        this.teacher.addCourse(courseId)
+        this.teacher.save((err, doc) => {
+          console.log(err);
+          console.log(doc);
+        })
+      })
+    }
   }
-
 }
 
 export default SubjectAssignmentComponent
