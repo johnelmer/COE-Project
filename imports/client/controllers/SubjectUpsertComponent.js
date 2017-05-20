@@ -31,10 +31,10 @@ import '../views/subject-upsert.html'
   selector: 'subject-upsert',
   templateUrl: 'imports/client/views/subject-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class SubjectUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
     this.subscribe('subjects')
@@ -56,13 +56,22 @@ class SubjectUpsertComponent {
         return Subject.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
   save() {
     console.log(this.subject);
     this.subject.save((doc, err) => {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${err.reason}`,
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `Subject ${this.message}!`,
+      })
       console.log(doc);
-      console.log(err);
-      alert(`Subject ${this.message}!`)
     })
   }
 

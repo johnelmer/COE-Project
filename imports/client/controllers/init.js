@@ -1,4 +1,4 @@
-import angular from 'angular' //TODO: Check if angular is needed or not
+// import angular from 'angular' //TODO: Check if angular is needed or not
 import angularMeteor from 'angular-meteor'
 import { init, SetModule } from 'angular2-now'
 import angularUiBootstrap from 'angular-ui-bootstrap'
@@ -7,7 +7,7 @@ import ngTouch from 'angular-touch'
 import ngSanitize from 'angular-sanitize'
 import uiRouter from 'angular-ui-router'
 import uiSelect from 'ui-select'
-import ngToast from 'ng-toast'
+import 'ng-toast'
 
 init()
 const dependencies = [
@@ -15,7 +15,7 @@ const dependencies = [
   angularUiBootstrap,
   ngAnimate,
   ngTouch,
-  ngToast,
+  'ngToast',
   ngSanitize,
   uiRouter,
   uiSelect,

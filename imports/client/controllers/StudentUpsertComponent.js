@@ -32,10 +32,10 @@ import '../views/student-upsert.html'
   selector: 'student-upsert',
   templateUrl: 'imports/client/views/student-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class StudentUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
@@ -59,11 +59,16 @@ class StudentUpsertComponent {
         return Degree.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
   save() {
     this.student.save(() => {
       const { firstName, lastName } = this.student
-      alert(`${lastName}, ${firstName} ${this.message}!`)
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${lastName}, ${firstName} ${this.message}!`,
+      })
       this.student = new Student
     })
   }
