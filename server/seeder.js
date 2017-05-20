@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor'
 import { faker } from 'meteor/practicalmeteor:faker'
 import Degree from '/imports/both/models/Degree'
 import Department from '/imports/both/models/Department'

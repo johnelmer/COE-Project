@@ -8,13 +8,13 @@ import '../views/activity-update.html'
 @State({
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('teacher') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('teacher') || $state.go('app.login')
+  //   }, 
+  // },
 })
 @Component({
   selector: 'activity-update',

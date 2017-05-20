@@ -8,13 +8,13 @@ import '../views/subject-upsert.html'
 @State({
   name: 'app.subject.create',
   url: '/subjects/create',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('secretary') || $state.go('app.login')
+  //   },
+  // },
 })
 @State({
   name: 'app.subject.edit',
