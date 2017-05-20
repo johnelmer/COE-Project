@@ -11,27 +11,28 @@ import '../views/subject-assign.html'
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('department head') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('department head') || $state.go('app.login')
+  //   },
+  // },
 })
 @Component({
   selector: 'subject-assign',
   templateUrl: 'imports/client/views/subject-assign.html',
 })
-@Inject('$scope', '$reactive', '$state')
+@Inject('$scope', '$reactive')
 class SubjectAssignmentComponent {
 
-  constructor($scope, $reactive, $state) {
+  constructor($scope, $reactive) {
     $reactive(this).attach($scope)
     this.subscribe('users')
     this.subscribe('courses')
     this.subscribe('subjects')
     this.subscribe('roles')
+    this.subscribe('settings')
     this.helpers({
       teachers() {
         return User.find({ roleName: 'faculty' }).fetch()
@@ -39,30 +40,31 @@ class SubjectAssignmentComponent {
       subjects() {
         return Subject.find().fetch()
       },
+      courses() {
+        return Course.find().fetch()
+      },
     })
   }
 
   assignSubject() {
-    // for departmenthead
+    // for departmenthead, dean and secretary
     const teacherId = this.teacher._id
-    const role = Meteor.user().role
-    const canAssign = role.is('department head')
+    const user = Meteor.user()
+    const role = user.role
+    const canAssign = role.hasARole('department head')
     if (canAssign) {
       this.subjectsAssigned.forEach((subject) => {
-        const course = subject.getNewCourse({ lecture: { instructorId: teacherId } })
+        const courseId = subject.getNewCourseId({ lecture: { instructorId: teacherId } })
         subject.save()
-        console.log(course);
-        this.teacher.courseIds.push(course._id)
-        this.teacher.save()
+        console.log(courseId);
+        this.teacher.addCourse(courseId)
+        this.teacher.save((err, doc) => {
+          console.log(err);
+          console.log(doc);
+        })
       })
     }
   }
-
-  update() {
-    // for secretary
-  }
-
-
 }
 
 export default SubjectAssignmentComponent
