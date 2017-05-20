@@ -8,7 +8,16 @@ const courseType = new SimpleSchema({
   room: {
     type: String,
   },
-  instructorId: {
+  instructor: {
+    type: Object,
+  },
+  'instructor._id': {
+    type: String,
+  },
+  'instructor.fullName': {
+    type: String,
+  },
+  'instructor.idNumber': {
     type: String,
   },
 })
