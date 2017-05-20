@@ -22,7 +22,6 @@ fourseven:scss
 practicalmeteor:mocha
 aldeed:collection2-core
 dispatch:mocha-phantomjs
-aldeed:simple-schema
 
 accounts-password@1.3.3
 practicalmeteor:faker
