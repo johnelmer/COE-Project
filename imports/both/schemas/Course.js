@@ -4,11 +4,22 @@ import subjectSchema from './Subject.js'
 const courseType = new SimpleSchema({
   time: {
     type: String,
+    optional: true,
   },
   room: {
     type: String,
+    optional: true,
   },
-  instructorId: {
+  instructor: {
+    type: Object,
+  },
+  'instructor._id': {
+    type: String,
+  },
+  'instructor.fullName': {
+    type: String,
+  },
+  'instructor.idNumber': {
     type: String,
   },
 })
@@ -19,6 +30,7 @@ export default new SimpleSchema({
   },
   stubcode: {
     type: String,
+    optional: true,
   },
   lecture: {
     type: courseType,
@@ -44,8 +56,10 @@ export default new SimpleSchema({
   },
   semester: {
     type: String,
+    optional: true,
   },
   schoolYear: {
     type: String,
+    optional: true,
   },
 })

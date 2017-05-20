@@ -5,6 +5,7 @@ import schema from '../schemas/Subject'
 
 import Model from './Model'
 import Course from './Course'
+import AppSetting from './AppSetting'
 
 @SetupCollection('Subjects')
 class Subject extends Model {
@@ -26,10 +27,11 @@ class Subject extends Model {
     }
   }
 
-  getNewCourse(doc, callback) {
+  getNewCourseId(doc, callback) {
+    const setting = AppSetting.findOne()
     const subject = _.pick(this, '_id', 'name', 'courseNumber', 'credits', 'units')
-    if (this.laboratyType) {
-      subject.laboratyType = this.laboratyType
+    if (this.laboratoryType) {
+      subject.laboratoryType = this.laboratoryType
     }
     const courseId = new Course({
       subject: subject,
@@ -38,11 +40,11 @@ class Subject extends Model {
       laboratory: doc.laboratory,
       sessions: [],
       studentIds: [],
-      semester: doc.semester,
-      schoolYear: doc.schoolYear,
+      semester: setting.currentSemester,
+      schoolYear: setting.currentSchoolYear,
     }).save(callback)
     this.courseIds.push(courseId)
-    return Course.findOne({ _id: courseId })
+    return courseId
   }
 }
 

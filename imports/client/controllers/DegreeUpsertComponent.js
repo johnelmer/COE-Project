@@ -21,9 +21,9 @@ import '../views/degree-upsert.html'
   selector: 'degree-upsert',
   templateUrl: 'imports/client/views/degree-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DegreeUpsertComponent {
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { degreeId } = $stateParams
     this.degree = ''
@@ -48,8 +48,9 @@ class DegreeUpsertComponent {
       },
       departments() {
         return Department.find().fetch()
-      }
+      },
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -59,14 +60,22 @@ class DegreeUpsertComponent {
     // })
     const degreeId = new Degree({ name: this.degree }).save((err, doc) => {
       if (err) {
-        console.log(err);
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
       } else {
         console.log(doc);
       }
     })
     new Department({ name: this.department, _id: degreeId }).save((err, doc) => {
       if (err) {
-        console.log(err);
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
       } else {
         console.log(doc);
       }
