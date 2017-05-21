@@ -1,6 +1,5 @@
 import Degree from '/imports/both/models/Degree'
 import Department from '/imports/both/models/Department'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/degree-upsert.html'
@@ -9,11 +8,9 @@ import '../views/degree-upsert.html'
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('dean') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('dean') || $location.path('/login')
     },
   },
 })
@@ -23,6 +20,7 @@ import '../views/degree-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class DegreeUpsertComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { degreeId } = $stateParams
@@ -48,7 +46,7 @@ class DegreeUpsertComponent {
       },
       departments() {
         return Department.find().fetch()
-      }
+      },
     })
   }
 
@@ -74,4 +72,5 @@ class DegreeUpsertComponent {
   }
 
 }
+
 export default DegreeUpsertComponent

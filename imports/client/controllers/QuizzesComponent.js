@@ -1,5 +1,4 @@
 import { Component, State, Inject } from 'angular2-now'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import '../views/classrecord-quizzes-view.html'
 
@@ -7,11 +6,9 @@ import '../views/classrecord-quizzes-view.html'
   name: 'app.classrecord-quizzes',
   url: '/classrecord/quizzes',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('faculty') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -21,9 +18,11 @@ import '../views/classrecord-quizzes-view.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', '$uibModal')
 class QuizzesComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
   }
+
 }
 
 export default QuizzesComponent

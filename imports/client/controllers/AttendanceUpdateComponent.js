@@ -1,4 +1,3 @@
-import Course from '/imports/both/models/Course'
 import Session from '/imports/both/models/Session'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
@@ -8,11 +7,9 @@ import '../views/attendance-update.html'
   name: 'app.course.session.attendanceUpdate',
   url: '/teacher/course/session/attendance/:sessionId',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('faculty') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -21,7 +18,8 @@ import '../views/attendance-update.html'
   templateUrl: 'imports/client/views/attendance-update.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
-export default class AttendanceUpdateComponent {
+class AttendanceUpdateComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { sessionId } = $stateParams
@@ -49,4 +47,7 @@ export default class AttendanceUpdateComponent {
       if (err) { console.log(err) }
     })
   }
+
 }
+
+export default AttendanceUpdateComponent

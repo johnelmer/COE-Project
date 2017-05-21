@@ -9,11 +9,9 @@ import '../views/subject-assign.html'
   name: 'app.subject.assign',
   url: '/subject/assign',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('department head') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('department head') || $location.path('/login')
     },
   },
 })

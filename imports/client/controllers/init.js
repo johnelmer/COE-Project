@@ -1,4 +1,4 @@
-import angular from 'angular' //TODO: Check if angular is needed or not
+import angular from 'angular' // TODO: Check if angular is needed or not
 import angularMeteor from 'angular-meteor'
 import { init, SetModule } from 'angular2-now'
 import angularUiBootstrap from 'angular-ui-bootstrap'

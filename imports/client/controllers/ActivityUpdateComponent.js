@@ -1,4 +1,3 @@
-import Course from '/imports/both/models/Course'
 import Activity from '/imports/both/models/Activity'
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
@@ -8,11 +7,9 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('faculty') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -21,7 +18,9 @@ import '../views/activity-update.html'
   templateUrl: 'imports/client/views/activity-update.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
-export default class ActivityUpdateComponent {
+
+class ActivityUpdateComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { activityId } = $stateParams
@@ -46,7 +45,10 @@ export default class ActivityUpdateComponent {
       }
     })
     activity.save((err) => {
-      if (err) { console.log(err) } //TODO: remove console log and change to dynamic ui content
+      if (err) { console.log(err) } // TODO: remove console log and change to dynamic ui content
     })
   }
+
 }
+
+export default ActivityUpdateComponent

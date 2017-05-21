@@ -2,9 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import { Component, Inject } from 'angular2-now'
 import '../views/nav-bar.html'
 
-// @State({
-//   name: 'app.navBar',
-// })
 @Component({
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
@@ -12,10 +9,12 @@ import '../views/nav-bar.html'
 @Inject('$scope', '$reactive')
 
 class NavBarComponent {
+
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
+    this.isHidden = true
+    this.user = Meteor.user()
     this.subscribe('users', () => {
-      this.isHidden = true
       if (Meteor.user() !== null && Meteor.user() !== undefined) {
         this.isHidden = false
         this.isFacultyTabHidden = false
@@ -36,9 +35,11 @@ class NavBarComponent {
       }
     })
   }
+
   logout() {
     Meteor.logout()
   }
+
 }
 
 export default NavBarComponent

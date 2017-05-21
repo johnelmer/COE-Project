@@ -1,5 +1,4 @@
 import Student from '/imports/both/models/Student'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-view.html'
@@ -8,11 +7,9 @@ import '../views/student-view.html'
   name: 'app.student.view',
   url: '/students/view/:studentId',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('faculty') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -22,6 +19,7 @@ import '../views/student-view.html'
 })
 @Inject('$scope', '$reactive', '$stateParams')
 class StudentViewComponent {
+
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     const { studentId } = $stateParams
@@ -32,6 +30,7 @@ class StudentViewComponent {
       },
     })
   }
+
 }
 
 export default StudentViewComponent

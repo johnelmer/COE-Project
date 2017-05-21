@@ -10,11 +10,9 @@ import '../views/student-upsert.html'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('secretary') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('secretary') || $location.path('/login')
     },
   },
 })
@@ -68,6 +66,7 @@ class StudentUpsertComponent {
       this.student = new Student
     })
   }
+
 }
 
 
