@@ -22,10 +22,10 @@ import '../views/teacher-upsert.html'
   selector: 'teacher-upsert',
   templateUrl: 'imports/client/views/teacher-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class TeacherUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.subscribe('departments')
@@ -46,12 +46,22 @@ class TeacherUpsertComponent {
         return Department.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
 
   save() {
     console.log(this.teacher);
     this.teacher.save((err, doc) => {
-      console.log(err)
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${err.reason}`,
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${this.teacher} added!`,
+      })
       console.log(doc)
       this.teacher = new User()
     })

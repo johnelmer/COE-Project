@@ -17,10 +17,10 @@ import '../views/attendance-update.html'
   selector: 'attendance-update',
   templateUrl: 'imports/client/views/attendance-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
 class AttendanceUpdateComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { sessionId } = $stateParams
     this.subscribe('sessions', () => {
@@ -31,6 +31,7 @@ class AttendanceUpdateComponent {
         this.students = this.session.attendances
       }
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -42,9 +43,15 @@ class AttendanceUpdateComponent {
         session.addStudentAttendance(student, attendanceType)
       }
     })
-    console.log(session)
+    console.log(session) // TODO: remove console log
     session.save((err) => {
-      if (err) { console.log(err) }
+      if (err) {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+      }
     })
   }
 

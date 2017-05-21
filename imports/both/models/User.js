@@ -1,6 +1,5 @@
 import { Accounts } from 'meteor/accounts-base'
 import { Meteor } from 'meteor/meteor'
-
 import Model from './Model'
 import Role from './Role'
 import Course from './Course'
@@ -29,15 +28,12 @@ class User extends Model {
     this.removeObjectFromArray('courses', '_id', courseId)
   }
   // teacher
-  addCourse(course) {
-    const courseDoc = course
-    const subject = course.subject
-    delete subject.courses
-    delete subject.teachersAssigned
-    courseDoc.subject = subject
-    delete courseDoc.sessions
-    delete courseDoc.students
-    this.courses.push(courseDoc)
+  addCourse(courseId) {
+    const courseIds = this.courseIds
+    const isExist = courseIds.some(id => id === courseId)
+    if (!isExist) {
+      courseIds.push(courseId)
+    }
   }
 
   get courses() {
@@ -66,7 +62,9 @@ class User extends Model {
 
   save(callback) {
     if (this._id) {
-      return Meteor.call('updateUser', this.doc, callback)
+      const doc = this.doc
+      doc._id = this._id
+      return Meteor.call('updateUser', doc, callback)
     }
     return Meteor.call('createNewUser', this.doc, callback)
   }

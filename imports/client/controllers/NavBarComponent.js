@@ -6,11 +6,11 @@ import '../views/nav-bar.html'
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
 })
-@Inject('$scope', '$reactive')
+@Inject('$scope', '$reactive', 'ngToast')
 
 class NavBarComponent {
 
-  constructor($scope, $reactive) {
+  constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
     this.isHidden = true
     this.user = Meteor.user()
@@ -34,10 +34,17 @@ class NavBarComponent {
         }
       }
     })
+    this.ngToast = ngToast
   }
 
   logout() {
-    Meteor.logout()
+    Meteor.logout((err) => {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${err.reason}`,
+      })
+    })
   }
 
 }

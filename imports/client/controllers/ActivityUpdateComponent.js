@@ -17,11 +17,10 @@ import '../views/activity-update.html'
   selector: 'activity-update',
   templateUrl: 'imports/client/views/activity-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
-
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
 class ActivityUpdateComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { activityId } = $stateParams
     this.subscribe('activities', () => {
@@ -33,6 +32,7 @@ class ActivityUpdateComponent {
         this.students = this.activity.studentRecords
       }
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -45,7 +45,13 @@ class ActivityUpdateComponent {
       }
     })
     activity.save((err) => {
-      if (err) { console.log(err) } // TODO: remove console log and change to dynamic ui content
+      if (err) {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+      }
     })
   }
 

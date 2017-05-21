@@ -18,10 +18,10 @@ import '../views/department-upsert.html'
   selector: 'dept-upsert',
   templateUrl: 'imports/client/views/department-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DepartmentUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { departmentId } = $stateParams
     this.subscribe('departments')
@@ -36,11 +36,16 @@ class DepartmentUpsertComponent {
         return Department.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
 
   save() {
     this.department.save(() => {
-      alert('Added!')
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: 'Department Add',
+      })
     })
   }
 }

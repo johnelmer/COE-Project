@@ -18,10 +18,10 @@ import '../views/course-student-enroll.html'
   selector: 'course-student-enroll',
   templateUrl: 'imports/client/views/course-student-enroll.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class CourseStudentEnrollComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.students = []
     this.student = {}
@@ -41,6 +41,7 @@ class CourseStudentEnrollComponent {
         return this.students
       },
     })
+    this.ngToast = ngToast
   }
 
   addToList() {
@@ -48,13 +49,21 @@ class CourseStudentEnrollComponent {
     const students = this.students
     const studentToBeAdded = Student.findOne({ idNumber: idNumber })
     if (!studentToBeAdded) {
-      console.log('Student not found') // TODO: change to dynamic popup alert
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'warning',
+        content: 'Student not found',
+      })
     } else if (students.length > 0) {
       const isStudentExist = students.some(student => student.idNumber === idNumber)
       if (!isStudentExist) {
         students.push(studentToBeAdded)
       } else {
-        console.log('Student is already on the list!') // TODO: change to dynamic popup alert
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: 'Student is already on the list!',
+        })
       }
     } else {
       students.push(studentToBeAdded)
@@ -65,7 +74,11 @@ class CourseStudentEnrollComponent {
   removeFromList(idNumber) {
     const studentIndex = this.studentList.findIndex(student => student.studentId === idNumber)
     if (studentIndex === -1) {
-      console.log('Student is not on the list')
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'warning',
+        content: 'Student is not on the list',
+      })
     }
     this.studentList.splice(studentIndex, 1)
   }
@@ -75,10 +88,20 @@ class CourseStudentEnrollComponent {
       try {
         this.course.enrollAStudent(student)
         this.course.save((err) => {
-          if (err) { console.log(err) }
+          if (err) {
+            this.ngToast.create({
+              dismissButton: true,
+              className: 'danger',
+              content: `${err.reason}`,
+            })
+          }
         })
       } catch (e) {
-        console.log(`${student.firstName} ${student.lastName} is already enrolled!`)
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${student.firstName} ${student.lastName} is already enrolled!`,
+        })
       }
     })
     this.studentList = []

@@ -16,6 +16,7 @@ export default class TeacherMainComponent {
 
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
+    this.subscribe('role')
     this.subscribe('users', () => {
       const settingSubs = this.subscribe('settings')
       const courseSubs = this.subscribe('courses')
