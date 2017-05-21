@@ -7,6 +7,13 @@ import Course from '/imports/both/models/Course'
 @State({
   name: 'app.course.teacher',
   url: '/teacher/main',
+  resolve: {
+    redirect($location) {
+      if (!(Meteor.user())) {
+        $location.path('/login')
+      }
+    },
+  },
 })
 @Component({
   selector: 'teacher-main',

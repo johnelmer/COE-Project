@@ -9,14 +9,13 @@ import '../views/department-upsert.html'
   name: 'app.department.create',
   url: '/department/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('dean') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('dean') || $location.path('/login')
+      })
     },
   },
-
-
 })
 @Component({
   selector: 'dept-upsert',

@@ -8,10 +8,11 @@ import '../views/teacher-view.html'
   name: 'app.teacher.view',
   url: '/teacher/view/:teacherId',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('secretary') || $location.path('/login')
+      })
     },
   },
 })

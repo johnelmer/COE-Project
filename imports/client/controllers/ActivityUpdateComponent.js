@@ -1,6 +1,5 @@
 // import Course from '/imports/both/models/Course'
 import Activity from '/imports/both/models/Activity'
-import Role from '/imports/both/models/Role'
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
 import '../views/activity-update.html'
@@ -8,13 +7,14 @@ import '../views/activity-update.html'
 @State({
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
-  // resolve: {
-  //   redirect($state) {
-  //     const { roleName } = Meteor.user()
-  //     const role = Role.findOne({ name: roleName })
-  //     return role.hasARole('teacher') || $state.go('app.login')
-  //   }, 
-  // },
+  resolve: {
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('faculty') || $location.path('/login')
+      })
+    },
+  },
 })
 @Component({
   selector: 'activity-update',

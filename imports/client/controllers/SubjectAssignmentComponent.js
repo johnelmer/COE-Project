@@ -11,13 +11,14 @@ import '../views/subject-assign.html'
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
-  // resolve: {
-  //   redirect($state) {
-  //     const { roleName } = Meteor.user()
-  //     const role = Role.findOne({ name: roleName })
-  //     return role.hasARole('department head') || $state.go('app.login')
-  //   },
-  // },
+  resolve: {
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('department head') || $location.path('/login')
+      })
+    },
+  },
 })
 @Component({
   selector: 'subject-assign',

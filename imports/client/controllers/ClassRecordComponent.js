@@ -3,7 +3,6 @@ import Activity from '/imports/both/models/Activity'
 import ActivityType from '/imports/both/models/ActivityType'
 import Session from '/imports/both/models/Session'
 import Student from '/imports/both/models/Student'
-import Role from '/imports/both/models/Role'
 
 
 import { Component, State, Inject } from 'angular2-now'
@@ -15,13 +14,13 @@ import '../views/class-record.html'
   name: 'app.course.classRecord',
   url: '/teacher/course/classrecord/:courseId',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('teacher') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('faculty') || $location.path('/login')
+      })
     },
   },
-
 })
 @Component({
   selector: 'class-record',

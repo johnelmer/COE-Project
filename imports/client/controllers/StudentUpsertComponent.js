@@ -1,5 +1,6 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
+import schema from '/imports/both/schemas/Student'
 import Degree from '/imports/both/models/Degree'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
@@ -10,10 +11,11 @@ import '../views/student-upsert.html'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
+    redirect($location, $meteor) {
+      $meteor.subscribe('roles').then(() => {
+        const user = Meteor.user()
+        return user.hasARole('secretary') || $location.path('/login')
+      })
     },
   },
 })
@@ -34,7 +36,7 @@ import '../views/student-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class StudentUpsertComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
@@ -62,15 +64,24 @@ class StudentUpsertComponent {
     this.ngToast = ngToast
   }
   save() {
-    this.student.save(() => {
-      const { firstName, lastName } = this.student
+    try {
+      schema.validate(this.student)
+      this.student.save(() => {
+        const { firstName, lastName } = this.student
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'success',
+          content: `${lastName}, ${firstName} ${this.message}!`,
+        })
+        this.student = new Student
+      })
+    } catch (e) {
       this.ngToast.create({
         dismissButton: true,
-        className: 'success',
-        content: `${lastName}, ${firstName} ${this.message}!`,
+        className: 'danger',
+        content: `${e.reason}!`,
       })
-      this.student = new Student
-    })
+    }
   }
 }
 

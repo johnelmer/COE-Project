@@ -9,6 +9,13 @@ import '../views/login-view.html'
   name: 'app.login',
   url: '/login',
   defaultRoute: true,
+  resolve: {
+    redirect($location) {
+      if (Meteor.user()) {
+        $location.path('/teacher/main')
+      }
+    },
+  },
 })
 @Component({
   selector: 'login-view',
@@ -23,6 +30,7 @@ class LoginComponent {
     this.subscribe('users')
     this.ngToast = ngToast
   }
+
   login() {
     Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
       if (err) {
