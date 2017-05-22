@@ -1,6 +1,7 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
 import Degree from '/imports/both/models/Degree'
+import schema from '/imports/both/schemas/Student'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
@@ -33,7 +34,7 @@ import '../views/student-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class StudentUpsertComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
@@ -61,17 +62,25 @@ class StudentUpsertComponent {
     this.ngToast = ngToast
   }
   save() {
-    this.student.save(() => {
-      const { firstName, lastName } = this.student
+    try {
+      schema.validate(this.student.doc)
+      this.student.save(() => {
+        const { firstName, lastName } = this.student
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'success',
+          content: `${lastName}, ${firstName} ${this.message}!`,
+        })
+        this.student = new Student
+      })
+    } catch (e) {
       this.ngToast.create({
         dismissButton: true,
-        className: 'success',
-        content: `${lastName}, ${firstName} ${this.message}!`,
+        className: 'danger',
+        content: `${e.reason}`,
       })
-      this.student = new Student
-    })
+    }
   }
-
 }
 
 
