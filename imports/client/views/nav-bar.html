@@ -21,7 +21,7 @@
       </ul>
     </li>
     <li><a href="#" ui-sref="app.classrecord" ng-show="navBar.isFaculty">Courses</a></li>
-    <li><a href="#" ui-sref="app.subject.assign" ng-show="navBar.isDepartmentHead">Subject Assignment</a></li>
+    <li><a href="#" ui-sref="app.subject.assign" ng-show="navBar.isDepartmentHead || navBar.isSecretary">Subject Assignment</a></li>
     <li><a href="#" ui-sref="app.degree.create" ng-show="navBar.isDepartmentHead">Degree</a></li>
     <li><a href="#" ui-sref="app.department.create" ng-show="navBar.isDepartmentHead">Department</a></li>
     <li class="dropdown">
