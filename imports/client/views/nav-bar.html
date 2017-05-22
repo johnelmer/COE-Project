@@ -1,29 +1,29 @@
-<nav ng-show="navbar.isHidden" class="navbar navbar-fixed-top">
+<nav ng-show="navBar.isHidden" class="navbar navbar-fixed-top">
   <div class="navbar-header">
     <a class="navbar-brand">COE</a>
   </div>
   <ul class="nav navbar-nav">
     <li><a>Home</a></li>
-    <li class="dropdown" ng-hide="navBar.isStudentTabHidden">
+    <li class="dropdown" ng-show="navBar.isSecretary">
       <a class="btn dropdown" data-toggle="dropdown">
         Students<span class="glyphicon glyphicon-menu-down"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="#" ng-hide="navBar.isStudentListHidden" ui-sref="app.student.list">Master List</a></li>
-        <li><a href="#" ng-hide="navBar.isStudentRegistrationHidden" ui-sref="app.student.create">Student Registration</a></li>
+        <li><a href="#" ui-sref="app.student.list">Master List</a></li>
+        <li><a href="#" ui-sref="app.student.create">Student Registration</a></li>
       </ul>
     </li>
-    <li class="dropdown" ng-hide="navBar.isFacultyTabHidden">
+    <li class="dropdown" ng-show="navBar.isSecretary">
       <a class="btn dropdown" data-toggle="dropdown">
         Faculty<span class="glyphicon glyphicon-menu-down"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="#" ng-hide="navBar.isFacultyListHidden" ui-sref="app.teacher.list">Faculty List</a></li>
-        <li><a href="#" ng-hide="navBar.isFacultyRegistrationHidden" ui-sref="app.teacher.create">Teacher Registration</a></li>
+        <li><a href="#" ui-sref="app.teacher.list">Faculty List</a></li>
+        <li><a href="#" ui-sref="app.teacher.create">Teacher Registration</a></li>
       </ul>
     </li>
-    <li><a href="#" ui-sref="app.classrecord" ng-hide="navBar.isCoursesTabHidden">Courses</a></li>
-    <li><a href="#" ui-sref="app.subject.assign" ng-hide="navBar.isSubjectAssignmentHidden">Subject Assignment</a></li>
-    <li><a href="#" ui-sref="app.degree.create" ng-hide="navBar.isDegreeTabHidden">Degree</a></li>
-    <li><a href="#" ui-sref="app.department.create" ng-hide="navBar.isDepartmentTabHidden">Department</a></li>
+    <li><a href="#" ui-sref="app.classrecord" ng-show="navBar.isFaculty">Courses</a></li>
+    <li><a href="#" ui-sref="app.subject.assign" ng-show="navBar.isDepartmentHead">Subject Assignment</a></li>
+    <li><a href="#" ui-sref="app.degree.create" ng-show="navBar.isDepartmentHead">Degree</a></li>
+    <li><a href="#" ui-sref="app.department.create" ng-show="navBar.isDepartmentHead">Department</a></li>
     <li class="dropdown">
       <a class="btn dropdown" data-toggle="dropdown">
         Others<span class="glyphicon glyphicon-menu-down"></span></a>

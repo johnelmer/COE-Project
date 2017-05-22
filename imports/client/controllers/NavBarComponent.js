@@ -12,41 +12,25 @@ class NavBarComponent {
 
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
-    this.isHidden = true
     this.user = Meteor.user()
-    this.subscribe('users', () => {
-      if (Meteor.user() !== null && Meteor.user() !== undefined) {
-        this.isHidden = false
-        this.isFacultyTabHidden = false
-        this.isStudentTabHidden = false
-        this.isSubjectAssignmentHidden = false
-        this.isDegreeTabHidden = false
-        this.isDepartmentTabHidden = false
-        if (Meteor.user().roleName === 'department head') {
-          this.isFacultyTabHidden = true
-          this.isStudentTabHidden = true
-        } else if (Meteor.user().roleName === 'faculty') {
-          this.isFacultyTabHidden = true
-          this.isStudentTabHidden = true
-          this.isSubjectAssignmentHidden = true
-          this.isDegreeTabHidden = true
-          this.isDepartmentTabHidden = true
-        }
-      }
-    })
+    this.subscribe('users')
     this.ngToast = ngToast
   }
-
-  logout() {
-    Meteor.logout((err) => {
-      this.ngToast.create({
-        dismissButton: true,
-        className: 'danger',
-        content: `${err.reason}`,
-      })
-    })
+  get isHidden() {
+    return !!(Meteor.user())
   }
-
+  get isFaculty() {
+    return !!(Meteor.user().hasARole('faculty')) && this.isHidden
+  }
+  get isDepartmentHead() {
+    return !!(Meteor.user().hasARole('department head')) && this.isHidden
+  }
+  get isSecretary() {
+    return !!(Meteor.user().hasARole('secretary')) && this.isHidden
+  }
+  logout() {
+    Meteor.logout()
+  }
 }
 
 export default NavBarComponent
