@@ -1,6 +1,5 @@
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/course-student-enroll.html'
@@ -9,11 +8,9 @@ import '../views/course-student-enroll.html'
   name: 'app.course.enrollStudent',
   url: '/teacher/course/:courseId',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('faculty') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -22,7 +19,8 @@ import '../views/course-student-enroll.html'
   templateUrl: 'imports/client/views/course-student-enroll.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
-export default class CourseStudentEnrollComponent {
+class CourseStudentEnrollComponent {
+
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.students = []
@@ -108,4 +106,7 @@ export default class CourseStudentEnrollComponent {
     })
     this.studentList = []
   }
+
 }
+
+export default CourseStudentEnrollComponent

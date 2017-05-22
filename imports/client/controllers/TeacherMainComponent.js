@@ -2,18 +2,9 @@ import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
 import '../views/teacher-main.html'
 
-import Course from '/imports/both/models/Course'
-
 @State({
   name: 'app.course.teacher',
   url: '/teacher/main',
-  resolve: {
-    redirect($location) {
-      if (!(Meteor.user())) {
-        $location.path('/login')
-      }
-    },
-  },
 })
 @Component({
   selector: 'teacher-main',
@@ -22,6 +13,7 @@ import Course from '/imports/both/models/Course'
 @Inject('$scope', '$reactive')
 
 export default class TeacherMainComponent {
+
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
     this.subscribe('role')
@@ -37,5 +29,7 @@ export default class TeacherMainComponent {
         }
       }
     })
+    console.log(this.user);
   }
+
 }

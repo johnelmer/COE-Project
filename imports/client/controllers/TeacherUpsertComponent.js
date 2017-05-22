@@ -1,5 +1,4 @@
 import User from '/imports/both/models/User'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
@@ -9,11 +8,9 @@ import '../views/teacher-upsert.html'
   name: 'app.teacher.create',
   url: '/teacher/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('secretary') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('secretary') || $location.path('/login')
     },
   },
 })
@@ -69,6 +66,7 @@ class TeacherUpsertComponent {
       this.teacher = new User()
     })
   }
+
 }
 
 export default TeacherUpsertComponent

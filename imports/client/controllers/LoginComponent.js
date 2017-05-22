@@ -1,3 +1,4 @@
+import User from '/imports/both/models/User' // TODO: double check if this line of code is not needed
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 // import ngToast from '/node_modules/ng-toast'
@@ -9,13 +10,6 @@ import '../views/login-view.html'
   name: 'app.login',
   url: '/login',
   defaultRoute: true,
-  resolve: {
-    redirect($location) {
-      if (Meteor.user()) {
-        $location.path('/teacher/main')
-      }
-    },
-  },
 })
 @Component({
   selector: 'login-view',
@@ -44,6 +38,7 @@ class LoginComponent {
       }
     })
   }
+
 }
 
 export default LoginComponent

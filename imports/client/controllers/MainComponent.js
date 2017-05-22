@@ -1,4 +1,5 @@
 import { Component, State, bootstrap } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import './init'
 import '../views/app.html'
 
@@ -6,6 +7,11 @@ import '../views/app.html'
   name: 'app',
   abstract: true,
   html5Mode: true,
+  resolve: {
+    subscribe($meteor) {
+      $meteor.subscribe('roles')
+    },
+  },
 })
 @State({
   name: 'app.student',

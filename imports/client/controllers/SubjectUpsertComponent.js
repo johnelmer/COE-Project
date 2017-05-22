@@ -9,11 +9,9 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('secretary') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('secretary') || $location.path('/login')
     },
   },
 })
@@ -59,6 +57,7 @@ class SubjectUpsertComponent {
     })
     this.ngToast = ngToast
   }
+
   save() {
     console.log(this.subject);
     this.subject.save((doc, err) => {

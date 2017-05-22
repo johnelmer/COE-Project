@@ -9,11 +9,9 @@ import '../views/meeting-upsert.html'
   name: 'app.meeting.create',
   url: '/meeting/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('dean') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('dean') || $location.path('/login')
     },
   },
 })

@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 import Department from '/imports/both/models/Department'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/department-upsert.html'
@@ -9,11 +8,9 @@ import '../views/department-upsert.html'
   name: 'app.department.create',
   url: '/department/create',
   resolve: {
-    redirect($location, $meteor) {
-      $meteor.subscribe('roles').then(() => {
-        const user = Meteor.user()
-        return user.hasARole('dean') || $location.path('/login')
-      })
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('dean') || $location.path('/login')
     },
   },
 })
@@ -23,6 +20,7 @@ import '../views/department-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DepartmentUpsertComponent {
+
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { departmentId } = $stateParams
@@ -51,4 +49,5 @@ class DepartmentUpsertComponent {
     })
   }
 }
+
 export default DepartmentUpsertComponent

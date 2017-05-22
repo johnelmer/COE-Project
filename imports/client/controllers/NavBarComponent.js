@@ -2,9 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import { Component, Inject } from 'angular2-now'
 import '../views/nav-bar.html'
 
-// @State({
-//   name: 'app.navBar',
-// })
 @Component({
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
@@ -12,6 +9,7 @@ import '../views/nav-bar.html'
 @Inject('$scope', '$reactive', 'ngToast')
 
 class NavBarComponent {
+
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
     this.user = Meteor.user()
@@ -61,6 +59,7 @@ class NavBarComponent {
       })
     })
   }
+
 }
 
 export default NavBarComponent
