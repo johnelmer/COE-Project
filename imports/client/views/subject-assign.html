@@ -63,6 +63,9 @@
         <thead>
           <tr>
             <td>
+              Action
+            </td>
+            <td>
               ID No.
             </td>
             <td>
@@ -93,15 +96,16 @@
         </thead>
         <tbody>
           <tr ng-repeat="course in subjectAssign.courses">
-            <td contenteditable="true"> {{ course.lecture.instructor.idNumber }}</td>
-            <td contenteditable="true"> {{ course.lecture.instructor.fullName }}</td>
-            <td contenteditable="true"> {{ course.stubcode }}</td>
-            <td contenteditable="true"> {{ course.subject.name }}</td>
-            <td contenteditable="true"> {{ course.lecture.time }}</td>
-            <td contenteditable="true"> {{ course.lecture.room }}</td>
-            <td contenteditable="true"> {{ course.subject.credits }}</td>
-            <td contenteditable="true"> {{ course.laboratory.room }}</td>
-            <td contenteditable="true"> {{ course.laboratory.time }}</td>
+            <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button></td>
+            <td> {{ course.lecture.instructor.idNumber }}</td>
+            <td> {{ course.lecture.instructor.fullName }}</td>
+            <td> {{ course.stubcode }}</td>
+            <td> {{ course.subject.name }}</td>
+            <td> {{ course.lecture.time }}</td>
+            <td> {{ course.lecture.room }}</td>
+            <td> {{ course.subject.credits }}</td>
+            <td> {{ course.laboratory.room }}</td>
+            <td> {{ course.laboratory.time }}</td>
           </tr>
         </tbody>
       </table>
