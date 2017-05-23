@@ -38,11 +38,13 @@ export default class ClassRecordComponent {
       const studentSubs = this.subscribe('students-basic-infos')
       const activitySubs = this.subscribe('activities')
       const activityTypeSubs = this.subscribe('activity-types')
+      const gradingSubs = this.subscribe('grading-templates')
+      const settingSubs = this.subscribe('settings')
       this.course = Course.findOne({ _id: courseId })
       const course = this.course
       this.activityList = []
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
-        && activityTypeSubs.ready() && course) {
+        && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
         const classRecord = course.classRecord
         const students = classRecord.students
         this.students = students
