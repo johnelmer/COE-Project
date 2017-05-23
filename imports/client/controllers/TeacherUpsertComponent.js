@@ -1,5 +1,4 @@
 import User from '/imports/both/models/User'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
@@ -9,10 +8,9 @@ import '../views/teacher-upsert.html'
   name: 'app.teacher.create',
   url: '/teacher/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('secretary') || $location.path('/login')
     },
   },
 })
@@ -24,10 +22,10 @@ import '../views/teacher-upsert.html'
   selector: 'teacher-upsert',
   templateUrl: 'imports/client/views/teacher-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class TeacherUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.subscribe('departments')
@@ -48,16 +46,27 @@ class TeacherUpsertComponent {
         return Department.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
 
   save() {
     console.log(this.teacher);
     this.teacher.save((err, doc) => {
-      console.log(err)
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${err.reason}`,
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${this.teacher} added!`,
+      })
       console.log(doc)
       this.teacher = new User()
     })
   }
+
 }
 
 export default TeacherUpsertComponent

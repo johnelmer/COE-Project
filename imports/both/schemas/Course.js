@@ -4,9 +4,11 @@ import subjectSchema from './Subject.js'
 const courseType = new SimpleSchema({
   time: {
     type: String,
+    optional: true,
   },
   room: {
     type: String,
+    optional: true,
   },
   instructor: {
     type: Object,
@@ -28,6 +30,7 @@ export default new SimpleSchema({
   },
   stubcode: {
     type: String,
+    optional: true,
   },
   lecture: {
     type: courseType,
@@ -53,9 +56,11 @@ export default new SimpleSchema({
   },
   semester: {
     type: String,
+    optional: true,
   },
   schoolYear: {
     type: String,
+    optional: true,
   },
   gradingTemplate: {
     type: Object,

@@ -1,34 +1,25 @@
 import Course from '/imports/both/models/Course'
-import Activity from '/imports/both/models/Activity'
-import ActivityType from '/imports/both/models/ActivityType'
-import Session from '/imports/both/models/Session'
-import Student from '/imports/both/models/Student'
-import Role from '/imports/both/models/Role'
-
-
+import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/class-record.html'
-
-
 
 @State({
   name: 'app.course.classRecord',
   url: '/teacher/course/classrecord/:courseId',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('teacher') || $state.go('app.login')
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
-
 })
 @Component({
   selector: 'class-record',
   templateUrl: 'imports/client/views/class-record.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
-export default class ClassRecordComponent {
+class ClassRecordComponent {
+
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { courseId } = $stateParams
@@ -63,6 +54,7 @@ export default class ClassRecordComponent {
       opened: false,
     }
   }
+
   filterActivityList(type) {
     return this.activityList.filter(activity => activity.type === type)
   }
@@ -83,3 +75,5 @@ export default class ClassRecordComponent {
   }
 
 }
+
+export default ClassRecordComponent

@@ -1,6 +1,4 @@
-import Course from '/imports/both/models/Course'
 import Activity from '/imports/both/models/Activity'
-import Role from '/imports/both/models/Role'
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
 import '../views/activity-update.html'
@@ -9,10 +7,9 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('teacher') || $state.go('app.login')
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('faculty') || $location.path('/login')
     },
   },
 })
@@ -20,9 +17,10 @@ import '../views/activity-update.html'
   selector: 'activity-update',
   templateUrl: 'imports/client/views/activity-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q')
-export default class ActivityUpdateComponent {
-  constructor($scope, $reactive, $state, $stateParams) {
+@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
+class ActivityUpdateComponent {
+
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { activityId } = $stateParams
     this.subscribe('activities', () => {
@@ -34,6 +32,7 @@ export default class ActivityUpdateComponent {
         this.students = this.activity.studentRecords
       }
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -46,7 +45,16 @@ export default class ActivityUpdateComponent {
       }
     })
     activity.save((err) => {
-      if (err) { console.log(err) } //TODO: remove console log and change to dynamic ui content
+      if (err) {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+      }
     })
   }
+
 }
+
+export default ActivityUpdateComponent

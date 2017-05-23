@@ -14,15 +14,6 @@
               </label>
             </div>
             <div class="col-sm-4">
-              <!-- <ui-select ng-model="subjectAssign.selected" theme="bootstrap" ng-disabled="ctrl.disabled" style="min-width: 300px;" title="Choose a person">
-              <ui-select-match placeholder="Select a person in the list or search his name/age...">{{$select.selected.name}}</ui-select-match>
-              <ui-select-choices group-by="'country'" repeat="person in subjectAssign.people | filter: {name: $select.search, age: $select.search}">
-              <div class="text-info" ng-bind-html="person.name | highlight: $select.search"></div>
-              <small>
-              email: {{person.email}}
-              age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
-            </small>
-          </ui-select-choices> -->
         </ui-select>
         <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
           <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
@@ -30,7 +21,7 @@
             <span ng-bind-html="teacher.fullName | highlight: $select.search"></span>
             <div>
             </div>
-            <small ng-bind-html="teacher.username | highlight: $select.search"></small>
+            <small ng-bind-html="teacher.departments[0] | highlight: $select.search"></small>
           </ui-select-choices>
         </ui-select>
       </div>
@@ -78,7 +69,7 @@
               Teacher
             </td>
             <td>
-              Subject Code
+              Stub Code
             </td>
             <td>
               Subject Name
@@ -93,12 +84,25 @@
               Credits
             </td>
             <td>
-              Laboratory
+              Lab Room
+            </td>
+            <td>
+              Lab Schedule
             </td>
           </tr>
         </thead>
         <tbody>
-          <!-- body -->
+          <tr ng-repeat="course in subjectAssign.courses">
+            <td contenteditable="true"> {{ course.lecture.idNumber }}</td>
+            <td contenteditable="true"> {{ course.lecture.fullName }}</td>
+            <td contenteditable="true"> {{ course.stubcode }}</td>
+            <td contenteditable="true"> {{ course.subject.name }}</td>
+            <td contenteditable="true"> {{ course.lecture.time }}</td>
+            <td contenteditable="true"> {{ course.lecture.room }}</td>
+            <td contenteditable="true"> {{ course.subject.credits }}</td>
+            <td contenteditable="true"> {{ course.laboratory.room }}</td>
+            <td contenteditable="true"> {{ course.laboratory.time }}</td>
+          </tr>
         </tbody>
       </table>
       <div class="panel-footer">
@@ -108,7 +112,7 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-sm-offset-4 col-sm-4">
-        <button class="btn btn-primary btn-lg btn-block" ng-click="subjectAssign.save()">
+        <button class="btn btn-primary btn-lg btn-block" ng-click="subjectAssign.assignSubject()">
           Save
         </button>
       </div>
