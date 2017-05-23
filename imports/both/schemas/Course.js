@@ -57,4 +57,13 @@ export default new SimpleSchema({
   schoolYear: {
     type: String,
   },
+  gradingTemplate: {
+    type: Object,
+  },
+  'gradingTemplate._id': {
+    type: String,
+  },
+  'gradingTemplate.isApproved': {
+    type: Boolean,
+  },
 })

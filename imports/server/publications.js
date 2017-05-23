@@ -10,6 +10,7 @@ import Activity from '/imports/both/models/Activity'
 import ActivityType from '/imports/both/models/ActivityType'
 import Session from '/imports/both/models/Session'
 import AppSetting from '/imports/both/models/AppSetting'
+import GradingTemplate from '/imports/both/models/GradingTemplate'
 
 Meteor.publish('courses', () => Course.find())
 
@@ -23,7 +24,7 @@ Meteor.publish('degrees', () => Degree.find())
 
 Meteor.publish('departments', () => Department.find())
 
-Meteor.publish('teachers', () => User.find({ roleName: 'teacher' }))
+Meteor.publish('teachers', () => User.find({}, { fields: { firstName: 1, middleName: 1, lastName: 1, roleName: 1, courseIds: 1 } }))
 
 Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
 
@@ -36,3 +37,5 @@ Meteor.publish('activity-types', () => ActivityType.find({}, { fields: { name: 1
 Meteor.publish('sessions', () => Session.find())
 
 Meteor.publish('settings', () => AppSetting.find())
+
+Meteor.publish('grading-templates', () => GradingTemplate.find())
