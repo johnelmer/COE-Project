@@ -28,8 +28,8 @@ class LoginComponent {
   }
 
   login() {
-    try {
-      schema.validate(this.user.doc)
+    // try {
+    //   schema.validate(this.user.doc)
       Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
         if (err) {
           this.ngToast.create({
@@ -41,13 +41,13 @@ class LoginComponent {
           this.$state.go('app.course.teacher')
         }
       })
-    } catch (e) {
-      this.ngToast.create({
-        dismissButton: true,
-        className: 'danger',
-        content: `${e.reason}`,
-      })
-    }
+    // } catch (e) {
+    //   this.ngToast.create({
+    //     dismissButton: true,
+    //     className: 'danger',
+    //     content: `${e.reason}`,
+    //   })
+    // }
   }
 
 }
