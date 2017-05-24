@@ -1,4 +1,5 @@
 import User from '/imports/both/models/User' // TODO: double check if this line of code is not needed
+import schema from '/imports/both/schemas/User'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 // import ngToast from '/node_modules/ng-toast'
@@ -17,6 +18,7 @@ import '../views/login-view.html'
 })
 @Inject('$scope', '$reactive', '$state', 'ngToast')
 class LoginComponent {
+  static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
     $reactive(this).attach($scope)
     this.user = {}
@@ -26,17 +28,26 @@ class LoginComponent {
   }
 
   login() {
-    Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
-      if (err) {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
-        })
-      } else {
-        this.$state.go('app.course.teacher')
-      }
-    })
+    try {
+      schema.validate(this.user.doc)
+      Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
+        if (err) {
+          this.ngToast.create({
+            dismissButton: true,
+            className: 'danger',
+            content: `${err.reason}`,
+          })
+        } else {
+          this.$state.go('app.course.teacher')
+        }
+      })
+    } catch (e) {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${e.reason}`,
+      })
+    }
   }
 
 }

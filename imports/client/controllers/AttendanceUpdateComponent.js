@@ -1,4 +1,5 @@
 import Session from '/imports/both/models/Session'
+import schema from '/imports/both/schemas/Session'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/attendance-update.html'
@@ -19,7 +20,7 @@ import '../views/attendance-update.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
 class AttendanceUpdateComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { sessionId } = $stateParams
@@ -44,15 +45,24 @@ class AttendanceUpdateComponent {
       }
     })
     console.log(session) // TODO: remove console log
-    session.save((err) => {
-      if (err) {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
-        })
-      }
-    })
+    try {
+      schema.validate(this.sessio.doc)
+      session.save((err) => {
+        if (err) {
+          this.ngToast.create({
+            dismissButton: true,
+            className: 'danger',
+            content: `${err.reason}`,
+          })
+        }
+      })
+    } catch (e) {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${e.reason}`,
+      })
+    }
   }
 
 }
