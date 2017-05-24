@@ -77,4 +77,14 @@ export default new SimpleSchema({
     type: String,
     optional: true,
   },
+  notifications: {
+    type: [Object],
+    optional: true,
+  },
+  'notifications.$._id': {
+    type: String,
+  },
+  'notifications.$.isSeen':{
+    type: Boolean,
+  },
 })
