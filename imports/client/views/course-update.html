@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Course Update</h4>
+    </div>
+    <div class="panel-body">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Titles</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <form>
+          <tr>
+            <td>Teacher's ID number:</td>
+            <td>{{ courseDataUpdate.course.lecture.instructor.idNumber }}</td>
+          </tr>
+          <tr>
+            <td>Teacher:</td>
+            <td>{{ courseDataUpdate.course.lecture.instructor.fullName }}</td>
+          </tr>
+          <tr>
+            <td>Subject:</td>
+            <td>{{ courseDataUpdate.course.subject.name }}</td>
+          </tr>
+          <tr>
+            <td>Stub Code:</td>
+            <td><input type="number" ng-model="courseDataUpdate.course.stubcode" class="form-control"></td>
+          </tr>
+          <tr>
+            <td>Time:</td>
+            <td><input type="text" ng-model="courseDataUpdate.course.lecture.time" class="form-control"></td>
+          </tr>
+           <tr>
+            <td>Room:</td>
+            <td><input type="text" ng-model="courseDataUpdate.course.lecture.room" class="form-control"></td>
+          </tr>
+           <tr>
+            <td>Laboratory Time:</td>
+            <td><input type="text" ng-model="courseDataUpdate.course.laboratory.time" class="form-control"></td>
+          </tr>
+          <tr>
+            <td>Laboratory Room:</td>
+            <td><input type="text" ng-model="courseDataUpdate.course.laboratory.room" class="form-control"></td>
+          </tr>
+        </form>
+      </tbody>
+    </table>
+     <div class="col-sm-offset-9 col-sm-3">
+    <button type="button" ng-click="courseDataUpdate.save()" class="btn btn-primary btn-block">Save</button>
+  </div>
+   </div>
+  </div>
+</div>

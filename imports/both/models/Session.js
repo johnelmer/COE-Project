@@ -39,7 +39,7 @@ class Session extends Model {
   }
 
   getActivitiesByType(type) {
-    return this.getFilteredObjectsFromArray('activities', 'type', type)
+    return Activity.find({ sessionId: this._id, type: type }).fetch()
   }
 
   addStudentAttendance(student, type) {
@@ -72,6 +72,13 @@ class Session extends Model {
 
   get activities() {
     return Activity.find({ _id: { $in: this.activityIds } }).fetch()
+  }
+
+  get activitiesWithDate() {
+    return this.activities.map((activity) => {
+      activity.date = this.date.toLocaleDateString()  
+      return activity
+    })
   }
 }
 

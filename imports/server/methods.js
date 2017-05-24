@@ -3,7 +3,7 @@ import { Accounts } from 'meteor/accounts-base'
 import User from '/imports/both/models/User'
 
 Meteor.methods({
-  'createNewUser': (doc, callback) => {
+  createNewUser: (doc, callback) => {
     const roleName = doc.profile.roleName
     if (roleName !== 'dean') {
       Accounts.createUser(doc, callback)
@@ -14,7 +14,7 @@ Meteor.methods({
     }
   },
   /* TODO: refactor. Verify what kind of updates, role restrictions */
-  'updateUser': (doc, callback) => {
+  updateUser: (doc, callback) => {
     User.update({ _id: doc._id }, { $set: doc }, {}, callback)
   },
 })

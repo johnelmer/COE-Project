@@ -14,6 +14,10 @@ export default new SimpleSchema({
   type: {
     type: String,
   },
+  description: {
+    type: String,
+    optional: true,
+  },
   totalScore: {
     type: Number,
   },
