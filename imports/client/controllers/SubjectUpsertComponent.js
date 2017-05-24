@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import Subject from '/imports/both/models/Subject'
+import schema from '/imports/both/schemas/Subject'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
@@ -9,10 +10,9 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('secretary') || $location.path('/login')
     },
   },
 })
@@ -31,10 +31,10 @@ import '../views/subject-upsert.html'
   selector: 'subject-upsert',
   templateUrl: 'imports/client/views/subject-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class SubjectUpsertComponent {
-
-  constructor($scope, $reactive, $state, $stateParams) {
+  static schema = schema
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
     this.subscribe('subjects')
@@ -56,14 +56,33 @@ class SubjectUpsertComponent {
         return Subject.find().fetch()
       },
     })
+    this.ngToast = ngToast
   }
+
   save() {
     console.log(this.subject);
-    this.subject.save((doc, err) => {
-      console.log(doc);
-      console.log(err);
-      alert(`Subject ${this.message}!`)
-    })
+    try {
+      schema.validate(this.subject.doc)
+      this.subject.save((doc, err) => {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'success',
+          content: `Subject ${this.message}!`,
+        })
+        console.log(doc);
+      })
+    } catch (e) {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${e.reason}`,
+      })
+    }
   }
 
 }

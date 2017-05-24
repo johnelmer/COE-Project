@@ -7,15 +7,15 @@ import schema from '../schemas/Course'
 import Model from './Model'
 import Session from './Session'
 import Student from './Student'
-import ActivityType from './ActivityType'
+import GradingTemplate from './GradingTemplate'
 
 @SetupCollection('Courses')
 class Course extends Model {
 
   static schema = schema
 
-  hasLaboratory() {
-    return this.laboratory instanceof 'object'
+  get hasALaboratory() {
+    return typeof this.laboratory === 'object'
   }
 
   enrollAStudent(student) {
@@ -45,16 +45,18 @@ class Course extends Model {
     return this.sessions.map(session => session._id)
   }
 
-  getAllActivities() {
-    return this.sessionIds.map((sessionId) => {
-      return Session.findOne(sessionId).activities
-    })
+  get activities() {
+    const unFlattenedActivities = this.fullSessions.map(session => session.activities)
+    return unFlattenedActivities.reduce((acc, curr) => acc.concat(curr))
+  }
+
+  get activitiesWithDate() {
+    const unFlattenedActivities = this.fullSessions.map(session => session.activitiesWithDate)
+    return unFlattenedActivities.reduce((acc, curr) => acc.concat(curr))
   }
 
   getAllActivitiesByType(type) {
-    return this.sessionIds.map((sessionId) => {
-      return Session.findOne(sessionId).getActivitiesByType(type)
-    })
+    return this.fullSessions.map(session => session.getActivitiesByType(type))
   }
 
   getSessionByDate(date) {
@@ -87,26 +89,16 @@ class Course extends Model {
     return Session.find({ _id: { $in: this.sessionIds } }, { sort: { date: 1 } }).fetch()
   }
 
+  get fullGradingTemplate() {
+    return GradingTemplate.findOne({ _id: this.gradingTemplate._id })
+  }
+
   get classRecord() {
-    const sessions = this.fullSessions
     const students = this.students
-    let activities = []
-    const activityList = []
-    const activityTypes = ActivityType.find().fetch()
-    sessions.forEach((session) => {
-      if (session.activityIds.length > 0) {
-        const sessionActivities = session.activities
-        activities = activities.concat(sessionActivities)
-        sessionActivities.forEach((activity) => {
-          activityList.push({
-            _id: activity._id,
-            type: activity.type,
-            totalScore: activity.totalScore,
-            date: session.date.toLocaleDateString(),
-          })
-        })
-      }
-    })
+    const gradingTemplate = this.fullGradingTemplate
+    const activities = this.activitiesWithDate
+    const activityList = activities.map(activity => _(activity).omit('records', 'isLocked'))
+    const activityTypes = gradingTemplate.activities
     activityTypes.forEach((type) => {
       students.forEach(student => student[type.name] = [])
     })
@@ -120,6 +112,7 @@ class Course extends Model {
     })
     return { activityTypes: activityTypes, activityList: activityList, students: students }
   }
+
 }
 
 export default Course

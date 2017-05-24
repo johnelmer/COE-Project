@@ -10,7 +10,16 @@ const courseType = new SimpleSchema({
     type: String,
     optional: true,
   },
-  instructorId: {
+  instructor: {
+    type: Object,
+  },
+  'instructor._id': {
+    type: String,
+  },
+  'instructor.fullName': {
+    type: String,
+  },
+  'instructor.idNumber': {
     type: String,
   },
 })
@@ -52,5 +61,14 @@ export default new SimpleSchema({
   schoolYear: {
     type: String,
     optional: true,
+  },
+  gradingTemplate: {
+    type: Object,
+  },
+  'gradingTemplate._id': {
+    type: String,
+  },
+  'gradingTemplate.isApproved': {
+    type: Boolean,
   },
 })

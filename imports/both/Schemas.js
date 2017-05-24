@@ -303,6 +303,7 @@ Schemas.embeddedRecord = new SimpleSchema({
   },
 })
 
+
 Schemas.embeddedActivity = new SimpleSchema({
   /* TODO: allowed values */
   type: {
@@ -318,7 +319,6 @@ Schemas.embeddedActivity = new SimpleSchema({
     type: Schemas.embeddedRecord,
   },
 })
-
 Schemas.session = new SimpleSchema({
   courseId: {
     type: String,

@@ -22,6 +22,7 @@
     "bcrypt": "^1.0.2",
     "bootstrap-sass": "^3.3.7",
     "meteor-node-stubs": "~0.2.0",
+    "ng-toast": "^2.0.0",
     "simpl-schema": "^0.1.0",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3"

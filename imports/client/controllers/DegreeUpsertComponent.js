@@ -1,6 +1,5 @@
 import Degree from '/imports/both/models/Degree'
 import Department from '/imports/both/models/Department'
-import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/degree-upsert.html'
@@ -9,10 +8,9 @@ import '../views/degree-upsert.html'
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('dean') || $state.go('app.login')
+    redirect($location) {
+      const user = Meteor.user()
+      return user.hasARole('dean') || $location.path('/login')
     },
   },
 })
@@ -20,9 +18,10 @@ import '../views/degree-upsert.html'
   selector: 'degree-upsert',
   templateUrl: 'imports/client/views/degree-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DegreeUpsertComponent {
-  constructor($scope, $reactive, $state, $stateParams) {
+
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { degreeId } = $stateParams
     this.degree = ''
@@ -47,8 +46,9 @@ class DegreeUpsertComponent {
       },
       departments() {
         return Department.find().fetch()
-      }
+      },
     })
+    this.ngToast = ngToast
   }
 
   save() {
@@ -58,14 +58,22 @@ class DegreeUpsertComponent {
     // })
     const degreeId = new Degree({ name: this.degree }).save((err, doc) => {
       if (err) {
-        console.log(err);
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
       } else {
         console.log(doc);
       }
     })
     new Department({ name: this.department, _id: degreeId }).save((err, doc) => {
       if (err) {
-        console.log(err);
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
       } else {
         console.log(doc);
       }
@@ -73,4 +81,5 @@ class DegreeUpsertComponent {
   }
 
 }
+
 export default DegreeUpsertComponent
