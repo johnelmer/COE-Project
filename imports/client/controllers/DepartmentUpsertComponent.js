@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import Department from '/imports/both/models/Department'
+import schema from '/imports/both/schemas/Department'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/department-upsert.html'
@@ -20,7 +21,7 @@ import '../views/department-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class DepartmentUpsertComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { departmentId } = $stateParams
@@ -40,13 +41,22 @@ class DepartmentUpsertComponent {
   }
 
   save() {
-    this.department.save(() => {
+    try {
+      schema.validate(this.department.doc)
+      this.department.save(() => {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'success',
+          content: 'Department Add',
+        })
+      })
+    } catch (e) {
       this.ngToast.create({
         dismissButton: true,
-        className: 'success',
-        content: 'Department Add',
+        className: 'danger',
+        content: `${e.reason}`,
       })
-    })
+    }
   }
 }
 

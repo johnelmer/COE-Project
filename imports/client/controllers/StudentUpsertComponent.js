@@ -2,6 +2,7 @@
 import Student from '/imports/both/models/Student'
 import schema from '/imports/both/schemas/Student'
 import Degree from '/imports/both/models/Degree'
+import schema from '/imports/both/schemas/Student'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
@@ -63,7 +64,7 @@ class StudentUpsertComponent {
   }
   save() {
     try {
-      schema.validate(this.student)
+      schema.validate(this.student.doc)
       this.student.save(() => {
         const { firstName, lastName } = this.student
         this.ngToast.create({
@@ -77,11 +78,10 @@ class StudentUpsertComponent {
       this.ngToast.create({
         dismissButton: true,
         className: 'danger',
-        content: `${e.reason}!`,
+        content: `${e.reason}`,
       })
     }
   }
-
 }
 
 
