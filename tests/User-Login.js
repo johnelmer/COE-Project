@@ -19,4 +19,10 @@ describe('Logging in @watch', () => {
     const message = browser.getText('#toast')
     expect(message).to.contain('User not found')
   })
+  it('Cannot login with empty fields', () => {
+    browser.url('http://localhost:3000/')
+    browser.setValue('#username', '')
+    browser.setValue('#password', '')
+    browser.click('#submitButton')
+  })
 })
