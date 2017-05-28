@@ -13,6 +13,14 @@ import '../views/attendance-update.html'
       return user.hasARole('faculty') || $location.path('/login')
     },
   },
+  // resolve: {
+  //   redirect($location, $meteor) {
+  //     $meteor.subscribe('roles').then(() => {
+  //       const user = Meteor.user()
+  //       return user.hasARole('faculty') || $location.path('/login')
+  //     })
+  //   },
+  // },
 })
 @Component({
   selector: 'attendance-update',
