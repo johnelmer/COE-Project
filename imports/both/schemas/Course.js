@@ -64,6 +64,7 @@ export default new SimpleSchema({
   },
   gradingTemplate: {
     type: Object,
+    optional: true,
   },
   'gradingTemplate._id': {
     type: String,
