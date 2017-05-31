@@ -28,25 +28,29 @@ class LoginComponent {
   }
 
   login() {
+    // if (this.user.username)
     // try {
     //   schema.validate(this.user.doc)
+    if (this.user.username === undefined || this.user.password === undefined) {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: 'Please fill in the fields!',
+      })
+    } else {
       Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
         if (err) {
           this.ngToast.create({
             dismissButton: true,
             className: 'danger',
-            content: `${err.reason}`,
+            content: `${err.reason}!`,
           })
         } else {
           this.$state.go('app.course.teacher')
         }
       })
+    }
     // } catch (e) {
-    //   this.ngToast.create({
-    //     dismissButton: true,
-    //     className: 'danger',
-    //     content: `${e.reason}`,
-    //   })
     // }
   }
 
