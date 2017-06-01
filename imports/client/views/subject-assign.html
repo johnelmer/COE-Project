@@ -59,7 +59,7 @@
           <button class="btn btn-primary" type="button">Search</button>
         </span>
       </div>
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped table-responsive">
         <thead>
           <tr>
             <td>
@@ -87,6 +87,12 @@
               Credits
             </td>
             <td>
+              Lab Teacher Id
+            </td>
+            <td>
+              Lab Teacher
+            </td>
+            <td>
               Lab Room
             </td>
             <td>
@@ -104,6 +110,8 @@
             <td> {{ course.lecture.time }}</td>
             <td> {{ course.lecture.room }}</td>
             <td> {{ course.subject.credits }}</td>
+            <td> {{ course.laboratory.instructor.idNumber }}</td>
+            <td> {{ course.laboratory.instructor.fullName }}</td>
             <td> {{ course.laboratory.room }}</td>
             <td> {{ course.laboratory.time }}</td>
           </tr>

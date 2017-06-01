@@ -1,19 +1,16 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 export default new SimpleSchema({
+  userIds: {
+    type: String,
+  },
   title: {
     type: String,
   },
-  attendees: {
-    type: [String]
+  body: {
+    type: String,
   },
-  time : {
+  date: {
     type: Date,
-  },
-  location: {
-    type: String,
-  },
-  description: {
-    type: String,
-  },
+  }
 })
