@@ -9,7 +9,9 @@ import '../views/class-record.html'
   resolve: {
     redirect($location) {
       const user = Meteor.user()
-      return user.hasARole('faculty') || $location.path('/login')
+      if (user) {
+        return user.hasARole('faculty') || $location.path('/login')
+      }
     },
   },
 })
@@ -36,12 +38,12 @@ class ClassRecordComponent {
       this.activityList = []
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
-        const classRecord = course.classRecord
-        const students = classRecord.students
-        this.students = students
-        console.log(classRecord)
-        this.activityTypes = classRecord.activityTypes
-        this.activityList = classRecord.activityList
+        this.students = course.studentsWithRecords
+        this.activityTypes = course.activityTypes
+        this.activities = course.activitiesWithDates
+        console.log(this.activityTypes)
+        console.log(this.activities)
+        console.log(this.course)
       }
     })
     this.newActivity = { date: new Date(), totalScore: 5 }
@@ -55,8 +57,17 @@ class ClassRecordComponent {
     }
   }
 
-  filterActivityList(type) {
-    return this.activityList.filter(activity => activity.type === type)
+  getFilteredArray(arr, key, val) {
+    return arr.filter(activity => activity[key] === val)
+  }
+
+  getRecordsByType(records, type) {
+    return records.filter(record => record.activityType === type)
+  }
+
+  getActivitiesByType(type) {
+    console.log(this.activities)
+    return this.activities.filter(activity => activity.type === type)
   }
 
   addNewActivity(type) {
