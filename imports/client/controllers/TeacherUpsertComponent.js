@@ -1,4 +1,5 @@
 import User from '/imports/both/models/User'
+import schema from '/imports/both/schemas/User'
 import { Meteor } from 'meteor/meteor'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
@@ -24,7 +25,7 @@ import '../views/teacher-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class TeacherUpsertComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
@@ -51,20 +52,29 @@ class TeacherUpsertComponent {
 
   save() {
     console.log(this.teacher);
-    this.teacher.save((err, doc) => {
+    try {
+      schema.validate(this.teacher.doc)
+      this.teacher.save((err, doc) => {
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'danger',
+          content: `${err.reason}`,
+        })
+        this.ngToast.create({
+          dismissButton: true,
+          className: 'success',
+          content: `${this.teacher} added!`,
+        })
+        console.log(doc) // TODO: remove console log
+        this.teacher = new User()
+      })
+    } catch (e) {
       this.ngToast.create({
         dismissButton: true,
         className: 'danger',
-        content: `${err.reason}`,
+        content: `${e.reason}`,
       })
-      this.ngToast.create({
-        dismissButton: true,
-        className: 'success',
-        content: `${this.teacher} added!`,
-      })
-      console.log(doc)
-      this.teacher = new User()
-    })
+    }
   }
 
 }
