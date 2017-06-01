@@ -15,15 +15,18 @@
         <form>
           <tr>
             <td>Teacher's ID number:</td>
-            <td>{{ courseDataUpdate.course.lecture.instructor.idNumber }}</td>
+            <td>
+              <input type="text"  value="{{ courseDataUpdate.course.lecture.instructor.idNumber }}" class="form-control" readonly></td>
           </tr>
           <tr>
             <td>Teacher:</td>
-            <td>{{ courseDataUpdate.course.lecture.instructor.fullName }}</td>
+            <td>
+              <input type="text" value="{{ courseDataUpdate.course.lecture.instructor.fullName }}" class="form-control" readonly></td>
           </tr>
           <tr>
             <td>Subject:</td>
-            <td>{{ courseDataUpdate.course.subject.name }}</td>
+            <td>
+              <input type="text" value="{{ courseDataUpdate.course.subject.name }}" class="form-control" readonly></td>
           </tr>
           <tr>
             <td>Stub Code:</td>
@@ -33,10 +36,26 @@
             <td>Time:</td>
             <td><input type="text" ng-model="courseDataUpdate.course.lecture.time" class="form-control"></td>
           </tr>
-           <tr>
+          <tr>
             <td>Room:</td>
             <td><input type="text" ng-model="courseDataUpdate.course.lecture.room" class="form-control"></td>
           </tr>
+           <tr>
+            <td>Laboratory Teacher:</td>
+            <td>
+              <input type="text" value="{{ courseDataUpdate.course.laboratory.instructor.fullName }}" class="form-control" readonly>
+              <ui-select ng-model="courseDataUpdate.teacher" theme="bootstrap" title="Choose a Teacher" ng-if="!courseDataUpdate.course.laboratory.instructor.fullName">
+                <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
+                <ui-select-choices group-by="'department'" repeat="teacher in courseDataUpdate.teachers | filter: $select.search">
+                  <span ng-bind-html="teacher.fullName | highlight: $select.search"></span>
+                  <div>
+                  </div>
+                  <small ng-bind-html="teacher.departments[0] | highlight: $select.search"></small>
+                </ui-select-choices>
+              </ui-select>
+            </td>
+          </tr>
+          <tr>
            <tr>
             <td>Laboratory Time:</td>
             <td><input type="text" ng-model="courseDataUpdate.course.laboratory.time" class="form-control"></td>
