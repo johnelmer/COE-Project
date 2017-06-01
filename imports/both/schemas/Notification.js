@@ -10,4 +10,7 @@ export default new SimpleSchema({
   body: {
     type: String,
   },
+  date: {
+    type: Date,
+  }
 })
