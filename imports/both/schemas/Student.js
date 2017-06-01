@@ -1,5 +1,4 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
-import courseSchema from './Course'
 
 export default new SimpleSchema({
   firstName: {
@@ -87,8 +86,8 @@ export default new SimpleSchema({
     optional: true,
     blackbox: true,
   },
-  courses: {
-    type: [courseSchema.pick('subject', 'lecture', 'laboratory', 'semester')],
+  courseIds: {
+    type: [String],
     optional: true,
   },
 })
