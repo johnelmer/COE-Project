@@ -38,8 +38,8 @@ class Session extends Model {
     }
   }
 
-  getActivitiesByType(type) {
-    return Activity.find({ sessionId: this._id, type: type }).fetch()
+  getActivities(type) {
+    return (type) ? Activity.find({ sessionId: this._id, type: type }).fetch() : this.activities
   }
 
   addStudentAttendance(student, type) {
@@ -76,9 +76,14 @@ class Session extends Model {
 
   get activitiesWithDate() {
     return this.activities.map((activity) => {
-      activity.date = this.date.toLocaleDateString()  
+      activity.date = this.date.toLocaleDateString()
       return activity
     })
+  }
+
+  get activityRecords() {
+    const activities = this.activities.map(activity => activity.recordList)
+    return activities.reduce((acc, cur) => acc.concat(cur))
   }
 }
 

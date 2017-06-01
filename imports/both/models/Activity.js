@@ -57,6 +57,13 @@ class Activity extends Model {
     return Activity.find({ _id: { $in: this.activityIds } })
   }
 
+  get recordList() {
+    return this.records.map((record) => {
+      record.activityId = this._id
+      record.activityType = this.type
+      return record
+    })
+  }
 }
 
 export default Activity
