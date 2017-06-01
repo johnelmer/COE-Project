@@ -39,11 +39,9 @@ class ClassRecordComponent {
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
         this.students = course.studentsWithRecords
-        this.activityTypes = course.activityTypes
+        this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
-        console.log(this.activityTypes)
-        console.log(this.activities)
-        console.log(this.course)
+        console.log(this.students)
       }
     })
     this.newActivity = { date: new Date(), totalScore: 5 }
@@ -66,8 +64,13 @@ class ClassRecordComponent {
   }
 
   getActivitiesByType(type) {
-    console.log(this.activities)
     return this.activities.filter(activity => activity.type === type)
+  }
+
+  getComputedScore(student, type) {
+    const records = student.records.filter(record => record.activityType === type)
+    return (records.length > 1) ? records.reduce((acc, cur) => acc.score + cur.score) :
+      (records.length === 1) ? records[0].score : 0
   }
 
   addNewActivity(type) {

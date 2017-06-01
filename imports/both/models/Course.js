@@ -102,6 +102,25 @@ class Course extends Model {
     return this.fullGradingTemplate.getActivityTypes()
   }
 
+  get activityTypesWithScores() {
+    const activityTypes = this.activityTypes
+    const activities = this.activities
+    return activityTypes.map((type) => {
+      const filteredActivities = activities.filter(activity => activity.type === type.name)
+      type.totalScore = 0
+      if (filteredActivities.length > 1) {
+        return filteredActivities.reduce((acc, cur) => {
+          type.totalScore = acc.totalScore + cur.totalScore
+          return type
+        })
+      } else if (filteredActivities.length === 1) {
+        type.totalScore = filteredActivities[0].totalScore
+        return type
+      }
+      return type
+    })
+  }
+
 /*  get classRecord() {
     const students = this.students
     const gradingTemplate = this.fullGradingTemplate
