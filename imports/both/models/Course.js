@@ -50,13 +50,13 @@ class Course extends Model {
     return unFlattenedActivities.reduce((acc, curr) => acc.concat(curr))
   }
 
-  get activitiesWithDate() {
+  get activitiesWithDates() {
     const unFlattenedActivities = this.fullSessions.map(session => session.activitiesWithDate)
-    return unFlattenedActivities.reduce((acc, curr) => acc.concat(curr))
+    return unFlattenedActivities.reduce((acc, cur) => acc.concat(cur))
   }
 
-  getAllActivitiesByType(type) {
-    return this.fullSessions.map(session => session.getActivitiesByType(type))
+  getActivities(type) {
+    return (type) ? this.fullSessions.map(session => session.getActivities(type)) : this.activities
   }
 
   getSessionByDate(date) {
@@ -93,12 +93,40 @@ class Course extends Model {
     return GradingTemplate.findOne({ _id: this.gradingTemplate._id })
   }
 
-  get classRecord() {
+  get activityRecords() {
+    const activities = this.fullSessions.map(session => session.activityRecords)
+    return activities.reduce((acc, cur) => acc.concat(cur))
+  }
+
+  get activityTypes() {
+    return this.fullGradingTemplate.getActivityTypes()
+  }
+
+  get activityTypesWithScores() {
+    const activityTypes = this.activityTypes
+    const activities = this.activities
+    return activityTypes.map((type) => {
+      const filteredActivities = activities.filter(activity => activity.type === type.name)
+      type.totalScore = 0
+      if (filteredActivities.length > 1) {
+        return filteredActivities.reduce((acc, cur) => {
+          type.totalScore = acc.totalScore + cur.totalScore
+          return type
+        })
+      } else if (filteredActivities.length === 1) {
+        type.totalScore = filteredActivities[0].totalScore
+        return type
+      }
+      return type
+    })
+  }
+
+/*  get classRecord() {
     const students = this.students
     const gradingTemplate = this.fullGradingTemplate
     const activities = this.activitiesWithDate
     const activityList = activities.map(activity => _(activity).omit('records', 'isLocked'))
-    const activityTypes = gradingTemplate.activities
+    const activityTypes = gradingTemplate.getActivityTypes()
     activityTypes.forEach((type) => {
       students.forEach(student => student[type.name] = [])
     })
@@ -111,8 +139,16 @@ class Course extends Model {
       })
     })
     return { activityTypes: activityTypes, activityList: activityList, students: students }
-  }
+  } */
 
+  get studentsWithRecords() {
+    const activityRecords = this.activityRecords
+    return this.students.map((student) => {
+      const records = activityRecords.filter(record => record.studentId === student._id)
+      student.records = records.map(record => _(record).omit('studentId'))
+      return student
+    })
+  }
 }
 
 export default Course

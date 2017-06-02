@@ -7,9 +7,12 @@ import '../views/student-list.html'
   name: 'app.student.list',
   url: '/students/list',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('secretary') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('secretary')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

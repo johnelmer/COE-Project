@@ -10,9 +10,12 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('secretary') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('secretary')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

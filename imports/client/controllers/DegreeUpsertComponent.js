@@ -7,12 +7,15 @@ import '../views/degree-upsert.html'
 @State({
   name: 'app.degree.create',
   url: '/degree/create',
-  // resolve: {
-  //   redirect($location) {
-  //     const user = Meteor.user()
-  //     return user.hasARole('dean') || $location.path('/login')
-  //   },
-  // },
+  resolve: {
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('dean')) {
+          $location.path('/login')
+        }
+      })
+    },
+  },
 })
 @Component({
   selector: 'degree-upsert',

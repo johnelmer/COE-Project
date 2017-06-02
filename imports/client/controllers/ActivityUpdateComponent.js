@@ -8,9 +8,12 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('faculty') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('faculty')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

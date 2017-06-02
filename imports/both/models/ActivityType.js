@@ -4,7 +4,7 @@ import Model from './Model'
 
 @SetupCollection('ActivityTypes')
 class ActivityType extends Model {
-   static schema = schema
+  static schema = schema
 }
 
 export default ActivityType

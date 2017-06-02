@@ -35,15 +35,16 @@
             <thead>
               <tr>
                 <td><label>Name of Students</label></td>
-                <td ng-repeat="activity in classRecord.activityTypes">
-                  <label> {{ activity.name }}</label>
+                <td ng-repeat="type in classRecord.activityTypes">
+                  <label>{{ type.name }} ({{ type.percentage }}%)</label>
+                  <label>{{ type.totalScore }}</label>
                 </td>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="student in classRecord.students track by student._id">
                 <td>{{ student.fullName }}</td>
-                <td></td>
+                <td ng-repeat="type in classRecord.activityTypes">{{ classRecord.getComputedScore(student, type.name) }}</td>
               </tr>
             </tbody>
           </table>
@@ -79,7 +80,7 @@
                   <td align="center"><label>
                     Name of Students
                   </label></td>
-                  <td ng-repeat="activity in classRecord.filterActivityList(activityType.name)" align="center">
+                  <td ng-repeat="activity in classRecord.getActivitiesByType(activityType.name)" align="center">
                     <label>Date: {{ activity.date }}
                       <label>Total Score: {{ activity.totalScore }}</label>
                       <label>
@@ -92,7 +93,7 @@
               <tbody>
                 <tr ng-repeat="student in classRecord.students track by student._id">
                   <td> {{ student.fullName }}</td>
-                  <td ng-repeat="record in student[activityType.name]">
+                  <td ng-repeat="record in classRecord.getRecordsByType(student.records, activityType.name)">
                     {{ record.score }}
                   </td>
                 </tr>

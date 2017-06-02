@@ -11,9 +11,12 @@ import '../views/student-upsert.html'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('secretary') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('secretary')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

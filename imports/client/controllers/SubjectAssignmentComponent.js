@@ -11,12 +11,16 @@ import '../views/subject-assign.html'
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
-  // resolve: {
-  //   redirect($location) {
-  //     const user = Meteor.user()
-  //     return user.hasARole('department head') || $location.path('/login')
-  //   },
-  // },
+
+  resolve: {
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('department head')) {
+          $location.path('/login')
+        }
+      })
+    },
+  },
 })
 @Component({
   selector: 'subject-assign',

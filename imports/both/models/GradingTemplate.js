@@ -6,10 +6,18 @@ import Model from './Model'
 class GradingTemplate extends Model {
   static schema = schema
 
-  get activities() {
-    const lectActivities = this.lecture.activityTypes
-    const labActivities = this.laboratory.activityTypes
-    return this.laboratory ? lectActivities.concat(labActivities) : lectActivities
+  getActivityTypes(classType) {
+    const lectActivityTypes = this.lecture.activityTypes
+    const laboratory = this.laboratory
+    const selectedClassType = this[classType]
+    if (classType && selectedClassType) {
+      return selectedClassType.activityTypes
+    } else if (classType && !selectedClassType) {
+      return []
+    } else if (laboratory) {
+      return lectActivityTypes.concat(laboratory.activityTypes)
+    }
+    return lectActivityTypes
   }
 }
 

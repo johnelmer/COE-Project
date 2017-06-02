@@ -7,10 +7,14 @@ import '../views/teacher-view.html'
   name: 'app.teacher.view',
   url: '/teacher/view/:teacherId',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('secretary') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('secretary')) {
+          $location.path('/login')
+        }
+      })
     },
+
   },
 })
 @Component({
