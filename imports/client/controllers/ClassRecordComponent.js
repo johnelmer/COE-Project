@@ -41,7 +41,6 @@ class ClassRecordComponent {
         this.students = course.studentsWithRecords
         this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
-        console.log(this.students)
       }
     })
     this.newActivity = { date: new Date(), totalScore: 5 }
@@ -69,8 +68,13 @@ class ClassRecordComponent {
 
   getComputedScore(student, type) {
     const records = student.records.filter(record => record.activityType === type)
-    return (records.length > 1) ? records.reduce((acc, cur) => acc.score + cur.score) :
+    const activityTypes = this.activityTypes
+    const index = activityTypes.findIndex(activityType => activityType.name === type)
+    const totalScore = activityTypes[index].totalScore
+    const score = (records.length > 1) ? records.reduce((acc, cur) => acc.score + cur.score) :
       (records.length === 1) ? records[0].score : 0
+    const percentage = (score !== 0) ? ((score / totalScore) * 100).toFixed(2) : 0
+    return `${score} (${percentage}%)`
   }
 
   addNewActivity(type) {
