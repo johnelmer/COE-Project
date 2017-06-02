@@ -29,12 +29,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="degree in degreeUpsert.degrees">
-              <td>{{ degree.name }}</td>
-              <td><button type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-remove"></span> Remove
-              </button></td>
-              <!-- <td>{{ dept.name }}</td> -->
+            <tr ng-repeat="department in degreeUpsert.departments">
+              <td>{{ department.degree.name }}</td>
+              <td>{{ department.name }}</td>
               <td><button type="button" class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-remove"></span> Remove
               </button></td>
