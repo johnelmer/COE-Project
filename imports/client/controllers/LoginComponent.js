@@ -10,6 +10,13 @@ import '../views/login-view.html'
 @State({
   name: 'app.login',
   url: '/login',
+  resolve: {
+    redirect($auth, $location) {
+      $auth.requireUser().then(() => {
+        $location.path('/teacher/main')
+      })
+    },
+  },
   defaultRoute: true,
 })
 @Component({

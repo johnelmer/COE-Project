@@ -12,7 +12,7 @@ class NavBarComponent {
 
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
-    this.user = Meteor.user()
+    this.user = this.currentUser
     this.subscribe('users')
     this.ngToast = ngToast
   }

@@ -26,3 +26,4 @@ practicalmeteor:chai
 aldeed:simple-schema
 aldeed:collection2
 dispatch:mocha
+accounts-base

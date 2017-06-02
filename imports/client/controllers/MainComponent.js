@@ -18,6 +18,19 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
+  name: 'app.forTeacher',
+  abstract: true,
+  resolve: {
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('faculty')) {
+          $location.path('/login')
+        }
+      })
+    },
+  },
+})
+@State({
   name: 'app.subject',
   abstract: true,
 })

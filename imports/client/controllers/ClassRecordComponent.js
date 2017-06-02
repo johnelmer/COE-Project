@@ -7,11 +7,12 @@ import '../views/class-record.html'
   name: 'app.course.classRecord',
   url: '/teacher/course/classrecord/:courseId',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      if (user) {
-        return user.hasARole('faculty') || $location.path('/login')
-      }
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('faculty')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })
