@@ -71,7 +71,9 @@ class ClassRecordComponent {
     const activityTypes = this.activityTypes
     const index = activityTypes.findIndex(activityType => activityType.name === type)
     const totalScore = activityTypes[index].totalScore
-    const score = (records.length > 1) ? records.reduce((acc, cur) => acc.score + cur.score) :
+    const score = (records.length > 1) ? records.reduce((acc, cur) => {
+      return { score: acc.score + cur.score }
+    }).score :
       (records.length === 1) ? records[0].score : 0
     const percentage = (score !== 0) ? ((score / totalScore) * 100).toFixed(2) : 0
     return `${score} (${percentage}%)`
