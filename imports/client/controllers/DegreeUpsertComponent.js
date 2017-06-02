@@ -7,12 +7,12 @@ import '../views/degree-upsert.html'
 @State({
   name: 'app.degree.create',
   url: '/degree/create',
-  resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('dean') || $location.path('/login')
-    },
-  },
+  // resolve: {
+  //   redirect($location) {
+  //     const user = Meteor.user()
+  //     return user.hasARole('dean') || $location.path('/login')
+  //   },
+  // },
 })
 @Component({
   selector: 'degree-upsert',
@@ -40,9 +40,6 @@ class DegreeUpsertComponent {
           return new Department
         }
         return Department.findOne({ _id: degreeId })
-      },
-      degrees() {
-        return Degree.find().fetch()
       },
       departments() {
         return Department.find().fetch()

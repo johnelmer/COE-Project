@@ -1,7 +1,7 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
-import Degree from '/imports/both/models/Degree'
 import schema from '/imports/both/schemas/Student'
+import Degree from '/imports/both/models/Degree'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'

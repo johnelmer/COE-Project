@@ -45,6 +45,14 @@ import '../views/app.html'
   name: 'app.meeting',
   abstract: true,
 })
+@State({
+  name: 'app.course.assign',
+  abstract: true,
+})
+@State({
+  name: 'app.notification',
+  abstract: true,
+})
 @Component({
   selector: 'app',
   templateUrl: 'imports/client/views/app.html',
