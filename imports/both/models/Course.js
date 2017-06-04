@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import { Meteor } from 'meteor/meteor'
 
 import SetupCollection from '../decorators/SetupCollection'
 import Idempotent from '../decorators/Idempotent'
@@ -42,51 +43,60 @@ class Course extends Model {
   }
 
   get sessionIds() {
-    return this.sessions.map(session => session._id)
+    return _.flatten(this.types.map((type) => {
+      return this[type].sessions.map(session => session._id)
+    }))
   }
 
   get activities() {
-    const unFlattenedActivities = this.fullSessions.map(session => session.activities)
-    return unFlattenedActivities.reduce((acc, curr) => acc.concat(curr))
+    const activities = this.sessions.map(session => session.activities)
+    return _.flatten(activities)
   }
 
   get activitiesWithDates() {
-    const unFlattenedActivities = this.fullSessions.map(session => session.activitiesWithDate)
+    const unFlattenedActivities = this.sessions.map(session => session.activitiesWithDate)
     return unFlattenedActivities.reduce((acc, cur) => acc.concat(cur))
   }
 
   getActivities(type) {
-    return (type) ? this.fullSessions.map(session => session.getActivities(type)) : this.activities
+    return (type) ? this.sessions.map(session => session.getActivities(type)) : this.activities
   }
 
-  getSessionByDate(date) {
+  getSessionByDate(date, type) {
     const formattedDate = date.toLocaleDateString()
-    const sessionObj = this.sessions.find((session) => {
+    const sessionObj = this[type].sessions.find((session) => {
       return session.date.toLocaleDateString() === formattedDate
     })
     if (!sessionObj) {
-      return Session.findOne({ _id: this.getNewSessionId(formattedDate) })
+      return Session.findOne({ _id: this.getNewSessionId(formattedDate, type) })
     }
     return Session.findOne({ _id: sessionObj._id })
   }
 
-  getNewSessionId(date, callback) {
-    const newSession = new Session({
+  getNewSessionId(date, type, callback) {
+    const studentAttendances = this.studentIds.map((id) => {
+      return { studentId: id, type: 'Present' }
+    })
+    console.log(studentAttendances)
+    const sessionId = new Session({
       courseId: this._id,
-      attendance: {},
+      type: type,
+      studentAttendances: studentAttendances,
       activityIds: [],
       date: date,
-    })
-    const sessionId = newSession.save(callback)
-    this.sessions.push({
-      _id: sessionId,
-      date: date,
-    })
+    }).save(callback)
+    this[type].sessions.push({ _id: sessionId, date: date })
     return sessionId
   }
 
-  get fullSessions() {
-    return Session.find({ _id: { $in: this.sessionIds } }, { sort: { date: 1 } }).fetch()
+  getSessionsByTypes(types) {
+    return Session.find({ _id: { $in: this.sessionIds },
+      type: { $in: types } }, { sort: { date: 1 } }).fetch()
+  }
+
+  get sessions() {
+    return Session.find({ _id: { $in: this.sessionIds } },
+      { sort: { date: 1 } }, { sort: { date: 1 } }).fetch()
   }
 
   get fullGradingTemplate() {
@@ -94,12 +104,32 @@ class Course extends Model {
   }
 
   get activityRecords() {
-    const activities = this.fullSessions.map(session => session.activityRecords)
+    const activities = this.sessions.map(session => session.activityRecords)
     return activities.reduce((acc, cur) => acc.concat(cur))
+  }
+
+  get studentAttendances() {
+    const attendances = this.sessions.map((session) => {
+      return session.studentAttendances.map((attendance) => {
+        attendance.sessionId = session._id
+        attendance.date = session.date.toLocaleDateString()
+        attendance.category = session.type
+        return attendance
+      })
+    })
+    return _.flatten(attendances)
   }
 
   get activityTypes() {
     return this.fullGradingTemplate.getActivityTypes()
+  }
+
+  get currentUserCourseTypes() { // returns array with values of Laboratory, Lecture or both
+    return this.types.filter(type => this[type].instructor._id === Meteor.userId())
+  }
+
+  get types() {
+    return (this.hasALaboratory) ? ['lecture', 'laboratory'] : ['lecture']
   }
 
   get activityTypesWithScores() {
@@ -121,30 +151,12 @@ class Course extends Model {
     })
   }
 
-/*  get classRecord() {
-    const students = this.students
-    const gradingTemplate = this.fullGradingTemplate
-    const activities = this.activitiesWithDate
-    const activityList = activities.map(activity => _(activity).omit('records', 'isLocked'))
-    const activityTypes = gradingTemplate.getActivityTypes()
-    activityTypes.forEach((type) => {
-      students.forEach(student => student[type.name] = [])
-    })
-    activities.forEach((activity) => {
-      activity.records.forEach((record) => {
-        const index = students.findIndex(student => record.studentId === student._id)
-        if (index !== -1) {
-          students[index][activity.type].push({ activityId: activity._id, score: record.score })
-        }
-      })
-    })
-    return { activityTypes: activityTypes, activityList: activityList, students: students }
-  } */
-
   get studentsWithRecords() {
     const activityRecords = this.activityRecords
     return this.students.map((student) => {
       const records = activityRecords.filter(record => record.studentId === student._id)
+      const attendances = this.studentAttendances.filter(attendance => attendance.studentId === student._id)
+      student.attendances = attendances.map(attendance => _(attendance).omit('studentId'))
       student.records = records.map(record => _(record).omit('studentId'))
       return student
     })
