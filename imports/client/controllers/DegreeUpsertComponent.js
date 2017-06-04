@@ -8,9 +8,12 @@ import '../views/degree-upsert.html'
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('dean') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('dean')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

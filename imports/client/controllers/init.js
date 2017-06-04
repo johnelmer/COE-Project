@@ -7,6 +7,7 @@ import ngTouch from 'angular-touch'
 import ngSanitize from 'angular-sanitize'
 import uiRouter from 'angular-ui-router'
 import uiSelect from 'ui-select'
+import auth from 'angular-meteor-auth'
 import 'ng-toast'
 
 init()
@@ -19,6 +20,7 @@ const dependencies = [
   ngSanitize,
   uiRouter,
   uiSelect,
+  auth,
 ]
 
 SetModule('app', dependencies)

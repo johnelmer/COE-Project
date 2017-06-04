@@ -5,6 +5,13 @@ import '../views/teacher-main.html'
 @State({
   name: 'app.course.teacher',
   url: '/teacher/main',
+  resolve: {
+    redirect($auth, $location) {
+      $auth.requireUser().catch(() => {
+        return $location.path('/login')
+      })
+    },
+  },
 })
 @Component({
   selector: 'teacher-main',

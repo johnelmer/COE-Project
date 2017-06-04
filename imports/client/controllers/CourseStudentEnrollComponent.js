@@ -8,9 +8,12 @@ import '../views/course-student-enroll.html'
   name: 'app.course.enrollStudent',
   url: '/teacher/course/:courseId',
   resolve: {
-    redirect($location) {
-      const user = Meteor.user()
-      return user.hasARole('faculty') || $location.path('/login')
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('faculty')) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

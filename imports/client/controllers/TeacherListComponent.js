@@ -6,6 +6,15 @@ import '../views/teacher-list.html'
 @State({
   name: 'app.teacher.list',
   url: '/teacher/list',
+  resolve: {
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasARole('secretary')) {
+          $location.path('/login')
+        }
+      })
+    },
+  },
 })
 @Component({
   selector: 'teacher-list',
