@@ -7,6 +7,7 @@ const attendance = new SimpleSchema({
   type: {
     type: String,
     allowedValues: [
+      '',
       'Present',
       'Late',
       'Absent',
@@ -18,6 +19,10 @@ const attendance = new SimpleSchema({
 export default new SimpleSchema({
   courseId: {
     type: String,
+  },
+  type: {
+    type: String,
+    allowedValues: ['lecture', 'laboratory'],
   },
   studentAttendances: {
     type: [attendance],
