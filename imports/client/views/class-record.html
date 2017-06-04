@@ -50,7 +50,25 @@
           </table>
         </div>
       </uib-tab>
-      <uib-tab index="$index + 1" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
+      <uib-tab index="1" heading="Attendances">
+        <div id="block" class="table-responsive">
+          <table class="table table-bordered table-striped table-condensed">>
+            <thead>
+              <tr>
+                <td><label>Name of Students</label></td>
+                <td ng-repeat="session in classRecord.sessions"><label>{{ session.date.toLocaleDateString() }}</label></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="student in classRecord.students track by student._id">
+                <td>{{ student.fullName }}</td>
+                <td ng-repeat="attendance in student.attendances">{{ classRecord.getAttendanceValue(attendance.type) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-tab>
+      <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
         <form>
           <div id="block">
             <div class="panel panel-default">
@@ -68,7 +86,7 @@
                   <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType.name)">Add new {{ activityType.name }}</button>
+                  <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType)">Add {{ activityType.name }}</button>
                 </div>
               </div>
             </div>

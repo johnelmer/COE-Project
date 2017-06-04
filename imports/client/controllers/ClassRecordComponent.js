@@ -39,6 +39,7 @@ class ClassRecordComponent {
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
         this.students = course.studentsWithRecords
+        this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
       }
@@ -52,6 +53,11 @@ class ClassRecordComponent {
     this.popup = {
       opened: false,
     }
+  }
+
+  getAttendanceValue(type) {
+    console.log(type)
+    return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
   }
 
   getFilteredArray(arr, key, val) {
@@ -79,11 +85,12 @@ class ClassRecordComponent {
     return `${score} (${percentage}%)`
   }
 
-  addNewActivity(type) {
+  addNewActivity(activityType) {
     const newActivity = this.newActivity
     const date = newActivity.date
-    const session = this.course.getSessionByDate(date)
-    const activity = session.getNewActivity(type, newActivity.totalScore)
+    const session = this.course.getSessionByDate(date, activityType.category)
+    console.log(session)
+    const activity = session.getNewActivity(activityType.name, newActivity.totalScore)
     activity.save()
     session.save()
     this.course.save()
