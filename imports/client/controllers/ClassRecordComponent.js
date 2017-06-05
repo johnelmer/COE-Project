@@ -44,7 +44,7 @@ class ClassRecordComponent {
         this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
         this.courseTypes = course.currentUserHandledTypes
-        this.newActivity = { date: new Date(), totalScore: 5 }
+        this.newActivity = { date: new Date(), totalScore: 5, description: '' }
         this.newAttendance = { date: new Date(), sessionType: this.courseTypes[0] }
       }
     })
@@ -89,9 +89,8 @@ class ClassRecordComponent {
 
   addNewActivity(activityType) {
     const newActivity = this.newActivity
-    const date = newActivity.date
-    const session = this.course.getSessionByDate(date, activityType.category)
-    const activity = session.getNewActivity(activityType.name, newActivity.totalScore)
+    const session = this.course.getSessionByDate(newActivity.date, activityType.category)
+    const activity = session.getNewActivity(activityType.name, newActivity.totalScore, newActivity.description)
     activity.save()
     session.save()
     this.course.save()

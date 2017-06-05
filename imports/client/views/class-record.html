@@ -116,6 +116,9 @@
                   <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
                 </div>
                 <div class="form-group">
+                  <label>Description:</label> <input type="text" class="form-control" ng-model="classRecord.newActivity.description" placeholder="optional"/>
+                </div>
+                <div class="form-group">
                   <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType)">Add {{ activityType.name }}</button>
                 </div>
               </div>

@@ -15,10 +15,11 @@ class Session extends Model {
     return Course.findOne({ _id: this.courseId })
   }
 
-  getNewActivity(type, totalScore) {
+  getNewActivity(type, totalScore, description) {
     const activityId = new Activity({
       type: type,
       totalScore: totalScore,
+      description: description,
       sessionId: this._id,
       isLocked: false,
     }).save()
