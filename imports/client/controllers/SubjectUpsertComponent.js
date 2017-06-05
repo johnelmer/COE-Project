@@ -61,24 +61,33 @@ class SubjectUpsertComponent {
     })
     this.ngToast = ngToast
   }
+  remove(id) {
+    Subject.remove(id)
+    // console.log(this.subjects.remove(id))
+  }
 
   save() {
-    console.log(this.subject);
+    // console.log(this.subject);
+    // this.subject.credits = parseInt(this.subject.credits, 10)
+    // this.subject.units = parseInt(this.subject.units, 10)
     try {
       schema.validate(this.subject.doc)
       this.subject.save((doc, err) => {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
-        })
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'success',
-          content: `Subject ${this.message}!`,
-        })
+        if (!err === undefined) {
+          this.ngToast.create({
+            dismissButton: true,
+            className: 'danger',
+            content: `${err.reason}`,
+          })
+        }
         console.log(doc);
       })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `Subject ${this.message}!`,
+      })
+      this.subject = new Subject
     } catch (e) {
       this.ngToast.create({
         dismissButton: true,

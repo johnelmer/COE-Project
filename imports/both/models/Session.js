@@ -1,3 +1,4 @@
+import _ from 'underscore'
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Session'
 
@@ -14,10 +15,11 @@ class Session extends Model {
     return Course.findOne({ _id: this.courseId })
   }
 
-  getNewActivity(type, totalScore) {
+  getNewActivity(type, totalScore, description) {
     const activityId = new Activity({
       type: type,
       totalScore: totalScore,
+      description: description,
       sessionId: this._id,
       isLocked: false,
     }).save()
@@ -82,7 +84,7 @@ class Session extends Model {
 
   get activityRecords() {
     const activities = this.activities.map(activity => activity.recordList)
-    return activities.reduce((acc, cur) => acc.concat(cur))
+    return _.flatten(activities)
   }
 }
 

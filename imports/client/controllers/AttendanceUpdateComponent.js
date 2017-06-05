@@ -21,7 +21,7 @@ import '../views/attendance-update.html'
   selector: 'attendance-update',
   templateUrl: 'imports/client/views/attendance-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class AttendanceUpdateComponent {
   static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
@@ -33,6 +33,7 @@ class AttendanceUpdateComponent {
       this.session = Session.findOne({ _id: sessionId })
       if (this.session) {
         this.students = this.session.attendances
+        this.attendanceTypes = Session.schema._schema['studentAttendances.$.type'].allowedValues
       }
     })
     this.ngToast = ngToast
@@ -47,11 +48,11 @@ class AttendanceUpdateComponent {
         session.addStudentAttendance(student, attendanceType)
       }
     })
-    console.log(session) // TODO: remove console log
     try {
-      schema.validate(this.sessio.doc)
+      schema.validate(this.session.doc)
       session.save((err) => {
         if (err) {
+          console.log(err)
           this.ngToast.create({
             dismissButton: true,
             className: 'danger',
@@ -60,6 +61,7 @@ class AttendanceUpdateComponent {
         }
       })
     } catch (e) {
+      console.log(e)
       this.ngToast.create({
         dismissButton: true,
         className: 'danger',

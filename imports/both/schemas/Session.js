@@ -7,7 +7,6 @@ const attendance = new SimpleSchema({
   type: {
     type: String,
     allowedValues: [
-      '',
       'Present',
       'Late',
       'Absent',
