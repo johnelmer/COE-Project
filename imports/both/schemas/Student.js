@@ -18,13 +18,13 @@ export default new SimpleSchema({
   idNumber: {
     type: String,
     optional: true,
+    regEx: /^\d{2}\-\d{4}\-\d{2}$/,
   },
   gender: {
     type: String,
   },
   degree: {
     type: String,
-    // allowedValues: degrees,
   },
   yearLevel: {
     type: Number,
@@ -39,9 +39,9 @@ export default new SimpleSchema({
   cityAddress: {
     type: String,
   },
-  // TODO: regex
   contactNumber: {
     type: String,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   isGraduating: {
     type: Boolean,
@@ -59,6 +59,7 @@ export default new SimpleSchema({
     // TODO: regex
     type: String,
     optional: true,
+    regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
   father: {
     type: Object,
@@ -67,8 +68,8 @@ export default new SimpleSchema({
     type: String,
   },
   'father.contactNumber': {
-    // TODO: regex
     type: String,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   mother: {
     type: Object,
@@ -77,8 +78,8 @@ export default new SimpleSchema({
     type: String,
   },
   'mother.contactNumber': {
-    // TODO: regex
     type: String,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   image: {
     // TODO
