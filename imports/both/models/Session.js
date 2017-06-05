@@ -1,3 +1,4 @@
+import _ from 'underscore'
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Session'
 
@@ -82,7 +83,7 @@ class Session extends Model {
 
   get activityRecords() {
     const activities = this.activities.map(activity => activity.recordList)
-    return activities.reduce((acc, cur) => acc.concat(cur))
+    return _.flatten(activities)
   }
 }
 
