@@ -1,18 +1,18 @@
 <div class="container">
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="login_form">
             <div class="jumbotron text-center">
                 <legend>
                     <h1>CPU College of Engineering</h1></legend>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Username</label>
                     <div class="col-sm-4">
-                        <input type="text" name="username" placeholder="Enter your username" class="form-control" ng-model="loginView.user.username" required/>
+                        <input type="text" name="username" id="username" placeholder="Enter your username" class="form-control" ng-model="loginView.user.username" required/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Password</label>
                     <div class="col-sm-4">
-                        <input type="Password" name="password" placeholder="*****************" class="form-control" ng-model="loginView.user.password" required/>
+                        <input type="Password" name="password" id="password" placeholder="*****************" class="form-control" ng-model="loginView.user.password" required/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-4">
-                        <button class="btn btn-primary btn-lg btn-block" ng-click="loginView.login()">Log In</button>
+                        <button id="submitButton" class="btn btn-primary btn-lg btn-block" ng-click="loginView.login()">Log In</button>
                     </div>
                 </div>
         </form>

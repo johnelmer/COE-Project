@@ -1,5 +1,5 @@
 .container-fluid,nav {
-    background-color: #252839;
+  background-color: #252839;
 }
 
 #classRecordTemplate {
@@ -24,8 +24,8 @@
 }
 
 .bg-4 {
-    margin-top: 10%;
-    padding: 2% 4% 5%;
+  margin-top: 10%;
+  padding: 2% 4% 5%;
 }
 
 .container {
@@ -33,7 +33,7 @@
 }
 
 a , p {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .container {
@@ -62,20 +62,19 @@ tr {
   }
 }
 
-.col-sm-9, .col-sm-4, .col-sm-3, .form-group {
-  margin-bottom: 1.5px;
-  margin-top: 1.5px;
+.col-sm-9, .col-sm-4, .col-sm-3, .form-group, label , #searchBar {
+  margin-bottom: 0.25%;
+  margin-top: 0.25%;
 }
 
-label , #searchBar {
-  margin-bottom: 5px;
-  margin-top: 5px;
+table-hover thead tr:hover th, .table-hover tbody tr:hover td {
+  background-color:  #b3d9ff;
 }
 
-.fileinput-preview {
-  width: 200px;
-  height: 150px;
-}
+// .fileinput-preview {
+//   width: 200px;
+//   height: 150px;
+// }
 
 #assignButton {
   align-items: flex-end;
