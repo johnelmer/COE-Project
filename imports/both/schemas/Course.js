@@ -23,6 +23,16 @@ const courseType = new SimpleSchema({
   'instructor.idNumber': {
     type: String,
   },
+  sessions: {
+    type: [Object],
+    optional: true,
+  },
+  'sessions.$._id': {
+    type: String,
+  },
+  'sessions.$.date': {
+    type: Date,
+  },
 })
 
 export default new SimpleSchema({
@@ -39,16 +49,6 @@ export default new SimpleSchema({
   laboratory: {
     type: courseType,
     optional: true,
-  },
-  sessions: {
-    type: [Object],
-    optional: true,
-  },
-  'sessions.$._id': {
-    type: String,
-  },
-  'sessions.$.date': {
-    type: Date,
   },
   // TODO: specify fields
   studentIds: {

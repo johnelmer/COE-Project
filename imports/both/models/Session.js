@@ -67,7 +67,6 @@ class Session extends Model {
       }
       return student
     })
-    return students
   }
 
   get activities() {
