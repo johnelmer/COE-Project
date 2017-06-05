@@ -30,20 +30,13 @@ class CourseStudentEnrollComponent {
     this.student = {}
     const { courseId } = $stateParams
     /* TODO: publication for unenrolled students for this course */
-    this.subscribe('students')
-    this.subscribe('courses')
-    this.helpers({
-      course() {
-        const course = Course.findOne({ _id: courseId })
-        if (!course) {
-          // redirect
-        }
-        return course
-      },
-      studentList() {
-        return this.students
-      },
-    })
+    const studentSubs = this.subscribe('students')
+    const courseSubs = this.subscribe('courses')
+    if (studentSubs.ready() && courseSubs.ready()) {
+      this.course = Course.findOne({ _id: courseId })
+      this.studentList = this.course.students
+      console.log(this.studentList)
+    }
     this.ngToast = ngToast
   }
 
@@ -58,7 +51,7 @@ class CourseStudentEnrollComponent {
         content: 'Student not found',
       })
     } else if (students.length > 0) {
-      const isStudentExist = students.some(student => student.idNumber === idNumber)
+      const isStudentExist = this.studentList.some(student => student.idNumber === idNumber)
       if (!isStudentExist) {
         students.push(studentToBeAdded)
       } else {

@@ -54,8 +54,8 @@ class Course extends Model {
   }
 
   get activitiesWithDates() {
-    const unFlattenedActivities = this.sessions.map(session => session.activitiesWithDate)
-    return unFlattenedActivities.reduce((acc, cur) => acc.concat(cur))
+    const activities = this.sessions.map(session => session.activitiesWithDate)
+    return _.flatten(activities)
   }
 
   getActivities(type) {
@@ -77,7 +77,6 @@ class Course extends Model {
     const studentAttendances = this.studentIds.map((id) => {
       return { studentId: id, type: 'Present' }
     })
-    console.log(studentAttendances)
     const sessionId = new Session({
       courseId: this._id,
       type: type,
@@ -105,7 +104,7 @@ class Course extends Model {
 
   get activityRecords() {
     const activities = this.sessions.map(session => session.activityRecords)
-    return activities.reduce((acc, cur) => acc.concat(cur))
+    return _.flatten(activities)
   }
 
   get studentAttendances() {
@@ -124,7 +123,7 @@ class Course extends Model {
     return this.fullGradingTemplate.getActivityTypes()
   }
 
-  get currentUserCourseTypes() { // returns array with values of Laboratory, Lecture or both
+  get currentUserHandledTypes() { // returns array with values of Laboratory, Lecture or both
     return this.types.filter(type => this[type].instructor._id === Meteor.userId())
   }
 

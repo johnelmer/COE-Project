@@ -43,9 +43,11 @@ class ClassRecordComponent {
         this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
+        this.courseTypes = course.currentUserHandledTypes
+        this.newActivity = { date: new Date(), totalScore: 5, description: '' }
+        this.newAttendance = { date: new Date(), sessionType: this.courseTypes[0] }
       }
     })
-    this.newActivity = { date: new Date(), totalScore: 5 }
     this.dateOptions = {
       formatYear: 'yy',
       maxDate: new Date(), // cannot select date after the current day onwards
@@ -57,7 +59,6 @@ class ClassRecordComponent {
   }
 
   getAttendanceValue(type) {
-    console.log(type)
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
   }
 
@@ -88,14 +89,27 @@ class ClassRecordComponent {
 
   addNewActivity(activityType) {
     const newActivity = this.newActivity
-    const date = newActivity.date
-    const session = this.course.getSessionByDate(date, activityType.category)
-    console.log(session)
-    const activity = session.getNewActivity(activityType.name, newActivity.totalScore)
+    const session = this.course.getSessionByDate(newActivity.date, activityType.category)
+    const activity = session.getNewActivity(activityType.name, newActivity.totalScore, newActivity.description)
     activity.save()
     session.save()
     this.course.save()
     this.$state.go('app.course.session.activityUpdate', { activityId: activity._id })
+  }
+
+  addNewAttendance() {
+    const newAttendance = this.newAttendance
+    const date = newAttendance.date
+    const sessionType = newAttendance.sessionType
+    const session = this.course.getSessionByDate(date, sessionType)
+
+    session.save()
+    this.course.save()
+    this.$state.go('app.course.session.attendanceUpdate', { sessionId: session._id })
+  }
+
+  getAttendanceAdds(session) {
+    return (session.type === 'laboratory') ? '(Lab)' : ''
   }
 
   openPicker() {
