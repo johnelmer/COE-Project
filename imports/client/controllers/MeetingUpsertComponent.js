@@ -1,4 +1,6 @@
 import { Component, State, Inject } from 'angular2-now'
+import Meeting from '/imports/both/models/Meeting'
+import Notification from '/imports/both/models/Notification'
 import User from '/imports/both/models/User'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
@@ -21,13 +23,13 @@ import '../views/meeting-upsert.html'
 @State({
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('teacher') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('teacher') || $state.go('app.login')
+  //   },
+  // },
 })
 @Component({
   selector: 'meeting-upsert',
@@ -40,13 +42,33 @@ class MeetingUpsertComponent {
     $reactive(this).attach($scope)
     this.$state = $state
     this.subscribe('users')
+    this.meeting = ''
     this.helpers({
       attendees() {
         return User.find().fetch()
       },
+      meeting() {
+        if ($state.current.name.endsWith('create')) {
+          return new Meeting({ attendeeIds: [] })
+        }
+        return Meeting.findOne({ _id: meetingId })
+      },
     })
   }
 
+  save() {
+    console.log(this.meeting);
+    const meetingAttendees = this.selectedAttendees
+    meetingAttendees.forEach(attendee => {
+      console.log(this.meeting.attendeeIds);
+      this.meeting.attendeeIds.push(attendee._id)
+    })
+    this.meeting.save(err => {
+      if(err) {
+        console.log(err);
+      }
+    })
+  }
 }
 
 export default MeetingUpsertComponent
