@@ -42,6 +42,7 @@ class StudentUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
+    this.subscribe('users')
     this.subscribe('degrees') // NOTE: added from temporary-branch
     const { studentId } = $stateParams
     if ($state.current.name.endsWith('create')) {

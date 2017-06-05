@@ -15,9 +15,11 @@ export default new SimpleSchema({
   },
   idNumber: {
     type: String,
+    regEx: /^\d{2}\-\d{4}\-\d{2}$/,
   },
   contactNumber: {
     type: String,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   civilStatus: {
     type: String,
@@ -73,9 +75,9 @@ export default new SimpleSchema({
     blackbox: true,
   },
   email: {
-    // TODO: regex
     type: String,
     optional: true,
+    regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
   notifications: {
     type: [Object],
