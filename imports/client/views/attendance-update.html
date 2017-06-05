@@ -15,10 +15,7 @@
           <td>{{ student.fullName }}</td>
           <td>
             <div class="btn-group">
-              <label class="btn btn-primary" ng-model="student.attendance" uib-btn-radio="'Present'">Present</label>
-              <label class="btn btn-primary" ng-model="student.attendance" uib-btn-radio="'Late'">Late</label>
-              <label class="btn btn-primary" ng-model="student.attendance" uib-btn-radio="'Absent'">Absent</label>
-              <label class="btn btn-primary" ng-model="student.attendance" uib-btn-radio="'Excuse'">Excuse</label>  
+              <label class="btn btn-primary" ng-repeat="type in attendanceUpdate.attendanceTypes" ng-model="student.attendance" uib-btn-radio="type">{{type}}</label>
             </div>
           </td>
         </tr>
