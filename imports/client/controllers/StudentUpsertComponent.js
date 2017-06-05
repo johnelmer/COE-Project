@@ -1,7 +1,7 @@
 /* eslint no-alert: "off" */
 import Student from '/imports/both/models/Student'
-import Degree from '/imports/both/models/Degree'
 import schema from '/imports/both/schemas/Student'
+import Degree from '/imports/both/models/Degree'
 import Role from '/imports/both/models/Role'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
@@ -42,6 +42,7 @@ class StudentUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
+    this.subscribe('users')
     this.subscribe('degrees') // NOTE: added from temporary-branch
     const { studentId } = $stateParams
     if ($state.current.name.endsWith('create')) {
@@ -65,6 +66,7 @@ class StudentUpsertComponent {
     this.ngToast = ngToast
   }
   save() {
+    this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
       schema.validate(this.student.doc)
       this.student.save(() => {

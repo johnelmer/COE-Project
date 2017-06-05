@@ -6,12 +6,6 @@ import Course from './Course'
 
 @SetupCollection('Students')
 class Student extends Model {
-
-  constructor(doc) {
-    super(doc)
-    this.selectedCourse = null
-  }
-
   static schema = schema
 
   enrollACourse(course) {

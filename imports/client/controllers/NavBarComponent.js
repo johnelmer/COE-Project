@@ -13,7 +13,8 @@ class NavBarComponent {
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
     this.user = this.currentUser
-    this.subscribe('users')
+    // this.subscribe('users')
+    this.subscribe('roles')
     this.ngToast = ngToast
   }
   get isHidden() {

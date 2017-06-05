@@ -44,9 +44,6 @@ class DegreeUpsertComponent {
         }
         return Department.findOne({ _id: degreeId })
       },
-      degrees() {
-        return Degree.find().fetch()
-      },
       departments() {
         return Department.find().fetch()
       },
