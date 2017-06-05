@@ -65,6 +65,7 @@ class StudentUpsertComponent {
     this.ngToast = ngToast
   }
   save() {
+    this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
       schema.validate(this.student.doc)
       this.student.save(() => {
