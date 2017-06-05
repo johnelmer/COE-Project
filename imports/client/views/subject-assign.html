@@ -14,43 +14,48 @@
               </label>
             </div>
             <div class="col-sm-4">
-        </ui-select>
-        <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
-          <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
-          <ui-select-choices group-by="'department'" repeat="teacher in subjectAssign.teachers | filter: $select.search">
-            <span ng-bind-html="teacher.fullName | highlight: $select.search"></span>
-            <div>
-            </div>
-            <small ng-bind-html="teacher.departments[0] | highlight: $select.search"></small>
-          </ui-select-choices>
-        </ui-select>
+            </ui-select>
+            <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
+              <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
+              <ui-select-choices group-by="'department'" repeat="teacher in subjectAssign.teachers | filter: $select.search">
+                <span ng-bind-html="teacher.fullName | highlight: $select.search"></span>
+                <div>Subject Assignment
+                </div>
+                <small ng-bind-html="teacher.departments[0] | highlight: $select.search"></small>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2">
+            <label>
+              Subjects:
+            </label>
+          </div>
+          <div class="col-sm-4">
+            <ui-select multiple ng-model="subjectAssign.subjectsAssigned" theme="bootstrap" close-on-select="false">
+              <ui-select-match placeholder="Select or search a subject in the list...">{{$item.name}}</ui-select-match>
+              <ui-select-choices repeat="subject in subjectAssign.subjects | filter: $select.search">
+                <div class="text-danger" ng-bind-html="subject.name | highlight: $select.search"></div>
+                <small ng-bind-html="subject.credits | highlight: $select.search"></small>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-offset-4 col-sm-2">
+        <button class="btn btn-primary btn-md btn-block" ng-click="subjectAssign.assignSubject()">
+          <span class="glyphicon glyphicon-floppy-disk"></span> Save
+        </button>
       </div>
     </div>
   </div>
-  <div class="form-group">
-    <div class="row">
-      <div class="col-sm-2">
-        <label>
-          Subjects:
-        </label>
-      </div>
-      <div class="col-sm-4">
-        <ui-select multiple ng-model="subjectAssign.subjectsAssigned" theme="bootstrap" close-on-select="false">
-          <ui-select-match placeholder="Select or search a subject in the list...">{{$item.name}}</ui-select-match>
-          <ui-select-choices repeat="subject in subjectAssign.subjects | filter: $select.search">
-            <div class="text-danger" ng-bind-html="subject.name | highlight: $select.search"></div>
-            <small ng-bind-html="subject.credits | highlight: $select.search"></small>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<!-- NOTE: for secretary page -->
+  <!-- NOTE: for secretary page -->
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4>Subject Assignment</h4>
+      <h4>Courses</h4>
     </div>
     <div class="panel-body">
       <div class="input-group col-sm-4" id="searchBar">
@@ -59,78 +64,76 @@
           <button class="btn btn-primary" type="button">Search</button>
         </span>
       </div>
-      <table class="table table-bordered table-striped table-responsive">
-        <thead>
-          <tr>
-            <td>
-              Action
-            </td>
-            <td>
-              ID No.
-            </td>
-            <td>
-              Teacher
-            </td>
-            <td>
-              Stub Code
-            </td>
-            <td>
-              Subject Name
-            </td>
-            <td>
-              Time Schedule
-            </td>
-            <td>
-              Room
-            </td>
-            <td>
-              Credits
-            </td>
-            <td>
-              Lab Teacher Id
-            </td>
-            <td>
-              Lab Teacher
-            </td>
-            <td>
-              Lab Room
-            </td>
-            <td>
-              Lab Schedule
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="course in subjectAssign.courses">
-            <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button></td>
-            <td> {{ course.lecture.instructor.idNumber }}</td>
-            <td> {{ course.lecture.instructor.fullName }}</td>
-            <td> {{ course.stubcode }}</td>
-            <td> {{ course.subject.name }}</td>
-            <td> {{ course.lecture.time }}</td>
-            <td> {{ course.lecture.room }}</td>
-            <td> {{ course.subject.credits }}</td>
-            <td> {{ course.laboratory.instructor.idNumber }}</td>
-            <td> {{ course.laboratory.instructor.fullName }}</td>
-            <td> {{ course.laboratory.room }}</td>
-            <td> {{ course.laboratory.time }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-reponsive">
+          <thead class="thead-inverse">
+            <tr>
+              <td>
+                Action
+              </td>
+              <td>
+                ID No.
+              </td>
+              <td>
+                Teacher
+              </td>
+              <td>
+                Stub Code
+              </td>
+              <td>
+                Subject Name
+              </td>
+              <td>
+                Time Schedule
+              </td>
+              <td>
+                Room
+              </td>
+              <td>
+                Credits
+              </td>
+              <td>
+                ID No.
+              </td>
+              <td>
+                Lab Teacher
+              </td>
+              <td>
+                Lab Room
+              </td>
+              <td>
+                Lab Schedule
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="course in subjectAssign.courses">
+              <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button></td>
+              <td> {{ course.lecture.instructor.idNumber }}</td>
+              <td> {{ course.lecture.instructor.fullName }}</td>
+              <td> {{ course.stubcode }}</td>
+              <td> {{ course.subject.name }}</td>
+              <td> {{ course.lecture.time }}</td>
+              <td> {{ course.lecture.room }}</td>
+              <td> {{ course.subject.credits }}</td>
+              <td> {{ course.laboratory.instructor.idNumber }}</td>
+              <td> {{ course.laboratory.instructor.fullName }}</td>
+              <td> {{ course.laboratory.room }}</td>
+              <td> {{ course.laboratory.time }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="panel-footer">
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="col-sm-offset-4 col-sm-4">
-        <button class="btn btn-primary btn-lg btn-block" ng-click="subjectAssign.assignSubject()">
-          Save
-        </button>
-      </div>
-    </div>
-    <div class="panel-footer">
-    </div>
-  </div>
+  <!-- <div class="panel panel-default">
+  <div class="panel-body">
+
+</div>
+<div class="panel-footer">
+</div>
+</div> -->
 </form>
 </div>

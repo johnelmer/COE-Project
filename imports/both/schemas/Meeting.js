@@ -4,10 +4,17 @@ export default new SimpleSchema({
   title: {
     type: String,
   },
-  attendees: {
-    type: [String]
+  attendeeIds: {
+    type: [String],
+    optional: true,
   },
-  time : {
+  schedule: {
+    type: Object,
+  },
+  'schedule.time' : {
+    type: Date,
+  },
+  'schedule.date' : {
     type: Date,
   },
   location: {

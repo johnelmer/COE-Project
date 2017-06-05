@@ -8,6 +8,7 @@ import Role from '/imports/both/models/Role'
 import Session from '/imports/both/models/Session'
 import Activity from '/imports/both/models/Activity'
 import User from '/imports/both/models/User'
+import Meeting from '/imports/both/models/Meeting'
 
 // To be update
 Course.collection.allow({
@@ -41,6 +42,12 @@ Department.collection.allow({
 })
 
 Role.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
+})
+
+Meeting.collection.allow({
   insert: () => true,
   update: () => true,
   remove: () => true,

@@ -8,7 +8,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Title:</label>
           <div class="col-sm-9">
-            <input type="text" name="meeting-title" class="form-control" ng-model="meetingUpsert.title">
+            <input type="text" name="meeting-title" class="form-control" ng-model="meetingUpsert.meeting.title">
           </div>
         </div>
         <!-- <div class="form-group">
@@ -33,33 +33,37 @@
           <label class="col-sm-2 control-label">Time:</label>
           <div class="col-sm-9">
             <div class="col-sm-3">
-              <div uib-timepicker ng-model="meetingUpsert.schedule.time" ng-change="changed()"></div>
+              <div uib-timepicker ng-model="meetingUpsert.meeting.schedule.time" ng-change="changed()"></div>
             </div>
             <div class="col-sm-3">
               <label>Date:</label>
-              <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="meetingUpsert.schedule.date" />
+              <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="meetingUpsert.meeting.schedule.date" />
             </div>
                 <label>When:</label>
-                <pre class="alert alert-info">{{ meetingUpsert.schedule.time | date:'shortTime' }}  {{ meetingUpsert.schedule.date | date: fullDate }}</pre>
+                <pre class="alert alert-info">{{ meetingUpsert.meeting.schedule.time | date:'shortTime' }}  {{ meetingUpsert.meeting.schedule.date | date: fullDate }}</pre>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Location:</label>
           <div class="col-sm-9">
-            <input type="text" name="meeting-location" class="form-control" ng-model="meetingUpsert.location">
+            <input type="text" name="meeting-location" class="form-control" ng-model="meetingUpsert.meeting.location">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Description:</label>
           <div class="col-sm-9">
-            <input type="text" name="meeting-description" class="form-control" ng-model="meetingUpsert.description">
+            <textarea ng-model="meetingUpsert.meeting.description" placeholder="Description here..." class="form-control"></textarea>
+            <!-- <input type="text" name="meeting-description" class="form-control" ng-model="meetingUpsert.meeting.description"> -->
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Upload:</label>
           <div class="col-sm-9">
-            <!-- todo pdf upload -->
+            <!-- TODO: upload pdf -->
           </div>
+        </div>
+        <div class="col-sm-offset-8 col-sm-3">
+          <button type="button" class="btn btn-primary btn-md btn-block" ng-click="meetingUpsert.save()"> Save </button>
         </div>
       </div>
     </div>
