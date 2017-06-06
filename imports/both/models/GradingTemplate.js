@@ -19,10 +19,11 @@ class GradingTemplate extends Model {
         type.category = 'lecture'
         return type
       })
-      const labActivities = this.laboratory.activityTypes.map((type) => {
+      const lab = this.laboratory
+      const labActivities = (lab) ? lab.activityTypes.map((type) => {
         type.category = 'laboratory'
         return type
-      })
+      }) : []
       return _.flatten(lectActivities.concat(labActivities))
     }
     return []
