@@ -10,9 +10,43 @@ import ActivityType from '/imports/both/models/ActivityType'
 import Activity from '/imports/both/models/Activity'
 import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
+import GradingTemplate from '/imports/both/models/GradingTemplate'
 
 const name = faker.name
 const random = faker.random
+
+const semesterActivityTypes = [
+  {
+    name: 'Quiz',
+    percentage: 20,
+    isMultiple: true,
+  },
+  {
+    name: 'Class Participation',
+    percentage: 10,
+    isMultiple: true,
+  },
+  {
+    name: 'Other Requirements',
+    percentage: 10,
+    isMultiple: true,
+  },
+  {
+    name: 'Prelim Exam',
+    percentage: 15,
+    isMultiple: false,
+  },
+  {
+    name: 'Midterm Exam',
+    percentage: 20,
+    isMultiple: false,
+  },
+  {
+    name: 'Final Exam',
+    percentage: 20,
+    isMultiple: false,
+  },
+]
 
 const data = {
   defaultPassword: 'cpucoe',
@@ -30,6 +64,129 @@ const data = {
     'Final Exam', 'Midsummer Exam', 'Laboratory', 'Others'],
   civitStatuses: ['Single', 'Married', 'Divorced', 'Widowed'],
   roles: ['dean', 'secretary', 'department head', 'faculty'],
+  rooms: ['En106', 'En107', 'En205', 'En304', 'En306'],
+  timeScheds: ['8:00-9:00 MWF', '9:00-10:00MWF', '13:00-14:30 TTh', '8:30-10:00 TTh'],
+  gradingTemplates: [
+    {
+      type: 'Semester Term',
+      isDefault: true,
+      lecture: {
+        percentage: 100,
+        activityTypes: semesterActivityTypes,
+      },
+      passingPercentage: 50,
+      courseIds: [],
+    },
+    {
+      type: 'Summer Term',
+      isDefault: true,
+      lecture: {
+        percentage: 100,
+        activityTypes: [
+          {
+            name: 'Quiz',
+            percentage: 20,
+            isMultiple: true,
+          },
+          {
+            name: 'Class Participation',
+            percentage: 10,
+            isMultiple: true,
+          },
+          {
+            name: 'Other Requirements',
+            percentage: 10,
+            isMultiple: true,
+          },
+          {
+            name: 'Midsummer Exam',
+            percentage: 25,
+            isMultiple: true,
+          },
+          {
+            name: 'Final Exam',
+            percentage: 35,
+            isMultiple: true,
+          },
+        ],
+      },
+      passingPercentage: 50,
+      courseIds: [],
+    },
+    {
+      type: 'Semester Term',
+      isDefault: true,
+      lecture: {
+        percentage: 50,
+        activityTypes: semesterActivityTypes,
+      },
+      laboratory: {
+        percentage: 50,
+        type: 'SE Subject',
+        activityTypes: [
+          {
+            name: 'Hands-on',
+            percentage: 20,
+            isMultiple: true,
+          },
+          {
+            name: 'Practical Exam',
+            percentage: 40,
+            isMultiple: true,
+          },
+          {
+            name: 'Final Project',
+            percentage: 40,
+            isMultiple: false,
+          },
+        ],
+      },
+      passingPercentage: 50,
+      courseIds: [],
+    },
+    {
+      type: 'Semester Term',
+      isDefault: true,
+      lecture: {
+        percentage: 80,
+        activityTypes: semesterActivityTypes,
+      },
+      laboratory: {
+        percentage: 20,
+        type: 'Computational',
+        activityTypes: [
+          {
+            name: 'Activity',
+            percentage: 100,
+            isMultiple: true,
+          },
+        ],
+      },
+      passingPercentage: 50,
+      courseIds: [],
+    },
+    {
+      type: 'Semester Term',
+      isDefault: true,
+      lecture: {
+        percentage: 70,
+        activityTypes: semesterActivityTypes,
+      },
+      laboratory: {
+        percentage: 30,
+        type: 'With Hands-on',
+        activityTypes: [
+          {
+            name: 'Hands-on',
+            percentage: 100,
+            isMultiple: true,
+          },
+        ],
+      },
+      passingPercentage: 50,
+      courseIds: [],
+    },
+  ],
 }
 
 const fakeAddress = () => {
@@ -37,11 +194,15 @@ const fakeAddress = () => {
 }
 
 const fakeContactNumber = () => {
-  return `09${random.number(1000000000, 9999999999)}`
+  return `09${random.number(100000000000, 1000000000000)}`.substring(0, 11)
 }
 
 const fakeIdNumber = () => {
   return `${random.number({ min: 10, max: 17 })}-${random.number({ min: 1000, max: 9999 })}-${random.number({ min: 10, max: 99 })}`
+}
+
+const randomData = (arr) => {
+  return arr[random.number({ min: 0, max: arr.length - 1 })]
 }
 
 const seeder = {
@@ -50,9 +211,6 @@ const seeder = {
       const degreeId = new Degree({ name: obj.degree }).save()
       new Department({ name: obj.dept, degreeId: degreeId }).save()
     })
-  },
-  activityTypes: () => {
-    data.activityTypes.forEach(type => new ActivityType({ name: type }).save())
   },
   students: (n) => {
     for (let i = 1; i <= n; i += 1) {
@@ -77,7 +235,7 @@ const seeder = {
           fullName: name.findName(),
           contactNumber: fakeContactNumber(),
         },
-        courses: [],
+        courseIds: [],
       }).save()
     }
   },
@@ -101,12 +259,18 @@ const seeder = {
           roleName: role,
           subjectAssignedIds: [],
           courseIds: [],
+          notifications: [],
         },
       }).save()
     }
   },
   appSetting: (schoolYear, semester) => {
     new AppSetting({ type: 'Main', currentSchoolYear: schoolYear, currentSemester: semester }).save()
+  },
+  gradingTemplates: () => {
+    data.gradingTemplates.forEach((gradtemplate) => {
+      new GradingTemplate(gradtemplate).save()
+    })
   },
   roles: () => {
     const secretaryId = new Role({ name: 'secretary', childIds: [] }).save()
@@ -127,22 +291,32 @@ const seeder = {
     }
     subject.save()
   },
-  course: (subject, doc) => {
-    doc.stubcode = random.number({ min: 1, max: 400 })
-    const courseId = subject.getNewCourseId(doc)
-    const lectInstructorId = doc.lecture.instructor._id
-    User.update({ _id: lectInstructorId }, { $push: { courseIds: courseId } })
-    if (doc.laboratory && doc.laboratory.instructorId !== lectInstructorId) {
-      User.update({ _id: doc.laboratory.instructorId }, { $push: { courseIds: courseId } })
+  courses: (subject, doc, n) => {
+    for (let i = 1; i <= n; i += 1) {
+      ['lecture', 'laboratory'].forEach((type) => {
+        const field = doc[type]
+        if (field) {
+          field.time = randomData(data.timeScheds)
+          field.room = randomData(data.rooms)
+          field.sessions = []
+        }
+      })
+      doc.stubcode = random.number({ min: 1, max: 500 })
+      const courseId = subject.getNewCourseId(doc)
+      const lectInstructorId = doc.lecture.instructor._id
+      User.update({ _id: lectInstructorId }, { $push: { courseIds: courseId } })
+      if (doc.laboratory && doc.laboratory.instructorId !== lectInstructorId) {
+        User.update({ _id: doc.laboratory.instructorId }, { $push: { courseIds: courseId } })
+      }
+      subject.save()
     }
-    subject.save()
   },
   session: (course) => {
-    course.getSessionByDate(new Date())
+    course.getSessionByDate(new Date(), 'lecture')
     course.save()
   },
-  activity: (session, type, totalScore) => {
-    const activity = session.getNewActivity(type, totalScore)
+  activity: (session, type, totalScore, description) => {
+    const activity = session.getNewActivity(type, totalScore, description)
     activity.records.forEach(record => record.score = random.number({ min: 0, max: totalScore }))
     activity.save()
     session.save()
