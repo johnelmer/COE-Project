@@ -16,7 +16,7 @@ const classType = new SimpleSchema({
   percentage: {
     type: Number,
   },
-  activities: {
+  activityTypes: {
     type: [activityType],
   },
 })
@@ -38,12 +38,13 @@ export default new SimpleSchema({
   },
   laboratory: {
     type: classType,
+    optional: true,
   },
   'laboratory.type': {
     type: String,
     allowedValues: [
       'Computational', 'With Hands-on', 'SE Subject',
-    ]
+    ],
   },
   passingPercentage: {
     type: Number,
