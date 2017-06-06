@@ -38,11 +38,11 @@ class LoginComponent {
     // if (this.user.username)
     // try {
     //   schema.validate(this.user.doc)
-    if (this.user.username === undefined || this.user.password === undefined) {
+    if (this.isInvalidUsername || this.isInvalidPassword) {
       this.ngToast.create({
         dismissButton: true,
         className: 'danger',
-        content: 'Please fill in the fields!',
+        content: 'Please fill in the fields accurately!',
       })
     } else {
       Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
@@ -61,6 +61,13 @@ class LoginComponent {
     // }
   }
 
+  get isInvalidUsername() {
+    return this.user.username === '' || this.user.username === null
+  }
+
+  get isInvalidPassword() {
+    return this.user.password === '' || this.user.username === null
+  }
 }
 
 export default LoginComponent
