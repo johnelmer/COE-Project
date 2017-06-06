@@ -8,12 +8,12 @@
       <div class="panel-body">
         <div class="form-group">
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-md-2">
               <label>
                 Teacher:
               </label>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4">
             </ui-select>
             <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
               <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
@@ -29,12 +29,12 @@
       </div>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-2">
+          <div class="col-md-2">
             <label>
               Subjects:
             </label>
           </div>
-          <div class="col-sm-4">
+          <div class="col-md-4">
             <ui-select multiple ng-model="subjectAssign.subjectsAssigned" theme="bootstrap" close-on-select="false">
               <ui-select-match placeholder="Select or search a subject in the list...">{{$item.name}}</ui-select-match>
               <ui-select-choices repeat="subject in subjectAssign.subjects | filter: $select.search">
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-offset-4 col-sm-2">
+      <div class="col-md-offset-4 col-md-2">
         <button class="btn btn-primary btn-md btn-block" ng-click="subjectAssign.assignSubject()">
           <span class="glyphicon glyphicon-floppy-disk"></span> Save
         </button>
@@ -58,7 +58,7 @@
       <h4>Courses</h4>
     </div>
     <div class="panel-body">
-      <div class="input-group col-sm-4" id="searchBar">
+      <div class="input-group col-md-4" id="searchBar">
         <input type="text" class="form-control" placeholder="Search for...">
         <span class="input-group-btn">
           <button class="btn btn-primary" type="button">Search</button>
