@@ -6,6 +6,7 @@ import schema from '../schemas/Subject'
 import Model from './Model'
 import Course from './Course'
 import AppSetting from './AppSetting'
+import GradingTemplate from '/imports/both/models/GradingTemplate'
 
 @SetupCollection('Subjects')
 class Subject extends Model {
@@ -38,13 +39,27 @@ class Subject extends Model {
       stubcode: doc.stubcode,
       lecture: doc.lecture,
       laboratory: doc.laboratory,
-      sessions: [],
       studentIds: [],
       semester: setting.currentSemester,
       schoolYear: setting.currentSchoolYear,
+      gradingTemplate: {
+        _id: this.defaultGradingTemplate._id,
+        isApproved: true,
+      },
     }).save(callback)
     this.courseIds.push(courseId)
     return courseId
+  }
+
+  get defaultGradingTemplate() {
+    const labType = this.laboratoryType
+    const setting = AppSetting.findOne()
+    const semester = setting.currentSemester
+    const term = (semester.includes('Semester')) ? 'Semester Term' : (semester.includes('Summer')) ? 'Summer Term' : ''
+    if (labType) {
+      return GradingTemplate.findOne({ type: term, isDefault: true, 'laboratory.type': labType })
+    }
+    return GradingTemplate.findOne({ type: term, isDefault: true, laboratory: { $exists: false } })
   }
 }
 
