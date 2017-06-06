@@ -3,17 +3,20 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 export default new SimpleSchema({
   firstName: {
     type: String,
-    min: 2,
+    min: 1,
     optional: true,
+    regEx: /^[a-zA-Z\d\- ]{1,}$/,
   },
   lastName: {
     type: String,
     min: 2,
     optional: true,
+    regEx: /^[a-zA-Z\d\- ]{2,}$/,
   },
   middleName: {
     type: String,
     optional: true,
+    regEx: /^[a-zA-Z\d\- ]{2,}$/,
   },
   idNumber: {
     type: String,
@@ -35,9 +38,11 @@ export default new SimpleSchema({
   },
   homeAddress: {
     type: String,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   cityAddress: {
     type: String,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   contactNumber: {
     type: String,
@@ -56,7 +61,6 @@ export default new SimpleSchema({
     optional: true,
   },
   email: {
-    // TODO: regex
     type: String,
     optional: true,
     regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
@@ -66,6 +70,7 @@ export default new SimpleSchema({
   },
   'father.fullName': {
     type: String,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   'father.contactNumber': {
     type: String,
@@ -76,13 +81,14 @@ export default new SimpleSchema({
   },
   'mother.fullName': {
     type: String,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   'mother.contactNumber': {
     type: String,
     regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   image: {
-    // TODO
+    // TODO: Image upload
     type: Object,
     optional: true,
     blackbox: true,

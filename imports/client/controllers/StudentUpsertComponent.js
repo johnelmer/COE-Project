@@ -86,7 +86,105 @@ class StudentUpsertComponent {
       })
     }
   }
-}
 
+  get isInvalidFirstName() {
+    try {
+      schema.pick('firstName').validate({ firstName: this.student.firstName })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidLastName() {
+    try {
+      schema.pick('lastName').validate({ lastName: this.student.lastName })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidIdNumber() {
+    try {
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidMiddleName() {
+    try {
+      schema.pick('middleName').validate({ middleName: this.student.middleName })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidBirthday() {
+    try {
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidHomeAddress() {
+    try {
+      schema.pick('homeAddress').validate({ homeAddress: this.student.homeAddress })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidCityAddress() {
+    try {
+      schema.pick('cityAddress').validate({ cityAddress: this.student.cityAddress })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidContactNumber() {
+    try {
+      schema.pick('contactNumber').validate({ contactNumber: this.student.contactNumber })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidReligion() {
+    try {
+      schema.pick('religion').validate({ religion: this.student.religion })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidCitizenship() {
+    try {
+      schema.pick('citizenship').validate({ citizenship: this.student.citizenship })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidEmail() {
+    try {
+      schema.pick('email').validate({ email: this.student.email })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+}
 
 export default StudentUpsertComponent
