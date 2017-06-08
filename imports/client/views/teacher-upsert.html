@@ -70,7 +70,13 @@
               <div class="form-group">
                 <label class="col-md-2 control-label">Date of Birth:</label>
                 <div class="col-md-4">
-                  <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="teacherUpsert.teacher.profile.birthday"/>
+                  <li class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="teacherUpsert.teacher.profile.birthday"  is-open="teacherUpsert.popup.opened" datepicker-options="teacherUpsert.dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="teacherUpsert.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </li>
+                  <!-- <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="teacherUpsert.teacher.profile.birthday"/> -->
                 </div>
                 <label class="col-md-2 control-label">Gender:</label>
                 <div class="col-md-3">
