@@ -64,7 +64,15 @@ class StudentUpsertComponent {
       },
     })
     this.ngToast = ngToast
+    this.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
   }
+
   save() {
     this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
@@ -184,6 +192,10 @@ class StudentUpsertComponent {
     } catch (e) {
       return true
     }
+  }
+
+  openPicker() {
+    this.popup.opened = true
   }
 }
 
