@@ -42,8 +42,12 @@ class MeetingUpsertComponent {
     $reactive(this).attach($scope)
     this.$state = $state
     this.subscribe('users')
+    this.subscribe('meetings')
     this.meeting = ''
     this.helpers({
+      meetings() {
+        return Meeting.find().fetch()
+      },
       attendees() {
         return User.find().fetch()
       },
@@ -54,13 +58,23 @@ class MeetingUpsertComponent {
         return Meeting.findOne({ _id: meetingId })
       },
     })
+    this.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
+    this.status = {
+      isCustomHeaderOpen: false,
+    }
+    this.oneAtATime = true
   }
 
   save() {
     console.log(this.meeting);
     const meetingAttendees = this.selectedAttendees
     meetingAttendees.forEach(attendee => {
-      console.log(this.meeting.attendeeIds);
       this.meeting.attendeeIds.push(attendee._id)
     })
     this.meeting.save(err => {
@@ -68,6 +82,10 @@ class MeetingUpsertComponent {
         console.log(err);
       }
     })
+  }
+  
+  openPicker() {
+    this.popup.opened = true
   }
 }
 
