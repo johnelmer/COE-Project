@@ -11,12 +11,6 @@
             <input type="text" name="meeting-title" class="form-control" ng-model="meetingUpsert.meeting.title">
           </div>
         </div>
-        <!-- <div class="form-group">
-        <label class="col-md-2 control-label">Tags*:</label>
-        <div class="col-md-9"> -->
-        <!-- todo: related topics about previous meetings -->
-        <!-- </div>
-      </div> -->
       <div class="form-group">
         <label class="col-md-2 control-label">Attendees:</label>
         <div class="col-md-9">
@@ -32,14 +26,14 @@
       <div class="form-group">
         <label class="col-md-2 control-label">Time:</label>
         <div class="col-md-9">
-          <div uib-timepicker ng-model="meetingUpsert.meeting.schedule.time" ng-change="changed()"></div>
+          <div uib-timepicker ng-model="meetingUpsert.time" ng-change="changed()"></div>
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Date:</label>
         <div class="col-md-9">
           <li class="input-group">
-            <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="meetingUpsert.meeting.schedule.date"  is-open="meetingUpsert.popup.opened" datepicker-options="meetingUpsert.dateOptions" ng-required="true" close-text="Close"/>
+            <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="meetingUpsert.date"  is-open="meetingUpsert.popup.opened" datepicker-options="meetingUpsert.dateOptions" ng-required="true" close-text="Close"/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="meetingUpsert.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
@@ -63,6 +57,7 @@
         <label class="col-md-2 control-label">Upload:</label>
         <div class="col-md-9">
           <!-- TODO: upload pdf -->
+          <input type="file" ngf-select ng-model="meetingUpsert.file" multiple accept="application/pdf,image/*"/>
         </div>
       </div>
       <div class="col-md-offset-8 col-md-3">
