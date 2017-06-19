@@ -30,9 +30,24 @@
 <!--enhanced ui-->
 <div class="container" ng-cloak>
   <div class="jumbotron">
-    <label>Attendance</label>
-    <div>
-      
-    </div>
+    <div><legend>Attendance</legend></div>
+    <table class="table">
+    <thead class="thead">
+      <tr>
+        <th>Student</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="student in attendanceUpdate.students track by student._id">
+        <td>{{ student.fullName }}</td>
+        <td>
+          <div class="btn-group">
+            <label class="btn btn-primary" ng-repeat="type in attendanceUpdate.attendanceTypes" ng-model="student.attendance" uib-btn-radio="type">{{ type }}</label>
+          </div>
+        </td>  
+      </tr>
+    </tbody>
+    </table>
   </div>
 </div>
