@@ -84,6 +84,7 @@ html {
     position: relative;
     min-height: 80%;
 }
+
 body {
     margin: 0 0 50px; /* bottom = footer height */
 }
@@ -94,4 +95,8 @@ footer {
     bottom: 0;
     height: 100px;
     width: 100%;
+}
+
+.align {
+  text-align: center;
 }
