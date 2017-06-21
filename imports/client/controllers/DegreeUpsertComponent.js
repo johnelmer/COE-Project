@@ -67,7 +67,7 @@ class DegreeUpsertComponent {
         console.log(doc);
       }
     })
-    new Department({ name: this.department, _id: degreeId }).save((err, doc) => {
+    new Department({ name: this.department, degreeId: degreeId }).save((err, doc) => {
       if (err) {
         this.ngToast.create({
           dismissButton: true,
