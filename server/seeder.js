@@ -43,7 +43,7 @@ const semesterActivityTypes = [
   },
   {
     name: 'Final Exam',
-    percentage: 20,
+    percentage: 25,
     isMultiple: false,
   },
 ]
