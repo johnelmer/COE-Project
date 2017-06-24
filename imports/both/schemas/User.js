@@ -28,8 +28,8 @@ export default new SimpleSchema({
     type: String,
   },
   departments: {
-    optional: true,
     type: [String],
+    optional: true,
   },
   status: {
     type: String,
@@ -51,10 +51,12 @@ export default new SimpleSchema({
   religion: {
     type: String,
     optional: true,
+    defaultValue: 'Roman Catholic',
   },
   citizenship: {
     type: String,
     optional: true,
+    defaultValue: 'Filipino',
   },
   createdAt: {
     type: Date,

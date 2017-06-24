@@ -7,8 +7,8 @@ export default new SimpleSchema({
   title: {
     type: String,
   },
-  body: {
-    type: String,
+  content: {
+    type: Object,
   },
   date: {
     type: Date,
