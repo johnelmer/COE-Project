@@ -9,6 +9,7 @@ import Model from './Model'
 import Session from './Session'
 import Student from './Student'
 import GradingTemplate from './GradingTemplate'
+import Activity from './Activity'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -59,6 +60,10 @@ class Course extends Model {
   get activitiesWithDates() {
     const activities = this.sessions.map(session => session.activitiesWithDate)
     return _.flatten(activities)
+  }
+
+  hasActivity(activityType) { // e.g. check if there is already a midterm exam
+    return Activity.findOne({ type: activityType, sessionId: { $in: this.sessionIds } })
   }
 
   getActivities(type) {
@@ -179,52 +184,58 @@ class Course extends Model {
     return computedRecords
   }
 
-  computeActivityPercentages(scoresDoc) {
+/*  computeActivityPercentages(scoresDoc) {
     const doc = scoresDoc
     this.activityTypesWithScores.forEach((type) => {
-      const percentage = ((doc[type.name].score / type.totalScore) * 100).toFixed(4)
-      Object.assign(doc[type.name], { percentage: percentage })
+      const totalScorePercentage = ((doc[type.name].score / type.totalScore) * 100).toFixed(4)
+      const overallPercentage = (totalScorePercentage / 100) * type.percentage
+      Object.assign(doc[type.name], { totalScorePercentage: totalScorePercentage, overallPercentage: overallPercentage })
     })
     return doc
-  }
+  } */
 
   computeRecords(records) {
-    const scoresDoc = records.reduce((acc, cur, index, arr) => {
-      const activityType = cur.activityType
-      if (index === 1) {
-        const obj = {}
-        const arr1 = arr[0]
-        const arr2 = arr[1]
-        if (arr1.activityType === arr2.activityType) {
-          obj[cur.activityType] = { score: arr1.score + arr2.score }
+    let scoresDoc = {}
+    if (records.length > 1) {
+      scoresDoc = records.reduce((acc, cur, index, arr) => {
+        const activityType = cur.activityType
+        if (index === 1) {
+          const obj = {}
+          const arr1 = arr[0]
+          const arr2 = arr[1]
+          if (arr1.activityType === arr2.activityType) {
+            obj[cur.activityType] = { score: arr1.score + arr2.score }
+          } else {
+            obj[arr1.activityType] = { score: arr1.score }
+            obj[arr2.activityType] = { score: arr2.score }
+          }
+          return obj
+        } else if (index > 1 && !acc[activityType]) {
+          acc[activityType] = { score: cur.score }
         } else {
-          obj[arr1.activityType] = { score: arr1.score }
-          obj[arr2.activityType] = { score: arr2.score }
+          acc[activityType].score += cur.score
         }
-        return obj
-      } else if (index > 1 && !acc[activityType]) {
-        acc[activityType] = { score: cur.score }
-      } else {
-        acc[activityType].score += cur.score
+        return acc
+      })
+    } else if (records.length === 1) {
+      const type = records[0].activityType
+      scoresDoc[type] = {
+        score: 0,
+        percentage: 0,
       }
-      return acc
-    })
+      scoresDoc[type].score = records[0].score
+    }
     this.activityTypesWithScores.forEach((type) => {
-      const percentage = ((scoresDoc[type.name].score / type.totalScore) * 100).toFixed(4)
-      Object.assign(scoresDoc[type.name], { percentage: percentage })
+      if (scoresDoc[type.name]) {
+        const totalScorePercentage = (scoresDoc[type.name].score / type.totalScore) * 100
+        const overallPercentage = (totalScorePercentage / 100) * type.percentage
+        scoresDoc[type.name].totalScorePercentage = totalScorePercentage
+        scoresDoc[type.name].overallPercentage = overallPercentage
+      }
     })
     return scoresDoc
   }
 
-  getStudentStanding(student) {
-    const records = this.activityRecords.filter(record => record.studentId === student._id)
-
-  }
-
-  getStudentGradeSummary(student) {
-    const activityRecords = this.activityRecords
-    const records = activityRecords.filter(record => record.studentId === student._id)
-  }
 }
 
 export default Course
