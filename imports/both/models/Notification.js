@@ -9,7 +9,7 @@ class Notification extends Model {
   static schema = schema
 
   notifyUser() {
-   return this.users.forEach(user => {
+    this.users.forEach(user => {
         user.notifications.push({ _id: this._id , isSeen: false })
         user.save()
     });
