@@ -63,7 +63,8 @@ class Course extends Model {
   }
 
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
-    return Activity.findOne({ type: activityType, sessionId: { $in: this.sessionIds } })
+    const result = Activity.findOne({ type: activityType, sessionId: { $in: this.sessionIds } })
+    return result !== undefined
   }
 
   getActivities(type) {
@@ -170,11 +171,22 @@ class Course extends Model {
   }
 
   get classRecord() {
-    this.students.map((student) => {
-      const computeRecords = this.computeStudentRecords(student)
-      const standing = this.fullGradingTemplate.computeStanding(computeRecords)
-      console.log(computeRecords)
-      console.log(standing)
+    return this.students.map((student) => {
+      const doc = { activitiesObj: {} }
+      const activitiesObj = this.computeStudentRecords(student)
+      const averages = this.fullGradingTemplate.computeCategoryAverages(activitiesObj)
+      const avgLength = averages.length
+      const categoriesDoc = (avgLength > 1) ? Object.assign(averages[0], averages[1]) : averages[0]
+      const averageValues = averages.map((avg) => {
+        return avg[Object.keys(avg)[0]].average
+      })
+      doc.generalAverage = (avgLength === 1) ? averages[0][Object.keys(averages[0])[0]].average : averageValues.reduce((acc, cur) => acc + cur)
+      const a = averages.reduce((acc, cur) => {
+        return { average: acc.average + cur.average }
+      })
+      doc.activitiesObj = activitiesObj
+      Object.assign(doc, { studentId: student._id }, categoriesDoc)
+      return doc
     })
   }
 

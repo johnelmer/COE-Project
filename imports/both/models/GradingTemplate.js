@@ -42,28 +42,24 @@ class GradingTemplate extends Model {
     }
   }
 
-  computeStanding(scoresDoc) {
+  computeCategoryAverages(scoresDoc) { // compute average for each category(lecture, laboratory)
     const categories = this.categories
-    const resultArray = categories.map((category) => {
+    return categories.map((category) => {
       const doc = {}
       doc[category] = {
         percentage: 0,
-        overallPercentage: 0,
+        average: 0,
       }
       const types = this.getActivityTypes(category)
-      const activitiesPercentages = types.map((type) => {
+      const activitiesAverages = types.map((type) => {
         return (scoresDoc[type.name]) ? scoresDoc[type.name].overallPercentage : 0
       })
-      const percentage = activitiesPercentages.reduce((acc, cur) => acc + cur)
-      const overallPercentage = ((percentage / 100) * this[category].percentage)
+      const percentage = activitiesAverages.reduce((acc, cur) => acc + cur)
+      const average = ((percentage / 100) * this[category].percentage)
       doc[category].percentage = percentage
-      doc[category].overallPercentage = overallPercentage
+      doc[category].average = average
       return doc
     })
-    if (categories.length > 1) {
-      return Object.assign(resultArray[0], resultArray[1])
-    }
-    return resultArray[0]
   }
 
   get categories() {
