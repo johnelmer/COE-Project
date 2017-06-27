@@ -38,14 +38,17 @@ export default new SimpleSchema({
   },
   homeAddress: {
     type: String,
+    optional: true,
     regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   cityAddress: {
     type: String,
+    optional: true,
     regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   contactNumber: {
     type: String,
+    optional: true,
     regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   isGraduating: {
@@ -55,10 +58,12 @@ export default new SimpleSchema({
   religion: {
     type: String,
     optional: true,
+    defaultValue: 'Roman Catholic',
   },
   citizenship: {
     type: String,
     optional: true,
+    defaultValue: 'Filipino',
   },
   email: {
     type: String,
