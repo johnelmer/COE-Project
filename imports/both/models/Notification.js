@@ -10,7 +10,7 @@ class Notification extends Model {
 
   notifyUser() {
    return this.users.forEach(user => {
-        user.notifications.push({ _id: this._id , isSeen: false })
+        user.notifications.push({ _id: this._id })
         user.save()
     });
   }
