@@ -40,6 +40,7 @@ class ClassRecordComponent {
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
         this.students = course.studentsWithRecords
+        this.doc = course.classRecord
         this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
         this.activities = course.activitiesWithDates
@@ -60,6 +61,19 @@ class ClassRecordComponent {
 
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
+  }
+
+  getStudentActivityRecord(student, type) {
+    const records = this.doc.records
+    const index = records.findIndex(record => record.studentId === student._id)
+    if (index !== -1) {
+      const activity = records[index].activitiesObj[type]
+      if (!activity) {
+        return '0 (0%)'
+      }
+      return `${activity.score} (${activity.totalScorePercentage.toFixed(2)} %)`
+    }
+    return '0 (0%)'
   }
 
   getFilteredArray(arr, key, val) {
