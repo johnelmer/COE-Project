@@ -4,7 +4,7 @@ import User from '/imports/both/models/User'
 
 Meteor.methods({
   createNewUser: (doc, callback) => {
-    const roleName = doc.profile.roleName
+    const roleName = doc.roleName
     if (roleName !== 'dean') {
       Accounts.createUser(doc, callback)
     } else if (roleName === 'dean' && User.find({ roleName: 'Dean' }).count() === 0) {
