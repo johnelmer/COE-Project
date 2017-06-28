@@ -57,18 +57,13 @@ class Course extends Model {
     return _.flatten(activities)
   }
 
-  get activitiesWithDates() {
-    const activities = this.sessions.map(session => session.activitiesWithDate)
-    return _.flatten(activities)
-  }
-
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
     const result = Activity.findOne({ type: activityType, sessionId: { $in: this.sessionIds } })
     return result !== undefined
   }
 
-  getActivities(type) {
-    return (type) ? this.sessions.map(session => session.getActivities(type)) : this.activities
+  getFilteredActivities(options) {
+    return (options) ? _.flatten(this.sessions.map(session => session.getFilteredActivities(options))) : this.activities
   }
 
   getSessionByDate(date, type) {
@@ -97,14 +92,13 @@ class Course extends Model {
     return sessionId
   }
 
-  getSessionsByTypes(types) {
-    return Session.find({ _id: { $in: this.sessionIds },
-      type: { $in: types } }, { sort: { date: 1 } }).fetch()
+  get sessions() {
+    return (this.isUserHandlesLabOnly) ? this.getFilteredSessions({ type: 'laboratory' }) : Session.find({ courseId: this._id }, { sort: { date: 1 } }).fetch()
   }
 
-  get sessions() {
-    return Session.find({ _id: { $in: this.sessionIds } },
-      { sort: { date: 1 } }, { sort: { date: 1 } }).fetch()
+  getFilteredSessions(options = {}) {
+    options.courseId = this._id
+    return Session.find(options, { sort: { date: 1 } }).fetch()
   }
 
   get fullGradingTemplate() {
@@ -129,11 +123,21 @@ class Course extends Model {
   }
 
   get activityTypes() {
-    return this.fullGradingTemplate.getActivityTypes()
+    const gradingTemplate = this.fullGradingTemplate
+    return (this.isUserHandlesLabOnly) ? gradingTemplate.getActivityTypes('laboratory') : gradingTemplate.getActivityTypes()
   }
 
   get currentUserHandledTypes() { // returns array with values of Laboratory, Lecture or both
     return this.types.filter(type => this[type].instructor._id === Meteor.userId())
+  }
+
+  get isUserHandlesLabOnly() {
+    if (this.hasALaboratory) {
+      const lectInstructorId = this.lecture.instructor._id
+      const labInstructorId = this.laboratory.instructor._id
+      return Meteor.userId() === labInstructorId && lectInstructorId !== labInstructorId
+    }
+    return false
   }
 
   get types() {
@@ -170,8 +174,8 @@ class Course extends Model {
     })
   }
 
-  get classRecord() {
-    return this.students.map((student) => {
+  get classRecord() { // returns all data that can be extracted to form easily a class record
+    const records = this.students.map((student) => {
       const doc = { activitiesObj: {} }
       const activitiesObj = this.computeStudentRecords(student)
       const averages = this.fullGradingTemplate.computeCategoryAverages(activitiesObj)
@@ -181,17 +185,24 @@ class Course extends Model {
         return avg[Object.keys(avg)[0]].average
       })
       doc.generalAverage = (avgLength === 1) ? averages[0][Object.keys(averages[0])[0]].average : averageValues.reduce((acc, cur) => acc + cur)
-      const a = averages.reduce((acc, cur) => {
-        return { average: acc.average + cur.average }
-      })
       doc.activitiesObj = activitiesObj
       Object.assign(doc, { studentId: student._id }, categoriesDoc)
       return doc
     })
+    const sessions = this.sessions
+    const activityTypes = this.activityTypesWithScores
+    const activities = this.activities
+    return { sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
   }
 
   computeStudentRecords(student) {
     const records = this.activityRecords.filter(record => record.studentId === student._id)
+      .map((record) => {
+        if (!record.score) {
+          record.score = 0
+        }
+        return record
+      })
     const computedRecords = this.computeRecords(records)
     return computedRecords
   }
