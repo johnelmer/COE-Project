@@ -59,21 +59,43 @@ class ClassRecordComponent {
     }
   }
 
+  get ratingTableHeaders() {
+    const record = this.doc.records[0]
+    if (!record.lecture && record.laboratory) {
+      return ['Rating']
+    }
+    return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'GPA']
+  }
+
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
   }
 
-  getStudentActivityRecord(student, type) {
+  getStudentRecord(student) {
     const records = this.doc.records
     const index = records.findIndex(record => record.studentId === student._id)
-    if (index !== -1) {
-      const activity = records[index].activitiesObj[type]
-      if (!activity) {
-        return '0 (0%)'
-      }
-      return `${activity.score} (${activity.totalScorePercentage.toFixed(2)} %)`
+    if (index === -1) {
+      return {}
     }
-    return '0 (0%)'
+    return records[index]
+  }
+
+  getStudentActivityStanding(student, type) {
+    const record = this.getStudentRecord(student)
+    const activity = record.activitiesObj[type]
+    if (!activity) {
+      return '0 (0%)'
+    }
+    return `${activity.score} (${activity.totalScorePercentage.toFixed(2)} %)`
+  }
+
+  getStudentActivitiesByType(student, type) {
+    const record = this.getStudentRecord(student)
+    const activityType = record.activitiesObj[type]
+    if (!activityType) {
+      return []
+    }
+    return activityType.records
   }
 
   getFilteredArray(arr, key, val) {
@@ -85,7 +107,11 @@ class ClassRecordComponent {
   }
 
   getActivitiesByType(type) {
-    return this.activities.filter(activity => activity.type === type)
+    return this.doc.activities.filter(activity => activity.type === type)
+  }
+
+  getFilterredArray(array, key, value) {
+    return array.filter(obj => obj[key] === value)
   }
 
   getComputedScore(student, type) {

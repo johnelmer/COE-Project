@@ -39,12 +39,15 @@
                   <label>{{ type.name }} ({{ type.percentage }}%)</label>
                   <label>{{ type.totalScore }}</label>
                 </td>
+                <td ng-repeat="header in classRecord.ratingTableHeaders">
+                  <label>{{ header }}</label>
+                </td>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="student in classRecord.students track by student._id">
                 <td>{{ student.fullName }}</td>
-                <td ng-repeat="type in classRecord.doc.activityTypes">{{ classRecord.getStudentActivityRecord(student, type.name) }}</td>
+                <td ng-repeat="type in classRecord.doc.activityTypes">{{ classRecord.getStudentActivityStanding(student, type.name) }}</td>
               </tr>
             </tbody>
           </table>
@@ -98,7 +101,7 @@
           </table>
         </div>
       </uib-tab>
-      <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.activityTypes" heading="{{activityType.name}}">
+      <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.doc.activityTypes" heading="{{activityType.name}}">
         <form>
           <div id="block">
             <div class="panel panel-default">
@@ -131,7 +134,7 @@
                   <td align="center"><label>
                     Name of Students
                   </label></td>
-                  <td ng-repeat="activity in classRecord.getActivitiesByType(activityType.name)" align="center">
+                  <td ng-repeat="activity in classRecord.getFilteredArray(classRecord.doc.activities, 'type', activityType.name)" align="center">
                     <label>Date: {{ activity.date }}
                       <label>Total Score: {{ activity.totalScore }}</label>
                       <label>{{ activity.description }}</label>
@@ -145,7 +148,7 @@
               <tbody>
                 <tr ng-repeat="student in classRecord.students track by student._id">
                   <td> {{ student.fullName }}</td>
-                  <td ng-repeat="record in classRecord.getRecordsByType(student.records, activityType.name)">
+                  <td ng-repeat="record in classRecord.getStudentActivitiesByType(student, activityType.name)">
                     {{ record.score }}
                   </td>
                 </tr>
