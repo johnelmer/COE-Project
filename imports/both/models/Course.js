@@ -175,23 +175,26 @@ class Course extends Model {
   }
 
   get classRecord() { // returns all data that can be extracted to form easily a class record
+    const attendances = this.studentAttendances
     const records = this.students.map((student) => {
       const doc = { activitiesObj: {} }
       const activitiesObj = this.computeStudentRecords(student)
       const averages = this.fullGradingTemplate.computeCategoryAverages(activitiesObj)
       const avgLength = averages.length
-      const categoriesDoc = (avgLength > 1) ? Object.assign(averages[0], averages[1]) : averages[0]
+      const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(averages[0], averages[1]) : averages[1]
       const averageValues = averages.map((avg) => {
         return avg[Object.keys(avg)[0]].average
       })
       doc.generalAverage = (avgLength === 1) ? averages[0][Object.keys(averages[0])[0]].average : averageValues.reduce((acc, cur) => acc + cur)
       doc.activitiesObj = activitiesObj
+      doc.attendances = attendances.filter(attendance => attendance.studentId === student._id)
+                                      .map(attendance => _.omit(attendance, 'studentId'))
       Object.assign(doc, { studentId: student._id }, categoriesDoc)
       return doc
     })
-    const sessions = this.sessions
+    const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
     const activityTypes = this.activityTypesWithScores
-    const activities = this.activities
+    const activities = this.activities.map(activity => _.omit(activity, 'records'))
     return { sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
   }
 
@@ -249,11 +252,14 @@ class Course extends Model {
       scoresDoc[type].score = records[0].score
     }
     this.activityTypesWithScores.forEach((type) => {
-      if (scoresDoc[type.name]) {
+      const typeName = type.name
+      if (scoresDoc[typeName]) {
         const totalScorePercentage = (scoresDoc[type.name].score / type.totalScore) * 100
         const overallPercentage = (totalScorePercentage / 100) * type.percentage
-        scoresDoc[type.name].totalScorePercentage = totalScorePercentage
-        scoresDoc[type.name].overallPercentage = overallPercentage
+        scoresDoc[typeName].totalScorePercentage = totalScorePercentage
+        scoresDoc[typeName].overallPercentage = overallPercentage
+        scoresDoc[typeName].records = records.filter(record => record.activityType === typeName)
+                                        .map(record => _.pick(record, 'activityId', 'score'))
       }
     })
     return scoresDoc
