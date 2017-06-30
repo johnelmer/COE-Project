@@ -34,6 +34,9 @@ class StudentViewComponent {
     })
   }
 
+  edit(student) {
+    this.student = student
+  }
 }
 
 export default StudentViewComponent
