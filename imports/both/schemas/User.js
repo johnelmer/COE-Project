@@ -3,6 +3,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 export default new SimpleSchema({
   username: {
     type: String,
+    optional: true,
   },
   firstName: {
     type: String,
@@ -27,8 +28,8 @@ export default new SimpleSchema({
   address: {
     type: String,
   },
-  departments: {
-    type: [String],
+  department: {
+    type: String,
     optional: true,
   },
   status: {
@@ -43,6 +44,7 @@ export default new SimpleSchema({
   },
   gender: {
     type: String,
+    allowedValues: ['Male', 'Female'],
   },
   roleName: {
     type: String,
@@ -70,6 +72,10 @@ export default new SimpleSchema({
     type: Object,
     optional: true,
     blackbox: true,
+  },
+  rankName: {
+    type: String,
+    optional: true,
   },
   image: {
     type: Object,

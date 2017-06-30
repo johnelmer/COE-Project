@@ -1,5 +1,9 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
+SimpleSchema.messages({
+  'alreadyExist': '[label] already exist',
+})
+
 export default new SimpleSchema({
   firstName: {
     type: String,
@@ -20,8 +24,21 @@ export default new SimpleSchema({
   },
   idNumber: {
     type: String,
-    optional: true,
+    // unique: true,
+    label: "Id Number",
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
+    // NOTE: Should not duplicate
+    custom: function () {
+      const Student = require('/imports/both/models/Student').default
+      let student = {}
+      if (this.isSet) {
+        student = Student.findOne({ idNumber: this.value })
+      }
+      if (student) {
+          return 'alreadyExist'
+      }
+      // return true
+    },
   },
   gender: {
     type: String,
@@ -34,6 +51,7 @@ export default new SimpleSchema({
     optional: true,
   },
   birthday: {
+    optional: true,
     type: Date,
   },
   homeAddress: {
