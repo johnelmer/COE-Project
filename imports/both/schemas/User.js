@@ -87,14 +87,8 @@ export default new SimpleSchema({
     optional: true,
     regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
-  notifications: {
-    type: [Object],
+  notificationIds: {
+    type: [String],
     optional: true,
-  },
-  'notifications.$._id': {
-    type: String,
-  },
-  'notifications.$.isSeen':{
-    type: Boolean,
   },
 })

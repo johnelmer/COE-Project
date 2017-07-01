@@ -68,6 +68,11 @@ class User extends Model {
     }
     return Meteor.call('createNewUser', this.doc, callback)
   }
+
+  get notifications() {
+    return Notification.find({ _id: { $in: this.notificationIds }}).fetch()
+  }
+
 }
 
 export default User
