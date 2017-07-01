@@ -108,7 +108,11 @@
           </thead>
           <tbody>
             <tr ng-repeat="course in subjectAssign.courses | filter: searchText">
-              <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button></td>
+              <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button>
+                <button type="button" class="btn btn-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
               <td> {{ course.lecture.instructor.idNumber }}</td>
               <td> {{ course.lecture.instructor.fullName }}</td>
               <td> {{ course.stubcode }}</td>
