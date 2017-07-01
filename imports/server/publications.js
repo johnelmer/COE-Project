@@ -11,6 +11,8 @@ import ActivityType from '/imports/both/models/ActivityType'
 import Session from '/imports/both/models/Session'
 import AppSetting from '/imports/both/models/AppSetting'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
+import Meeting from '/imports/both/models/Meeting'
+import Notification from '/imports/both/models/Notification'
 
 Meteor.publish('courses', () => Course.find())
 
@@ -39,3 +41,7 @@ Meteor.publish('sessions', () => Session.find())
 Meteor.publish('settings', () => AppSetting.find())
 
 Meteor.publish('grading-templates', () => GradingTemplate.find())
+
+Meteor.publish('meetings', () => Meeting.find())
+
+Meteor.publish('notifications', () => Notification.find())

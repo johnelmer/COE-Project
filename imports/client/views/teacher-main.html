@@ -1,11 +1,11 @@
 <div class="container">
   <div>
-    {{ teacherMain.user.fullName }}
+    <h2>{{ teacherMain.user.fullName }}</h2>
   </div>
   <div>
     <table class="table table-bordered table-striped">
       <thead>
-        <tr>
+        <tr class="align">
           <td>Stubcode</td>
           <td>Course No.</td>
           <td>Units</td>
@@ -13,11 +13,11 @@
           <td>Lecture Room</td>
           <td>Laboratory Schedule</td>
           <td>Laboratory Room</td>
-          <td>Options</td>
+          <td>Class Record</td>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="course in teacherMain.courses">
+        <tr class="align" ng-repeat="course in teacherMain.courses">
           <td>{{ course.stubcode }}</td>
           <td>{{ course.subject.courseNumber }}</td>
           <td>{{ course.subject.units }}</td>
@@ -26,7 +26,7 @@
           <td>{{ course.laboratory.time }}</td>
           <td>{{ course.laboratory.room }}</td>
           <td class="text-center">
-            <button type="btn btn-default" ui-sref="app.course.classRecord({ courseId: course._id })">Record</button>
+            <button class="btn btn-primary" ui-sref="app.course.classRecord({ courseId: course._id })">View</button>
           </td>
         </tr>
       </tbody>

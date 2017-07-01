@@ -28,8 +28,8 @@ export default new SimpleSchema({
     type: String,
   },
   departments: {
-    optional: true,
     type: [String],
+    optional: true,
   },
   status: {
     type: String,
@@ -51,10 +51,12 @@ export default new SimpleSchema({
   religion: {
     type: String,
     optional: true,
+    defaultValue: 'Roman Catholic',
   },
   citizenship: {
     type: String,
     optional: true,
+    defaultValue: 'Filipino',
   },
   createdAt: {
     type: Date,
@@ -79,14 +81,8 @@ export default new SimpleSchema({
     optional: true,
     regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
-  notifications: {
-    type: [Object],
+  notificationIds: {
+    type: [String],
     optional: true,
-  },
-  'notifications.$._id': {
-    type: String,
-  },
-  'notifications.$.isSeen':{
-    type: Boolean,
   },
 })

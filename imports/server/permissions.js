@@ -9,8 +9,9 @@ import Session from '/imports/both/models/Session'
 import Activity from '/imports/both/models/Activity'
 import User from '/imports/both/models/User'
 import Meeting from '/imports/both/models/Meeting'
+import Notification from '/imports/both/models/Notification'
 
-// To be update
+// To be updated
 Course.collection.allow({
   insert: () => true, // TODO: secretary only
   update: () => true,
@@ -69,4 +70,8 @@ User.collection.allow({
   insert: () => true,
   update: (userId, user) => user._id === userId,
   remove: () => false,
+})
+
+Notification.collection.allow({
+  insert: () => true,
 })

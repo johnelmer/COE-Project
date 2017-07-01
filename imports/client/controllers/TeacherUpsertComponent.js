@@ -51,6 +51,13 @@ class TeacherUpsertComponent {
       },
     })
     this.ngToast = ngToast
+    this.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
   }
 
   save() {
@@ -80,6 +87,9 @@ class TeacherUpsertComponent {
     }
   }
 
+  openPicker() {
+    this.popup.opened = true
+  }
 }
 
 export default TeacherUpsertComponent

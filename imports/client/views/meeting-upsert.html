@@ -11,68 +11,97 @@
             <input type="text" name="meeting-title" class="form-control" ng-model="meetingUpsert.meeting.title">
           </div>
         </div>
-        <!-- <div class="form-group">
-          <label class="col-md-2 control-label">Tags*:</label>
-          <div class="col-md-9"> -->
-            <!-- todo: related topics about previous meetings -->
-          <!-- </div>
-        </div> -->
-        <div class="form-group">
-          <label class="col-md-2 control-label">Attendees:</label>
-          <div class="col-md-9">
-            <ui-select multiple ng-model="meetingUpsert.selectedAttendees" theme="bootstrap" close-on-select="false">
-              <ui-select-match placeholder="Select or search the attendee in the list...">{{$item.fullName}}</ui-select-match>
-              <ui-select-choices repeat="attendee in meetingUpsert.attendees | filter: $select.search">
-                <div class="text-danger" ng-bind-html="attendee.fullName | highlight: $select.search"></div>
-                <small ng-bind-html="attendee.lastName | highlight: $select.search"></small>
-              </ui-select-choices>
-            </ui-select>
-          </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Attendees:</label>
+        <div class="col-md-9">
+          <ui-select multiple ng-model="meetingUpsert.selectedAttendees" theme="bootstrap" close-on-select="false">
+            <ui-select-match placeholder="Select or search the attendee in the list...">{{$item.fullName}}</ui-select-match>
+            <ui-select-choices repeat="attendee in meetingUpsert.attendees | filter: $select.search">
+              <div class="text-danger" ng-bind-html="attendee.fullName | highlight: $select.search"></div>
+              <small ng-bind-html="attendee.lastName | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
         </div>
-        <div class="form-group">
-          <label class="col-md-2 control-label">Time:</label>
-          <div class="col-md-9">
-            <div class="col-md-3">
-              <div uib-timepicker ng-model="meetingUpsert.meeting.schedule.time" ng-change="changed()"></div>
-            </div>
-            <div class="col-md-3">
-              <label>Date:</label>
-              <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-model="meetingUpsert.meeting.schedule.date" />
-            </div>
-                <label>When:</label>
-                <pre class="alert alert-info">{{ meetingUpsert.meeting.schedule.time | date:'shortTime' }}  {{ meetingUpsert.meeting.schedule.date | date: fullDate }}</pre>
-          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Time:</label>
+        <div class="col-md-9">
+          <div uib-timepicker ng-model="meetingUpsert.time" ng-change="changed()"></div>
         </div>
-        <div class="form-group">
-          <label class="col-md-2 control-label">Location:</label>
-          <div class="col-md-9">
-            <input type="text" name="meeting-location" class="form-control" ng-model="meetingUpsert.meeting.location">
-          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Date:</label>
+        <div class="col-md-9">
+          <li class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="meetingUpsert.date"  is-open="meetingUpsert.popup.opened" datepicker-options="meetingUpsert.dateOptions" ng-required="true" close-text="Close"/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="meetingUpsert.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </li>
         </div>
-        <div class="form-group">
-          <label class="col-md-2 control-label">Description:</label>
-          <div class="col-md-9">
-            <textarea ng-model="meetingUpsert.meeting.description" placeholder="Description here..." class="form-control"></textarea>
-            <!-- <input type="text" name="meeting-description" class="form-control" ng-model="meetingUpsert.meeting.description"> -->
-          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Location:</label>
+        <div class="col-md-9">
+          <input type="text" name="meeting-location" class="form-control" ng-model="meetingUpsert.meeting.location">
         </div>
-        <div class="form-group">
-          <label class="col-md-2 control-label">Upload:</label>
-          <div class="col-md-9">
-            <!-- TODO: upload pdf -->
-          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Description:</label>
+        <div class="col-md-9">
+          <textarea ng-model="meetingUpsert.meeting.description" placeholder="Description here..." class="form-control"></textarea>
+          <!-- <input type="text" name="meeting-description" class="form-control" ng-model="meetingUpsert.meeting.description"> -->
         </div>
-        <div class="col-md-offset-8 col-md-3">
-          <button type="button" class="btn btn-primary btn-md btn-block" ng-click="meetingUpsert.save()"> Save </button>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Upload:</label>
+        <div class="col-md-9">
+          <!-- TODO: upload pdf -->
+          <input type="file" ngf-select ng-model="meetingUpsert.file" multiple accept="application/pdf,image/*"/>
         </div>
+      </div>
+      <div class="col-md-offset-8 col-md-3">
+        <button type="button" class="btn btn-primary btn-md btn-block" ng-click="meetingUpsert.save()"> Save </button>
       </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-      </div>
-      <div class="panel-body">
-        <!-- TODO: meeting history and view -->
-      </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        Created Meetings
+      </h4>
     </div>
-  </form>
+    <div class="panel-body">
+      <uib-accordion close-others="oneAtATime">
+        <div uib-accordion-group class="panel-info" ng-repeat="createdMeeting in meetingUpsert.meetings" is-open="status.open">
+          <uib-accordion-heading>
+            <!-- NOTE: Date Created and Title-->
+            {{ createdMeeting.title }}
+             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+          </uib-accordion-heading>
+          <!-- NOTE: The content -->
+          <div class="form-group">
+            <label class="col-md-offset-1 control-label">Title:</label>
+            <span> {{ createdMeeting.title }} </span>
+          </div>
+          <div class="form-group">
+            <label class="col-md-offset-1 control-label">Time & Date:</label>
+            <span>{{ createdMeeting.schedule.time | date: 'shortTime' }} {{ createdMeeting.schedule.date | date: 'longDate'}} </span>
+          </div>
+          <div class="form-group">
+            <label class="col-md-offset-1 control-label">Location:</label>
+            <span > {{ createdMeeting.location }}</span>
+          </div>
+          <div class="form-group">
+            <label class="col-md-offset-1 control-label">Description:</label>
+            <span> {{ createdMeeting.description }}</span>
+          </div>
+          <div class="form-group">
+            <label class="col-md-offset-1 control-label">Attendees:</label>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+</form>
 </div>

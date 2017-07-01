@@ -1,6 +1,9 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 export default new SimpleSchema({
+  createdAt: {
+    type: Date,
+  },
   title: {
     type: String,
   },
@@ -9,12 +12,6 @@ export default new SimpleSchema({
     optional: true,
   },
   schedule: {
-    type: Object,
-  },
-  'schedule.time' : {
-    type: Date,
-  },
-  'schedule.date' : {
     type: Date,
   },
   location: {
@@ -22,5 +19,9 @@ export default new SimpleSchema({
   },
   description: {
     type: String,
+  },
+  filename: {
+    type: String,
+    optional: true,
   },
 })

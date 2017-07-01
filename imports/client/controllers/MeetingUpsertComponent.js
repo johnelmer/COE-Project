@@ -21,6 +21,19 @@ import '../views/meeting-upsert.html'
   },
 })
 @State({
+  name: 'app.meeting.upload',
+  url: '/meeting/create/upload',
+  // resolve: {
+  //   redirect($auth, $location) {
+  //     $auth.awaitUser().then((user) => {
+  //       if (user.hasARole('dean')) {
+  //         $location.path('/login')
+  //       }
+  //     })
+  //   },
+  // },
+})
+@State({
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
   // resolve: {
@@ -35,32 +48,58 @@ import '../views/meeting-upsert.html'
   selector: 'meeting-upsert',
   templateUrl: 'imports/client/views/meeting-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'Upload')
 class MeetingUpsertComponent {
 
-  constructor($scope, $reactive, $state) {
+  constructor($scope, $reactive, $state, $stateParams, Upload) {
     $reactive(this).attach($scope)
+    const { meetingId } = $stateParams
     this.$state = $state
+    this.selectedAttendees = []
     this.subscribe('users')
-    this.meeting = ''
+    this.subscribe('meetings')
     this.helpers({
+      meetings() {
+        return Meeting.find().fetch()
+      },
       attendees() {
         return User.find().fetch()
       },
       meeting() {
         if ($state.current.name.endsWith('create')) {
-          return new Meeting({ attendeeIds: [] })
+          return new Meeting()
         }
         return Meeting.findOne({ _id: meetingId })
       },
     })
+    this.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
+    this.status = {
+      isCustomHeaderOpen: false,
+    }
+    this.oneAtATime = true
   }
 
+  openPicker() {
+    this.popup.opened = true
+  }
   save() {
-    console.log(this.meeting);
-    const meetingAttendees = this.selectedAttendees
-    meetingAttendees.forEach(attendee => {
-      console.log(this.meeting.attendeeIds);
+    console.log(`time: ${this.time}`);
+    console.log(this.date);
+    const time = this.time;
+    const date = this.date;
+    date.setHours(time.getHours())
+    date.setMinutes(time.getMinutes())
+    this.meeting.createdAt = new Date()
+    this.meeting.schedule = date
+    console.log(`Final ${this.meeting.schedule}`);
+    this.meeting.attendeeIds = [];
+    this.selectedAttendees.forEach(attendee => {
       this.meeting.attendeeIds.push(attendee._id)
     })
     this.meeting.save(err => {
@@ -68,7 +107,20 @@ class MeetingUpsertComponent {
         console.log(err);
       }
     })
+    this.meeting = new Meeting
   }
+  // this.file.forEach(file => {
+  //   console.log(file);
+  //   this.meeting.filename = file.name
+  //   if (file && file.length) {
+  //     Upload.upload({
+  //       url: 'http://locahost:3000/upload',
+  //       data: {
+  //         file: file,
+  //       },
+  //     })
+  //   }
+  // })
 }
 
 export default MeetingUpsertComponent
