@@ -96,7 +96,7 @@
             <tbody>
               <tr ng-repeat="student in classRecord.students track by student._id">
                 <td>{{ student.fullName }}</td>
-                <td ng-repeat="attendance in student.attendances">{{ classRecord.getAttendanceValue(attendance.type) }}</td>
+                <td ng-repeat="attendance in classRecord.getStudentRecord(student).attendances">{{ classRecord.getAttendanceValue(attendance.type) }}</td>
               </tr>
             </tbody>
           </table>
