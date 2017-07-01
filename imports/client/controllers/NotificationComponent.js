@@ -6,7 +6,7 @@ import { Component, State, Inject } from 'angular2-now'
 import '../views/notification.html'
 
 @State({
-	name: 'app.notification.alert',
+	name: 'app.notification.show',
   url: '/notification',
   resolve: {
     redirect($auth, $location) {
@@ -19,7 +19,7 @@ import '../views/notification.html'
   },
 })
 @Component({
-  selector: 'notification',
+  selector: 'notification-view',
   templateUrl: 'imports/client/views/notification.html',
 })
 @Inject('scope', '$reactive', '$stateParams')
@@ -29,6 +29,14 @@ class NotificationComponent {
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     this.subscribe('notifications')
+
+    this.helpers() {
+      notifications() {
+        if ($state.current.name.endsWith('show')) {
+          return Meteor.user().notifications
+        }
+      }
+    }
   }
 }
 
