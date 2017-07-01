@@ -11,6 +11,7 @@ import ActivityType from '/imports/both/models/ActivityType'
 import Session from '/imports/both/models/Session'
 import AppSetting from '/imports/both/models/AppSetting'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
+import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 Meteor.publish('courses', () => Course.find())
 
@@ -39,3 +40,5 @@ Meteor.publish('sessions', () => Session.find())
 Meteor.publish('settings', () => AppSetting.find())
 
 Meteor.publish('grading-templates', () => GradingTemplate.find())
+
+Meteor.publish('grade-transmutations', () => GradeTransmutation.find())
