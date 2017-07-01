@@ -10,6 +10,7 @@ import Session from './Session'
 import Student from './Student'
 import GradingTemplate from './GradingTemplate'
 import Activity from './Activity'
+import GradeTransmutation from './GradeTransmutation'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -55,6 +56,10 @@ class Course extends Model {
   get activities() {
     const activities = this.sessions.map(session => session.activities)
     return _.flatten(activities)
+  }
+
+  get gradeTransmutation() {
+    return GradeTransmutation.findOne({ passingPercentage: this.fullGradingTemplate.passingPercentage })
   }
 
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
@@ -190,7 +195,7 @@ class Course extends Model {
       doc.attendances = attendances.filter(attendance => attendance.studentId === student._id)
                                       .map(attendance => _.omit(attendance, 'studentId'))
       Object.assign(doc, { studentId: student._id }, categoriesDoc)
-      doc.gpa = '-'
+      doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
       return doc
     })
     const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
