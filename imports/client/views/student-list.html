@@ -5,7 +5,7 @@
     </legend>
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for...">
+        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
         <span class="input-group-btn">
           <button class="btn btn-primary" type="button">Search</button>
         </span>
@@ -33,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="student in studentList.students">
+          <tr ng-repeat="student in studentList.students | filter:searchText">
             <td>{{ student.idNumber}}</td>
             <td>{{ student.lastName }}</td>
             <td>{{ student.firstName }}</td>
