@@ -60,12 +60,42 @@ class ClassRecordComponent {
   }
 
   get ratingTableHeaders() {
-    const record = this.doc.records[0]
-    if (!record.lecture && record.laboratory) {
+    const type = this.doc.type
+    if (type === 'laboratory only') {
       return ['Rating']
+    } else if (type === 'lecture only') {
+      return ['Rating', 'GPA']
     }
     return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'GPA']
   }
+
+  getRating(record, ratingType) {
+    let value = ''
+    switch (ratingType) {
+      case 'Rating':
+        value = record.finalRating
+        break
+      case 'Final Rating':
+        value = record.finalRating
+        break
+      case 'Lecture Rating':
+        value = record.lecture.rating
+        break
+      case 'Laboratory Rating':
+        value = record.laboratory.rating
+        break
+      case 'GPA':
+        value = record.gpa
+        break
+      default:
+        value = '-'
+    }
+    return (value !== '-' || ratingType !== 'GPA') ? `${value.toFixed(2)}%` : value
+  }
+
+/*  toCamelCase(str) {
+    return str.toLowerCase().replace(/\W+(.)/g, (match, chr) => chr.toUppercase())
+  } */
 
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
