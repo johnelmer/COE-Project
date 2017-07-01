@@ -11,6 +11,7 @@ import Activity from '/imports/both/models/Activity'
 import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
+import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 const name = faker.name
 const random = faker.random
@@ -187,6 +188,40 @@ const data = {
       courseIds: [],
     },
   ],
+  gradeTransmutations: [
+    {
+      name: 'Grade transmutation for 50% passing',
+      passingPercentage: 50,
+      gpaList: [
+        { min: 0, max: 49.99, equivalent: '5.0' },
+        { min: 50, max: 55.99, equivalent: '3.0' },
+        { min: 56, max: 61.99, equivalent: '2.75' },
+        { min: 62, max: 67.99, equivalent: '2.5' },
+        { min: 68, max: 73.99, equivalent: '2.25' },
+        { min: 74, max: 79.99, equivalent: '2.0' },
+        { min: 80, max: 85.99, equivalent: '1.75' },
+        { min: 86, max: 90.99, equivalent: '1.5' },
+        { min: 91, max: 95.99, equivalent: '1.25' },
+        { min: 96, max: 100, equivalent: '1.0' },
+      ],
+    },
+    {
+      name: 'Grade transmutation for 60% passing',
+      passingPercentage: 60,
+      gpaList: [
+        { min: 0, max: 59.99, equivalent: '5.0' },
+        { min: 60, max: 64.99, equivalent: '3.0' },
+        { min: 65, max: 69.99, equivalent: '2.75' },
+        { min: 70, max: 74.99, equivalent: '2.5' },
+        { min: 75, max: 79.99, equivalent: '2.25' },
+        { min: 80, max: 84.99, equivalent: '2.0' },
+        { min: 85, max: 88.99, equivalent: '1.75' },
+        { min: 89, max: 92.99, equivalent: '1.5' },
+        { min: 93, max: 96.99, equivalent: '1.25' },
+        { min: 97, max: 100, equivalent: '1.0' },
+      ],
+    },
+  ],
 }
 
 const fakeAddress = () => {
@@ -268,8 +303,11 @@ const seeder = {
     new AppSetting({ type: 'Main', currentSchoolYear: schoolYear, currentSemester: semester }).save()
   },
   gradingTemplates: () => {
-    data.gradingTemplates.forEach((gradtemplate) => {
-      new GradingTemplate(gradtemplate).save()
+    data.gradingTemplates.forEach(gradtemplate => new GradingTemplate(gradtemplate).save())
+  },
+  gradeTransmutations: () => {
+    data.gradeTransmutations.forEach((gradeTransmutation) => {
+      new GradeTransmutation(gradeTransmutation).save()
     })
   },
   roles: () => {
