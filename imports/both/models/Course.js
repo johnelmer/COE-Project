@@ -10,6 +10,7 @@ import Session from './Session'
 import Student from './Student'
 import GradingTemplate from './GradingTemplate'
 import Activity from './Activity'
+import GradeTransmutation from './GradeTransmutation'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -55,6 +56,10 @@ class Course extends Model {
   get activities() {
     const activities = this.sessions.map(session => session.activities)
     return _.flatten(activities)
+  }
+
+  get gradeTransmutation() {
+    return GradeTransmutation.findOne({ passingPercentage: this.fullGradingTemplate.passingPercentage })
   }
 
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
@@ -179,23 +184,25 @@ class Course extends Model {
     const records = this.students.map((student) => {
       const doc = { activitiesObj: {} }
       const activitiesObj = this.computeStudentRecords(student)
-      const averages = this.fullGradingTemplate.computeCategoryAverages(activitiesObj)
-      const avgLength = averages.length
-      const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(averages[0], averages[1]) : averages[1]
-      const averageValues = averages.map((avg) => {
-        return avg[Object.keys(avg)[0]].average
+      const ratings = this.fullGradingTemplate.computeCategoryRatings(activitiesObj)
+      const avgLength = ratings.length
+      const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
+      const ratingsValues = ratings.map((avg) => {
+        return avg[Object.keys(avg)[0]].rating
       })
-      doc.generalAverage = (avgLength === 1) ? averages[0][Object.keys(averages[0])[0]].average : averageValues.reduce((acc, cur) => acc + cur)
+      doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
       doc.activitiesObj = activitiesObj
       doc.attendances = attendances.filter(attendance => attendance.studentId === student._id)
                                       .map(attendance => _.omit(attendance, 'studentId'))
       Object.assign(doc, { studentId: student._id }, categoriesDoc)
+      doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
       return doc
     })
     const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
     const activityTypes = this.activityTypesWithScores
     const activities = this.activities.map(activity => _.omit(activity, 'records'))
-    return { sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
+    const type = (!this.hasALaboratory) ? 'lecture only' : (this.isUserHandlesLabOnly) ? 'laboratory only' : 'lecture and laboratory'
+    return { type: type, sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
   }
 
   computeStudentRecords(student) {
@@ -255,9 +262,9 @@ class Course extends Model {
       const typeName = type.name
       if (scoresDoc[typeName]) {
         const totalScorePercentage = (scoresDoc[type.name].score / type.totalScore) * 100
-        const overallPercentage = (totalScorePercentage / 100) * type.percentage
+        const overallRating = (totalScorePercentage / 100) * type.percentage
         scoresDoc[typeName].totalScorePercentage = totalScorePercentage
-        scoresDoc[typeName].overallPercentage = overallPercentage
+        scoresDoc[typeName].overallRating = overallRating
         scoresDoc[typeName].records = records.filter(record => record.activityType === typeName)
                                         .map(record => _.pick(record, 'activityId', 'score'))
       }

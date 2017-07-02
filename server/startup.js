@@ -14,6 +14,7 @@ import Activity from '/imports/both/models/Activity'
 import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
+import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 Meteor.startup(() => {
   Student.collection._ensureIndex({ lastName: 1 })
@@ -42,8 +43,11 @@ Meteor.startup(() => {
   if (!AppSetting.findOne()) {
     seeder.appSetting(schoolYear, semester)
   }
-  if (GradingTemplate.find().fetch() < 4) {
+  if (GradingTemplate.find().count() < 4) {
     seeder.gradingTemplates()
+  }
+  if (GradeTransmutation.find().count() === 0) {
+    seeder.gradeTransmutations()
   }
   if (Role.find().count() < 4) {
     seeder.roles()

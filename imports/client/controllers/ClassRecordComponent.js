@@ -34,11 +34,13 @@ class ClassRecordComponent {
       const activityTypeSubs = this.subscribe('activity-types')
       const gradingSubs = this.subscribe('grading-templates')
       const settingSubs = this.subscribe('settings')
+      const gradeTransmutationSubs = this.subscribe('grade-transmutations')
       this.course = Course.findOne({ _id: courseId })
       const course = this.course
       this.activityList = []
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
-        && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready() && course) {
+        && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready()
+        && gradeTransmutationSubs.ready() && course) {
         this.students = course.studentsWithRecords
         this.doc = course.classRecord
         this.sessions = course.sessions
@@ -60,12 +62,42 @@ class ClassRecordComponent {
   }
 
   get ratingTableHeaders() {
-    const record = this.doc.records[0]
-    if (!record.lecture && record.laboratory) {
+    const type = this.doc.type
+    if (type === 'laboratory only') {
       return ['Rating']
+    } else if (type === 'lecture only') {
+      return ['Rating', 'GPA']
     }
     return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'GPA']
   }
+
+  getRating(record, ratingType) {
+    let value = ''
+    switch (ratingType) {
+      case 'Rating':
+        value = record.finalRating
+        break
+      case 'Final Rating':
+        value = record.finalRating
+        break
+      case 'Lecture Rating':
+        value = record.lecture.rating
+        break
+      case 'Laboratory Rating':
+        value = record.laboratory.rating
+        break
+      case 'GPA':
+        value = record.gpa
+        break
+      default:
+        value = '-'
+    }
+    return (value !== '-' && ratingType !== 'GPA') ? `${value.toFixed(2)}%` : value
+  }
+
+/*  toCamelCase(str) {
+    return str.toLowerCase().replace(/\W+(.)/g, (match, chr) => chr.toUppercase())
+  } */
 
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
@@ -100,31 +132,6 @@ class ClassRecordComponent {
 
   getFilteredArray(arr, key, val) {
     return arr.filter(activity => activity[key] === val)
-  }
-
-  getRecordsByType(records, type) {
-    return records.filter(record => record.activityType === type)
-  }
-
-  getActivitiesByType(type) {
-    return this.doc.activities.filter(activity => activity.type === type)
-  }
-
-  getFilterredArray(array, key, value) {
-    return array.filter(obj => obj[key] === value)
-  }
-
-  getComputedScore(student, type) {
-    const records = student.records.filter(record => record.activityType === type)
-    const activityTypes = this.activityTypes
-    const index = activityTypes.findIndex(activityType => activityType.name === type)
-    const totalScore = activityTypes[index].totalScore
-    const score = (records.length > 1) ? records.reduce((acc, cur) => {
-      return { score: acc.score + cur.score }
-    }).score :
-      (records.length === 1) ? records[0].score : 0
-    const percentage = (score !== 0) ? ((score / totalScore) * 100).toFixed(2) : 0
-    return `${score} (${percentage}%)`
   }
 
   addNewActivity(activityType) {
