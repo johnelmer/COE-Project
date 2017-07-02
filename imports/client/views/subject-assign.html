@@ -59,7 +59,7 @@
     </div>
     <div class="panel-body">
       <div class="input-group col-md-4" id="searchBar">
-        <input type="text" class="form-control" placeholder="Search for...">
+        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
         <span class="input-group-btn">
           <button class="btn btn-primary" type="button">Search</button>
         </span>
@@ -107,8 +107,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="course in subjectAssign.courses">
-              <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button></td>
+            <tr ng-repeat="course in subjectAssign.courses | filter: searchText">
+              <td><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button>
+                <button type="button" class="btn btn-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
               <td> {{ course.lecture.instructor.idNumber }}</td>
               <td> {{ course.lecture.instructor.fullName }}</td>
               <td> {{ course.stubcode }}</td>

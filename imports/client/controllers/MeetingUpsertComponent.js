@@ -21,19 +21,6 @@ import '../views/meeting-upsert.html'
   },
 })
 @State({
-  name: 'app.meeting.upload',
-  url: '/meeting/create/upload',
-  // resolve: {
-  //   redirect($auth, $location) {
-  //     $auth.awaitUser().then((user) => {
-  //       if (user.hasARole('dean')) {
-  //         $location.path('/login')
-  //       }
-  //     })
-  //   },
-  // },
-})
-@State({
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
   // resolve: {
@@ -48,10 +35,10 @@ import '../views/meeting-upsert.html'
   selector: 'meeting-upsert',
   templateUrl: 'imports/client/views/meeting-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'Upload')
+@Inject('$scope', '$reactive', '$state', '$stateParams')
 class MeetingUpsertComponent {
 
-  constructor($scope, $reactive, $state, $stateParams, Upload) {
+  constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { meetingId } = $stateParams
     this.$state = $state
@@ -109,18 +96,6 @@ class MeetingUpsertComponent {
     })
     this.meeting = new Meeting
   }
-  // this.file.forEach(file => {
-  //   console.log(file);
-  //   this.meeting.filename = file.name
-  //   if (file && file.length) {
-  //     Upload.upload({
-  //       url: 'http://locahost:3000/upload',
-  //       data: {
-  //         file: file,
-  //       },
-  //     })
-  //   }
-  // })
 }
 
 export default MeetingUpsertComponent

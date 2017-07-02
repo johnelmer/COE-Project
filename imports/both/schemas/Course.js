@@ -16,7 +16,7 @@ const courseType = new SimpleSchema({
   'instructor._id': {
     type: String,
     optional: true,
-  },
+  },  
   'instructor.fullName': {
     type: String,
   },
@@ -54,6 +54,9 @@ export default new SimpleSchema({
   studentIds: {
     type: [String],
     optional: true,
+    custom: function () {
+      console.log(this);
+    },
   },
   semester: {
     type: String,

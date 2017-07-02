@@ -23,13 +23,13 @@ import '../views/student-upsert.html'
 @State({
   name: 'app.student.edit',
   url: '/students/edit/:studentId',
-  resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
-    },
-  },
+  // resolve: {
+  //   redirect($state) {
+  //     const { roleName } = Meteor.user()
+  //     const role = Role.findOne({ name: roleName })
+  //     return role.hasARole('secretary') || $state.go('app.login')
+  //   },
+  // },
 })
 @Component({
   selector: 'student-upsert',
@@ -42,6 +42,7 @@ class StudentUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
+    this.subscribe('students')
     this.subscribe('users')
     this.subscribe('degrees') // NOTE: added from temporary-branch
     const { studentId } = $stateParams
@@ -133,7 +134,7 @@ class StudentUpsertComponent {
 
   get isInvalidBirthday() {
     try {
-      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
+      schema.pick('birthday').validate({ birthday: this.student.birthday })
       return false
     } catch (e) {
       return true

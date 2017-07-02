@@ -11,7 +11,6 @@ import '../views/subject-assign.html'
 @State({
   name: 'app.subject.assign',
   url: '/subject/assign',
-
   resolve: {
     redirect($auth, $location) {
       $auth.awaitUser().then((user) => {
@@ -36,6 +35,7 @@ class SubjectAssignmentComponent {
     this.subscribe('subjects')
     this.subscribe('roles')
     this.subscribe('settings')
+    this.subscribe('grading-templates')
     this.$state = $state
     this.helpers({
       teachers() {
@@ -51,6 +51,7 @@ class SubjectAssignmentComponent {
   }
 
   assignSubject() {
+    console.log(this.student);
     // for departmenthead, dean and secretary
     const teacherId = this.teacher._id
     const idnumber = this.teacher.idNumber
