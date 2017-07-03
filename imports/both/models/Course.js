@@ -168,7 +168,7 @@ class Course extends Model {
     })
   }
 
-  get studentsWithRecords() {
+ /* get studentsWithRecords() {
     const activityRecords = this.activityRecords
     return this.students.map((student) => {
       const records = activityRecords.filter(record => record.studentId === student._id)
@@ -177,26 +177,17 @@ class Course extends Model {
       student.records = records.map(record => _(record).omit('studentId'))
       return student
     })
+  } */
+
+  getStudentAttendances(student) {
+    const attendances = this.studentAttendances
+    return attendances.filter(attendance => attendance.studentId === student._id)
+                        .map(attendance => _.omit(attendance, 'studentId'))
   }
 
   get classRecord() { // returns all data that can be extracted to form easily a class record
-    const attendances = this.studentAttendances
     const records = this.students.map((student) => {
-      const doc = { activitiesObj: {} }
-      const activitiesObj = this.computeStudentRecords(student)
-      const ratings = this.fullGradingTemplate.computeCategoryRatings(activitiesObj)
-      const avgLength = ratings.length
-      const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
-      const ratingsValues = ratings.map((avg) => {
-        return avg[Object.keys(avg)[0]].rating
-      })
-      doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
-      doc.activitiesObj = activitiesObj
-      doc.attendances = attendances.filter(attendance => attendance.studentId === student._id)
-                                      .map(attendance => _.omit(attendance, 'studentId'))
-      Object.assign(doc, { studentId: student._id }, categoriesDoc)
-      doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
-      return doc
+      return this.getStudentRecords(student)
     })
     const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
     const activityTypes = this.activityTypesWithScores
@@ -205,7 +196,24 @@ class Course extends Model {
     return { type: type, sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
   }
 
-  computeStudentRecords(student) {
+  getStudentRecords(student) {
+    const doc = { activitiesObj: {} }
+    const activitiesObj = this.computeStudentActivityRecords(student)
+    const ratings = this.fullGradingTemplate.computeCategoryRatings(activitiesObj)
+    const avgLength = ratings.length
+    const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
+    const ratingsValues = ratings.map((avg) => {
+      return avg[Object.keys(avg)[0]].rating
+    })
+    doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
+    doc.activitiesObj = activitiesObj
+    doc.attendances = this.getStudentAttendances(student)
+    Object.assign(doc, { studentId: student._id }, categoriesDoc)
+    doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
+    return doc
+  }
+
+  computeStudentActivityRecords(student) {
     const records = this.activityRecords.filter(record => record.studentId === student._id)
       .map((record) => {
         if (!record.score) {

@@ -29,7 +29,7 @@ class ClassRecordComponent {
     this.$state = $state
     this.subscribe('courses', () => {
       const sessionSubs = this.subscribe('sessions')
-      const studentSubs = this.subscribe('students-basic-infos')
+      const studentSubs = this.subscribe('students')
       const activitySubs = this.subscribe('activities')
       const activityTypeSubs = this.subscribe('activity-types')
       const gradingSubs = this.subscribe('grading-templates')
@@ -41,7 +41,7 @@ class ClassRecordComponent {
       if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready()
         && gradeTransmutationSubs.ready() && course) {
-        this.students = course.studentsWithRecords
+        this.students = course.students
         this.doc = course.classRecord
         this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
