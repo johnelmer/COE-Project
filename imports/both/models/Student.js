@@ -20,11 +20,11 @@ class Student extends Model {
   }
 
   get courses() {
-    return Course.find({ _id: { $in: this.courseIds } })
+    return Course.find({ _id: { $in: this.courseIds } }).fetch()
   }
 
-  get selectedClassRecord() {
-
+  get coursesGrades() {
+    return this.courses.map(course => course.getStudentRecords(this))
   }
 }
 
