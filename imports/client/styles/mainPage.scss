@@ -71,10 +71,12 @@ table-hover thead tr:hover th, .table-hover tbody tr:hover td {
   background-color:  #b3d9ff;
 }
 
-// .fileinput-preview {
-//   width: 200px;
-//   height: 150px;
-// }
+.divider {
+  position: relative;
+  border-bottom: 0.2rem solid #d9d9d9;
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+}
 
 #assignButton {
   align-items: flex-end;

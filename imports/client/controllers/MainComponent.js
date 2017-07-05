@@ -66,6 +66,10 @@ import '../views/app.html'
   name: 'app.notification',
   abstract: true,
 })
+@State({
+  name: 'app.custom',
+  abstract: true,
+})
 @Component({
   selector: 'app',
   templateUrl: 'imports/client/views/app.html',
