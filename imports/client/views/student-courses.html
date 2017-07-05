@@ -1,0 +1,35 @@
+<div class="container">
+  <div>
+    <h2>{{ studentCourses.student.fullName }}</h2>
+  </div>
+  <div>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr class="align">
+          <td>Course no.</td>
+          <td>Subject</td>
+          <td>Instructor</td>
+          <td>Lecture Schedule</td>
+          <td>Lecture Room</td>
+          <td>Laboratory Schedule</td>
+          <td>Laboratory Room</td>
+          <td>Rating</td>
+          <td>Final Grade</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="align" ng-repeat="record in studentCourses.records">
+          <td>{{ record.course.subject.courseNumber }}</td>
+          <td>{{ record.course.subject.name }}</td>
+          <td>{{ record.course.lecture.instructor.fullName }}</td>
+          <td>{{ record.course.lecture.time }}</td>
+          <td>{{ record.course.lecture.room }}</td>
+          <td>{{ record.course.laboratory.time }}</td>
+          <td>{{ record.course.laboratory.room }}</td>
+          <td>{{ record.finalRating.toFixed(2) }}%</td>
+          <td>{{ record.finalGrade }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
