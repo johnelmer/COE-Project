@@ -15,6 +15,7 @@ class NavBarComponent {
     this.user = this.currentUser
     // this.subscribe('users')
     this.subscribe('roles')
+    this.subscribe('notifications')
     this.ngToast = ngToast
   }
   get isHidden() {
