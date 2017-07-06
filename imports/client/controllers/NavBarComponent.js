@@ -12,17 +12,17 @@ class NavBarComponent {
 
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
-    // this.user = this.currentUser
-    // this.ngToast = ngToast
-    // this.autorun(() => {
-    //   const users = this.subscribe('users')
-    //   const roles = this.subscribe('roles')
-    //   const subs = [users, roles]
-    //   const subsReady = subs.every(sub => sub.ready())
-    //   if (subsReady) {
-    //     this.user = Meteor.user()
-    //   }
-    // })
+    this.user = this.currentUser
+    this.ngToast = ngToast
+    this.autorun(() => {
+      const users = this.subscribe('users')
+      const roles = this.subscribe('roles')
+      const subs = [users, roles]
+      const subsReady = subs.every(sub => sub.ready())
+      if (subsReady) {
+        this.user = Meteor.user()
+      }
+    })
   }
 
   logout() {
