@@ -1,7 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 SimpleSchema.messages({
-  'alreadyExist': '[label] already exist',
+  alreadyExist: '[label] already exist',
 })
 
 export default new SimpleSchema({
@@ -31,11 +31,12 @@ export default new SimpleSchema({
     custom: function () {
       const Student = require('/imports/both/models/Student').default
       let student = {}
+      console.log(this.isUpdate)
       if (this.isSet) {
         student = Student.findOne({ idNumber: this.value })
       }
       if (student) {
-          return 'alreadyExist'
+        return 'alreadyExist'
       }
       // return true
     },
