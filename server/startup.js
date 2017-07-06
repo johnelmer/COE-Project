@@ -16,6 +16,7 @@ import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
 import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
+
 Meteor.startup(() => {
   Student.collection._ensureIndex({ lastName: 1 })
   User.collection._ensureIndex({ lastName: 1 })

@@ -31,6 +31,8 @@ Meteor.publish('teachers', () => User.find({}, { fields: { firstName: 1, middleN
 
 Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
 
+Meteor.publish('currentUser', () => User.find({ _id: this.userId }, { fields: { firstName: 1, middleName: 1, lastName: 1, roleName: 1, courseIds: 1 } }))
+
 Meteor.publish('roles', () => Role.find())
 
 Meteor.publish('activities', () => Activity.find())
