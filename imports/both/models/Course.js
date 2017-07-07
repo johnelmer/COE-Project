@@ -168,16 +168,9 @@ class Course extends Model {
     })
   }
 
- /* get studentsWithRecords() {
-    const activityRecords = this.activityRecords
-    return this.students.map((student) => {
-      const records = activityRecords.filter(record => record.studentId === student._id)
-      const attendances = this.studentAttendances.filter(attendance => attendance.studentId === student._id)
-      student.attendances = attendances.map(attendance => _(attendance).omit('studentId'))
-      student.records = records.map(record => _(record).omit('studentId'))
-      return student
-    })
-  } */
+  get studentsWithRecords() {
+    return this.students.map(student => this.getStudentRecords(student))
+  }
 
   getStudentAttendances(student) {
     const attendances = this.studentAttendances
@@ -186,9 +179,7 @@ class Course extends Model {
   }
 
   get classRecord() { // returns all data that can be extracted to form easily a class record
-    const records = this.students.map((student) => {
-      return this.getStudentRecords(student)
-    })
+    const records = this.studentsWithRecords.map(record => _.omit(record, 'course'))
     const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
     const activityTypes = this.activityTypesWithScores
     const activities = this.activities.map(activity => _.omit(activity, 'records'))
@@ -208,8 +199,18 @@ class Course extends Model {
     doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
     doc.activitiesObj = activitiesObj
     doc.attendances = this.getStudentAttendances(student)
-    Object.assign(doc, { studentId: student._id }, categoriesDoc)
-    doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
+    const canDetermineFinalGrade = this.activityTypes.filter(type => !type.isMultiple) // get exam activity types
+                                    .every(exam => this.hasActivity(exam.name))  // check if each exam is already given
+    Object.assign(doc, { student: _.pick(student, '_id', 'fullName', 'idNumber', 'degree', 'yearLevel') }, categoriesDoc)
+    doc.finalGrade = (canDetermineFinalGrade) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
+    let status = '-'
+    if (canDetermineFinalGrade) {
+      status = (doc.finalGrade === '5.0') ? 'Failed' : 'Passed'
+    } else if (this.hasActivity('Midterm Exam') || this.hasActivity('Midsummer Exam')) {
+      status = (doc.finalRating < this.fullGradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
+    }
+    doc.status = status
+    doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory')
     return doc
   }
 
@@ -223,6 +224,10 @@ class Course extends Model {
       })
     const computedRecords = this.computeRecords(records)
     return computedRecords
+  }
+
+  get inDangerOfFailingList() {
+    return this.studentsWithRecords.filter(record => record.status === 'In danger of failing')
   }
 
 /*  computeActivityPercentages(scoresDoc) {
