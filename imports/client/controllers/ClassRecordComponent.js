@@ -66,9 +66,9 @@ class ClassRecordComponent {
     if (type === 'laboratory only') {
       return ['Rating']
     } else if (type === 'lecture only') {
-      return ['Rating', 'GPA']
+      return ['Rating', 'Final Grade']
     }
-    return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'GPA']
+    return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'Final Grade']
   }
 
   getRating(record, ratingType) {
@@ -86,13 +86,13 @@ class ClassRecordComponent {
       case 'Laboratory Rating':
         value = record.laboratory.rating
         break
-      case 'GPA':
-        value = record.gpa
+      case 'Final Grade':
+        value = record.finalGrade
         break
       default:
         value = '-'
     }
-    return (value !== '-' && ratingType !== 'GPA') ? `${value.toFixed(2)}%` : value
+    return (value !== '-' && ratingType !== 'Final Grade') ? `${value.toFixed(2)}%` : value
   }
 
 /*  toCamelCase(str) {
@@ -105,7 +105,7 @@ class ClassRecordComponent {
 
   getStudentRecord(student) {
     const records = this.doc.records
-    const index = records.findIndex(record => record.studentId === student._id)
+    const index = records.findIndex(record => record.student._id === student._id)
     if (index === -1) {
       return {}
     }
