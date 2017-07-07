@@ -3,19 +3,20 @@ import Department from '/imports/both/models/Department'
 import schema from '/imports/both/schemas/Department'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import 'ng-toast/dist/ngToast.css'
 import '../views/department-upsert.html'
 
 @State({
   name: 'app.department.create',
   url: '/department/create',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('dean')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('dean')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

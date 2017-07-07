@@ -7,13 +7,13 @@ import '../views/teacher-list.html'
   name: 'app.teacher.list',
   url: '/teacher/list',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('secretary')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('secretary')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

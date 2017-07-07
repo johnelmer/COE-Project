@@ -2,19 +2,20 @@ import Activity from '/imports/both/models/Activity'
 import schema from '/imports/both/schemas/Activity'
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
+import 'ng-toast/dist/ngToast.css'
 import '../views/activity-update.html'
 
 @State({
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('faculty')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

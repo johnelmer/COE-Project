@@ -7,11 +7,6 @@ import '../views/app.html'
   name: 'app',
   abstract: true,
   html5Mode: true,
-  resolve: {
-    subscribe($meteor) {
-      return $meteor.subscribe('roles')
-    },
-  },
 })
 @State({
   name: 'app.student',
@@ -20,19 +15,6 @@ import '../views/app.html'
 @State({
   name: 'app.tmp',
   abstract: true,
-})
-@State({
-  name: 'app.forTeacher',
-  abstract: true,
-  resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
-    },
-  },
 })
 @State({
   name: 'app.subject',

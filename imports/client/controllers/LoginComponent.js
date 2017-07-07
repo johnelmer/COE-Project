@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 // import ngToast from '/node_modules/ng-toast'
 import '../views/login-view.html'
+import 'ng-toast/dist/ngToast.css'
 // import User from '/imports/both/models/User'
 // TODO: double check if the user import code is not needed
 
@@ -11,11 +12,11 @@ import '../views/login-view.html'
   name: 'app.login',
   url: '/login',
   resolve: {
-    redirect($auth, $location) {
-      $auth.requireUser().then(() => {
-        $location.path('/teacher/main')
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.requireUser().then(() => {
+    //     $location.path('/teacher/main')
+    //   })
+    // },
   },
   defaultRoute: true,
 })
