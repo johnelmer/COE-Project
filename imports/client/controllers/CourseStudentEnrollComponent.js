@@ -2,19 +2,20 @@ import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import 'ng-toast/dist/ngToast.css'
 import '../views/course-student-enroll.html'
 
 @State({
   name: 'app.course.enrollStudent',
   url: '/teacher/course/:courseId',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('faculty')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

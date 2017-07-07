@@ -9,13 +9,13 @@ import '../views/teacher-upsert.html'
   name: 'app.teacher.create',
   url: '/teacher/create',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('secretary')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('secretary')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @State({

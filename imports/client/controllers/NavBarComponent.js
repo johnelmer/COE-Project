@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Component, Inject } from 'angular2-now'
+import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
+import 'ng-toast/dist/ngToast.css'
 import '../views/nav-bar.html'
 
 @Component({
