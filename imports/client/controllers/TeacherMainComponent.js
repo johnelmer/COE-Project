@@ -6,11 +6,11 @@ import '../views/teacher-main.html'
   name: 'app.course.teacher',
   url: '/teacher/main',
   resolve: {
-    redirect($auth, $location) {
-      $auth.requireUser().catch(() => {
-        return $location.path('/login')
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.requireUser().catch(() => {
+    //     return $location.path('/login')
+    //   })
+    // },
   },
 })
 @Component({

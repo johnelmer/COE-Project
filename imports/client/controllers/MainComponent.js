@@ -9,12 +9,16 @@ import '../views/app.html'
   html5Mode: true,
   resolve: {
     subscribe($meteor) {
-      $meteor.subscribe('roles')
+      return $meteor.subscribe('roles')
     },
   },
 })
 @State({
   name: 'app.student',
+  abstract: true,
+})
+@State({
+  name: 'app.tmp',
   abstract: true,
 })
 @State({
