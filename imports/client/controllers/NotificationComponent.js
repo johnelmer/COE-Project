@@ -29,13 +29,13 @@ class NotificationComponent {
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     this.subscribe('notifications')
-    // this.helpers() {
-    //   notifications() {
-    //     if ($state.current.name.endsWith('show')) {
-    //       return Meteor.user().notifications
-    //     }
-    //   }
-    // }
+    this.helpers({
+      notifications() {
+        if ($state.current.name.endsWith('show')) {
+          return Meteor.user().notifications
+        }
+      }
+    })
   }
 }
 

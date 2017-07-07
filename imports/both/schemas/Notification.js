@@ -10,6 +10,12 @@ export default new SimpleSchema({
   content: {
     type: Object,
   },
+  'content.header': {
+    type: String
+  },
+  'content.body': {
+    type: String
+  },
   date: {
     type: Date,
   }

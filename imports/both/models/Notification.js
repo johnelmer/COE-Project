@@ -1,5 +1,6 @@
 import SetupCollection from '../decorators/SetupCollection'
 import schema from '../schemas/Notification'
+import User from '/imports/both/models/User' 
 
 import Model from './Model'
 
@@ -9,7 +10,7 @@ class Notification extends Model {
   static schema = schema
 
   notifyUser() {
-   return this.users.forEach((user) => {
+    this.users.forEach((user) => {
         user.notificationIds.push({ _id: this._id })
         user.save()
     });
