@@ -4,7 +4,7 @@ import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
 import { Component, State, Inject } from 'angular2-now'
 import 'ng-file-upload/dist/ng-file-upload.min.js'
-import '../views/mass-upload.html'
+import '../views/student-upsert.html'
 
 @State({
   name: 'app.student.upload',
@@ -12,7 +12,7 @@ import '../views/mass-upload.html'
 })
 @Component({
   selector: 'mass-upload',
-  templateUrl: 'imports/client/views/mass-upload.html',
+  templateUrl: 'imports/client/views/student-upsert.html',
 })
 @Inject('$scope', '$reactive', 'Upload', '$timeout')
 class StudentMassUploadComponent {
@@ -122,8 +122,7 @@ class StudentMassUploadComponent {
           }
         })
       })
-    }
-    else {
+    } else {
       alert('Wala file')
     }
   }

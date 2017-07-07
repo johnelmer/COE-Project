@@ -39,9 +39,8 @@ export default new SimpleSchema({
     //   }
     //   // return true
     // },
-
-    // optional: true,
-    // regEx: /^\d{2}\-\d{4}\-\d{2}$/,
+    unique: true,
+    optional: true,
   },
   gender: {
     type: String,
