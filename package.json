@@ -28,7 +28,7 @@
     "ng-toast": "^2.0.0",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3",
-    "xlsx": "^0.10.6"
+    "xlsx": "^0.10.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.0.0",
