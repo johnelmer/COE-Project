@@ -42,6 +42,26 @@ class GradingTemplate extends Model {
     }
   }
 
+  computeCategoryRatings(scoresDoc) { // compute ratings for each category(lecture, laboratory)
+    const categories = this.categories
+    return categories.map((category) => {
+      const doc = {}
+      doc[category] = {
+        percentage: 0,
+        rating: 0,
+      }
+      const types = this.getActivityTypes(category)
+      const activitiesRatings = types.map((type) => {
+        return (scoresDoc[type.name]) ? scoresDoc[type.name].overallRating : 0
+      })
+      const percentage = activitiesRatings.reduce((acc, cur) => acc + cur)
+      const rating = ((percentage / 100) * this[category].percentage)
+      doc[category].percentage = percentage
+      doc[category].rating = rating
+      return doc
+    })
+  }
+
   get categories() {
     return (this.laboratory) ? ['lecture', 'laboratory'] : ['lecture']
   }

@@ -82,6 +82,15 @@ export default new SimpleSchema({
     optional: true,
     blackbox: true,
   },
+  'image.code': {
+    type: String,
+  },
+  'image.dateUploaded': {
+    type: Date,
+  },
+  'image.lastModified': { // returns the most recent modification of the image
+    type: Date,
+  },
   email: {
     type: String,
     optional: true,

@@ -9,6 +9,8 @@ import Model from './Model'
 import Session from './Session'
 import Student from './Student'
 import GradingTemplate from './GradingTemplate'
+import Activity from './Activity'
+import GradeTransmutation from './GradeTransmutation'
 
 @SetupCollection('Courses')
 class Course extends Model {
@@ -21,12 +23,15 @@ class Course extends Model {
 
   enrollAStudent(student) {
     const studentIds = this.studentIds
-    const isStudentExists = studentIds.some(studentId => student._id === studentId)
-    if (!isStudentExists) {
+    if (!this.isStudentEnrolled(student)) {
       studentIds.push(student._id)
     } else {
       throw new Error('Student is already enrolled.')
     }
+  }
+
+  isStudentEnrolled(student) {
+    return this.studentIds.some(studentId => student._id === studentId)
   }
 
   @Idempotent
@@ -53,13 +58,17 @@ class Course extends Model {
     return _.flatten(activities)
   }
 
-  get activitiesWithDates() {
-    const activities = this.sessions.map(session => session.activitiesWithDate)
-    return _.flatten(activities)
+  get gradeTransmutation() {
+    return GradeTransmutation.findOne({ passingPercentage: this.fullGradingTemplate.passingPercentage })
   }
 
-  getActivities(type) {
-    return (type) ? this.sessions.map(session => session.getActivities(type)) : this.activities
+  hasActivity(activityType) { // e.g. check if there is already a midterm exam
+    const result = Activity.findOne({ type: activityType, sessionId: { $in: this.sessionIds } })
+    return result !== undefined
+  }
+
+  getFilteredActivities(options) {
+    return (options) ? _.flatten(this.sessions.map(session => session.getFilteredActivities(options))) : this.activities
   }
 
   getSessionByDate(date, type) {
@@ -88,14 +97,13 @@ class Course extends Model {
     return sessionId
   }
 
-  getSessionsByTypes(types) {
-    return Session.find({ _id: { $in: this.sessionIds },
-      type: { $in: types } }, { sort: { date: 1 } }).fetch()
+  get sessions() {
+    return (this.isUserHandlesLabOnly) ? this.getFilteredSessions({ type: 'laboratory' }) : Session.find({ courseId: this._id }, { sort: { date: 1 } }).fetch()
   }
 
-  get sessions() {
-    return Session.find({ _id: { $in: this.sessionIds } },
-      { sort: { date: 1 } }, { sort: { date: 1 } }).fetch()
+  getFilteredSessions(options = {}) {
+    options.courseId = this._id
+    return Session.find(options, { sort: { date: 1 } }).fetch()
   }
 
   get fullGradingTemplate() {
@@ -120,11 +128,21 @@ class Course extends Model {
   }
 
   get activityTypes() {
-    return this.fullGradingTemplate.getActivityTypes()
+    const gradingTemplate = this.fullGradingTemplate
+    return (this.isUserHandlesLabOnly) ? gradingTemplate.getActivityTypes('laboratory') : gradingTemplate.getActivityTypes()
   }
 
   get currentUserHandledTypes() { // returns array with values of Laboratory, Lecture or both
     return this.types.filter(type => this[type].instructor._id === Meteor.userId())
+  }
+
+  get isUserHandlesLabOnly() {
+    if (this.hasALaboratory) {
+      const lectInstructorId = this.lecture.instructor._id
+      const labInstructorId = this.laboratory.instructor._id
+      return Meteor.userId() === labInstructorId && lectInstructorId !== labInstructorId
+    }
+    return false
   }
 
   get types() {
@@ -150,7 +168,7 @@ class Course extends Model {
     })
   }
 
-  get studentsWithRecords() {
+ /* get studentsWithRecords() {
     const activityRecords = this.activityRecords
     return this.students.map((student) => {
       const records = activityRecords.filter(record => record.studentId === student._id)
@@ -159,7 +177,109 @@ class Course extends Model {
       student.records = records.map(record => _(record).omit('studentId'))
       return student
     })
+  } */
+
+  getStudentAttendances(student) {
+    const attendances = this.studentAttendances
+    return attendances.filter(attendance => attendance.studentId === student._id)
+                        .map(attendance => _.omit(attendance, 'studentId'))
   }
+
+  get classRecord() { // returns all data that can be extracted to form easily a class record
+    const records = this.students.map((student) => {
+      return this.getStudentRecords(student)
+    })
+    const sessions = this.sessions.map(session => _.pick(session, 'type', '_id', 'date'))
+    const activityTypes = this.activityTypesWithScores
+    const activities = this.activities.map(activity => _.omit(activity, 'records'))
+    const type = (!this.hasALaboratory) ? 'lecture only' : (this.isUserHandlesLabOnly) ? 'laboratory only' : 'lecture and laboratory'
+    return { type: type, sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
+  }
+
+  getStudentRecords(student) {
+    const doc = { activitiesObj: {} }
+    const activitiesObj = this.computeStudentActivityRecords(student)
+    const ratings = this.fullGradingTemplate.computeCategoryRatings(activitiesObj)
+    const avgLength = ratings.length
+    const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
+    const ratingsValues = ratings.map((avg) => {
+      return avg[Object.keys(avg)[0]].rating
+    })
+    doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
+    doc.activitiesObj = activitiesObj
+    doc.attendances = this.getStudentAttendances(student)
+    Object.assign(doc, { studentId: student._id }, categoriesDoc)
+    doc.gpa = (this.hasActivity('Final Exam')) ? this.gradeTransmutation.getGpaByRating(doc.finalRating) : '-'
+    return doc
+  }
+
+  computeStudentActivityRecords(student) {
+    const records = this.activityRecords.filter(record => record.studentId === student._id)
+      .map((record) => {
+        if (!record.score) {
+          record.score = 0
+        }
+        return record
+      })
+    const computedRecords = this.computeRecords(records)
+    return computedRecords
+  }
+
+/*  computeActivityPercentages(scoresDoc) {
+    const doc = scoresDoc
+    this.activityTypesWithScores.forEach((type) => {
+      const totalScorePercentage = ((doc[type.name].score / type.totalScore) * 100).toFixed(4)
+      const overallPercentage = (totalScorePercentage / 100) * type.percentage
+      Object.assign(doc[type.name], { totalScorePercentage: totalScorePercentage, overallPercentage: overallPercentage })
+    })
+    return doc
+  } */
+
+  computeRecords(records) {
+    let scoresDoc = {}
+    if (records.length > 1) {
+      scoresDoc = records.reduce((acc, cur, index, arr) => {
+        const activityType = cur.activityType
+        if (index === 1) {
+          const obj = {}
+          const arr1 = arr[0]
+          const arr2 = arr[1]
+          if (arr1.activityType === arr2.activityType) {
+            obj[cur.activityType] = { score: arr1.score + arr2.score }
+          } else {
+            obj[arr1.activityType] = { score: arr1.score }
+            obj[arr2.activityType] = { score: arr2.score }
+          }
+          return obj
+        } else if (index > 1 && !acc[activityType]) {
+          acc[activityType] = { score: cur.score }
+        } else {
+          acc[activityType].score += cur.score
+        }
+        return acc
+      })
+    } else if (records.length === 1) {
+      const type = records[0].activityType
+      scoresDoc[type] = {
+        score: 0,
+        percentage: 0,
+      }
+      scoresDoc[type].score = records[0].score
+    }
+    this.activityTypesWithScores.forEach((type) => {
+      const typeName = type.name
+      if (scoresDoc[typeName]) {
+        const totalScorePercentage = (scoresDoc[type.name].score / type.totalScore) * 100
+        const overallRating = (totalScorePercentage / 100) * type.percentage
+        scoresDoc[typeName].totalScorePercentage = totalScorePercentage
+        scoresDoc[typeName].overallRating = overallRating
+        scoresDoc[typeName].records = records.filter(record => record.activityType === typeName)
+                                        .map(record => _.pick(record, 'activityId', 'score'))
+      }
+    })
+    return scoresDoc
+  }
+
 }
 
 export default Course

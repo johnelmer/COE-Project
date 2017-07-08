@@ -14,6 +14,8 @@ import Activity from '/imports/both/models/Activity'
 import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
+import GradeTransmutation from '/imports/both/models/GradeTransmutation'
+
 
 Meteor.startup(() => {
   Student.collection._ensureIndex({ lastName: 1 })
@@ -23,9 +25,9 @@ Meteor.startup(() => {
   if (Department.find().count() === 0) {
     seeder.departmentsAndDegrees()
   }
-  if (Student.find().count() < 5) {
-    seeder.students(80)
-  }
+  // if (Student.find().count() < 5) {
+  //   seeder.students(210)
+  // }
   if (!User.findOne({ roleName: 'dean' })) {
     seeder.users('dean', 'Mechanical Engineering', 1)
   }
@@ -37,52 +39,59 @@ Meteor.startup(() => {
     depts.forEach(dept => seeder.users('department head', dept.name, 1))
   }
   if (User.find({ roleName: 'faculty' }).count() < 3) {
-    depts.forEach(dept => seeder.users('faculty', dept.name, 2))
+    depts.forEach(dept => seeder.users('faculty', dept.name, 1))
   }
   if (!AppSetting.findOne()) {
     seeder.appSetting(schoolYear, semester)
   }
-  if (GradingTemplate.find().fetch() < 4) {
+  if (GradingTemplate.find().count() < 4) {
     seeder.gradingTemplates()
+  }
+  if (GradeTransmutation.find().count() === 0) {
+    seeder.gradeTransmutations()
   }
   if (Role.find().count() < 4) {
     seeder.roles()
   }
-  if (Subject.find().count() === 0) {
-    seeder.subject({
+  const subjects = [
+    {
       name: 'Integral Calculus',
       courseNumber: 'EMath 321',
-    })
-    seeder.subject({
+    },
+    {
       name: 'Analytic Geometry',
       courseNumber: 'EMath 123',
-    })
-    seeder.subject({
+    },
+    {
       name: 'Engineering Economy',
       courseNumber: 'Engr 321',
-    })
-    seeder.subject({
+    },
+    {
       name: 'Software Development 2',
       courseNumber: 'SE4202',
       laboratoryType: 'SE Subject',
-    })
-    seeder.subject({
+    },
+    {
       name: 'Physics 2',
       courseNumber: 'EPhys 221',
       laboratoryType: 'Computational',
-    })
-    seeder.subject({
+    },
+    {
       name: 'Basic Electronics',
       courseNumber: 'EE 3201',
       laboratoryType: 'With Hands-on',
-    })
+    },
+  ]
+  if (Subject.find().count() === 0) {
+    subjects.forEach(subj => seeder.subject(subj))
   }
-  const lecSubjects = Subject.find({ laboratoryType: { $exists: false } }).fetch()
-  const labSubjects = Subject.find({ laboratoryType: { $exists: true } }).fetch()
-  const students = Student.find({}, { limit: 35 }).fetch()
-  const faculties = User.find({ roleName: 'faculty' }).fetch()
-  let courses = []
   if (Course.find().count() === 0) {
+    const lecSubjects = Subject.find({ laboratoryType: { $exists: false } }).fetch()
+    const labSubjects = Subject.find({ laboratoryType: { $exists: true } }).fetch()
+    const faculties = User.find({ roleName: 'faculty' }).fetch()
+    const studentsCount = Student.find().count()
+    const studentLimit = studentsCount / faculties.length
+    let currentStudentSkip = 0
     faculties.forEach((faculty) => {
       const instructor = _.pick(faculty, '_id', 'fullName', 'idNumber')
       lecSubjects.forEach((subject) => {
@@ -102,6 +111,17 @@ Meteor.startup(() => {
           },
         }, 1)
       })
+      const courses = Course.find({ 'lecture.instructor._id': faculty._id }).fetch()
+      const students = Student.find({}, { skip: currentStudentSkip, limit: studentLimit }).fetch()
+      courses.forEach((course) => {
+        students.forEach((student) => {
+          course.enrollAStudent(student)
+          student.courseIds.push(course._id)
+          course.save()
+          student.save()
+        })
+      })
+      currentStudentSkip += studentLimit
     })
     seeder.courses(labSubjects[0], {
       lecture: {
@@ -127,17 +147,9 @@ Meteor.startup(() => {
         instructor: _.pick(faculties[3], '_id', 'fullName', 'idNumber'),
       },
     })
-    courses = Course.find().fetch()
-    courses.forEach((course) => {
-      students.forEach((student) => {
-        course.enrollAStudent(student)
-        student.courseIds.push(course._id)
-        course.save()
-        student.save()
-      })
-    })
   }
   if (Session.find().count() === 0) {
+    const courses = Course.find().fetch()
     courses.forEach((course) => {
       seeder.session(course)
     })

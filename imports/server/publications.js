@@ -13,6 +13,7 @@ import AppSetting from '/imports/both/models/AppSetting'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
 import Meeting from '/imports/both/models/Meeting'
 import Notification from '/imports/both/models/Notification'
+import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 Meteor.publish('courses', () => Course.find())
 
@@ -30,6 +31,8 @@ Meteor.publish('teachers', () => User.find({}, { fields: { firstName: 1, middleN
 
 Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
 
+Meteor.publish('currentUser', () => User.find({ _id: this.userId }, { fields: { firstName: 1, middleName: 1, lastName: 1, roleName: 1, courseIds: 1 } }))
+
 Meteor.publish('roles', () => Role.find())
 
 Meteor.publish('activities', () => Activity.find())
@@ -42,6 +45,9 @@ Meteor.publish('settings', () => AppSetting.find())
 
 Meteor.publish('grading-templates', () => GradingTemplate.find())
 
+
 Meteor.publish('meetings', () => Meeting.find())
 
 Meteor.publish('notifications', () => Notification.find())
+
+Meteor.publish('grade-transmutations', () => GradeTransmutation.find())

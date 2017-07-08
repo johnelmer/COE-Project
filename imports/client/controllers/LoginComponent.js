@@ -52,6 +52,11 @@ class LoginComponent {
             className: 'danger',
             content: `${err.reason}!`,
           })
+          if (err.reason.includes('User')) {
+            this.user = null;
+          } else if (err.reason.includes('password')) {
+            this.user.password = null;
+          }
         } else {
           this.$state.go('app.course.teacher')
         }
