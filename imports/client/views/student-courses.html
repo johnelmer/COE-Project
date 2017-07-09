@@ -1,6 +1,7 @@
 <div class="container">
   <div>
     <h2>{{ studentCourses.student.fullName }}</h2>
+    <h3>{{ studentCourses.student.degree }} - {{ studentCourses.student.yearLevel }}</h3>
   </div>
   <div>
     <table class="table table-bordered table-striped">
@@ -15,6 +16,7 @@
           <td>Laboratory Room</td>
           <td>Rating</td>
           <td>Final Grade</td>
+          <td>Status</td>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +30,7 @@
           <td>{{ record.course.laboratory.room }}</td>
           <td>{{ record.finalRating.toFixed(2) }}%</td>
           <td>{{ record.finalGrade }}</td>
+          <td>{{ record.status }}</td>
         </tr>
       </tbody>
     </table>

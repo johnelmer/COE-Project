@@ -1,0 +1,64 @@
+<div class="container">
+  <div>
+    
+  </div>
+  <uib-tabset active="active">
+    <uib-tab heading="In danger of failing">
+      <div id="block" class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="align">
+              <td>Student</td>
+              <td>Course no.</td>
+              <td>Subject</td>
+              <td>Rating</td>
+              <td>Actions</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align" ng-repeat="record in studentsMonitor.getFilteredRecords('In danger of failing')">
+              <td>{{ record.student.fullName }}</td>
+              <td>{{ record.course.subject.courseNumber }}</td>
+              <td>{{ record.course.subject.name }}</td>
+              <td>{{ record.finalRating.toFixed(2) }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm btn-block" ui-sref="app.student.view({ studentId: record.student._id })">
+                Student info...
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </uib-tab>
+    <uib-tab heading="Failures">
+      <div id="block" class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="align">
+              <td>Student</td>
+              <td>Course no.</td>
+              <td>Subject</td>
+              <td>Rating</td>
+              <td>Actions</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align" ng-repeat="record in studentsMonitor.getFilteredRecords('Failed')">
+              <td>{{ record.student.fullName }}</td>
+              <td>{{ record.course.subject.courseNumber }}</td>
+              <td>{{ record.course.subject.name }}</td>
+              <td>{{ record.finalRating.toFixed(2) }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm btn-block" ui-sref="app.student.view({ studentId: record.student._id })">
+                Student info...
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </uib-tab>
+  </uib-tabset>
+
+</div>

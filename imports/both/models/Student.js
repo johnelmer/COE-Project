@@ -26,11 +26,7 @@ class Student extends Model {
   }
 
   get coursesGrades() {
-    return this.courses.map((course) => {
-      const doc = course.getStudentRecords(this)
-      doc.course = _.pick(course, '_id', 'subject', 'stubcode', 'lecture', 'laboratory')
-      return doc
-    })
+    return this.courses.map(course => course.getStudentRecords(this))
   }
 }
 
