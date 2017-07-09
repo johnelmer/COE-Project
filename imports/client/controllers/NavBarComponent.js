@@ -17,6 +17,7 @@ class NavBarComponent {
     this.autorun(() => {
       const users = this.subscribe('users')
       const roles = this.subscribe('roles')
+      const notifications = this.subscribe('notifications')
       const subs = [users, roles]
       const subsReady = subs.every(sub => sub.ready())
       if (subsReady) {
