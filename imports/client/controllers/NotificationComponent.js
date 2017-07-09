@@ -1,4 +1,3 @@
-import schema from '/imports/both/schemas/Notification'
 import Notification from '/imports/both/models/Notification'
 import User from '/imports/both/models/User'
 import { Meteor } from 'meteor/meteor'
@@ -23,7 +22,6 @@ import '../views/notification.html'
   templateUrl: 'imports/client/views/notification.html',
 })
 @Inject('scope', '$reactive', '$stateParams')
-
 class NotificationComponent {
   static schema = schema
   constructor($scope, $reactive, $stateParams) {
