@@ -25,9 +25,9 @@ Meteor.startup(() => {
   if (Department.find().count() === 0) {
     seeder.departmentsAndDegrees()
   }
-  if (Student.find().count() < 5) {
-    seeder.students(210)
-  }
+  // if (Student.find().count() < 5) {
+  //   seeder.students(210)
+  // }
   if (!User.findOne({ roleName: 'dean' })) {
     seeder.users('dean', 'Mechanical Engineering', 1)
   }

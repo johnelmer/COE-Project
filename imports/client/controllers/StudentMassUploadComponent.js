@@ -122,8 +122,7 @@ class StudentMassUploadComponent {
           }
         })
       })
-    }
-    else {
+    } else {
       alert('Wala file')
     }
   }
