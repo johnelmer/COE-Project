@@ -67,7 +67,7 @@ import '../views/app.html'
   abstract: true,
 })
 @State({
-  name: 'app.custom',
+  name: 'app.template',
   abstract: true,
 })
 @State({

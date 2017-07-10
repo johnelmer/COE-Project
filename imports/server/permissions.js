@@ -10,6 +10,7 @@ import Activity from '/imports/both/models/Activity'
 import User from '/imports/both/models/User'
 import Meeting from '/imports/both/models/Meeting'
 import Notification from '/imports/both/models/Notification'
+import GradingTemplate from '/imports/both/models/GradingTemplate'
 
 // To be updated
 Course.collection.allow({
@@ -70,6 +71,12 @@ User.collection.allow({
   insert: () => true,
   update: (userId, user) => user._id === userId,
   remove: () => false,
+})
+
+GradingTemplate.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
 })
 
 Notification.collection.allow({
