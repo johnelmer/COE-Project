@@ -9,7 +9,9 @@ import '../views/student-list.html'
   url: '/students/list',
   resolve: {
     redirect(user, $location) {
-      console.log(user);
+      if (!(user.hasARole('secretary'))) {
+        $location.path('/login')
+      }
     },
   },
 })

@@ -9,28 +9,30 @@ import '../views/app.html'
   abstract: true,
   resolve: {
     user() {
-      let isReady = false
-      Meteor.autorun(() => {
-        const userSub = Meteor.subscribe('currentUser')
-        if (userSub.ready()) {
-          isReady = true
-        }
-      })
-      if (isReady) {
-        return Meteor.user()
-      }
-      // const deferred = $q.defer()
-      //
-      // Tracker.autorun(() => {
-      //   if (!(Meteor.loggingIn())) {
-      //     if (Meteor.user() == null) {
-      //       deferred.reject('AUTH_REQUIRED')
-      //     } else {
-      //       deferred.resolve(Meteor.user());
-      //     }
+      // let isReady = false
+      // Meteor.autorun(() => {
+      //   const userSub = Meteor.subscribe('currentUser')
+      //   if (userSub.ready()) {
+      //     isReady = true
       //   }
       // })
-      // return deferred.promise
+      // if (isReady) {
+      //   return Meteor.user()
+      // }
+      // const deferred = $q.defer()
+      const userPromise = new Promise((resolve) => {
+        Tracker.autorun(() => {
+          // if (!(Meteor.loggingIn())) {
+          //   resolve(Meteor.user())
+          // }
+          const userSub = Meteor.subscribe('currentUser')
+          if (userSub.ready()) {
+            resolve(Meteor.user())
+          }
+        })
+      })
+
+      return userPromise
     },
   },
   html5Mode: true,
