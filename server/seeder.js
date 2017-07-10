@@ -12,6 +12,7 @@ import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
 import GradeTransmutation from '/imports/both/models/GradeTransmutation'
+import Notification from '/imports/both/models/Notification'
 
 const name = faker.name
 const random = faker.random
