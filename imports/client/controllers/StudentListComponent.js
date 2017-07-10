@@ -1,5 +1,6 @@
 import Student from '/imports/both/models/Student'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-list.html'
 
@@ -7,13 +8,9 @@ import '../views/student-list.html'
   name: 'app.student.list',
   url: '/students/list',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('secretary')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect(user, $location) {
+      console.log(user);
+    },
   },
 })
 @Component({

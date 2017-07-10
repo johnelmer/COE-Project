@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
+import schema from '/imports/both/schemas/Student'
 import { Component, State, Inject } from 'angular2-now'
 import 'ng-file-upload/dist/ng-file-upload.min.js'
 import '../views/mass-upload.html'
@@ -16,6 +17,7 @@ import '../views/mass-upload.html'
 })
 @Inject('$scope', '$reactive', 'Upload', '$timeout')
 class StudentMassUploadComponent {
+  static schema = schema
 
   constructor($scope, $reactive, Upload, $timeout) {
     $reactive(this).attach($scope)
@@ -107,7 +109,6 @@ class StudentMassUploadComponent {
               gender: sex,
             })
           })
-          console.log(this.students);
         })
       })
     }
@@ -116,6 +117,7 @@ class StudentMassUploadComponent {
   save() {
     if (this.file) {
       this.students.forEach((student) => {
+        schema.validate(student)
         student.save((err) => {
           if (err) {
             console.log(err);

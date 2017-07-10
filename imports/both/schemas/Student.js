@@ -56,7 +56,6 @@ export default new SimpleSchema({
   birthday: {
     optional: true,
     type: Date,
-    optional: true,
   },
   homeAddress: {
     type: String,
@@ -115,6 +114,10 @@ export default new SimpleSchema({
   'mother.contactNumber': {
     type: String,
     // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+  },
+  nameSuffix: {
+    type: String,
+    defaultValue: '',
   },
   image: {
     // TODO: Image upload

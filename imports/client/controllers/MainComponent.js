@@ -1,11 +1,38 @@
 import { Component, State, bootstrap } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import './init'
 import '../views/app.html'
 
 @State({
   name: 'app',
   abstract: true,
+  resolve: {
+    user() {
+      let isReady = false
+      Meteor.autorun(() => {
+        const userSub = Meteor.subscribe('currentUser')
+        if (userSub.ready()) {
+          isReady = true
+        }
+      })
+      if (isReady) {
+        return Meteor.user()
+      }
+      // const deferred = $q.defer()
+      //
+      // Tracker.autorun(() => {
+      //   if (!(Meteor.loggingIn())) {
+      //     if (Meteor.user() == null) {
+      //       deferred.reject('AUTH_REQUIRED')
+      //     } else {
+      //       deferred.resolve(Meteor.user());
+      //     }
+      //   }
+      // })
+      // return deferred.promise
+    },
+  },
   html5Mode: true,
 })
 @State({
