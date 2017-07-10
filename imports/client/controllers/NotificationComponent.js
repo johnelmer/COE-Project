@@ -23,7 +23,7 @@ import '../views/notification.html'
 })
 @Inject('scope', '$reactive', '$stateParams')
 class NotificationComponent {
-  static schema = schema
+  // static schema = schema
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     this.subscribe('notifications')
