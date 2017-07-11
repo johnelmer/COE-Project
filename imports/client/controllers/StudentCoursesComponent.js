@@ -6,15 +6,12 @@ import '../views/student-courses.html'
 @State({
   name: 'app.student.courses',
   url: '/student/courses/:studentId',
- /* resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
+  resolve: {
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
-  },*/
+  },
 })
 @Component({
   selector: 'student-courses',

@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Component, Inject } from 'angular2-now'
+import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
+import 'ng-toast/dist/ngToast.css'
 import '../views/nav-bar.html'
 
 @Component({
@@ -15,7 +17,7 @@ class NavBarComponent {
     this.user = this.currentUser
     this.ngToast = ngToast
     this.autorun(() => {
-      const users = this.subscribe('users')
+      const users = this.subscribe('currentUser')
       const roles = this.subscribe('roles')
       const notifications = this.subscribe('notifications')
       const subs = [users, roles]

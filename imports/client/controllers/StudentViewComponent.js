@@ -7,13 +7,18 @@ import '../views/student-view.html'
   name: 'app.student.view',
   url: '/students/view/:studentId',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
+
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('faculty')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

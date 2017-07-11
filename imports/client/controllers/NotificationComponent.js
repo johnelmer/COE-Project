@@ -8,13 +8,13 @@ import '../views/notification.html'
 	name: 'app.notification.show',
   url: '/notification',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasRole('faculty')) {
-          $location.path('/login')
-        }
-      })
-    },
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasRole('faculty')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @Component({

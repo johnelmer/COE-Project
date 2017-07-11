@@ -2,18 +2,16 @@ import Degree from '/imports/both/models/Degree'
 import Department from '/imports/both/models/Department'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import 'ng-toast/dist/ngToast.css'
 import '../views/degree-upsert.html'
 
 @State({
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('dean')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('dean')
+      return isAuthorized || $location.path('/login')
     },
   },
 })

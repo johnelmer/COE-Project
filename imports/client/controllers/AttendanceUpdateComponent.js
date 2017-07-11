@@ -2,18 +2,16 @@ import Session from '/imports/both/models/Session'
 import schema from '/imports/both/schemas/Session'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import 'ng-toast/dist/ngToast.css'
 import '../views/attendance-update.html'
 
 @State({
   name: 'app.course.session.attendanceUpdate',
   url: '/teacher/course/session/attendance/:sessionId',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
   },
 })

@@ -12,12 +12,9 @@ import '../views/subject-assign.html'
   name: 'app.subject.assign',
   url: '/subject/assign',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('department head')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('department head')
+      return isAuthorized || $location.path('/login')
     },
   },
 })
