@@ -7,14 +7,10 @@ import '../views/teacher-view.html'
   name: 'app.teacher.view',
   url: '/teacher/view/:teacherId',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('secretary')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
-
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    },
   },
 })
 @Component({

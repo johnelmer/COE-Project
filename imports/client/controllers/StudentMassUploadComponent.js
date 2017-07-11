@@ -10,6 +10,10 @@ import '../views/mass-upload.html'
 @State({
   name: 'app.student.upload',
   url: '/students/upload',
+  redirect(user, $location) {
+    const isAuthorized = user.hasARole('secretary')
+    return isAuthorized || $location.path('/login')
+  },
 })
 @Component({
   selector: 'mass-upload',

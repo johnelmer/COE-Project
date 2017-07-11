@@ -14,9 +14,11 @@ import 'ng-toast/dist/ngToast.css'
   url: '/login',
   resolve: {
     redirect(user, $location) {
-      if (user) {
-        $location.path('/teacher/main')
-      }
+      Tracker.autorun(() => {
+        if (user) {
+          $location.path('/teacher/main')
+        }
+      })
     },
   },
   defaultRoute: true,

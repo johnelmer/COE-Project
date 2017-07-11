@@ -10,13 +10,10 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('secretary')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    },
   },
 })
 @State({

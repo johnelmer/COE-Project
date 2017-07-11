@@ -9,9 +9,8 @@ import '../views/student-list.html'
   url: '/students/list',
   resolve: {
     redirect(user, $location) {
-      if (!(user.hasARole('secretary'))) {
-        $location.path('/login')
-      }
+      const isAuthorized = user.hasARole('secretary')
+      return isAuthorized || $location.path('/login')
     },
   },
 })

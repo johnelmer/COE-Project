@@ -11,25 +11,21 @@ import '../views/meeting-upsert.html'
   name: 'app.meeting.create',
   url: '/meeting/create',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('dean')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('dean')
+      return isAuthorized || $location.path('/login')
+    },
   },
 })
 @State({
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
-  // resolve: {
-  //   redirect($state) {
-  //     const { roleName } = Meteor.user()
-  //     const role = Role.findOne({ name: roleName })
-  //     return role.hasARole('teacher') || $state.go('app.login')
-  //   },
-  // },
+  resolve: {
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('teacher')
+      return isAuthorized || $location.path('/login')
+    },
+  },
 })
 @Component({
   selector: 'meeting-upsert',

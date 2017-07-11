@@ -1,5 +1,6 @@
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import '../views/teacher-main.html'
 
 @State({
@@ -7,9 +8,11 @@ import '../views/teacher-main.html'
   url: '/teacher/main',
   resolve: {
     redirect(user, $location) {
-      if (!user) {
-        $location.path('/login')
-      }
+      Tracker.autorun(() => {
+        if (!user) {
+          $location.path('/login')
+        }
+      })
     },
   },
 })

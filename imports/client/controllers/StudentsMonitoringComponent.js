@@ -7,15 +7,12 @@ import '../views/students-monitoring.html'
 @State({
   name: 'app.student.monitor',
   url: '/students/monitor',
- /* resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
+  resolve: {
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
-  },*/
+  },
 })
 @Component({
   selector: 'students-monitor',

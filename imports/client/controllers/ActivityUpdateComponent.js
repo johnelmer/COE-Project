@@ -9,13 +9,12 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('faculty')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
+      if (!isAuthorized) {
+      }
+    },
   },
 })
 @Component({
