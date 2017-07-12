@@ -6,15 +6,15 @@ import '../views/notification.html'
 
 @State({
 	name: 'app.notification.show',
-  url: '/notification',
+  url: '/notifications',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasRole('faculty')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect($auth, $location) {
+      $auth.awaitUser().then((user) => {
+        if (user.hasRole('faculty')) {
+          $location.path('/login')
+        }
+      })
+    },
   },
 })
 @Component({
@@ -23,7 +23,6 @@ import '../views/notification.html'
 })
 @Inject('$scope', '$reactive', '$stateParams', '$state')
 class NotificationComponent {
-  // static schema = schema
   constructor($scope, $reactive, $stateParams, $state) {
     $reactive(this).attach($scope)
     this.subscribe('notifications')
