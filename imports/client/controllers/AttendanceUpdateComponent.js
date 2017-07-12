@@ -9,8 +9,8 @@ import '../views/attendance-update.html'
   name: 'app.course.session.attendanceUpdate',
   url: '/teacher/course/session/attendance/:sessionId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

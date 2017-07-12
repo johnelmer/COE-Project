@@ -7,8 +7,8 @@ import '../views/student-courses.html'
   name: 'app.student.courses',
   url: '/student/courses/:studentId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

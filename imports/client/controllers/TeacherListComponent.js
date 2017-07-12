@@ -7,8 +7,8 @@ import '../views/teacher-list.html'
   name: 'app.teacher.list',
   url: '/teacher/list',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('secretary')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
   },

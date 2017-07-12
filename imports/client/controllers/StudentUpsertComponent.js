@@ -15,8 +15,8 @@ import '../styles/studentUpsert.scss'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('secretary')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
 

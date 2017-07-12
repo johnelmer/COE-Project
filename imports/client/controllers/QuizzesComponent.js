@@ -6,8 +6,8 @@ import '../views/classrecord-quizzes-view.html'
   name: 'app.classrecord-quizzes',
   url: '/classrecord/quizzes',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

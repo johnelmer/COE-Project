@@ -10,8 +10,8 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('secretary')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
   },

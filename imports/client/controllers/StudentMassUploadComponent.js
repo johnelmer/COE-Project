@@ -4,14 +4,15 @@ import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
 import schema from '/imports/both/schemas/Student'
 import { Component, State, Inject } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import 'ng-file-upload/dist/ng-file-upload.min.js'
 import '../views/mass-upload.html'
 
 @State({
   name: 'app.student.upload',
   url: '/students/upload',
-  redirect(user, $location) {
-    const isAuthorized = user.hasARole('secretary')
+  redirect($location) {
+    const isAuthorized = Meteor.user().hasARole('secretary')
     return isAuthorized || $location.path('/login')
   },
 })
