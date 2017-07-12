@@ -12,6 +12,18 @@ import '../views/student-list.html'
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
+    subsReady() {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const studentsSub = Meteor.subscribe('students')
+          const subs = [studentsSub]
+          const subsReady = subs.every(sub => sub.ready())
+          if (subsReady) {
+            resolve(true)
+          }
+        })
+      })
+    },
   },
 })
 @Component({
@@ -23,8 +35,6 @@ class StudentListComponent {
 
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.subscribe('students')
-    this.student = {}
     this.helpers({
       students() {
         return Student.find().fetch()
