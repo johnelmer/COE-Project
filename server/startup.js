@@ -158,4 +158,25 @@ Meteor.startup(() => {
   if (Activity.find().count() === 0) {
     sessions.forEach(session => seeder.activity(session, 'Quiz', 50, 'Quiz no. 1'))
   }
+
+  /* Patch for applying userId in Sessions and Activities */
+  const courses = Course.find().fetch()
+  courses.forEach((course) => {
+    // error on calling course.sessions due to determining the instructor type and the error exists on server only
+    const sessionList = Session.find({ courseId: course._id }).fetch()
+    sessionList.forEach((session) => {
+      const activityList = session.activities
+      if (!session.userId) {
+        const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
+        session.userId = userId
+        session.save()
+      }
+      activityList.forEach((activity) => {
+        if (!activity.userId) {
+          activity.userId = userId
+          activity.save()
+        }
+      })
+    })
+  })
 })
