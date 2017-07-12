@@ -15,7 +15,7 @@ import AppSetting from '/imports/both/models/AppSetting'
 import Role from '/imports/both/models/Role'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
 import GradeTransmutation from '/imports/both/models/GradeTransmutation'
-
+import Notification from '/imports/both/models/Notification'
 
 Meteor.startup(() => {
   Student.collection._ensureIndex({ lastName: 1 })
@@ -25,11 +25,11 @@ Meteor.startup(() => {
   if (Department.find().count() === 0) {
     seeder.departmentsAndDegrees()
   }
-  if (Student.find().count() < 5) {
-    seeder.students(210)
-  }
+  // if (Student.find().count() < 5) {
+  //   seeder.students(210)
+  // }
   if (!User.findOne({ roleName: 'dean' })) {
-    seeder.users('dean', 'Mechanical Engineering', 1)
+    seeder.users('dean', 'Software Engineering', 1)
   }
   if (!User.findOne({ roleName: 'secretary' })) {
     seeder.users('secretary', '', 1)

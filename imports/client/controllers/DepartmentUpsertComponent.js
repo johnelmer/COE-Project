@@ -10,13 +10,10 @@ import '../views/department-upsert.html'
   name: 'app.department.create',
   url: '/department/create',
   resolve: {
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('dean')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('dean')
+      return isAuthorized || $location.path('/login')
+    },
   },
 })
 @Component({

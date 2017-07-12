@@ -1,4 +1,3 @@
-import schema from '/imports/both/schemas/Notification'
 import Notification from '/imports/both/models/Notification'
 import User from '/imports/both/models/User'
 import { Meteor } from 'meteor/meteor'
@@ -23,19 +22,18 @@ import '../views/notification.html'
   templateUrl: 'imports/client/views/notification.html',
 })
 @Inject('scope', '$reactive', '$stateParams')
-
 class NotificationComponent {
-  static schema = schema
+  // static schema = schema
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     this.subscribe('notifications')
-    // this.helpers() {
-    //   notifications() {
-    //     if ($state.current.name.endsWith('show')) {
-    //       return Meteor.user().notifications
-    //     }
-    //   }
-    // }
+    this.helpers({
+      notifications() {
+        if ($state.current.name.endsWith('show')) {
+          return Meteor.user().notifications
+        }
+      }
+    })
   }
 }
 

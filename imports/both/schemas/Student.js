@@ -1,7 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 SimpleSchema.messages({
-  'alreadyExist': '[label] already exist',
+  alreadyExist: '[label] already exist',
 })
 
 export default new SimpleSchema({
@@ -25,7 +25,7 @@ export default new SimpleSchema({
   idNumber: {
     type: String,
     // unique: true,
-    label: "Id Number",
+    label: 'Id Number',
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
     // NOTE: Should not duplicate
     // custom: function () {
@@ -39,9 +39,8 @@ export default new SimpleSchema({
     //   }
     //   // return true
     // },
-
-    // optional: true,
-    // regEx: /^\d{2}\-\d{4}\-\d{2}$/,
+    unique: true,
+    optional: true,
   },
   gender: {
     type: String,
@@ -57,7 +56,6 @@ export default new SimpleSchema({
   birthday: {
     optional: true,
     type: Date,
-    optional: true,
   },
   homeAddress: {
     type: String,
@@ -116,6 +114,10 @@ export default new SimpleSchema({
   'mother.contactNumber': {
     type: String,
     // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+  },
+  nameSuffix: {
+    type: String,
+    defaultValue: '',
   },
   image: {
     // TODO: Image upload

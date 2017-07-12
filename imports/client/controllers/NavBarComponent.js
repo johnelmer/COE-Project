@@ -17,8 +17,9 @@ class NavBarComponent {
     this.user = this.currentUser
     this.ngToast = ngToast
     this.autorun(() => {
-      const users = this.subscribe('users')
+      const users = this.subscribe('currentUser')
       const roles = this.subscribe('roles')
+      const notifications = this.subscribe('notifications')
       const subs = [users, roles]
       const subsReady = subs.every(sub => sub.ready())
       if (subsReady) {
