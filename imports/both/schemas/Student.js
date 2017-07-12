@@ -24,21 +24,21 @@ export default new SimpleSchema({
   },
   idNumber: {
     type: String,
-    // unique: true,
+    unique: true,
     label: "Id Number",
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
     // NOTE: Should not duplicate
-    custom: function () {
-      const Student = require('/imports/both/models/Student').default
-      let student = {}
-      if (this.isSet) {
-        student = Student.findOne({ idNumber: this.value })
-      }
-      if (student) {
-          return 'alreadyExist'
-      }
-      // return true
-    },
+    // custom: function () {
+    //   const Student = require('/imports/both/models/Student').default
+    //   let student = {}
+    //   if (this.isSet) {
+    //     student = Student.findOne({ idNumber: this.value })
+    //   }
+    //   if (student) {
+    //       return 'alreadyExist'
+    //   }
+    //   // return true
+    // },
   },
   gender: {
     type: String,
