@@ -59,11 +59,11 @@
       </thead>
       <tbody>
         <!-- NOTE: body of the table -->
-        <tr ng-repeat="activity in gradingTemplate.docs.activityList">
-          <td>{{ activity.category }}</td>
-          <td>{{ activity.name }}</td>
-          <td>{{ activity.percentage }}</td>
-          <td>{{ activity.isMultiple }}</td>
+        <tr ng-repeat="act in gradingTemplate.activityList">
+          <td>{{ act.category }}</td>
+          <td>{{ act.name }}</td>
+          <td>{{ act.percentage }}</td>
+          <td>{{ act.isMultiple }}</td>
           <td>
             <button type="button" name="button">Update</button>
           </td>

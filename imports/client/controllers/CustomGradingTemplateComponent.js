@@ -19,41 +19,44 @@ class CustomGradingTemplateComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.classType = 'lecture'
+    this.activity = ''
     console.log(this.classType);
     const { templateId } = $stateParams
     this.activity = { name: '', percentage: '', isMultiple: false }
-    // this.total = {lecture: { percentage: '' }, laboratory: { percentage: '' }}
-    const subs = this.subscribe('grading-templates')
-    this.helpers({
-      docs() {
-        if (subs.ready()) {
-          const isCreate = $state.current.name.endsWith('create')
-        //  console.log(templateId)
-          //console.log(GradingTemplate.findOne({ _id: templateId }));
-        const temp = (isCreate) ? new GradingTemplate() : GradingTemplate.findOne({ _id: templateId })
-          const activityList = []
-           console.log(temp);
-          if (!isCreate) {
-             activityList.push(...temp.lecture.activityTypes.map((type) => {
-               type.category = 'lecture'
-               return type
+    this.subscribe('grading-templates', () => {
+      const isCreate = $state.current.name.endsWith('create')
+      const gradingTemplate = (isCreate) ? new GradingTemplate() : GradingTemplate.findOne({ _id: templateId })
+      const activityList = []
+        if (!isCreate) {
+           activityList.push(...gradingTemplate.lecture.activityTypes.map((type) => {
+             type.category = 'lecture'
+             return type
+           }))
+           if (temp.laboratory) {
+             activityList.push(...gradingTemplate.laboratory.activityTypes.map((type) => {
+               type.category = 'laboratory'
              }))
-             if (temp.laboratory) {
-               activityList.push(...temp.laboratory.activityTypes.map((type) => {
-                 type.category = 'laboratory'
-               }))
-             }
-          } else {
-            temp.lecture = { percentage: '', activityTypes: [] }
-          }
-          return { gradingTemplate: temp, activityList: activityList }
+           }
+        } else {
+          gradingTemplate.lecture = { percentage: '', activityTypes: [] }
+          gradingTemplate.laboratory = { percentage: '', activityTypes: [] }
         }
-
-      },
+        this.gradingTemplate = gradingTemplate
+        this.activityList = activityList
     })
   }
   addActivity() {
-    console.log(this.docs);
+    console.log(this.gradingTemplate);
+    console.log(this.activity);
+    const activity = this.activity
+    const act = {
+      name: activity.name,
+      percentage: activity.percentage,
+      isMultiple: activity.isMultiple,
+      category: this.classType,
+    }
+    this.gradingTemplate[this.classType].activityTypes.push(act)
+    this.activityList.push(act);
   }
 
   save() {
