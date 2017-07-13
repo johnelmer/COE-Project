@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import Subject from '/imports/both/models/Subject'
@@ -7,7 +8,6 @@ import Department from '/imports/both/models/Department'
 import Role from '/imports/both/models/Role'
 import Session from '/imports/both/models/Session'
 import Activity from '/imports/both/models/Activity'
-import ActivityType from '/imports/both/models/ActivityType'
 import User from '/imports/both/models/User'
 import Meeting from '/imports/both/models/Meeting'
 import Notification from '/imports/both/models/Notification'
@@ -15,28 +15,49 @@ import AppSetting from '/imports/both/models/AppSetting'
 import GradingTemplate from '/imports/both/models/GradingTemplate'
 import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
-/* const blacklist = {
+const whitelist = {
+  activity: {
+    faculty: ['totalScore', 'description', 'isLocked', 'records'],
+  },
   course: {
-    faculty: []
-  }
-} */
-
-/* const isAllowed = (doc, Model, allowedRoles, restrictedFields) => {
-  const collection = Model.findOne({ _id: doc._id })
-  const user = Meteor.user()
-  const isAuthorized = allowedRoles.some(role => user.role.hasARole(role))
-  console.log(isAuthorized)
-//  console.log(doc)
-//  console.log(collection)
-} */
+    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplate'],
+    secretary: ['subject', 'stubcode', 'lecture.instructor', 'lecture.time', 'lecture.room',
+      'laboratory.instructor', 'laboratory.time', 'laboratory.room'],
+  },
+  gradingTemplate: {
+    faculty: ['lecture', 'laboratory'],
+  },
+  session: {
+    faculty: ['studenAttendances', 'activityIds'],
+  },
+  student: {
+    faculty: ['courseIds'],
+    secretary: ['firstName', 'lastName', 'middleName', 'idNumber', 'gender', 'degree', 'yearLevel',
+      'birthday', 'homeAddress', 'cityAddress', 'contactNumber', 'isGraduating', 'father', 'mother',
+      'religion', 'citizenship'],
+  },
+  user: {
+    faculty: ['username', 'password', 'contactNumber', 'civilStatus', 'address', 'birthday', 'religion', 'citizenship'],
+  },
+}
 
 const isOwner = (userId, doc) => {
   return doc.userId === userId
 }
 
+const isDean = () => {
+  return Meteor.user().roleName === 'dean'
+}
+
 const isTeacher = () => {
   const role = Meteor.user().roleName
   return role === 'faculty' || role === 'department head'
+}
+
+/* only allow $set as the modifier */
+const isModifierAllowed = (modifier) => {
+  const keys = Object.keys(modifier)
+  return keys.length === 1 || keys[0] === '$set'
 }
 
 /* checks if current user is authorized to insert/update/remove based on role tree
@@ -50,6 +71,21 @@ const isAuthorized = (allowedRoles) => {
 }
 /* PS: allowedRoles elements: not necessary to include all roles, only the most child roles
   e.g. allowedRoles: ['faculty'], this includes the department head and dean, but not secretary */
+
+// const isRestricted = (doc, updatedDoc, blacklist) => {
+//   return blacklist.some((field) => {
+//     if (typeof field === 'object') {
+//       return JSON.stringify(doc[field]) !== JSON.stringify(updatedDoc[field])
+//     }
+//     return doc[field] !== updatedDoc[field]
+//   })
+// }
+
+/* ignore the allowed fields and compare the restricted fields if there are changes */
+const isRestricted = (doc, updatedDoc, allowedFields) => {
+  return JSON.stringify(_.omit(doc, allowedFields))
+    !== JSON.stringify(_.omit(updatedDoc, allowedFields))
+}
 
 Course.collection.allow({
   insert: () => isAuthorized(['department head', 'secretary']),
@@ -115,7 +151,7 @@ Session.collection.allow({
 Activity.collection.allow({
   insert: () => isAuthorized(['faculty']),
   update: (userId, doc) => {
-    if (isTeacher() && !doc.isLocked) {
+    if (isTeacher()) {
       return isOwner(userId, doc)
     }
     return isAuthorized(['dean'])
@@ -151,4 +187,83 @@ Notification.collection.allow({
   insert: () => isAuthorized(['faculty', 'secretary']),
   update: (userId, doc) => userId === doc.authorId,
   remove: () => false,
+})
+
+Activity.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      return isRestricted(doc, updatedDoc, whitelist.activity.faculty)
+    }
+    return true
+  },
+})
+
+Course.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.activity.faculty)
+            : isRestricted(doc, updatedDoc, whitelist.activity.secretary)
+    }
+    return true
+  },
+})
+
+GradingTemplate.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      return isRestricted(doc, updatedDoc, whitelist.gradingTemplate.faculty)
+    }
+    return true
+  },
+})
+
+Session.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      return isRestricted(doc, updatedDoc, whitelist.session.faculty)
+    }
+    return true
+  },
+})
+
+Student.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      const userRole = Meteor.user().roleName
+      if (userRole === 'secretary') {
+        return isRestricted(doc, updatedDoc, whitelist.student.secretary)
+      } else if (userRole === 'department head') {
+        return false
+      }
+      return isRestricted(doc, updatedDoc, whitelist.student.faculty)
+    }
+    return true
+  },
+})
+
+User.collection.deny({
+  update: (userId, doc, fields, modifier) => {
+    if (isDean()) {
+      return false
+    } else if (isModifierAllowed(modifier)) {
+      const updatedDoc = modifier.$set
+      return isRestricted(doc, updatedDoc, whitelist.user.faculty)
+    }
+    return true
+  },
 })
