@@ -140,7 +140,7 @@
                       <label>Total Score: {{ activity.totalScore }}</label>
                       <label>{{ activity.description }}</label>
                       <label>
-                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})" ng-hide="activity.isLocked">Edit</button>
                       </label>
                     </label>
                   </td>

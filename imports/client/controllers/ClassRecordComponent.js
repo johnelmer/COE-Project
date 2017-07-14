@@ -59,13 +59,16 @@ class ClassRecordComponent {
   }
 
   get ratingTableHeaders() {
-    const type = this.doc.type
-    if (type === 'laboratory only') {
-      return ['Rating']
-    } else if (type === 'lecture only') {
-      return ['Rating', 'Final Grade']
+    if (this.doc) {
+      const type = this.doc.type
+      if (type === 'laboratory only') {
+        return ['Rating']
+      } else if (type === 'lecture only') {
+        return ['Rating', 'Final Grade']
+      }
+      return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'Final Grade']
     }
-    return ['Lecture Rating', 'Laboratory Rating', 'Final Rating', 'Final Grade']
+    return []
   }
 
   getRating(record, ratingType) {
