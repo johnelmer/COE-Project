@@ -36,7 +36,7 @@ class Role extends Model {
   }
 
   get isRoot() {
-    return !this.hasAParent
+    return this.root.is(this.name)
   }
 
   get parent() {
@@ -44,7 +44,8 @@ class Role extends Model {
   }
 
   get root() {
-    return ((this.isRoot && this.hasAChild) && this) || this.parent.root
+    return (!(this.hasAParent) && this) || this.parent.root
+    // return ((this.isRoot && this.hasAChild) && this) || this.parent.root
   }
 
 }
