@@ -1,4 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import { Meteor } from 'meteor/meteor'
 
 const attendance = new SimpleSchema({
   studentId: {
@@ -18,6 +19,15 @@ const attendance = new SimpleSchema({
 export default new SimpleSchema({
   courseId: {
     type: String,
+  },
+  userId: {
+    type: String,
+    autoValue: function () {
+      if (this.isInsert) {
+        return Meteor.userId()
+      }
+      this.unset()
+    },
   },
   type: {
     type: String,
