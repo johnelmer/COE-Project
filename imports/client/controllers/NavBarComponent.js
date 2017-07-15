@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Component, Inject } from 'angular2-now'
+import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
+import 'ng-toast/dist/ngToast.css'
 import '../views/nav-bar.html'
 
 @Component({
@@ -13,23 +15,19 @@ class NavBarComponent {
   constructor($scope, $reactive, ngToast) {
     $reactive(this).attach($scope)
     this.user = this.currentUser
-    // this.subscribe('users')
-    this.subscribe('roles')
-    this.subscribe('notifications')
     this.ngToast = ngToast
+    this.autorun(() => {
+      const users = this.subscribe('currentUser')
+      const roles = this.subscribe('roles')
+      const notifications = this.subscribe('notifications')
+      const subs = [users, roles]
+      const subsReady = subs.every(sub => sub.ready())
+      if (subsReady) {
+        this.user = Meteor.user()
+      }
+    })
   }
-  get isHidden() {
-    return !!(Meteor.user())
-  }
-  get isFaculty() {
-    return !!(Meteor.user().hasARole('faculty')) && this.isHidden
-  }
-  get isDepartmentHead() {
-    return !!(Meteor.user().hasARole('department head')) && this.isHidden
-  }
-  get isSecretary() {
-    return !!(Meteor.user().hasARole('secretary')) && this.isHidden
-  }
+
   logout() {
     Meteor.logout()
   }

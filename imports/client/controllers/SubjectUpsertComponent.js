@@ -9,15 +9,12 @@ import '../views/subject-upsert.html'
 @State({
   name: 'app.subject.create',
   url: '/subjects/create',
-  resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('secretary')) {
-          $location.path('/login')
-        }
-      })
-    },
-  },
+  // resolve: {
+  //   redirect(user, $location) {
+  //     const isAuthorized = user.hasARole('secretary')
+  //     return isAuthorized || $location.path('/login')
+  //   },
+  // },
 })
 @State({
   name: 'app.subject.edit',
@@ -41,6 +38,7 @@ class SubjectUpsertComponent {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
     this.subscribe('subjects')
+    this.hasLaboratory = false;
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add'
       this.message = 'added'
@@ -70,6 +68,10 @@ class SubjectUpsertComponent {
     // console.log(this.subject);
     // this.subject.credits = parseInt(this.subject.credits, 10)
     // this.subject.units = parseInt(this.subject.units, 10)
+    const subject = this.subject
+    if (!this.hasLaboratory) {
+      delete subject.laboratoryType
+    }
     try {
       schema.validate(this.subject.doc)
       this.subject.save((doc, err) => {

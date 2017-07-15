@@ -1,14 +1,17 @@
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import '../views/teacher-main.html'
 
 @State({
   name: 'app.course.teacher',
   url: '/teacher/main',
   resolve: {
-    redirect($auth, $location) {
-      $auth.requireUser().catch(() => {
-        return $location.path('/login')
+    redirect(user, $location) {
+      Tracker.autorun(() => {
+        if (!user) {
+          $location.path('/login')
+        }
       })
     },
   },
@@ -36,7 +39,6 @@ export default class TeacherMainComponent {
         }
       }
     })
-    console.log(this.user);
   }
 
 }

@@ -6,12 +6,9 @@ import '../views/classrecord-quizzes-view.html'
   name: 'app.classrecord-quizzes',
   url: '/classrecord/quizzes',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('faculty')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
   },
 })

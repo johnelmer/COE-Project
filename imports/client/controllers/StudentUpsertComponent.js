@@ -1,23 +1,32 @@
 /* eslint no-alert: "off" */
+/* eslint-disable no-param-reassign */
 import Student from '/imports/both/models/Student'
 import schema from '/imports/both/schemas/Student'
 import Degree from '/imports/both/models/Degree'
 import Role from '/imports/both/models/Role'
+import XLSX from 'xlsx'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
+import 'ng-file-upload/dist/ng-file-upload.min.js'
 import '../views/student-upsert.html'
+import '../styles/studentUpsert.scss'
 
 @State({
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasARole('secretary')) {
-          $location.path('/login')
-        }
-      })
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('secretary')
+      return isAuthorized || $location.path('/login')
     },
+
+    // redirect($auth, $location) {
+    //   $auth.awaitUser().then((user) => {
+    //     if (user.hasARole('secretary')) {
+    //       $location.path('/login')
+    //     }
+    //   })
+    // },
   },
 })
 @State({
@@ -35,14 +44,16 @@ import '../views/student-upsert.html'
   selector: 'student-upsert',
   templateUrl: 'imports/client/views/student-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast', 'Upload', '$timeout')
 class StudentUpsertComponent {
   static schema = schema
-  constructor($scope, $reactive, $state, $stateParams, ngToast) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast, Upload, $timeout) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
     this.subscribe('students')
+    this.Upload = Upload
+    this.$timeout = $timeout
     this.subscribe('users')
     this.subscribe('degrees') // NOTE: added from temporary-branch
     const { studentId } = $stateParams

@@ -27,8 +27,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-2 control-label">Laboratory Type</label>
-        <div class="btn-group col-md-8">
+        <label class="col-md-2 control-label">Laboratory</label>
+        <input type="checkbox" ng-model="subjectUpsert.hasLaboratory">
+        <div class="btn-group col-md-8" ng-show="subjectUpsert.hasLaboratory">
           <label class="btn btn-primary col-md-4" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'Computational'">Computational Laboratory</label>
           <label class="btn btn-primary col-md-4" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'With Hands-on'">Hands-on Laboratory</label>
           <label class="btn btn-primary col-md-4" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'SE Subject'">SE Laboratory</label>

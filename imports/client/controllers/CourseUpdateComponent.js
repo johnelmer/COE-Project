@@ -8,13 +8,12 @@ import '../views/course-update.html'
 @State({
   name: 'app.course.assign.update',
   url: '/course/update/:courseId',
-  // resolve: {
-  //   redirect($state) {
-  //     const { roleName } = Meteor.user()
-  //     const role = Role.findOne({ name: roleName })
-  //     return role.hasARole('secretary') || $state.go('app.login')
-  //   },
-  // },
+  resolve: {
+    redirect(user, $location) {
+      const isAuthorized = user.hasARole('faculty')
+      return isAuthorized || $location.path('/login')
+    },
+  },
 })
 @Component({
   selector: 'courseData-update',

@@ -6,6 +6,7 @@ import Course from './Course'
 import AppSetting from './AppSetting'
 import SetupAccount from '../decorators/SetupAccount'
 import schema from '../schemas/User'
+import Notification from './Notification'
 
 @SetupAccount
 class User extends Model {

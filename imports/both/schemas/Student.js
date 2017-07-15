@@ -1,7 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 SimpleSchema.messages({
-  'alreadyExist': '[label] already exist',
+  alreadyExist: '[label] already exist',
 })
 
 export default new SimpleSchema({
@@ -9,18 +9,18 @@ export default new SimpleSchema({
     type: String,
     min: 1,
     optional: true,
-    regEx: /^[a-zA-Z\d\- ]{1,}$/,
+    // regEx: /^[a-zA-Z\d\- ]{1,}$/,
   },
   lastName: {
     type: String,
     min: 2,
     optional: true,
-    regEx: /^[a-zA-Z\d\- ]{2,}$/,
+    // regEx: /^[a-zA-Z\d\- ]{2,}$/,
   },
   middleName: {
     type: String,
     optional: true,
-    regEx: /^[a-zA-Z\d\- ]{2,}$/,
+    // regEx: /^[a-zA-Z\d\- ]{2,}$/,
   },
   idNumber: {
     type: String,
@@ -45,6 +45,7 @@ export default new SimpleSchema({
   },
   degree: {
     type: String,
+    optional: true,
   },
   yearLevel: {
     type: Number,
@@ -56,18 +57,18 @@ export default new SimpleSchema({
   },
   homeAddress: {
     type: String,
+    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
     optional: true,
-    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   cityAddress: {
     type: String,
+    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
     optional: true,
-    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   contactNumber: {
     type: String,
+    // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
     optional: true,
-    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   isGraduating: {
     type: Boolean,
@@ -86,10 +87,11 @@ export default new SimpleSchema({
   email: {
     type: String,
     optional: true,
-    regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
+    // regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
   father: {
     type: Object,
+    optional: true,
   },
   'father.fullName': {
     type: String,
@@ -97,18 +99,23 @@ export default new SimpleSchema({
   },
   'father.contactNumber': {
     type: String,
-    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+    // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   mother: {
     type: Object,
+    optional: true,
   },
   'mother.fullName': {
     type: String,
-    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   'mother.contactNumber': {
     type: String,
-    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+    // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+  },
+  nameSuffix: {
+    type: String,
+    defaultValue: '',
   },
   image: {
     // TODO: Image upload
