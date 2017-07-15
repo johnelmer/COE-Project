@@ -3,18 +3,18 @@
     <legend><h3> Create your Grading System </h3></legend>
     <div class="form-group">
       <h4>Overall Percentage</h4>
-        <div class="col-md-5">
-          <label>Lecture:</label>
-          <input type="text" class="form-control" ng-model="gradingTemplate.total.lecture.percentage">
-          <label>Laboratory:</label>
-          <input type="text" class="form-control" ng-model="gradingTemplate.total.laboratory.percentage">
-        </div>
+      <div class="col-md-5">
+        <label>Lecture:</label>
+        <input type="text" class="form-control" ng-model="gradingTemplate.total.lecture.percentage">
+        <label>Laboratory:</label>
+        <input type="text" class="form-control" ng-model="gradingTemplate.total.laboratory.percentage">
       </div>
-      <div class="divider"></div>
+    </div>
+    <div class="divider"></div>
     <div class="form-group">
       <h4>Activity Type</h4>
       <div class="col-md-5">
-        <div class="btn-group">
+        <div class="btn-group" ng-show="!gradingTemplate.total.laboratory.percentage == ''">
           <label class="btn btn-primary" ng-model="gradingTemplate.classType" uib-btn-radio="'lecture'">Lecture</label>
           <label class="btn btn-primary" ng-model="gradingTemplate.classType" uib-btn-radio="'laboratory'">Laboratory</label>
         </div>
@@ -45,33 +45,34 @@
       </div>
     </div>
     <div class="divider"></div>
-  </form>
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover table-reponsive">
+    <table class="table table-bordered table-hover">
       <thead>
         <tr>
-            <td><label>Category</label></td>
-            <td><label>Activity Name</label></td>
-            <td><label>Percentage</label></td>
-            <td><label>Multiple</label></td>
-            <td><label>Action</label></td>
+          <td><label>Category</label></td>
+          <td><label>Activity Name</label></td>
+          <td><label>Percentage</label></td>
+          <td><label>Multiple</label></td>
+          <td><label>Action</label></td>
         </tr>
       </thead>
       <tbody>
-        <!-- NOTE: body of the table -->
         <tr ng-repeat="act in gradingTemplate.activityList">
           <td>{{ act.category }}</td>
           <td>{{ act.name }}</td>
           <td>{{ act.percentage }}</td>
           <td>{{ act.isMultiple }}</td>
-          <td>
-            <button type="button" name="button">Update</button>
+          <td align="center">
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button>
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="col-md-offset-9 col-md-3">
-      <button type="button" class="btn btn-primary btn-md btn-block">Save</button>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary btn-md btn-block" ng-click="gradingTemplate.save()">Create Template</button>
+      </div>
+      <br>
     </div>
-  </div>
+  </form>
 </div>
