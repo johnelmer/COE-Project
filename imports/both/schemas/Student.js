@@ -116,6 +116,7 @@ export default new SimpleSchema({
   nameSuffix: {
     type: String,
     defaultValue: '',
+    optional: true,
   },
   image: {
     // TODO: Image upload
