@@ -12,8 +12,8 @@ import '../views/subject-assign.html'
   name: 'app.subject.assign',
   url: '/subject/assign',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('department head')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('department head')
       return isAuthorized || $location.path('/login')
     },
   },

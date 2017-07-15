@@ -9,12 +9,12 @@ import '../views/subject-upsert.html'
 @State({
   name: 'app.subject.create',
   url: '/subjects/create',
-  // resolve: {
-  //   redirect(user, $location) {
-  //     const isAuthorized = user.hasARole('secretary')
-  //     return isAuthorized || $location.path('/login')
-  //   },
-  // },
+  resolve: {
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    },
+  },
 })
 @State({
   name: 'app.subject.edit',

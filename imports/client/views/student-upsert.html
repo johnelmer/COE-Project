@@ -35,39 +35,24 @@
         <div class="col-md-9">
           <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
           <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
-        <!-- picture upload (undone) -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4>Picture</h4></div>
-            <div class="panel-body">
-                <!-- <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                    <div>
-                        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span>
-                        <input type="file" name="picture" ng-model="studentUpsert.student.image">
-                        </span>
-                    </div>
-                    <!-- {{errorMsg}} -->
-                </div> -->
-            </div>
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Degree:</label>
         <div class="col-md-4">
           <select class="form-control" ng-model="studentUpsert.student.degree">
-            <optgroup label="Degree"/>
-            <option ng-repeat="degree in studentUpsert.degrees" value="{{degree.name}}" class="form-control"> {{degree.name}}</option>
+            <optgroup label="Degree" />
+            <option ng-repeat="degree in studentUpsert.degrees" value="{{degree.name}}"> {{degree.name}}</option>
           </select>
         </div>
         <label class="col-md-2 control-label">Year Level:</label>
         <div class="col-md-3">
           <select class="form-control" ng-model="studentUpsert.student.yearLevel">
-            <option value="1" class="form-control">1</option>
-            <option value="2" class="form-control">2</option>
-            <option value="3" class="form-control">3</option>
-            <option value="4" class="form-control">4</option>
-            <option value="5" class="form-control">5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
       </div>

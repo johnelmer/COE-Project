@@ -8,12 +8,9 @@ import '../views/notification.html'
 	name: 'app.notification.show',
   url: '/notifications',
   resolve: {
-    redirect($auth, $location) {
-      $auth.awaitUser().then((user) => {
-        if (user.hasRole('faculty')) {
-          $location.path('/login')
-        }
-      })
+		redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
   },
 })
