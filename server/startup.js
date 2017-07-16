@@ -148,16 +148,16 @@ Meteor.startup(() => {
       },
     })
   }
-  if (Session.find().count() === 0) {
-    const courses = Course.find().fetch()
-    courses.forEach((course) => {
-      seeder.session(course)
-    })
-  }
-  const sessions = Session.find().fetch()
-  if (Activity.find().count() === 0) {
-    sessions.forEach(session => seeder.activity(session, 'Quiz', 50, 'Quiz no. 1'))
-  }
+  // if (Session.find().count() === 0) {
+  //   const courses = Course.find().fetch()
+  //   courses.forEach((course) => {
+  //     seeder.session(course)
+  //   })
+  // }
+  // const sessions = Session.find().fetch()
+  // if (Activity.find().count() === 0) {
+  //   sessions.forEach(session => seeder.activity(session, 'Quiz', 50, 'Quiz no. 1'))
+  // }
 
   /* Patch for applying userId in Sessions and Activities */
   const courses = Course.find().fetch()
@@ -166,8 +166,8 @@ Meteor.startup(() => {
     const sessionList = Session.find({ courseId: course._id }).fetch()
     sessionList.forEach((session) => {
       const activityList = session.activities
+      const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
       if (!session.userId) {
-        const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
         session.userId = userId
         session.save()
       }

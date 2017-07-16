@@ -1,17 +1,33 @@
 <div class="container">
   <form>
     <legend><h3>Current Semester</h3></legend>
-    <div class="form-group">
-      <label>Semester:</label>
-      <input type="text" class="form-control">
+    <div class="col-md-6">
+      <div class="form-group">
+        <!-- <input type="text"  value="{{ settingsUpdate.setting.type }}" class="form-control" readonly></td> -->
+        <label>Semester:</label>
+          <select class="form-control" ng-model="settingsUpdate.semester">
+            <option value="First Semester" class="form-control">First Semester</option>
+            <option value="Second Semester" class="form-control">Second Semester</option>
+            <option value="Summer" class="form-control">Summer</option>
+          </select>
+      </div>
+      <div class="form-group">
+        <label>School Year:</label>
+        <input type="text" class="form-control" ng-model="settingsUpdate.schoolYear">
+      </div>
+      <br>
+      <div class="form-group">
+        <div class="col-md-offset-8 col-md-4">
+          <button type="button" class="btn btn-primary btn-md btn-block" ng-click="settingsUpdate.save()">Save</button>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label>School Year:</label>
-      <input type="text" class="form-control">
-    </div>
-    <div class="form-group">
-      <div class="col-md-offset-9 col-md-3">
-        <button type="button" class="btn btn-primary btn-md btn-block">Save</button>
+      <div class="col-md-6" align="center">
+        <div class="jumbotron">
+          <label>Semester:</label>
+          <h2>{{ settingsUpdate.setting.currentSemester || '' }}</h2>
+          <label>School Year:</label>
+          <h2>{{ settingsUpdate.setting.currentSchoolYear || '' }}<h2>
       </div>
     </div>
   </form>

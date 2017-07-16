@@ -38,6 +38,7 @@ class SubjectUpsertComponent {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
     this.subscribe('subjects')
+    this.hasLaboratory = false;
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add'
       this.message = 'added'
@@ -67,6 +68,10 @@ class SubjectUpsertComponent {
     // console.log(this.subject);
     // this.subject.credits = parseInt(this.subject.credits, 10)
     // this.subject.units = parseInt(this.subject.units, 10)
+    const subject = this.subject
+    if (!this.hasLaboratory) {
+      delete subject.laboratoryType
+    }
     try {
       schema.validate(this.subject.doc)
       this.subject.save((doc, err) => {

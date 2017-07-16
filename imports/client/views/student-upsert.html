@@ -35,6 +35,7 @@
         <div class="col-md-9">
           <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
           <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+        </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Degree:</label>
@@ -161,25 +162,17 @@ ng-keyup="studentUpsert.isInvalidEmail" ng-class="{'has-error': studentUpsert.is
   <!-- picture upload (undone) -->
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4>Picture</h4>
-    </div>
-    <div>
-      <button type="file" ngf-select="studentUpsert.uploadFiles($file, $invalidFiles)"
-              accept="image/*">
-          Select File
-      </button>
-      <br><br>
-      File:
-      <div style="font:smaller">{{studentUpsert.file.name}} {{studentUpsert.errFile.name}} {{studentUpsert.errFile.$error}} {{studentUpsert.errFile.$errorParam}}
-          <span class="progress" ng-show="studentUpsert.file.progress >= 0">
-              <div style="width:{{studentUpsert.file.progress}}%"
-                   ng-bind="studentUpsert.file.progress + '%'"></div>
+      <h4>Picture</h4></div>
+      <div class="panel-body">
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+          <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+          <div>
+            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span>
+            <input type="file" name="picture" ng-model="studentUpsert.student.image">
           </span>
+        </div>
       </div>
-      {{studentUpsert.errorMsg}}
-      <img ngf-thumbnail="studentUpsert.file" alt="">
     </div>
-
   </div>
   <div class="panel panel-default">
     <div class="panel-body">

@@ -183,6 +183,12 @@ GradeTransmutation.collection.allow({
   remove: () => false,
 })
 
+GradingTemplate.collection.allow({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
+})
+
 Notification.collection.allow({
   insert: () => isAuthorized(['faculty', 'secretary']),
   update: (userId, doc) => userId === doc.authorId,
