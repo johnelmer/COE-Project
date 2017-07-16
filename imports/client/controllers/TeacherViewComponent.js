@@ -17,18 +17,23 @@ import '../views/teacher-view.html'
   selector: 'teacher-view',
   templateUrl: 'imports/client/views/teacher-view.html',
 })
-@Inject('$scope', '$reactive', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams')
 class TeacherViewComponent {
 
-  constructor($scope, $reactive, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { teacherId } = $stateParams
     this.subscribe('users')
+    this.$state = $state
     this.helpers({
       teacher() {
         return Teacher.findOne({ _id: teacherId })
       },
     })
+  }
+
+  viewCourses() {
+    this.$state.go('app.teacher.courses', { teacherId: this.teacher._id })
   }
 
   addSubject() {
