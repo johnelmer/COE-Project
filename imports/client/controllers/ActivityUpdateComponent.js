@@ -30,10 +30,17 @@ class ActivityUpdateComponent {
     this.subscribe('activities', () => {
       this.subscribe('sessions')
       this.subscribe('courses')
+      this.subscribe('currentUser')
       this.subscribe('students-basic-infos')
-      this.activity = Activity.findOne({ _id: activityId })
+      const activity = Activity.findOne({ _id: activityId })
+      this.activity = activity
       if (this.activity) {
         this.students = this.activity.studentRecords
+        const user = Meteor.user()
+        this.user = user
+        if (activity.isLocked && user.roleName !== 'dean') {
+          $state.go('app.course.classRecord', { courseId: activity.session.courseId })
+        }
       }
     })
     this.ngToast = ngToast
