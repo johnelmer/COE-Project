@@ -39,6 +39,7 @@ class ClassRecordComponent {
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready()
         && gradeTransmutationSubs.ready() && course) {
         this.students = course.students
+        this.user = Meteor.user()
         this.doc = course.classRecord
         this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
@@ -56,6 +57,10 @@ class ClassRecordComponent {
     this.popup = {
       opened: false,
     }
+  }
+
+  get isDataReady() {
+    return this.doc !== undefined
   }
 
   get ratingTableHeaders() {
@@ -93,6 +98,20 @@ class ClassRecordComponent {
         value = '-'
     }
     return (value !== '-' && ratingType !== 'Final Grade') ? `${value.toFixed(2)}%` : value
+  }
+
+  shouldActivityTypeHide(activityType) {
+    if (!activityType.isMultiple) {
+      return this.course.hasActivity(activityType.name)
+    }
+    return false
+  }
+
+  shouldActivityEditHide(activity) {
+    if (this.user.roleName === 'dean') {
+      return false
+    }
+    return activity.isLocked
   }
 
 /*  toCamelCase(str) {
@@ -157,6 +176,12 @@ class ClassRecordComponent {
 
   getAttendanceAdds(session) {
     return (session.type === 'laboratory') ? '(Lab)' : ''
+  }
+
+  passClassRecord() {
+    console.log('hey')
+    this.course.passClassRecord()
+    console.log('success')
   }
 
   openPicker() {

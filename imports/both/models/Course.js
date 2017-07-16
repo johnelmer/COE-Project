@@ -285,6 +285,15 @@ class Course extends Model {
     return scoresDoc
   }
 
+  passClassRecord() {
+    this.activities.forEach((activity) => {
+      console.log(activity)
+      activity.isLocked = true
+      activity.save(err => console.log(err))
+    })
+    // create notification
+  }
+
 }
 
 export default Course
