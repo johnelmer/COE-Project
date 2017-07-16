@@ -35,12 +35,14 @@ class StudentListComponent {
 
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.limit = this.limit || 10
     this.helpers({
       students() {
         return Student.find().fetch()
       },
     })
+    this.min = 10
+    this.limit = this.limit || this.min
+    this.max = this.students.length
   }
 
   view(student) {

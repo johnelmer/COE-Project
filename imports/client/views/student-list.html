@@ -2,9 +2,9 @@
   <form class="form-horizontal">
     <legend>
       <h1>List of Students</h1>
-      <h2>
-        Limit: <input ng-model="studentList.limit" type="number" min="0" max="{{ studentList.student.length }}">
-      </h2>
+      <div>
+        Limit: <input ng-model="studentList.limit" type="number" min="{{ studentList.min }}" max="{{ studentList.max }}">
+      </div>
     </legend>
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
