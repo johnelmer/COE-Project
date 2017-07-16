@@ -16,7 +16,7 @@ import 'ng-toast/dist/ngToast.css'
     redirect(user, $location) {
       Tracker.autorun(() => {
         if (user) {
-          $location.path('/teacher/main')
+          $location.path('/teacher/courses')
         }
       })
     },
@@ -62,7 +62,7 @@ class LoginComponent {
             this.user.password = null;
           }
         } else {
-          this.$state.go('app.course.teacher')
+          this.$state.go('app.teacher.main')
         }
       })
     }
