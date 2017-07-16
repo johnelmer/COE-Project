@@ -2,6 +2,9 @@
   <form class="form-horizontal">
     <legend>
       <h1>List of Students</h1>
+      <h2>
+        Limit: <input ng-model="studentList.limit" type="number" min="0" max="{{ studentList.student.length }}">
+      </h2>
     </legend>
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
@@ -29,7 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="student in studentList.students | filter:searchText">
+          <tr ng-repeat="student in studentList.students | filter:searchText | limitTo:studentList.limit">
             <td>{{ student.idNumber}}</td>
             <td>{{ student.lastName }}</td>
             <td>{{ student.firstName }}</td>
