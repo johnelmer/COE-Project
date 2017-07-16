@@ -7,7 +7,6 @@ import '/imports/server/methods.js'
 import User from '/imports/both/models/User'
 
 Accounts.onCreateUser((options, user) => {
-  console.log(user)
   user.profile = {}
   const roleName = options.roleName
   if (roleName !== 'Dean') {
@@ -18,4 +17,8 @@ Accounts.onCreateUser((options, user) => {
     throw new Error('Only 1 dean account allowed!')
   }
   return user
+})
+
+Accounts.config({
+  forbidClientAccountCreation: true,
 })
