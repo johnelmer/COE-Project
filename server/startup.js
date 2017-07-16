@@ -25,9 +25,9 @@ Meteor.startup(() => {
   if (Department.find().count() === 0) {
     seeder.departmentsAndDegrees()
   }
-  // if (Student.find().count() < 5) {
-  //   seeder.students(210)
-  // }
+  if (Student.find().count() < 5) {
+    seeder.students(210)
+  }
   if (!User.findOne({ roleName: 'dean' })) {
     seeder.users('dean', 'Software Engineering', 1)
   }
@@ -148,16 +148,16 @@ Meteor.startup(() => {
       },
     })
   }
-  if (Session.find().count() === 0) {
-    const courses = Course.find().fetch()
-    courses.forEach((course) => {
-      seeder.session(course)
-    })
-  }
-  const sessions = Session.find().fetch()
-  if (Activity.find().count() === 0) {
-    sessions.forEach(session => seeder.activity(session, 'Quiz', 50, 'Quiz no. 1'))
-  }
+  // if (Session.find().count() === 0) {
+  //   const courses = Course.find().fetch()
+  //   courses.forEach((course) => {
+  //     seeder.session(course)
+  //   })
+  // }
+  // const sessions = Session.find().fetch()
+  // if (Activity.find().count() === 0) {
+  //   sessions.forEach(session => seeder.activity(session, 'Quiz', 50, 'Quiz no. 1'))
+  // }
 
   /* Patch for applying userId in Sessions and Activities */
   const courses = Course.find().fetch()
