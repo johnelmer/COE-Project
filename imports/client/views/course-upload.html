@@ -1,0 +1,35 @@
+<div>
+  <div class="container">
+    <div>
+      <legend><h3>Course Excel Upload</h3></legend>
+      <div class="jumbotron">
+        <div class="form-group">
+          <span class="col-md-2 control-span">Select file:</span>
+          <button type="file" ngf-select="courseUpload.uploadFiles($file, $invalidFiles)"
+          accept=".xls,.csv,.xlsx" ngf-max-height="2000" ngf-max-size="2MB">
+          Browse...</button>
+        </div>
+        <div class="form-group">
+          <span class="col-md-2 control-span">File:</span>
+          <div style="font:smaller">{{courseUpload.file.name}} {{courseUpload.errFile.name}}
+            {{courseUpload.errFile.$error}} {{courseUpload.errFile.$errorParam}}
+          </div>
+          <div class="col-md-offset-2">
+            <span class="progress" ng-show="courseUpload.file.progress >= 0">
+              <div style="width:{{courseUpload.file.progress}}%"
+              ng-bind="courseUpload.file.progress + '%'"></div>
+            </span>
+          </div>
+          {{errorMsg}}
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2">
+            <button class="btn btn-primary" ng-click="courseUpload.save()">Upload Students</button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+</div>
