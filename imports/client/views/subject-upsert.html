@@ -57,9 +57,11 @@
           <tbody>
             <tr ng-repeat="subject in subjectUpsert.subjects">
               <td>{{ subject.name }}</td>
-              <td><button type="button" class="btn btn-default btn-md">
-                <span class="glyphicon glyphicon-remove"></span> Remove
-              </button></td>
+              <td align="center">
+                <button type="button" class="btn btn-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

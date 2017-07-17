@@ -130,7 +130,7 @@ class StudentMassUploadComponent {
         })
       })
     } else {
-      alert('Wala file')
+      alert(`The file doesn't exist.`)
     }
   }
 

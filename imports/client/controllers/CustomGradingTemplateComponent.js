@@ -20,9 +20,9 @@ class CustomGradingTemplateComponent {
     $reactive(this).attach($scope)
     this.classType = 'lecture'
     this.activity = ''
-    console.log(this.classType);
     const { templateId } = $stateParams
     this.activity = { name: '', percentage: '', isMultiple: false }
+    this.subscribe('settings')
     this.subscribe('grading-templates', () => {
       const isCreate = $state.current.name.endsWith('create')
       const gradingTemplate = (isCreate) ? new GradingTemplate() : GradingTemplate.findOne({ _id: templateId })
@@ -32,7 +32,7 @@ class CustomGradingTemplateComponent {
              type.category = 'lecture'
              return type
            }))
-           if (temp.laboratory) {
+           if (gradingTemplate.laboratory) {
              activityList.push(...gradingTemplate.laboratory.activityTypes.map((type) => {
                type.category = 'laboratory'
              }))
@@ -46,21 +46,39 @@ class CustomGradingTemplateComponent {
     })
   }
   addActivity() {
-    console.log(this.gradingTemplate);
-    console.log(this.activity);
+    console.log(this.total);
+    console.log(this.classType);
     const activity = this.activity
     const act = {
       name: activity.name,
-      percentage: activity.percentage,
+      percentage: parseInt(activity.percentage, 10),
       isMultiple: activity.isMultiple,
       category: this.classType,
     }
     this.gradingTemplate[this.classType].activityTypes.push(act)
+    this.gradingTemplate.isDefault = false
     this.activityList.push(act);
   }
 
   save() {
-
+    console.log(this.total);
+    const gradingTemplate = this.gradingTemplate
+    const lab = gradingTemplate.laboratory.activityTypes
+    gradingTemplate.passingPercentage = this.total.passingPercentage
+    gradingTemplate.lecture.percentage = parseInt(this.total.lecture.percentage, 10)
+    if (this.total.laboratory.percentage !== undefined) {
+      gradingTemplate.laboratory.percentage = parseInt(this.total.laboratory.percentage, 10)
+    }
+    if (lab.length === 0) {
+      delete gradingTemplate.laboratory
+    }
+    gradingTemplate.save((doc, err) => {
+      console.log(doc);
+      console.log(err);
+      if (err) {
+        console.log(err);
+      }
+    })
   }
 }
 export default CustomGradingTemplateComponent
