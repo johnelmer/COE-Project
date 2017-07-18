@@ -28,6 +28,16 @@ class Student extends Model {
   get coursesGrades() {
     return this.courses.map(course => course.getStudentRecords(this))
   }
+
+  get degreeAndYear() {
+    return `${this.degree} - ${this.yearLevel}`
+  }
+
+  incrementYearLevel() {
+    if (this.yearLevel === 5) {
+      this.yearLevel += 1
+    }
+  }
 }
 
 export default Student
