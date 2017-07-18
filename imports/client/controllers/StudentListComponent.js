@@ -45,6 +45,10 @@ class StudentListComponent {
     this.max = this.students.length
   }
 
+  get isStudentsReady() {
+    return this.students.length > 0
+  }
+
   view(student) {
     this.student = student
   }

@@ -24,6 +24,7 @@
             <!-- NOTE: add room -->
           </ul>
         </div>
+         <button type="button" class="btn btn-outline-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button>
       </div>
     </div>
   </form>
@@ -104,7 +105,7 @@
       </uib-tab>
       <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.doc.activityTypes" heading="{{activityType.name}}">
         <form>
-          <div id="block">
+          <div id="block" ng-hide="classRecord.shouldActivityTypeHide(activityType)">
             <div class="panel panel-default">
               <div class="card">
                 <div class="form-group">
@@ -140,7 +141,7 @@
                       <label>Total Score: {{ activity.totalScore }}</label>
                       <label>{{ activity.description }}</label>
                       <label>
-                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
+                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})" ng-hide="classRecord.shouldActivityEditHide(activity)">Edit</button>
                       </label>
                     </label>
                   </td>
@@ -160,4 +161,7 @@
       </form>
     </uib-tabset>
   </form>
+  <div class="animationload" ng-hide="classRecord.isDataReady">
+    <div class="osahanloading"></div>
+  </div>
 </div>

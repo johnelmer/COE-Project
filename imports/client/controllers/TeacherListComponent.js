@@ -28,6 +28,10 @@ class TeacherListComponent {
     this.teacher = {}
   }
 
+  get isTeachersReady() {
+    return this.teachers.length > 0
+  }
+
   view(teacher) {
     this.teacher = teacher
   }
