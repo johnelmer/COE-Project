@@ -13,6 +13,11 @@ Meteor.methods({
       throw new Error('Not allowed!')
     }
   },
+
+  changeUserPassword: (oldPassword, newPassword, callback) => {
+    Accounts.changePassword(oldPassword, newPassword, callback)
+  },
+
   /* TODO: refactor. Verify what kind of updates, role restrictions */
   updateUser: (doc, callback) => {
     User.update({ _id: doc._id }, { $set: doc }, {}, callback)
