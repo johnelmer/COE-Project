@@ -67,4 +67,7 @@ export default new SimpleSchema({
     type: [String],
     optional: true,
   },
+  isApproved: {
+    type: Boolean,
+  },
 })
