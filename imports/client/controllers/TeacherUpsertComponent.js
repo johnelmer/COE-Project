@@ -1,6 +1,7 @@
 import User from '/imports/both/models/User'
 import schema from '/imports/both/schemas/User'
 import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-upsert.html'
@@ -39,7 +40,7 @@ class TeacherUpsertComponent {
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
-          return new User
+          return new User()
         }
         return User.findOne({ _id: teacherId })
       },
@@ -58,9 +59,8 @@ class TeacherUpsertComponent {
   }
 
   save() {
-    console.log(this.teacher);
     try {
-      schema.validate(this.teacher.doc)
+      schema.validate(_.omit(this.teacher.doc, ['password']))
       this.teacher.save((err, doc) => {
         this.ngToast.create({
           dismissButton: true,
@@ -72,7 +72,6 @@ class TeacherUpsertComponent {
           className: 'success',
           content: `${this.teacher} added!`,
         })
-        console.log(doc) // TODO: remove console log
         this.teacher = new User()
       })
     } catch (e) {
