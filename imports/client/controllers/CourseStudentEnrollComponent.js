@@ -90,6 +90,14 @@ class CourseStudentEnrollComponent {
           className: 'danger',
           content: `${err.reason}`,
         })
+      } else {
+        const courseId = this.course._id
+        this.enrolledStudents.forEach((enrolledStudent) => {
+          const isExist = enrolledStudent.courseIds.some(id => id === courseId)
+          if (!isExist) {
+            enrolledStudent.courseIds.push(courseId)
+          }
+        })
       }
     })
   }
