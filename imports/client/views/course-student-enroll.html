@@ -1,30 +1,58 @@
 <div class="container">
-  <form class="form-inline">
-    <div class="form-group">
-      <label for="idNumberField">ID Number</label>
-      <input type="text" class="form-control" ng-model="courseStudentEnroll.student.idNumber" id="idNumberField" placeholder="ID Number">
+  <form>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Enroll Students</h4>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-2">
+              <label>Student:</label>
+            </div>
+            <div class="col-md-4">
+              <ui-select ng-model="courseStudentEnroll.student" theme="bootstrap" title="Select student">
+                <ui-select-match placeholder="Enter and select student">
+                  {{ $select.selected.idNumber }}
+                </ui-select-match>
+                <ui-select-choices group-by="'degree'" repeat="student in courseStudentEnroll.students | filter: $select.search">
+                  <span ng-bind-html="student.fullName | highlight: $select.search"></span>
+                  <div>
+                    {{ student.idNumber }}
+                  </div>
+                  <small ng-bind-html="student.degree | highlight: $select.search"></small>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <button type="submit" class="btn btn-default" ng-click="courseStudentEnroll.enrollStudent()">Enroll student</button>
+            <button class="btn btn-primary" ng-click="courseStudentEnroll.enrollStudents()">
+              <span class="glyphicon glyphicon-floppy-disk"></span> Save changes
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <button type="submit" class="btn btn-default" ng-click="courseStudentEnroll.addToList()">Add Student</button>
   </form>
   <div>
     <table class="table table-bordered table-hover table-reponsive">
       <thead class="thead-inverse">
         <tr>
           <th>ID Number</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
+          <th>Name</th>
+          <th>Degree and Year</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="student in courseStudentEnroll.students">
+        <tr ng-repeat="student in courseStudentEnroll.enrolledStudents">
           <td>{{ student.idNumber }}</td>
-          <td>{{ student.firstName }}</td>
-          <td>{{ student.lastName }}</td>
+          <td>{{ student.fullName }}</td>
+          <td>{{ student.degreeAndYear }}</td>
+          <td><button class="btn btn-primary" ng-click="courseStudentEnroll.removeStudent(student)">Remove</button></td>
         </tr>
       </tbody>
     </table>
-    <button type="button"  class="btn btn-default" ng-click="courseStudentEnroll.enrollStudents()">Enroll Students</button>
-    <!-- TODO: Check what this button does -->
   </div>
   <div>
   </div>
