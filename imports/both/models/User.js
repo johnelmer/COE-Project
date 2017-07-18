@@ -37,6 +37,10 @@ class User extends Model {
     }
   }
 
+  changePassword(oldPassword, newPassword, callback) {
+    Meteor.call('changePassword', oldPassword, newPassword, callback)
+  }
+
   get courses() {
     const setting = AppSetting.findOne()
     const schoolYear = setting.currentSchoolYear
