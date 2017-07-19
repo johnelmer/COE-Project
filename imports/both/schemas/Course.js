@@ -64,14 +64,8 @@ export default new SimpleSchema({
     type: String,
     optional: true,
   },
-  gradingTemplate: {
-    type: Object,
-    optional: true,
-  },
-  'gradingTemplate._id': {
+  gradingTemplateId: {
     type: String,
-  },
-  'gradingTemplate.isApproved': {
-    type: Boolean,
+    optional: true,
   },
 })
