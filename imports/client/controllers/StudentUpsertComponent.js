@@ -159,10 +159,10 @@ class StudentUpsertComponent {
   get isInvalidIdNumber() {
     try {
       const student = Student.findOne({ idNumber: this.student.idNumber })
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       if (student) {
         return true
       }
-      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {
       return true

@@ -7,10 +7,18 @@
           <h4>Personal Information</h4></div>
           <div class="panel-body">
             <div class="form-group has-feedback"
+            ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber}">
+            <label class="col-md-2 control-label">Student I.D:</label>
+            <div class="col-md-9">
+              <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
+              <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+            </div>
+          </div>
+            <div class="form-group has-feedback"
             ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error': studentUpsert.isInvalidLastName}">
             <label class="col-md-2 control-label">Last Name:</label>
             <div class="col-md-9">
-              <input type="text" name="last-name" placeholder="Enter Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
+              <input type="text" name="last-name" placeholder="Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
               <i ng-show="studentUpsert.isInvalidLastName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             </div>
           </div>
@@ -29,14 +37,6 @@
             <i ng-show="studentUpsert.isInvalidMiddleName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
           </div>
         </div>
-        <div class="form-group has-feedback"
-        ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber}">
-        <label class="col-md-2 control-label">Student I.D:</label>
-        <div class="col-md-9">
-          <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
-          <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
-        </div>
-      </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Degree:</label>
         <div class="col-md-4">
