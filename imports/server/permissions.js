@@ -99,37 +99,37 @@ Course.collection.allow({
     }
     return isAuthorized(['faculty', 'secretary'])
   },
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Student.collection.allow({
   insert: () => isAuthorized(['department head', 'secretary']),
   update: () => isAuthorized(['faculty', 'secretary']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Subject.collection.allow({
   insert: () => isAuthorized(['secretary']),
   update: () => isAuthorized(['department head', 'secretary']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Degree.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Department.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Role.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Meeting.collection.allow({

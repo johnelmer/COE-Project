@@ -83,6 +83,7 @@ class StudentUpsertComponent {
     this.popup = {
       opened: false,
     }
+    this.$state = $state
   }
 
   uploadFiles(file, errFiles) {
@@ -136,6 +137,7 @@ class StudentUpsertComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.student.view', { studentId: this.student._id })
   }
 
   get isInvalidFirstName() {

@@ -17,13 +17,13 @@
       <div class="form-group">
         <label class="col-md-2 control-label">Credits</label>
         <div class="col-md-8">
-          <input type="text" name="subject-credits" placeholder="Enter number of credits" class="form-control" ng-model="subjectUpsert.subject.credits">
+          <input type="number" min="1" name="subject-credits" placeholder="Enter number of credits" class="form-control" ng-model="subjectUpsert.subject.credits">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Units</label>
         <div class="col-md-8">
-          <input type="text" name="subject-units" placeholder="Enter number of units" class="form-control" ng-model="subjectUpsert.subject.units">
+          <input type="number" min="1" name="subject-units" placeholder="Enter number of units" class="form-control" ng-model="subjectUpsert.subject.units">
         </div>
       </div>
       <div class="form-group">
@@ -58,7 +58,7 @@
             <tr ng-repeat="subject in subjectUpsert.subjects">
               <td>{{ subject.name }}</td>
               <td align="center">
-                <button type="button" class="btn btn-danger">
+                <button type="button" class="btn btn-danger" ng-click="subjectUpsert.remove(subject)">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
               </td>
