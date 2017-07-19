@@ -42,7 +42,7 @@ export default new SimpleSchema({
   },
   stubcode: {
     type: Number,
-    optional: true,
+    unique: true,
   },
   lecture: {
     type: courseType,
@@ -54,7 +54,7 @@ export default new SimpleSchema({
   // TODO: specify fields
   studentIds: {
     type: [String],
-    optional: true,
+    defaultValue: [],
   },
   semester: {
     type: String,
