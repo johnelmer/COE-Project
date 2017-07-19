@@ -8,12 +8,10 @@ import '../views/teacher-main.html'
   name: 'app.teacher.main',
   url: '/teacher/courses',
   resolve: {
-    redirect(user, $location) {
-      Tracker.autorun(() => {
-        if (!user) {
-          $location.path('/login')
-        }
-      })
+    redirect($location) {
+      if (!(Meteor.user())) {
+        $location.path('app.login')
+      }
     },
   },
 })

@@ -6,6 +6,7 @@ import Course from './Course'
 import AppSetting from './AppSetting'
 import SetupAccount from '../decorators/SetupAccount'
 import schema from '../schemas/User'
+import Notification from './Notification'
 
 @SetupAccount
 class User extends Model {
@@ -34,6 +35,10 @@ class User extends Model {
     if (!isExist) {
       courseIds.push(courseId)
     }
+  }
+
+  changePassword(oldPassword, newPassword, callback) {
+    Meteor.call('changePassword', oldPassword, newPassword, callback)
   }
 
   get courses() {

@@ -1,64 +1,50 @@
 <div class="container">
   <form class="form-horizontal">
     <div class="jumbotron">
-      <legend>
-        <h2>Teacher Information</h2>
-      </legend>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-2"><label>Fullname:</label></div>
-          <div class="col-sm-4"> {{ teacherView.teacher.lastName }} ,
-            {{ teacherView.teacher.firstName}} {{ teacherView.teacher.middleName }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Teacher I.D:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.teacherId }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Department:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.course }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Position:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.position}}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Employee's Status:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.status}}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Birthday:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.birthday | date:'fullDate' }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Gender:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.gender }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Address:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.address }}</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-2"><label>Contact Number:</label></div>
-            <div class="col-sm-4">{{ teacherView.teacher.contactNumber }}</div>
-          </div>
-        </div>
+      <table class="table">
+        <thead>
+          <th><h2>Teacher Information</h2></th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full Name</td>
+            <td>{{ teacherView.teacher.lastName }} ,
+              {{ teacherView.teacher.firstName}} {{ teacherView.teacher.middleName }}</td>
+            </tr>
+            <tr>
+              <td>Teacher I.D.</td>
+              <td>{{ teacherView.teacher.teacherId }}</td>
+            </tr>
+            <tr>
+              <td>Department</td>
+              <td>{{ teacherView.teacher.course }}</td>
+            </tr>
+            <tr>
+              <td>Position</td>
+              <td>{{ teacherView.teacher.position}}</td>
+            </tr>
+            <tr>
+              <td>Employee's Status</td>
+              <td>{{ teacherView.teacher.status}}</td>
+            </tr>
+            <tr>
+              <td>Birthday</td>
+              <td>{{ teacherView.teacher.birthday | date:'fullDate' }}</td>
+            </tr>
+            <tr>
+              <td>Gender</td>
+              <td>{{ teacherView.teacher.gender }}</td>
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td>{{ teacherView.teacher.address }}</td>
+            </tr>
+            <tr>
+              <td>Contact Number</td>
+              <td>{{ teacherView.teacher.contactNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="jumbotron">
         <div class="form-group">

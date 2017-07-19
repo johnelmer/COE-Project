@@ -1,4 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import AppSetting from '/imports/both/models/AppSetting'
 
 const activityType = new SimpleSchema({
   name: {
@@ -25,6 +26,17 @@ export default new SimpleSchema({
   type: {
     type: String,
     allowedValues: ['Semester Term', 'Summer Term'],
+    autoValue: function () {
+      if (this.isInsert) {
+        const setting = AppSetting.findOne()
+        if (setting.currentSemester === 'First Semester' || setting.currentSemester === 'Second Semester') {
+          return 'Semester Term'
+        } else {
+          return 'Summer Term'
+        }
+      }
+      this.unset();
+    }
   },
   description: {
     type: String,
@@ -45,11 +57,14 @@ export default new SimpleSchema({
     allowedValues: [
       'Computational', 'With Hands-on', 'SE Subject',
     ],
+    optional: true,
   },
   passingPercentage: {
     type: Number,
+    defaultValue: 50,
   },
   courseIds: {
     type: [String],
+    optional: true,
   },
 })

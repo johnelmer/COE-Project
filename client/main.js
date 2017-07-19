@@ -25,4 +25,8 @@ import '/imports/client/controllers/SettingsComponent'
 import '/imports/client/controllers/CustomGradingTemplateComponent'
 import '/imports/client/controllers/NotificationComponent'
 import '/imports/client/controllers/StudentMassUploadComponent'
+import '/imports/client/controllers/CourseUploadComponent'
+import '/imports/client/controllers/ClassRollUploadComponent'
+import '/imports/client/controllers/ChangePasswordComponent'
+
 // import '/imports/client/controllers/NotificationComponent'

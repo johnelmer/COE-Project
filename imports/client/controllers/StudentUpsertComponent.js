@@ -15,8 +15,8 @@ import '../styles/studentUpsert.scss'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('secretary')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
 
@@ -85,6 +85,37 @@ class StudentUpsertComponent {
     }
   }
 
+  uploadFiles(file, errFiles) {
+    this.file = file
+    this.errFile = errFiles && errFiles[0]
+    const { Upload, $timeout } = this
+    if (file) {
+      file.upload = Upload.upload({
+        url: 'tmp/',
+        data: {
+          file: file,
+        },
+      })
+
+      file.upload.then((response) => {
+        $timeout(() => {
+          file.result = response.data
+        })
+      }, (response) => {
+        if (response.status > 0) {
+          this.errorMsg = `${response.status}: ${response.data}`
+        }
+      }, (evt) => {
+        file.progress = Math.min(100, parseInt(100.0 *
+                                   (evt.loaded / evt.total), 10))
+      }).then(() => {
+        Upload.base64DataUrl(file).then((url) => {
+          this.student.image.src = url
+        })
+      })
+    }
+  }
+
   save() {
     this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
@@ -127,6 +158,10 @@ class StudentUpsertComponent {
 
   get isInvalidIdNumber() {
     try {
+      const student = Student.findOne({ idNumber: this.student.idNumber })
+      if (student) {
+        return true
+      }
       schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {

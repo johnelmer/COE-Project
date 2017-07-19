@@ -9,11 +9,9 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-      if (!isAuthorized) {
-      }
     },
   },
 })

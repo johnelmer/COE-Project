@@ -4,14 +4,15 @@ import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
 import schema from '/imports/both/schemas/Student'
 import { Component, State, Inject } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import 'ng-file-upload/dist/ng-file-upload.min.js'
 import '../views/mass-upload.html'
 
 @State({
   name: 'app.student.upload',
   url: '/students/upload',
-  redirect(user, $location) {
-    const isAuthorized = user.hasARole('secretary')
+  redirect($location) {
+    const isAuthorized = Meteor.user().hasARole('secretary')
     return isAuthorized || $location.path('/login')
   },
 })
@@ -60,59 +61,38 @@ class StudentMassUploadComponent {
           const workbook = XLSX.read(base64URL, { type: 'base64' })
           const firstSheetName = workbook.SheetNames[0]
           const workSheet = workbook.Sheets[firstSheetName]
-          const workSheetClone = Object.assign({}, workSheet)
-          const keys = Object.keys(workSheetClone)
-          const headerRow = 7 // where the header starts
-          const column = keys.filter((key) => {
-            const pattern = new RegExp(`^[a-zA-Z]${headerRow}`)
-            return pattern.test(key)
-          }).map((row) => {
-            return row.replace(/[^[a-zA-Z]]/g, '')
+          const json = XLSX.utils.sheet_to_json(workSheet, { raw: true });
+          const cleanJson = json.filter((item) => {
+            const keys = Object.keys(item)
+            const isDirty = keys.find((key) => {
+              return item[key] === 'NULL'
+            })
+            return !isDirty
           })
-          const maxColumn = column.reduce((memo, curr) => {
-            const firstASCII = memo.charCodeAt(0)
-            const secondASCII = curr.charCodeAt(0)
-            const greaterASCII = Math.max(firstASCII, secondASCII)
-            return String.fromCharCode(greaterASCII)
-          })
-          const minColumn = column.reduce((memo, curr) => {
-            const firstASCII = memo.charCodeAt(0)
-            const secondASCII = curr.charCodeAt(0)
-            const greaterASCII = Math.min(firstASCII, secondASCII)
-            return String.fromCharCode(greaterASCII)
-          })
-          const firstColumn = keys.filter((row) => {
-            return row.startsWith(minColumn)
-          })
-          const maxRow = firstColumn.map((row) => {
-            return row.replace(/[^0-9]/g, '')
-          }).reduce((memo, current) => {
-            return Math.max(memo, current)
-          }, 0)
-          const json = XLSX.utils.sheet_to_json(workSheet, { range: `${minColumn}${headerRow}:${maxColumn}${maxRow}` });
-          this.students = json.map((student) => {
-            const course = student.COURSE
-            const idNumber = student['ID. NO.']
-            const names = student.NAME.split(',')
-            const degree = course.replace(/[^a-zA-Z]/g, '')
-            const yearLevel = course.replace(/[^0-9]/g, '')
-            const lastName = names[0]
-            const middleName = names[1].split(' ').pop()
-            const firstName = names[1].replace(middleName, '').trim()
-            const nameSuffix = names[2] || ''
-            const sex = student.SEX
-
+          const students = cleanJson.map((student) => {
+            const {
+              STIDNUM,
+              SURNAME,
+              GIVNAME,
+              MIDDLENAME,
+              COURSE,
+              SEX,
+              YEAR,
+            } = student
             return new Student({
-              degree: degree,
-              yearLevel: yearLevel,
-              lastName: lastName,
-              firstName: firstName,
-              middleName: middleName,
-              nameSuffix: nameSuffix,
-              idNumber: idNumber,
-              gender: sex,
+              degree: COURSE.trim(),
+              yearLevel: YEAR,
+              lastName: SURNAME.trim(),
+              firstName: GIVNAME.trim(),
+              middleName: MIDDLENAME.trim(),
+              idNumber: STIDNUM.trim(),
+              gender: SEX.trim(),
             })
           })
+          return students
+        }).then((students) => {
+          console.log(students);
+          this.students = students
         })
       })
     }
@@ -120,16 +100,20 @@ class StudentMassUploadComponent {
 
   save() {
     if (this.file) {
-      this.students.forEach((student) => {
-        schema.validate(student)
-        student.save((err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
+      new Promise((resolve) => {
+        resolve(this.students.forEach((student) => {
+          schema.validate(student);
+          student.save((err) => {
+            if (err) {
+              console.log(err);
+            }
+          })
+        }))
+      }).then(() => {
+        alert(`${this.students.length} students uploaded.`)
       })
     } else {
-      alert('Wala file')
+      alert(`The file doesn't exist.`)
     }
   }
 

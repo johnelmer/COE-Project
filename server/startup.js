@@ -166,8 +166,8 @@ Meteor.startup(() => {
     const sessionList = Session.find({ courseId: course._id }).fetch()
     sessionList.forEach((session) => {
       const activityList = session.activities
+      const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
       if (!session.userId) {
-        const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
         session.userId = userId
         session.save()
       }

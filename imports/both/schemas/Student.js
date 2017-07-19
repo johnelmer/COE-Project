@@ -24,8 +24,8 @@ export default new SimpleSchema({
   },
   idNumber: {
     type: String,
-    // unique: true,
-    label: 'Id Number',
+    unique: true,
+    label: "Id Number",
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
     // NOTE: Should not duplicate
     // custom: function () {
@@ -39,8 +39,6 @@ export default new SimpleSchema({
     //   }
     //   // return true
     // },
-    unique: true,
-    optional: true,
   },
   gender: {
     type: String,
@@ -118,6 +116,7 @@ export default new SimpleSchema({
   nameSuffix: {
     type: String,
     defaultValue: '',
+    optional: true,
   },
   image: {
     // TODO: Image upload

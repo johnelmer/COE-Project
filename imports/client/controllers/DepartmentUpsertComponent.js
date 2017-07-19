@@ -10,10 +10,11 @@ import '../views/department-upsert.html'
   name: 'app.department.create',
   url: '/department/create',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('dean')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
+
   },
 })
 @Component({

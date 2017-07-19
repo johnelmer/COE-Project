@@ -9,8 +9,8 @@ import '../views/course-update.html'
   name: 'app.course.assign.update',
   url: '/course/update/:courseId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

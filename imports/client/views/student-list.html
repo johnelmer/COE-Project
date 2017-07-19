@@ -5,15 +5,14 @@
   <form class="form-horizontal">
     <legend>
       <h1>List of Students</h1>
+      <div>
+        Limit: <input ng-model="studentList.limit" type="number" min="{{ studentList.min }}" max="{{ studentList.max }}">
+      </div>
     </legend>
     <div class="form-group">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="button">Search</button>
-        </span>
-      </div>
+        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
     </div>
+    <br>
     <div class="form-group">
       <table class="table table-bordered table-hover table-reponsive ">
         <thead class="thead-inverse">
@@ -36,8 +35,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="student in studentList.students | filter:searchText">
-            <td>{{ student.idNumber}}</td>
+          <tr ng-repeat="student in studentList.students | filter:searchText | limitTo:studentList.limit">
+            <td>{{ student.idNumber }}</td>
             <td>{{ student.lastName }}</td>
             <td>{{ student.firstName }}</td>
             <td>{{ student.degree}} - {{ student.yearLevel }}</td>

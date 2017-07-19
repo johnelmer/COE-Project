@@ -1,15 +1,17 @@
 <div class="container">
-    <div class="jumbotron">
-        <legend><h2>Notification</h2></legend>
+    <legend><h2>Notifications</h2></legend>
+    <div class="jumbotron" ng-repeat="notification in notificationView.notifications">
+    <div class="list-group">
         <div class="form-group">
-            <h2>Title: {{ notificationView.notification.title }}</h2>
-            <h2>Date: {{ notificationView.notification.date }}</h2>           
+            <hr>
+            <h4 class="list-group-item-heading">Title: {{ notification.title }}</h4>
+            <h4 class="list-group-item-heading">Date: {{ notification.date.toLocaleString() }}</h4><br>
         </div>
         <div>
-            <h3>notificationView.notification.content.header</h3>
-            <div>
-                notificationView.notification.content.body
-            </div>
+            <h4 class="list-group-item-heading">{{ notification.content.header }}</h4>
+            <h4 class="list-group-item-text">{{ notification.content.body }}</h4>
+            <hr>
         </div>
+    </div>
     </div>
 </div>

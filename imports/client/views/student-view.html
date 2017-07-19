@@ -1,120 +1,88 @@
 <div class="container">
   <form class="form-horizontal">
     <div class="jumbotron">
-      <legend>
-        <h2>Student Information</h2>
-      </legend>
-      <!-- <div class="col-md-offset-1 col-md-9"> -->
+      <table class="table">
+        <thead>
+          <th>
+            <h2>Student Information</h2>
+          </th>
+        </thead>
+        <tr>
+          <td>Full Name</td>
+          <td> {{ studentView.student.lastName }} ,
+            {{ studentView.student.firstName}} {{ studentView.student.middleName }}</td>
+          </tr>
+          <tr>
+            <td>Student I.D.</td>
+            <td>{{ studentView.student.idNumber }}</td>
+          </tr>
+          <tr>
+            <td>Degree</td>
+            <td>{{ studentView.student.degree }} - {{studentView.student.yearLevel}}</td>
+          </tr>
+          <tr>
+            <td>Birthday</td>
+            <td>{{ studentView.student.birthday | date:'fullDate' }}</td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>{{ studentView.student.gender }}</td>
+          </tr>
+          <tr>
+            <td>Home Address</td>
+            <td>{{ studentView.student.homeAddress }}</td>
+          </tr>
+          <tr>
+            <td>City Address</td>
+            <td>{{ studentView.student.cityAddress }}</td>
+          </tr>
+          <tr>
+            <td>Contact Number</td>
+            <td>{{ studentView.student.contactNumber }}</td>
+          </tr>
+          <tr>
+            <td>Religion</td>
+            <td>{{ studentView.student.religion}}</td>
+          </tr>
+          <tr>
+            <td>Citizenship</td>
+            <td>{{ studentView.student.citizenship }}</td>
+          </tr>
+          <tr>
+            <td>E-Mail</td>
+            <td>{{ studentView.student.email }}</td>
+          </tr>
+          <tr>
+            <td>Father</td>
+            <td>{{ studentView.student.father.fullName }}</td>
+          </tr>
+          <tr>
+            <td>Father's Contact No. </td>
+            <td>{{ studentView.student.father.contactNumber}}</td>
+          </tr>
+          <tr>
+            <td>Mother:</td>
+            <td>{{ studentView.student.mother.fullName }}</td>
+          </tr>
+          <tr>
+            <td>Mother's Contact No.</td>
+            <td>{{ studentView.student.mother.contactNumber }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="jumbotron">
         <div class="form-group">
-          <div class="row">
-            <div class="col-md-2"><label>Fullname:</label></div>
-            <div class="col-md-4"> {{ studentView.student.lastName }} ,
-              {{ studentView.student.firstName}} {{ studentView.student.middleName }}</div>
-            </div>
+          <div class="col-md-6">
+            <button class="btn btn-primary btn-block" ui-sref="app.student.edit({ studentId: studentView.student._id })">
+              Edit
+            </button>
           </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Student I.D:</label></div>
-              <div class="col-md-4">{{ studentView.student.idNumber }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Degree:</label></div>
-              <div class="col-md-4">{{ studentView.student.degree }} - {{studentView.student.yearLevel}}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Birthday:</label></div>
-              <div class="col-md-4">{{ studentView.student.birthday | date:'fullDate' }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Gender:</label></div>
-              <div class="col-md-4">{{ studentView.student.gender }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Home Address:</label></div>
-              <div class="col-md-4">{{ studentView.student.homeAddress }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>City Address:</label></div>
-              <div class="col-md-4">{{ studentView.student.cityAddress }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Contact Number:</label></div>
-              <div class="col-md-4">{{ studentView.student.contactNumber }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Religion:</label></div>
-              <div class="col-md-4">{{ studentView.student.religion}}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Citizenship:</label></div>
-              <div class="col-md-4">{{ studentView.student.citizenship }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>E-Mail:</label></div>
-              <div class="col-md-4">{{ studentView.student.email }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Father:</label></div>
-              <div class="col-md-4">{{ studentView.student.father.fullName }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Father's Contact No. :</label></div>
-              <div class="col-md-4">{{ studentView.student.father.contactNumber}}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Mother:</label></div>
-              <div class="col-md-4">{{ studentView.student.mother.fullName }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-2"><label>Mother's Contact No.:</label></div>
-              <div class="col-md-4">{{ studentView.student.mother.contactNumber }}</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>{{isGraduating}}</label>
+          <div class="col-md-6">
+            <button class="btn btn-primary btn-block" ui-sref="app.student.courses({ studentId: studentView.student._id })">
+              Enrolled courses
+            </button>
           </div>
         </div>
-        <div class="jumbotron">
-          <div class="form-group">
-            <div class="col-md-4">
-              <button class="btn btn-default btn-block" ui-sref="app.student.edit({ studentId: studentView.student._id })">
-                Edit
-              </button>
-            </div>
-            <div class="col-md-4">
-              <button class="btn btn-default btn-block" ui-sref="app.student.courses({ studentId: studentView.student._id })">
-                Enrolled courses
-              </button>
-            </div>
-          </div>
-        </div>
-      <!-- </div> -->
-    </div>
-  </form>
-</div>
+      </div>
+    </form>
+  </div>

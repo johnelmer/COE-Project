@@ -4,16 +4,11 @@
   </div>
   <form class="form-horizontal">
       <legend>
-        <h2>List of Teachers
-        </h2></legend>
+        <h2>List of Teachers</h2></legend>
         <div class="form-group">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button">Search</button>
-            </span>
-          </div>
+            <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
         </div>
+        <br>
         <div class="form-group">
           <table class="table table-bordered table-hover table-reponsive">
             <thead>
@@ -43,7 +38,7 @@
                 <td>{{ teacher.department }}</td>
                 <td class="text-center">
                   <button class="btn btn-primary btn-sm btn-block" ui-sref="app.teacher.view({ teacherId: teacher._id })">
-                    More...
+                    Details
                   </button>
                 </td>
               </tr>
