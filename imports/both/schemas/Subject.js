@@ -4,15 +4,18 @@ export default new SimpleSchema({
   name: {
     type: String,
     min: 2,
+    optional: true,
   },
   courseNumber: {
     type: String,
   },
   credits: {
     type: Number,
+    optional: true,
   },
   units: {
     type: Number,
+    optional: true,
   },
   laboratoryType: {
     type: String,

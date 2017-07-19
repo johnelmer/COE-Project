@@ -96,11 +96,14 @@ export default new SimpleSchema({
   notificationIds: {
     type: [String],
     optional: true,
+<<<<<<< HEAD
     // autoValue: () => {
     //   if (this.isInsert) {
     //     return []
     //   }
     //   this.unset()
     // },
+=======
+>>>>>>> f859eb7ef8bcdaa064095879f4fd7805791c13df
   },
 })
