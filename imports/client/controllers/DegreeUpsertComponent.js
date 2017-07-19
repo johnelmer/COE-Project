@@ -50,11 +50,7 @@ class DegreeUpsertComponent {
   }
 
   save() {
-    // TODO: to be change
-    // this.degree.save(() => {
-    //   alert('Added!')
-    // })
-    const degreeId = new Degree({ name: this.degree }).save((err, doc) => {
+    new Degree({ name: this.degreeName }).save((err, doc) => {
       if (err) {
         this.ngToast.create({
           dismissButton: true,
@@ -62,18 +58,17 @@ class DegreeUpsertComponent {
           content: `${err.reason}`,
         })
       } else {
-        console.log(doc);
-      }
-    })
-    new Department({ name: this.department, degreeId: degreeId }).save((err, doc) => {
-      if (err) {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
+        new Department({ name: this.departmentName, degreeId: doc }).save((error, doc) => {
+          if (error) {
+            this.ngToast.create({
+              dismissButton: true,
+              className: 'danger',
+              content: `${err.reason}`,
+            })
+          } else {
+            console.log(doc);
+          }
         })
-      } else {
-        console.log(doc);
       }
     })
   }
