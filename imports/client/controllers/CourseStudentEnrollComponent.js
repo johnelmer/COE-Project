@@ -27,78 +27,79 @@ class CourseStudentEnrollComponent {
     this.students = []
     this.student = {}
     const { courseId } = $stateParams
-    /* TODO: publication for unenrolled students for this course */
     const studentSubs = this.subscribe('students')
-    const courseSubs = this.subscribe('courses')
-    if (studentSubs.ready() && courseSubs.ready()) {
-      this.course = Course.findOne({ _id: courseId })
-      this.studentList = this.course.students
-      console.log(this.studentList)
-    }
+    this.subscribe('courses', () => {
+      if (studentSubs.ready()) {
+        const course = Course.findOne({ _id: courseId })
+        this.enrolledStudents = course.students
+        this.students = Student.find().fetch()
+        this.course = course
+      }
+    })
     this.ngToast = ngToast
   }
 
-  addToList() {
-    const idNumber = this.student.idNumber
-    const students = this.students
-    const studentToBeAdded = Student.findOne({ idNumber: idNumber })
-    if (!studentToBeAdded) {
+  enrollStudent() {
+    const enrolledStudents = this.enrolledStudents
+    let student = this.student
+    const isExists = this.students.some(enrolledStudent => enrolledStudent.idNumber === student.idNumber)
+    if (!isExists) {
       this.ngToast.create({
         dismissButton: true,
         className: 'warning',
         content: 'Student not found',
       })
-    } else if (students.length > 0) {
-      const isStudentExist = this.studentList.some(student => student.idNumber === idNumber)
-      if (!isStudentExist) {
-        students.push(studentToBeAdded)
+    } else {
+      const isAlreadyEnrolled = enrolledStudents.some(enrolledStudent => enrolledStudent.idNumber === student.idNumber)
+      if (!isAlreadyEnrolled) {
+        enrolledStudents.push(student)
+        this.course.studentIds.push(student._id)
+        student = {}
       } else {
         this.ngToast.create({
           dismissButton: true,
           className: 'danger',
-          content: 'Student is already on the list!',
+          content: 'Student is already enrolled!',
         })
       }
-    } else {
-      students.push(studentToBeAdded)
     }
   }
 
-/* TODO: select student from table */
-  removeFromList(idNumber) {
-    const studentIndex = this.studentList.findIndex(student => student.studentId === idNumber)
-    if (studentIndex === -1) {
+  removeStudent(student) {
+    const studentIds = this.course.studentIds
+    const index = studentIds.findIndex(id => id === student._id)
+    if (index === -1) {
       this.ngToast.create({
         dismissButton: true,
         className: 'warning',
         content: 'Student is not on the list',
       })
+    } else {
+      const enrolledStudents = this.enrolledStudents
+      studentIds.splice(index, 1)
+      const enrolledStudentIndex = enrolledStudents.findIndex(enrolledStudent => enrolledStudent._id === student._id)
+      enrolledStudents.splice(enrolledStudentIndex, 1)
     }
-    this.studentList.splice(studentIndex, 1)
   }
 
   enrollStudents() {
-    this.studentList.forEach((student) => {
-      try {
-        this.course.enrollAStudent(student)
-        this.course.save((err) => {
-          if (err) {
-            this.ngToast.create({
-              dismissButton: true,
-              className: 'danger',
-              content: `${err.reason}`,
-            })
-          }
-        })
-      } catch (e) {
+    this.course.save((err) => {
+      if (err) {
         this.ngToast.create({
           dismissButton: true,
           className: 'danger',
-          content: `${student.firstName} ${student.lastName} is already enrolled!`,
+          content: `${err.reason}`,
+        })
+      } else {
+        const courseId = this.course._id
+        this.enrolledStudents.forEach((enrolledStudent) => {
+          const isExist = enrolledStudent.courseIds.some(id => id === courseId)
+          if (!isExist) {
+            enrolledStudent.courseIds.push(courseId)
+          }
         })
       }
     })
-    this.studentList = []
   }
 
 }

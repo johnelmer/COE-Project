@@ -214,8 +214,8 @@ Course.collection.deny({
       return false
     } else if (isModifierAllowed(modifier)) {
       const updatedDoc = modifier.$set
-      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.activity.faculty)
-            : isRestricted(doc, updatedDoc, whitelist.activity.secretary)
+      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.course.faculty)
+            : isRestricted(doc, updatedDoc, whitelist.course.secretary)
     }
     return true
   },
