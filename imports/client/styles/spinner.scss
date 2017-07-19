@@ -1,11 +1,12 @@
 .animationload {
-    background-color: #fff;
+    background-color: grey;
     height: 100%;
     left: 0;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1;
+    opacity: 0.9;
 }
 .osahanloading {
     animation: 1.5s linear 0s normal none infinite running osahanloading;
