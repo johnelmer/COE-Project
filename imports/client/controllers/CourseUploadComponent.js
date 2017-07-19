@@ -81,14 +81,18 @@ class CourseUploadComponent {
             return Object.keys(object).length > 5
           })
           const lectures = properObjects.filter((course) => {
-            const { type } = this.getCourseObj(course)
-            return type === 'LEC'
+            const { type, units } = this.getCourseObj(course)
+            return type === 'LEC' && units !== '-'
           })
+          const lecturesDashed = properObjects.filter((course) => {
+            const { type, units } = this.getCourseObj(course)
+            return type === 'LEC' && units === '-'
+          }) // lectures with dashed units
           const labs = properObjects.filter((course) => {
             const { type } = this.getCourseObj(course)
             return type === 'LAB'
           })
-          this.collections = { labs, lectures }
+          this.collections = { labs, lectures, lecturesDashed }
         })
       })
     }
@@ -130,40 +134,40 @@ class CourseUploadComponent {
         }
         resolve(lectures.forEach((lecture) => {
           const { stubcode } = this.getCourseObj(lecture)
-          let course = Course.findOne({ stubcode: stubcode })
-          if (course) {
-            const { time } = this.getCourseObj(lecture)
-            const schedule = course.lecture.time
-            if (time !== course.lecture.time) {
-              course.lecture.time = schedule.concat(` | ${time}`)
-            }
-          } else {
-            const courseObject = this.getCourseObj(lecture)
-            const {
-              courseNumber,
-              units,
-              room,
-              time,
-              teacher,
-            } = courseObject
-            const isDashedUnit = units === '-'
-            const lastName = teacher.split(',').shift().trim()
-            const teacherObject = User.findOne({ lastName: lastName })
-            course = new Course({
-              stubcode: stubcode,
-              subject: {
-                courseNumber: courseNumber,
-                units: isDashedUnit ? '' : units,
-              },
-              lecture: {
-                instructor: teacherObject,
-                room: room,
-                time: time,
-              },
-            })
-          }
+          const courseObject = this.getCourseObj(lecture)
+          const {
+            courseNumber,
+            units,
+            room,
+            time,
+            teacher,
+          } = courseObject
+          const lastName = teacher.split(',').shift().trim()
+          const teacherObject = User.findOne({ lastName: lastName })
+          const course = new Course({
+            stubcode: stubcode,
+            subject: {
+              courseNumber: courseNumber,
+              units: units,
+            },
+            lecture: {
+              instructor: teacherObject,
+              room: room,
+              time: time,
+            },
+          })
           course.save()
         }))
+      })
+      .then(() => {
+        const { lecturesDashed } = this.collections
+        lecturesDashed.forEach((lecture) => {
+          const { time, stubcode } = this.getCourseObj(lecture)
+          const course = Course.findOne({ stubcode: stubcode })
+          if (time !== course.lecture.time) {
+            course.lecture.time += ` | ${time}`
+          }
+        })
       })
       .then(() => {
         const { labs } = this.collections
