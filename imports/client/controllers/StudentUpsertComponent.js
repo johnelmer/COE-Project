@@ -121,14 +121,14 @@ class StudentUpsertComponent {
     this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
       schema.validate(this.student.doc)
+      const { firstName, lastName } = this.student
       this.student.save(() => {
-        const { firstName, lastName } = this.student
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'success',
-          content: `${lastName}, ${firstName} ${this.message}!`,
-        })
         this.student = new Student
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${firstName} ${lastName} is ${this.message}!`,
       })
     } catch (e) {
       this.ngToast.create({

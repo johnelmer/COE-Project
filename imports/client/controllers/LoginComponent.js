@@ -63,8 +63,6 @@ class LoginComponent {
         }
       })
     }
-    // } catch (e) {
-    // }
   }
 
   get isInvalidUsername() {

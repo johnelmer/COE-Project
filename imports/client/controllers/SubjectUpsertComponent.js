@@ -81,7 +81,7 @@ class SubjectUpsertComponent {
             content: `${err.reason}`,
           })
         }
-        console.log(doc);
+        // console.log(doc);
       })
       this.ngToast.create({
         dismissButton: true,

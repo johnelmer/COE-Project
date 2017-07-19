@@ -64,13 +64,13 @@ class TeacherUpsertComponent {
     try {
       schema.validate(_.omit(this.teacher.doc, ['password', 'reenterPassword']))
       this.teacher.save(() => {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'success',
-          content: `${this.teacher.lastName} added!`,
-        })
         this.teacher = new User()
         this.teacher.reenterPassword = ''
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${this.teacher.lastName} added!`,
       })
     } catch (e) {
       this.ngToast.create({

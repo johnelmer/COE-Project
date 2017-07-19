@@ -35,7 +35,13 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Civil Status:</label>
           <div class="col-md-9">
-            <input type="text" name="civil-status" placeholder="Enter your Civil Status ex. Single" class="form-control" ng-model="teacherUpsert.teacher.civilStatus"/>
+              <select class="form-control" ng-model="teacherUpsert.teacher.civilStatus">
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorce">Divorce</option>
+                <option value="Widowed">Widowed</option>
+              </select>
+            <!-- <input type="text" name="civil-status" placeholder="Enter your Civil Status ex. Single" class="form-control" ng-model="teacherUpsert.teacher.civilStatus"/> -->
           </div>
         </div>
         <div class="form-group">
