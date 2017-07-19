@@ -1,11 +1,12 @@
 <div class="container">
   <form class="form-inline">
     <div class="form-group">
-      <label for="idNumberField">ID Number</label>
+      <label for="idNumberField" class="label-control">ID Number: </label>
       <input type="text" class="form-control" ng-model="courseStudentEnroll.student.idNumber" id="idNumberField" placeholder="ID Number">
     </div>
-    <button type="submit" class="btn btn-default" ng-click="courseStudentEnroll.addToList()">Add Student</button>
+    <button type="submit" class="btn btn-primary" ng-click="courseStudentEnroll.addToList()">Add Student</button>
   </form>
+  <br>
   <div>
     <table class="table table-bordered table-hover table-reponsive">
       <thead class="thead-inverse">
