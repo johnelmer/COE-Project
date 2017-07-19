@@ -2,6 +2,10 @@ import SetupCollection from '../decorators/SetupCollection'
 import Notification from './Notification'
 import schema from '../schemas/Meeting.js'
 import Model from './Model'
+<<<<<<< HEAD
+=======
+import User from './User'
+>>>>>>> a747f7c6eb60030d9220616193943b758e62e19f
 import Idempotent from '../decorators/Idempotent'
 
 @SetupCollection('Meetings')
@@ -24,7 +28,7 @@ class Meeting extends Model {
         this.notificationId = doc
       }
     })
-    }
+  }
     
     @Idempotent
     get attendees() {
@@ -34,6 +38,6 @@ class Meeting extends Model {
     get notification() {
       return Notification.find({ _id: { $in: this.notificationId }})
     }
-}
+  }
 
 export default Meeting

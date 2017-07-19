@@ -49,7 +49,8 @@ class Course extends Model {
 
   get sessionIds() {
     return _.flatten(this.types.map((type) => {
-      return this[type].sessions.map(session => session._id)
+      const sessions = this[type].sessions
+      return (sessions) ? sessions.map(session => session._id) : []
     }))
   }
 
@@ -59,7 +60,7 @@ class Course extends Model {
   }
 
   get gradeTransmutation() {
-    return GradeTransmutation.findOne({ passingPercentage: this.fullGradingTemplate.passingPercentage })
+    return GradeTransmutation.findOne({ passingPercentage: this.gradingTemplate.passingPercentage })
   }
 
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
@@ -73,7 +74,9 @@ class Course extends Model {
 
   getSessionByDate(date, type) {
     const formattedDate = date.toLocaleDateString()
-    const sessionObj = this[type].sessions.find((session) => {
+    const category = this[type]
+    const sessions = (!category.sessions) ? category.sessions = [] : this[type].sessions
+    const sessionObj = sessions.find((session) => {
       return session.date.toLocaleDateString() === formattedDate
     })
     if (!sessionObj) {
@@ -106,8 +109,8 @@ class Course extends Model {
     return Session.find(options, { sort: { date: 1 } }).fetch()
   }
 
-  get fullGradingTemplate() {
-    return GradingTemplate.findOne({ _id: this.gradingTemplate._id })
+  get gradingTemplate() {
+    return GradingTemplate.findOne({ _id: this.gradingTemplateId })
   }
 
   get activityRecords() {
@@ -128,7 +131,7 @@ class Course extends Model {
   }
 
   get activityTypes() {
-    const gradingTemplate = this.fullGradingTemplate
+    const gradingTemplate = this.gradingTemplate
     return (this.isUserHandlesLabOnly) ? gradingTemplate.getActivityTypes('laboratory') : gradingTemplate.getActivityTypes()
   }
 
@@ -190,7 +193,7 @@ class Course extends Model {
   getStudentRecords(student) {
     const doc = { activitiesObj: {} }
     const activitiesObj = this.computeStudentActivityRecords(student)
-    const ratings = this.fullGradingTemplate.computeCategoryRatings(activitiesObj)
+    const ratings = this.gradingTemplate.computeCategoryRatings(activitiesObj)
     const avgLength = ratings.length
     const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
     const ratingsValues = ratings.map((avg) => {
@@ -207,7 +210,7 @@ class Course extends Model {
     if (canDetermineFinalGrade) {
       status = (doc.finalGrade === '5.0') ? 'Failed' : 'Passed'
     } else if (this.hasActivity('Midterm Exam') || this.hasActivity('Midsummer Exam')) {
-      status = (doc.finalRating < this.fullGradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
+      status = (doc.finalRating < this.gradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
     }
     doc.status = status
     doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory')
@@ -283,6 +286,15 @@ class Course extends Model {
       }
     })
     return scoresDoc
+  }
+
+  passClassRecord() {
+    this.activities.forEach((activity) => {
+      console.log(activity)
+      activity.isLocked = true
+      activity.save(err => console.log(err))
+    })
+    // create notification
   }
 
 }

@@ -248,33 +248,33 @@ const seeder = {
       new Department({ name: obj.dept, degreeId: degreeId }).save()
     })
   },
-  // students: (n) => {
-  //   for (let i = 1; i <= n; i += 1) {
-  //     new Student({
-  //       firstName: name.firstName(),
-  //       lastName: name.lastName(),
-  //       middleName: name.lastName(),
-  //       idNumber: fakeIdNumber(),
-  //       gender: random.arrayElement(data.genders),
-  //       degree: random.arrayElement(data.deptsAndDegress).degree,
-  //       yearLevel: random.number({ min: 1, max: 5 }),
-  //       birthday: faker.date.past(20),
-  //       homeAddress: fakeAddress(),
-  //       cityAddress: fakeAddress(),
-  //       contactNumber: fakeContactNumber(),
-  //       isGraduating: false,
-  //       father: {
-  //         fullName: name.findName(),
-  //         contactNumber: fakeContactNumber(),
-  //       },
-  //       mother: {
-  //         fullName: name.findName(),
-  //         contactNumber: fakeContactNumber(),
-  //       },
-  //       courseIds: [],
-  //     }).save()
-  //   }
-  // },
+  students: (n) => {
+    for (let i = 1; i <= n; i += 1) {
+      new Student({
+        firstName: name.firstName(),
+        lastName: name.lastName(),
+        middleName: name.lastName(),
+        idNumber: fakeIdNumber(),
+        gender: random.arrayElement(data.genders),
+        degree: random.arrayElement(data.deptsAndDegress).degree,
+        yearLevel: random.number({ min: 1, max: 5 }),
+        birthday: faker.date.past(20),
+        homeAddress: fakeAddress(),
+        cityAddress: fakeAddress(),
+        contactNumber: fakeContactNumber(),
+        isGraduating: false,
+        father: {
+          fullName: name.findName(),
+          contactNumber: fakeContactNumber(),
+        },
+        mother: {
+          fullName: name.findName(),
+          contactNumber: fakeContactNumber(),
+        },
+        courseIds: [],
+      }).save()
+    }
+  },
   users: (role, department, n) => {
     for (let i = 1; i <= n; i += 1) {
       new User({
@@ -287,7 +287,7 @@ const seeder = {
         contactNumber: fakeContactNumber(),
         civilStatus: random.arrayElement(data.civitStatuses),
         address: fakeAddress(),
-        departments: [department],
+        department: department,
         status: 'Active',
         birthday: faker.date.past(35),
         gender: random.arrayElement(data.genders),

@@ -59,15 +59,14 @@ class SubjectUpsertComponent {
     })
     this.ngToast = ngToast
   }
-  remove(id) {
-    Subject.remove(id)
-    // console.log(this.subjects.remove(id))
+  
+  remove(subject) {
+    Subject.remove({ _id: subject._id })
   }
 
   save() {
-    // console.log(this.subject);
-    // this.subject.credits = parseInt(this.subject.credits, 10)
-    // this.subject.units = parseInt(this.subject.units, 10)
+    this.subject.credits = parseInt(this.subject.credits, 10)
+    this.subject.units = parseInt(this.subject.units, 10)
     const subject = this.subject
     if (!this.hasLaboratory) {
       delete subject.laboratoryType
@@ -82,7 +81,7 @@ class SubjectUpsertComponent {
             content: `${err.reason}`,
           })
         }
-        console.log(doc);
+        // console.log(doc);
       })
       this.ngToast.create({
         dismissButton: true,

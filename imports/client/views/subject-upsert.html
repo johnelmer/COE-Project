@@ -5,31 +5,36 @@
       <div class="form-group">
         <label class="col-md-2 control-label">Subject Name</label>
         <div class="col-md-8">
-          <input type="text" name="subject-name" placeholder="Enter subject name" class="form-control" ng-model="subjectUpsert.subject.name">
+          <input type="text" name="subject-name" placeholder="Subject Name" class="form-control" ng-model="subjectUpsert.subject.name">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Course Number</label>
         <div class="col-md-8">
-          <input type="text" name="subject-courseNo" placeholder="Enter course no." class="form-control" ng-model="subjectUpsert.subject.courseNumber">
+          <input type="text" name="subject-courseNo" placeholder="Course Number" class="form-control" ng-model="subjectUpsert.subject.courseNumber">
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-2 control-label">Credits</label>
+        <label class="col-md-2 control-label">Credit Units</label>
         <div class="col-md-8">
-          <input type="text" name="subject-credits" placeholder="Enter number of credits" class="form-control" ng-model="subjectUpsert.subject.credits">
+          <input type="number" min="1" name="subject-credits" placeholder="Credit Units" class="form-control" ng-model="subjectUpsert.subject.credits">
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-2 control-label">Units</label>
+        <label class="col-md-2 control-label">Business Units</label>
         <div class="col-md-8">
-          <input type="text" name="subject-units" placeholder="Enter number of units" class="form-control" ng-model="subjectUpsert.subject.units">
+          <input type="number" min="1" name="subject-units" placeholder="Business Units" class="form-control" ng-model="subjectUpsert.subject.units">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-2 control-label">Laboratory</label>
+<<<<<<< HEAD
         <input type="checkbox" ng-model="subjectUpsert.hasLaboratory"><br>
         <div class="btn-group col-md-9" ng-show="subjectUpsert.hasLaboratory">
+=======
+        <input lass="col-md-2 control-label" type="checkbox" ng-model="subjectUpsert.hasLaboratory">
+        <div class="btn-group col-md-8" ng-show="subjectUpsert.hasLaboratory">
+>>>>>>> a747f7c6eb60030d9220616193943b758e62e19f
           <label class="btn btn-primary col-md-4" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'Computational'">Computational Laboratory</label>
           <label class="btn btn-primary col-md-4" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'With Hands-on'">Hands-on Laboratory</label>
           <label class="btn btn-primary col-md-3" ng-model="subjectUpsert.subject.laboratoryType" uib-btn-radio="'SE Subject'">SE Laboratory</label>
@@ -58,7 +63,7 @@
             <tr ng-repeat="subject in subjectUpsert.subjects">
               <td>{{ subject.name }}</td>
               <td align="center">
-                <button type="button" class="btn btn-danger">
+                <button type="button" class="btn btn-danger" ng-click="subjectUpsert.remove(subject)">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
               </td>

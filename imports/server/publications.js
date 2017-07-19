@@ -19,7 +19,7 @@ Meteor.publish('courses', () => Course.find())
 
 Meteor.publish('students', () => Student.find({}, { sort: { lastName: 1 } }))
 
-Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstName: 1, middleName: 1, lastName: 1 } }))
+Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstName: 1, lastName: 1, idNumber: 1, degree: 1, yearLevel: 1 } }))
 
 Meteor.publish('subjects', () => Subject.find())
 
@@ -27,7 +27,12 @@ Meteor.publish('degrees', () => Degree.find())
 
 Meteor.publish('departments', () => Department.find())
 
-Meteor.publish('teachers', () => User.find({}, { fields: { firstName: 1, middleName: 1, lastName: 1, roleName: 1, courseIds: 1 } }))
+Meteor.publish('teachers', () => {
+  const users = User.find({},
+    { fields: { firstName: 1, middleName: 1, lastName: 1, roleName: 1, courseIds: 1 } }).fetch()
+  const teacherIds = users.filter(user => user.hasARole('faculty')).map(teacher => teacher._id)
+  return User.find({ _id: { $in: teacherIds } })
+})
 
 Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
 

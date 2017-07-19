@@ -17,10 +17,10 @@ import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 const whitelist = {
   activity: {
-    faculty: ['totalScore', 'description', 'isLocked', 'records'],
+    faculty: ['totalScore', 'description', 'isLocked', 'records', 'userId'],
   },
   course: {
-    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplate'],
+    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplateId'],
     secretary: ['subject', 'stubcode', 'lecture.instructor', 'lecture.time', 'lecture.room',
       'laboratory.instructor', 'laboratory.time', 'laboratory.room'],
   },
@@ -28,7 +28,7 @@ const whitelist = {
     faculty: ['lecture', 'laboratory'],
   },
   session: {
-    faculty: ['studenAttendances', 'activityIds'],
+    faculty: ['studentAttendances', 'activityIds', 'userId'], //userId needs to be omit because it already have a schema validation
   },
   student: {
     faculty: ['courseIds'],
@@ -83,6 +83,7 @@ const isAuthorized = (allowedRoles) => {
 
 /* ignore the allowed fields and compare the restricted fields if there are changes */
 const isRestricted = (doc, updatedDoc, allowedFields) => {
+  allowedFields.push('_id') // we need to push the _id in order to omit it
   return JSON.stringify(_.omit(doc, allowedFields))
     !== JSON.stringify(_.omit(updatedDoc, allowedFields))
 }
@@ -98,37 +99,37 @@ Course.collection.allow({
     }
     return isAuthorized(['faculty', 'secretary'])
   },
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Student.collection.allow({
   insert: () => isAuthorized(['department head', 'secretary']),
   update: () => isAuthorized(['faculty', 'secretary']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Subject.collection.allow({
   insert: () => isAuthorized(['secretary']),
   update: () => isAuthorized(['department head', 'secretary']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Degree.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Department.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Role.collection.allow({
   insert: () => isAuthorized(['dean']),
   update: () => isAuthorized(['dean']),
-  remove: () => false,
+  remove: () => isAuthorized(['dean']),
 })
 
 Meeting.collection.allow({
@@ -140,7 +141,7 @@ Meeting.collection.allow({
 Session.collection.allow({
   insert: () => isAuthorized(['faculty']),
   update: (userId, doc) => {
-    if (isTeacher() && !doc.isLocked) {
+    if (isTeacher()) {
       return isOwner(userId, doc)
     }
     return isAuthorized(['dean'])
@@ -151,7 +152,7 @@ Session.collection.allow({
 Activity.collection.allow({
   insert: () => isAuthorized(['faculty']),
   update: (userId, doc) => {
-    if (isTeacher()) {
+    if (isTeacher() && !doc.isLocked) {
       return isOwner(userId, doc)
     }
     return isAuthorized(['dean'])
@@ -213,8 +214,8 @@ Course.collection.deny({
       return false
     } else if (isModifierAllowed(modifier)) {
       const updatedDoc = modifier.$set
-      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.activity.faculty)
-            : isRestricted(doc, updatedDoc, whitelist.activity.secretary)
+      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.course.faculty)
+            : isRestricted(doc, updatedDoc, whitelist.course.secretary)
     }
     return true
   },

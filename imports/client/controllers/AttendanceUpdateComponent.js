@@ -35,6 +35,7 @@ class AttendanceUpdateComponent {
       }
     })
     this.ngToast = ngToast
+    this.$state = $state
   }
 
   save() {
@@ -66,6 +67,7 @@ class AttendanceUpdateComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.course.classRecord', { courseId: this.session.courseId })
   }
 
 }

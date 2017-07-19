@@ -25,9 +25,9 @@ Meteor.startup(() => {
   if (Department.find().count() === 0) {
     seeder.departmentsAndDegrees()
   }
-  // if (Student.find().count() < 5) {
-  //   seeder.students(210)
-  // }
+  if (Student.find().count() < 5) {
+    seeder.students(210)
+  }
   if (!User.findOne({ roleName: 'dean' })) {
     seeder.users('dean', 'Software Engineering', 1)
   }
@@ -161,22 +161,32 @@ Meteor.startup(() => {
 
   /* Patch for applying userId in Sessions and Activities */
   const courses = Course.find().fetch()
+  // courses.forEach((course) => {
+  //   // error on calling course.sessions due to determining the instructor type and the error exists on server only
+  //   const sessionList = Session.find({ courseId: course._id }).fetch()
+  //   sessionList.forEach((session) => {
+  //     const activityList = session.activities
+  //     const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
+  //     if (!session.userId) {
+  //       session.userId = userId
+  //       session.save()
+  //     }
+  //     activityList.forEach((activity) => {
+  //       if (!activity.userId) {
+  //         activity.userId = userId
+  //         activity.save()
+  //       }
+  //     })
+  //   })
+  // })
+  /* Patch for applying gradingTemplateId in course */
   courses.forEach((course) => {
-    // error on calling course.sessions due to determining the instructor type and the error exists on server only
-    const sessionList = Session.find({ courseId: course._id }).fetch()
-    sessionList.forEach((session) => {
-      const activityList = session.activities
-      const userId = (session.type === 'laboratory') ? course.laboratory.instructor._id : course.lecture.instructor._id
-      if (!session.userId) {
-        session.userId = userId
-        session.save()
-      }
-      activityList.forEach((activity) => {
-        if (!activity.userId) {
-          activity.userId = userId
-          activity.save()
-        }
-      })
-    })
+    if (course.hasOwnProperty('gradingTemplate')) {
+      const id = course.gradingTemplate._id
+      delete course.gradingTemplate
+      course.gradingTemplateId = id
+      course.save()
+    }
+  //  Course.update({ _id: course._id }, { $unset: { gradingTemplate: '' } })
   })
 })

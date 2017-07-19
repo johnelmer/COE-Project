@@ -1,6 +1,7 @@
 import User from '/imports/both/models/User'
 import schema from '/imports/both/schemas/User'
 import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import Department from '/imports/both/models/Department'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-upsert.html'
@@ -30,7 +31,8 @@ class TeacherUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.subscribe('departments')
-    const teacherId = $stateParams
+    this.subscribe('teachers')
+    const { teacherId } = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Register'
     } else {
@@ -39,7 +41,7 @@ class TeacherUpsertComponent {
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
-          return new User
+          return new User()
         }
         return User.findOne({ _id: teacherId })
       },
@@ -55,25 +57,20 @@ class TeacherUpsertComponent {
     this.popup = {
       opened: false,
     }
+    this.$state = $state
   }
 
   save() {
-    console.log(this.teacher);
     try {
-      schema.validate(this.teacher.doc)
-      this.teacher.save((err, doc) => {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
-        })
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'success',
-          content: `${this.teacher} added!`,
-        })
-        console.log(doc) // TODO: remove console log
+      schema.validate(_.omit(this.teacher.doc, ['password', 'reenterPassword']))
+      this.teacher.save(() => {
         this.teacher = new User()
+        this.teacher.reenterPassword = ''
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${this.teacher.lastName} added!`,
       })
     } catch (e) {
       this.ngToast.create({
@@ -82,6 +79,7 @@ class TeacherUpsertComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.teacher.view', { teacherId: this.teacher._id })
   }
 
   openPicker() {

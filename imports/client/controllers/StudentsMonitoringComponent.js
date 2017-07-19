@@ -1,5 +1,6 @@
 import _ from 'underscore'
 import Course from '/imports/both/models/Course'
+import Activity from '/imports/both/models/Activity'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/students-monitoring.html'
@@ -31,12 +32,25 @@ class StudentsMonitoringComponent {
     this.subscribe('grading-templates')
     this.subscribe('settings')
     this.subscribe('grade-transmutations')
+    this.isThereData = false
     this.helpers({
       records() {
-        const courses = Course.find().fetch()
-        return _.flatten(courses.map(course => course.studentsWithRecords)).filter(record => record.status === 'In danger of failing' || record.status === 'Failed')
+        const isPossible = Activity.find({ type: { $in: ['Midterm Exam', 'Midsummer Exam'] } }).count() > 0
+        if (isPossible) {
+          this.isThereData = true
+          const courses = Course.find().fetch()
+          return _.flatten(courses.map(course => course.studentsWithRecords)).filter(record => record.status === 'In danger of failing' || record.status === 'Failed')
+        }
+        return []
       },
     })
+  }
+
+  get isRecordReady() {
+    if (this.isThereData) {
+      return this.records.length > 1
+    }
+    return false
   }
 
   getFilteredRecords(type) {

@@ -1,176 +1,181 @@
 <div id="classRecordTemplate">
-  <form class="form-horizontal">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="col-md-9">
-          <div class="form-group col-md-4">
-            <label>Stub Code:</label>
-            {{ classRecord.course.stubcode }}
-          </div>
-          <div class="form-group col-md-4">
-            <label>Subject: </label>
-            {{ classRecord.course.subject.name }}
-          </div>
-          <div class="form-group col-md-4">
-            <label>Course Number: </label>
-            {{ classRecord.course.subject.courseNumber }}
-          </div>
-          <div class="form-group col-md-4">
-            <label>Time Schedule:</label>
-            {{ classRecord.course.lecture.time }}
-          </div>
-          <div class="form-group col-md-4">
-            <label>Room:</label>
-            {{ classRecord.course.lecture.room }}
-          </div>
-        </div>
-        <div class="col-md-offset-9 col-md-3">
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" ui-sref="app.course.enrollStudent({ courseId: classRecord.course._id })">Enroll Student</button>
-            <button type="button" class="btn btn-primary" ng-hide="classRecord.user.roleName === 'dean'">Pass Class Record</button>
-          </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-primary">View template</button>
-            <div class="btn-group">
-              <label class="btn btn-success" ng-model="classRecord.isApproved" uib-btn-radio="true">approve</label>
-              <label class="btn btn-danger" ng-model="classRecord.isApproved" uib-btn-radio="false">deny</label>
+  <form>
+    <div id="block">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-md-9">
+            <div class="form-group col-md-4">
+              <label>Stub Code:</label>
+              {{ classRecord.course.stubcode }}
+            </div>
+            <div class="form-group col-md-4">
+              <label>Subject: </label>
+              {{ classRecord.course.subject.name }}
+            </div>
+            <div class="form-group col-md-4">
+              <label>Course Number: </label>
+              {{ classRecord.course.subject.courseNumber }}
+            </div>
+            <div class="form-group col-md-4">
+              <label>Time Schedule:</label>
+              {{ classRecord.course.lecture.time }}
+            </div>
+            <div class="form-group col-md-4">
+              <label>Room:</label>
+              {{ classRecord.course.lecture.room }}
             </div>
           </div>
-        </div>
+          <div class="col-md-offset-9 col-md-3">
+            <div class="form-group">
+              <button type="button" class="btn btn-primary" ui-sref="app.course.enrollStudent({ courseId: classRecord.course._id })">Enroll Student</button>
+              <button type="button" class="btn btn-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button>
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-primary" ui-sref="app.template.update({ templateId: classRecord.gradingTemplate._id })">View template</button>
+              <div class="btn-group">
+                <label class="btn btn-success" ng-model="classRecord.isApproved" uib-btn-radio="true">approve</label>
+                <label class="btn btn-danger" ng-model="classRecord.isApproved" uib-btn-radio="false">deny</label>
+              </div>
+            </div>
+         <!-- <button type="button" class="btn btn-outline-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button> -->
+
       </div>
     </div>
-</form>
-<form>
-  <uib-tabset active="active">
-    <uib-tab index="0" heading="Class Record">
-      <div id="block" class="table-reponsive">
-        <table class="table table-bordered table-hover">
-          <thead class="thead-inverse">
-            <tr>
-              <td><label>Name of Students</label></td>
-              <td ng-repeat="type in classRecord.activityTypes">
-                <label>{{ type.name }} ({{ type.percentage }}%)</label>
-                <label>{{ type.totalScore }}</label>
-              </td>
-              <td ng-repeat="header in classRecord.ratingTableHeaders">
-                <label>{{ header }}</label>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="student in classRecord.students track by student._id">
-              <td>{{ student.fullName }}</td>
-              <td ng-repeat="type in classRecord.doc.activityTypes">{{ classRecord.getStudentActivityStanding(student, type.name) }}</td>
-              <td ng-repeat="rating in classRecord.ratingTableHeaders">{{ classRecord.getRating(classRecord.getStudentRecord(student), rating)}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </uib-tab>
-    <uib-tab index="1" heading="Attendances">
-      <div id="block">
-        <div class="panel panel-default">
-          <div class="card">
-            <div class="form-group">
-              <label>Date:</label>
-              <li class="input-group">
-                <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newAttendance.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-              </li>
-            </div>
-            <div class="form-group">
-              <label>Type:</label>
-              <div class="btn-group">
-                <label class="btn btn-primary" ng-repeat="type in classRecord.courseTypes" ng-model="classRecord.newAttendance.sessionType" uib-btn-radio="type">{{ type }}</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary" ng-click="classRecord.addNewAttendance()">Add attendance</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="block" class="table-responsive">
-        <table class="table table-bordered table-striped table-condensed">
-          <thead>
-            <tr>
-              <td><label>Name of Students</label></td>
-              <td ng-repeat="session in classRecord.sessions">
-                <label>
-                  {{ session.date.toLocaleDateString() }}
-                  {{ classRecord.getAttendanceAdds(session) }}
-                  <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.attendanceUpdate({ sessionId: session._id})">Edit</button>
-                </label>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="student in classRecord.students track by student._id">
-              <td>{{ student.fullName }}</td>
-              <td ng-repeat="attendance in classRecord.getStudentRecord(student).attendances">{{ classRecord.getAttendanceValue(attendance.type) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </uib-tab>
-    <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.doc.activityTypes" heading="{{activityType.name}}">
-      <form>
-        <div id="block">
-          <div class="panel panel-default">
-            <div class="card">
-              <div class="form-group">
-                <label>Date:</label>
-                <li class="input-group">
-                  <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newActivity.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
-                  </span>
-                </li>
-              </div>
-              <div class="form-group">
-                <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
-              </div>
-              <div class="form-group">
-                <label>Description:</label> <input type="text" class="form-control" ng-model="classRecord.newActivity.description" placeholder="optional"/>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType)">Add {{ activityType.name }}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped table-condensed" >
-            <thead>
+  </form>
+  <form>
+    <uib-tabset active="active">
+      <uib-tab index="0" heading="Class Record">
+        <div id="block" class="table-reponsive">
+          <table class="table table-bordered table-hover">
+            <thead class="thead-inverse">
               <tr>
-                <td align="center"><label>
-                  Name of Students
-                </label></td>
-                <td ng-repeat="activity in classRecord.getFilteredArray(classRecord.doc.activities, 'type', activityType.name)" align="center">
-                  <label>Date: {{ activity.date }}
-                    <label>Total Score: {{ activity.totalScore }}</label>
-                    <label>{{ activity.description }}</label>
-                    <label>
-                      <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})">Edit</button>
-                    </label>
-                  </label>
+                <td><label>Name of Students</label></td>
+                <td ng-repeat="type in classRecord.activityTypes">
+                  <label>{{ type.name }} ({{ type.percentage }}%)</label>
+                  <label>{{ type.totalScore }}</label>
+                </td>
+                <td ng-repeat="header in classRecord.ratingTableHeaders">
+                  <label>{{ header }}</label>
                 </td>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="student in classRecord.students track by student._id">
-                <td> {{ student.fullName }}</td>
-                <td ng-repeat="record in classRecord.getStudentActivitiesByType(student, activityType.name)">
-                  {{ record.score }}
-                </td>
+                <td>{{ student.fullName }}</td>
+                <td ng-repeat="type in classRecord.doc.activityTypes">{{ classRecord.getStudentActivityStanding(student, type.name) }}</td>
+                <td ng-repeat="rating in classRecord.ratingTableHeaders">{{ classRecord.getRating(classRecord.getStudentRecord(student), rating)}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </uib-tab>
-    </form>
-  </uib-tabset>
-</form>
+      <uib-tab index="1" heading="Attendances">
+        <div id="block">
+          <div class="panel panel-default">
+            <div class="card">
+              <div class="form-group">
+                <label>Date:</label>
+                  <li class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newAttendance.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </li>
+              </div>
+              <div class="form-group">
+                <label>Type:</label>
+                <div class="btn-group">
+                  <label class="btn btn-primary" ng-repeat="type in classRecord.courseTypes" ng-model="classRecord.newAttendance.sessionType" uib-btn-radio="type">{{ type }}</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary" ng-click="classRecord.addNewAttendance()">Add attendance</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="block" class="table-responsive">
+          <table class="table table-bordered table-striped table-condensed">
+            <thead>
+              <tr>
+                <td><label>Name of Students</label></td>
+                <td ng-repeat="session in classRecord.sessions">
+                  <label>
+                    {{ session.date.toLocaleDateString() }}
+                    {{ classRecord.getAttendanceAdds(session) }}
+                    <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.attendanceUpdate({ sessionId: session._id})">Edit</button>
+                    </label>
+                  </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="student in classRecord.students track by student._id">
+                <td>{{ student.fullName }}</td>
+                <td ng-repeat="attendance in classRecord.getStudentRecord(student).attendances">{{ classRecord.getAttendanceValue(attendance.type) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-tab>
+      <uib-tab index="$index + 2" ng-repeat="activityType in classRecord.doc.activityTypes" heading="{{activityType.name}}">
+        <form>
+          <div id="block" ng-hide="classRecord.shouldActivityTypeHide(activityType)">
+            <div class="panel panel-default">
+              <div class="card">
+                <div class="form-group">
+                  <label>Date:</label>
+                  <li class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="classRecord.newActivity.date" is-open="classRecord.popup.opened" datepicker-options="classRecord.dateOptions" ng-required="true" close-text="Close"/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="classRecord.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </li>
+                </div>
+                <div class="form-group">
+                  <label>Total Score:</label> <input type="number" class="form-control" min="1" ng-model="classRecord.newActivity.totalScore"/>
+                </div>
+                <div class="form-group">
+                  <label>Description:</label> <input type="text" class="form-control" ng-model="classRecord.newActivity.description" placeholder="optional"/>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" ng-click="classRecord.addNewActivity(activityType)">Add {{ activityType.name }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed" >
+              <thead>
+                <tr>
+                  <td align="center"><label>
+                    Name of Students
+                  </label></td>
+                  <td ng-repeat="activity in classRecord.getFilteredArray(classRecord.doc.activities, 'type', activityType.name)" align="center">
+                    <label>Date: {{ activity.date }}
+                      <label>Total Score: {{ activity.totalScore }}</label>
+                      <label>{{ activity.description }}</label>
+                      <label>
+                        <button type="button" class="btn btn-outline-primary" ui-sref="app.course.session.activityUpdate({ activityId: activity._id})" ng-hide="classRecord.shouldActivityEditHide(activity)">Edit</button>
+                      </label>
+                    </label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="student in classRecord.students track by student._id">
+                  <td> {{ student.fullName }}</td>
+                  <td ng-repeat="record in classRecord.getStudentActivitiesByType(student, activityType.name)">
+                    {{ record.score }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </uib-tab>
+      </form>
+    </uib-tabset>
+  </form>
+  <div class="animationload" ng-hide="classRecord.isDataReady">
+    <div class="osahanloading"></div>
+  </div>
 </div>

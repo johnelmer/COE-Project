@@ -83,6 +83,7 @@ class StudentUpsertComponent {
     this.popup = {
       opened: false,
     }
+    this.$state = $state
   }
 
   uploadFiles(file, errFiles) {
@@ -120,14 +121,14 @@ class StudentUpsertComponent {
     this.student.yearLevel = parseInt(this.student.yearLevel, 10)
     try {
       schema.validate(this.student.doc)
+      const { firstName, lastName } = this.student
       this.student.save(() => {
-        const { firstName, lastName } = this.student
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'success',
-          content: `${lastName}, ${firstName} ${this.message}!`,
-        })
         this.student = new Student
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: `${firstName} ${lastName} is ${this.message}!`,
       })
     } catch (e) {
       this.ngToast.create({
@@ -136,6 +137,7 @@ class StudentUpsertComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.student.view', { studentId: this.student._id })
   }
 
   get isInvalidFirstName() {
@@ -159,10 +161,10 @@ class StudentUpsertComponent {
   get isInvalidIdNumber() {
     try {
       const student = Student.findOne({ idNumber: this.student.idNumber })
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       if (student) {
         return true
       }
-      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {
       return true
