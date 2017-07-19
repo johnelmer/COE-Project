@@ -42,10 +42,7 @@ class Subject extends Model {
       studentIds: [],
       semester: setting.currentSemester,
       schoolYear: setting.currentSchoolYear,
-      gradingTemplate: {
-        _id: this.defaultGradingTemplate._id,
-        isApproved: true,
-      },
+      gradingTemplateId: this.defaultGradingTemplate._id,
     }).save(callback)
     this.courseIds.push(courseId)
     return courseId
