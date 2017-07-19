@@ -181,10 +181,12 @@ Meteor.startup(() => {
   // })
   /* Patch for applying gradingTemplateId in course */
   courses.forEach((course) => {
-    const id = course.gradingTemplate._id
-    delete course.gradingTemplate
-    course.gradingTemplateId = id
-    course.save()
+    if (course.hasOwnProperty('gradingTemplate')) {
+      const id = course.gradingTemplate._id
+      delete course.gradingTemplate
+      course.gradingTemplateId = id
+      course.save()
+    }
   //  Course.update({ _id: course._id }, { $unset: { gradingTemplate: '' } })
   })
 })
