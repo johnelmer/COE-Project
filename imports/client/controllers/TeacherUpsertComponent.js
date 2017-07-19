@@ -31,7 +31,8 @@ class TeacherUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.subscribe('departments')
-    const teacherId = $stateParams
+    this.subscribe('teachers')
+    const { teacherId } = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Register'
     } else {
@@ -56,6 +57,7 @@ class TeacherUpsertComponent {
     this.popup = {
       opened: false,
     }
+    this.$state = $state
   }
 
   save() {
@@ -77,6 +79,7 @@ class TeacherUpsertComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.teacher.view', { teacherId: this.teacher._id })
   }
 
   openPicker() {
