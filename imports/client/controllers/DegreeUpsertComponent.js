@@ -71,11 +71,16 @@ class DegreeUpsertComponent {
               className: 'danger',
               content: `${err.reason}`,
             })
-          } else {
-            console.log(doc);
           }
         })
       }
+      this.degreeName = ''
+      this.departmentName = ''
+    })
+    this.ngToast.create({
+      dismissButton: true,
+      className: 'success',
+      content: 'Department & Degree Created!',
     })
   }
 

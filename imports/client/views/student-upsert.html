@@ -7,7 +7,7 @@
           <h4>Personal Information</h4></div>
           <div class="panel-body">
             <div class="form-group has-feedback"
-            ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber}">
+            ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber, 'has-success': studentUpsert.isInvalidIdNumber}">
             <label class="col-md-2 control-label">Student ID</label>
             <div class="col-md-9">
               <input type="text" placeholder="Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
@@ -15,7 +15,7 @@
             </div>
           </div>
             <div class="form-group has-feedback"
-            ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error': studentUpsert.isInvalidLastName}">
+            ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error' : studentUpsert.isInvalidLastName}">
             <label class="col-md-2 control-label">Last Name</label>
             <div class="col-md-9">
               <input type="text" name="last-name" placeholder="Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
