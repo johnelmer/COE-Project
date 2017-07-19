@@ -2,6 +2,8 @@ import SetupCollection from '../decorators/SetupCollection'
 import Notification from './Notification'
 import schema from '../schemas/Meeting.js'
 import Model from './Model'
+import User from './User'
+import Idempotent from '../decorators/Idempotent'
 
 @SetupCollection('Meetings')
 class Meeting extends Model {
@@ -23,6 +25,11 @@ class Meeting extends Model {
         this.notificationId = doc
       }
     })
+  }
+
+  @Idempotent
+  get attendees() {
+    return User.find({ _id: { $in: this.attendeeIds }}).fetch()
   }
 }
 
