@@ -112,7 +112,7 @@ class CourseUploadComponent {
     return courseObject
   }
 
-  save() {
+  save() { // eslint-disable-line
     if (this.file) {
       const { lectures } = this.collections
       const lecStubs = lectures.map((lecture) => {
@@ -124,8 +124,10 @@ class CourseUploadComponent {
       if (population === courses.length) {
         return alert('Courses already exists')
       }
-      new Promise((resolve) => {
-        // const { lectures } = this.collections
+      new Promise((resolve, reject) => {
+        if (population === courses.length) {
+          reject('already exists')
+        }
         resolve(lectures.forEach((lecture) => {
           const { stubcode } = this.getCourseObj(lecture)
           let course = Course.findOne({ stubcode: stubcode })
