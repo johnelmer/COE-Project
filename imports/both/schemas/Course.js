@@ -12,11 +12,12 @@ const courseType = new SimpleSchema({
   },
   instructor: {
     type: Object,
+    optional: true,
   },
   'instructor._id': {
     type: String,
     optional: true,
-  },  
+  },
   'instructor.fullName': {
     type: String,
   },
@@ -37,11 +38,11 @@ const courseType = new SimpleSchema({
 
 export default new SimpleSchema({
   subject: {
-    type: subjectSchema.pick('_id', 'name', 'courseNumber', 'credits', 'units', 'laboratoryType'),
+    type: subjectSchema.pick('name', 'courseNumber', 'units', 'laboratoryType'),
   },
   stubcode: {
     type: Number,
-    optional: true,
+    unique: true,
   },
   lecture: {
     type: courseType,
@@ -53,7 +54,7 @@ export default new SimpleSchema({
   // TODO: specify fields
   studentIds: {
     type: [String],
-    optional: true,
+    defaultValue: [],
   },
   semester: {
     type: String,
