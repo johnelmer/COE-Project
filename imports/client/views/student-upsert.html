@@ -10,7 +10,7 @@
             ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error': studentUpsert.isInvalidLastName}">
             <label class="col-md-2 control-label">Last Name:</label>
             <div class="col-md-9">
-              <input type="text" name="last-name" placeholder="Enter Last Name" class="form-control text-capitalize" ng-model="studentUpsert.student.lastName" />
+              <input type="text" name="last-name" placeholder="Enter Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
               <i ng-show="studentUpsert.isInvalidLastName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             </div>
           </div>
