@@ -13,10 +13,12 @@ import 'ng-toast/dist/ngToast.css'
   name: 'app.login',
   url: '/login',
   resolve: {
-    redirect($location) {
-      if (Meteor.user()) {
-        $location.path('/teacher/main')
-      }
+    redirect(user, $location) {
+      Tracker.autorun(() => {
+        if (user) {
+          $location.path('/teacher/courses')
+        }
+      })
     },
   },
   defaultRoute: true,
@@ -37,9 +39,6 @@ class LoginComponent {
   }
 
   login() {
-    // if (this.user.username)
-    // try {
-    //   schema.validate(this.user.doc)
     if (this.isInvalidUsername || this.isInvalidPassword) {
       this.ngToast.create({
         dismissButton: true,
