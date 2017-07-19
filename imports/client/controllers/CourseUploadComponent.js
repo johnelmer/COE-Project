@@ -113,66 +113,86 @@ class CourseUploadComponent {
   }
 
   save() {
-    new Promise((resolve) => {
+    if (this.file) {
       const { lectures } = this.collections
-      resolve(lectures.forEach((lecture) => {
+      const lecStubs = lectures.map((lecture) => {
         const { stubcode } = this.getCourseObj(lecture)
-        let course = Course.findOne({ stubcode: stubcode })
-        if (course) {
-          const { time } = this.getCourseObj(lecture)
-          const schedule = course.lecture.time
-          course.lecture.time = schedule.concat(` | ${time}`)
-        } else {
-          const courseObject = this.getCourseObj(lecture)
+        return stubcode
+      })
+      const population = _(lecStubs).uniq().length
+      const courses = Course.find({ stubcode: { $in: lecStubs } }).fetch()
+      if (population === courses.length) {
+        return alert('Courses already exists')
+      }
+      new Promise((resolve) => {
+        // const { lectures } = this.collections
+        resolve(lectures.forEach((lecture) => {
+          const { stubcode } = this.getCourseObj(lecture)
+          let course = Course.findOne({ stubcode: stubcode })
+          if (course) {
+            const { time } = this.getCourseObj(lecture)
+            const schedule = course.lecture.time
+            if (time !== course.lecture.time) {
+              course.lecture.time = schedule.concat(` | ${time}`)
+            }
+          } else {
+            const courseObject = this.getCourseObj(lecture)
+            const {
+              courseNumber,
+              units,
+              room,
+              time,
+              teacher,
+            } = courseObject
+            const isDashedUnit = units === '-'
+            const lastName = teacher.split(',').shift().trim()
+            const teacherObject = User.findOne({ lastName: lastName })
+            course = new Course({
+              stubcode: stubcode,
+              subject: {
+                courseNumber: courseNumber,
+                units: isDashedUnit ? '' : units,
+              },
+              lecture: {
+                instructor: teacherObject,
+                room: room,
+                time: time,
+              },
+            })
+          }
+          course.save()
+        }))
+      })
+      .then(() => {
+        const { labs } = this.collections
+        labs.forEach((lab) => {
+          const laboratory = this.getCourseObj(lab)
           const {
-            courseNumber,
-            units,
+            stubcode,
+            teacher,
             room,
             time,
-            teacher,
-           } = courseObject
-          const isDashedUnit = units === '-'
+          } = laboratory
           const lastName = teacher.split(',').shift().trim()
           const teacherObject = User.findOne({ lastName: lastName })
-          course = new Course({
-            stubcode: stubcode,
-            subject: {
-              courseNumber: courseNumber,
-              units: isDashedUnit ? '' : units,
-            },
-            lecture: {
+          const subject = Course.findOne({ stubcode: stubcode })
+          const course = {
+            laboratory: {
               instructor: teacherObject,
               room: room,
               time: time,
             },
-          })
-        }
-        course.save()
-      }))
-    }).then(() => {
-      const { labs } = this.collections
-      labs.forEach((lab) => {
-        const laboratory = this.getCourseObj(lab)
-        const {
-          stubcode,
-          teacher,
-          room,
-          time,
-        } = laboratory
-        const lastName = teacher.split(',').shift().trim()
-        const teacherObject = User.findOne({ lastName: lastName })
-        const subject = Course.findOne({ stubcode: stubcode })
-        const course = {
-          laboratory: {
-            instructor: teacherObject,
-            room: room,
-            time: time,
-          },
-        }
-        _(subject).extend(course)
-        subject.save()
+          }
+          Object.assign(subject, course)
+          subject.save()
+        })
       })
-    })
+      .then(() => {
+        alert(`${population} courses added to database`)
+      })
+    } else {
+      alert('No file Uploaded')
+    }
   }
 }
 

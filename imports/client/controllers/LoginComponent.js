@@ -13,10 +13,12 @@ import 'ng-toast/dist/ngToast.css'
   name: 'app.login',
   url: '/login',
   resolve: {
-    redirect($location) {
-      if (Meteor.user()) {
-        $location.path('/teacher/courses')
-      }
+    redirect(user, $location) {
+      Tracker.autorun(() => {
+        if (user) {
+          $location.path('/teacher/courses')
+        }
+      })
     },
   },
   defaultRoute: true,

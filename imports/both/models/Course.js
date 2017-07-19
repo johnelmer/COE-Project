@@ -60,7 +60,7 @@ class Course extends Model {
   }
 
   get gradeTransmutation() {
-    return GradeTransmutation.findOne({ passingPercentage: this.gradingTemplateTemplate.passingPercentage })
+    return GradeTransmutation.findOne({ passingPercentage: this.gradingTemplate.passingPercentage })
   }
 
   hasActivity(activityType) { // e.g. check if there is already a midterm exam
@@ -109,7 +109,7 @@ class Course extends Model {
     return Session.find(options, { sort: { date: 1 } }).fetch()
   }
 
-  get gradingTemplateTemplate() {
+  get gradingTemplate() {
     return GradingTemplate.findOne({ _id: this.gradingTemplateId })
   }
 
@@ -131,7 +131,7 @@ class Course extends Model {
   }
 
   get activityTypes() {
-    const gradingTemplate = this.gradingTemplateTemplate
+    const gradingTemplate = this.gradingTemplate
     return (this.isUserHandlesLabOnly) ? gradingTemplate.getActivityTypes('laboratory') : gradingTemplate.getActivityTypes()
   }
 
@@ -193,7 +193,7 @@ class Course extends Model {
   getStudentRecords(student) {
     const doc = { activitiesObj: {} }
     const activitiesObj = this.computeStudentActivityRecords(student)
-    const ratings = this.gradingTemplateTemplate.computeCategoryRatings(activitiesObj)
+    const ratings = this.gradingTemplate.computeCategoryRatings(activitiesObj)
     const avgLength = ratings.length
     const categoriesDoc = (!this.isUserHandlesLabOnly) ? Object.assign(ratings[0], ratings[1]) : ratings[1]
     const ratingsValues = ratings.map((avg) => {
@@ -210,7 +210,7 @@ class Course extends Model {
     if (canDetermineFinalGrade) {
       status = (doc.finalGrade === '5.0') ? 'Failed' : 'Passed'
     } else if (this.hasActivity('Midterm Exam') || this.hasActivity('Midsummer Exam')) {
-      status = (doc.finalRating < this.gradingTemplateTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
+      status = (doc.finalRating < this.gradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
     }
     doc.status = status
     doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory')
