@@ -60,19 +60,15 @@ class TeacherUpsertComponent {
 
   save() {
     try {
-      schema.validate(_.omit(this.teacher.doc, ['password']))
-      this.teacher.save((err, doc) => {
-        this.ngToast.create({
-          dismissButton: true,
-          className: 'danger',
-          content: `${err.reason}`,
-        })
+      schema.validate(_.omit(this.teacher.doc, ['password', 'reenterPassword']))
+      this.teacher.save(() => {
         this.ngToast.create({
           dismissButton: true,
           className: 'success',
-          content: `${this.teacher} added!`,
+          content: `${this.teacher.lastName} added!`,
         })
         this.teacher = new User()
+        this.teacher.reenterPassword = ''
       })
     } catch (e) {
       this.ngToast.create({
