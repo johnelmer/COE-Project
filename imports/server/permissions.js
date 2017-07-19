@@ -20,7 +20,7 @@ const whitelist = {
     faculty: ['totalScore', 'description', 'isLocked', 'records', 'userId'],
   },
   course: {
-    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplate'],
+    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplateId'],
     secretary: ['subject', 'stubcode', 'lecture.instructor', 'lecture.time', 'lecture.room',
       'laboratory.instructor', 'laboratory.time', 'laboratory.room'],
   },
