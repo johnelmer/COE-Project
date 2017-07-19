@@ -60,12 +60,10 @@ class LoginComponent {
             this.user.password = null;
           }
         } else {
-          this.$state.go('app.course.teacher')
+          this.$state.go('app.teacher.main')
         }
       })
     }
-    // } catch (e) {
-    // }
   }
 
   get isInvalidUsername() {

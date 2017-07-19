@@ -49,20 +49,20 @@
       <div class="jumbotron">
         <div class="form-group">
           <div class="col-sm-4">
-            <button class="btn btn-default btn-block" ng-click="">
+            <button class="btn btn-default btn-block" ui-sref="app.teacher.edit({ teacherId: teacherView.teacher._id })">
               Edit
             </button>
           </div>
           <div class="col-sm-4">
-            <button class="btn btn-default btn-block" ng-click="">
-              Action2
+            <button class="btn btn-default btn-block" ng-click="teacherView.viewCourses()">
+              Courses
             </button>
           </div>
-          <div class="col-sm-4">
+          <!-- <div class="col-sm-4">
             <button class="btn btn-default btn-block" ng-click="">
               Assign
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </form>

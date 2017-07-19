@@ -3,7 +3,6 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 export default new SimpleSchema({
   username: {
     type: String,
-    optional: true,
   },
   firstName: {
     type: String,
@@ -30,7 +29,6 @@ export default new SimpleSchema({
   },
   department: {
     type: String,
-    optional: true,
   },
   status: {
     type: String,
@@ -48,7 +46,6 @@ export default new SimpleSchema({
   },
   roleName: {
     type: String,
-    optional: true,
   },
   religion: {
     type: String,
@@ -73,10 +70,10 @@ export default new SimpleSchema({
     optional: true,
     blackbox: true,
   },
-  rankName: {
-    type: String,
-    optional: true,
-  },
+  // rankName: {
+  //   type: String,
+  //   optional: true,
+  // },
   image: {
     type: Object,
     optional: true,
@@ -91,13 +88,19 @@ export default new SimpleSchema({
   'image.lastModified': { // returns the most recent modification of the image
     type: Date,
   },
-  email: {
-    type: String,
-    optional: true,
-    regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
-  },
+  // email: {
+  //   type: String,
+  //   optional: true,
+  //   regEx: SimpleSchema.RegEx.Email,
+  // },
   notificationIds: {
     type: [String],
+    autoValue: function () {
+      if (this.isInsert) {
+        return []
+      }
+      this.unset()
+    },
     optional: true,
   },
 })

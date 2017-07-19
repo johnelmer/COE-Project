@@ -42,6 +42,10 @@ class StudentListComponent {
     })
   }
 
+  get isStudentsReady() {
+    return this.students.length > 0
+  }
+
   view(student) {
     this.student = student
   }
