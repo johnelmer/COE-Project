@@ -19,30 +19,44 @@ class CustomGradingTemplateComponent {
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.classType = 'lecture'
-    this.activity = ''
     const { templateId } = $stateParams
     this.activity = { name: '', percentage: '', isMultiple: false }
     this.subscribe('settings')
     this.subscribe('grading-templates', () => {
       const isCreate = $state.current.name.endsWith('create')
+        console.log(GradingTemplate.find().fetch());
       const gradingTemplate = (isCreate) ? new GradingTemplate() : GradingTemplate.findOne({ _id: templateId })
       const activityList = []
-        if (!isCreate) {
-           activityList.push(...gradingTemplate.lecture.activityTypes.map((type) => {
-             type.category = 'lecture'
-             return type
+      let total = {}
+      if (!isCreate) {
+        this.hasLaboratory = gradingTemplate.laboratory !== undefined
+        // total = {
+        //   lecture: { percentage: gradingTemplate.lecture.percentage },
+        //   laboratory: { percentage: gradingTemplate.laboratory.percentage },
+        //   passingPercentage: gradingTemplate.passingPercentage,
+        // }
+        activityList.push(...gradingTemplate.lecture.activityTypes.map((type) => {
+           type.category = 'lecture'
+           return type
+         }))
+         if (gradingTemplate.laboratory) {
+           activityList.push(...gradingTemplate.laboratory.activityTypes.map((type) => {
+             type.category = 'laboratory'
            }))
-           if (gradingTemplate.laboratory) {
-             activityList.push(...gradingTemplate.laboratory.activityTypes.map((type) => {
-               type.category = 'laboratory'
-             }))
-           }
-        } else {
-          gradingTemplate.lecture = { percentage: '', activityTypes: [] }
-          gradingTemplate.laboratory = { percentage: '', activityTypes: [] }
+         }
+      } else {
+        this.hasLaboratory = false
+        total = {
+          lecture: { percentage: 100 },
+          laboratory: { percentage: 0 },
+          passingPercentage: 50,
         }
-        this.gradingTemplate = gradingTemplate
-        this.activityList = activityList
+        gradingTemplate.lecture = { percentage: '', activityTypes: [] }
+        gradingTemplate.laboratory = { percentage: '', activityTypes: [] }
+      }
+      this.gradingTemplate = gradingTemplate
+      this.activityList = activityList
+      this.total = total
     })
   }
   addActivity() {
@@ -63,13 +77,16 @@ class CustomGradingTemplateComponent {
   save() {
     console.log(this.total);
     const gradingTemplate = this.gradingTemplate
+    const total = this.total
+    const hasLaboratory = this.hasLaboratory
     const lab = gradingTemplate.laboratory.activityTypes
-    gradingTemplate.passingPercentage = this.total.passingPercentage
-    gradingTemplate.lecture.percentage = parseInt(this.total.lecture.percentage, 10)
-    if (this.total.laboratory.percentage !== undefined) {
-      gradingTemplate.laboratory.percentage = parseInt(this.total.laboratory.percentage, 10)
-    }
-    if (lab.length === 0) {
+    gradingTemplate.passingPercentage = parseInt(total.passingPercentage, 10)
+    gradingTemplate.lecture.percentage = parseInt(total.lecture.percentage, 10)
+    console.log(total)
+    if (hasLaboratory) {
+      console.log('hh')
+      gradingTemplate.laboratory.percentage = parseInt(total.laboratory.percentage, 10)
+    } else {
       delete gradingTemplate.laboratory
     }
     gradingTemplate.save((doc, err) => {
