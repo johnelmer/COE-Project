@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-offset-9 col-md-3">
           <div class="form-group">
-            <button type="button" class="btn btn-primary">Enroll Student</button>
+            <button type="button" class="btn btn-primary" ui-sref="app.course.enrollStudent({ courseId: classRecord.course._id })">Enroll Student</button>
             <button type="button" class="btn btn-primary" ng-hide="classRecord.user.roleName === 'dean'">Pass Class Record</button>
           </div>
           <div class="form-group">
