@@ -4,13 +4,15 @@
   </div>
   <form class="form-horizontal">
     <legend>
-        <h1>Student List</h1>
-        Limit: <input ng-model="studentList.limit" type="number" min="{{ studentList.min }}" max="{{ studentList.max }}">
+      <h1>List of Students</h1>
     </legend>
     <div class="form-group">
         <input type="text" class="form-control" placeholder="Search list by entering student name or ID number" ng-model="searchText" class="form-control">
     </div>
     <br>
+    <div>
+      Limit: <input ng-model="studentList.limit" type="number" min="{{ studentList.min }}" max="{{ studentList.max }}">
+    </div>
     <div class="form-group">
       <table class="table table-bordered table-hover table-reponsive ">
         <thead class="thead-inverse">
