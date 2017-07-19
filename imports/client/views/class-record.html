@@ -21,7 +21,7 @@
           </ul>
           <ul>
             <label>Room:</label>
-            <!-- NOTE: add room -->
+            {{ classRecord.course.lecture.room }}
           </ul>
         </div>
          <button type="button" class="btn btn-outline-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button>

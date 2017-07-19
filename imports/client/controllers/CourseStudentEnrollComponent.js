@@ -7,7 +7,7 @@ import '../views/course-student-enroll.html'
 
 @State({
   name: 'app.course.enrollStudent',
-  url: '/teacher/course/:courseId',
+  url: '/teacher/course/enroll/:courseId',
   resolve: {
     redirect($location) {
       const isAuthorized = Meteor.user().hasARole('faculty')
@@ -37,6 +37,7 @@ class CourseStudentEnrollComponent {
       }
     })
     this.ngToast = ngToast
+    this.$state = $state
   }
 
   enrollStudent() {
@@ -96,10 +97,12 @@ class CourseStudentEnrollComponent {
           const isExist = enrolledStudent.courseIds.some(id => id === courseId)
           if (!isExist) {
             enrolledStudent.courseIds.push(courseId)
+            enrolledStudent.save()
           }
         })
       }
     })
+    this.$state.go('app.course.classRecord', { courseId: this.course._id })
   }
 
 }
