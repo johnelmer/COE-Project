@@ -4,10 +4,15 @@
     <div class="form-group">
       <h4>Overall Percentage</h4>
       <div class="col-md-5">
+        <input type="checkbox" ng-model="gradingTemplate.hasLaboratory">
+        <label><h5>Has a laboratory?</h5></label>
+        <br>
         <label>Lecture:</label>
         <input type="text" class="form-control" ng-model="gradingTemplate.total.lecture.percentage">
-        <label>Laboratory:</label>
-        <input type="text" class="form-control" ng-model="gradingTemplate.total.laboratory.percentage">
+        <div ng-show="gradingTemplate.hasLaboratory">
+          <label>Laboratory:</label>
+          <input type="text" class="form-control" ng-model="gradingTemplate.total.laboratory.percentage">
+        </div>
         <label>Passing Percentage:</label>
         <input type="text" class="form-control" ng-model="gradingTemplate.total.passingPercentage">
       </div>
@@ -16,7 +21,7 @@
     <div class="form-group">
       <h4>Activity Type</h4>
       <div class="col-md-5">
-        <div class="btn-group" ng-show="!gradingTemplate.total.laboratory.percentage == ''">
+        <div class="btn-group" ng-show="gradingTemplate.hasLaboratory">
           <label class="btn btn-primary" ng-model="gradingTemplate.classType" uib-btn-radio="'lecture'">Lecture</label>
           <label class="btn btn-primary" ng-model="gradingTemplate.classType" uib-btn-radio="'laboratory'">Laboratory</label>
         </div>
@@ -36,9 +41,8 @@
     </div>
     <div class="form-group">
       <div class="col-md-5">
-        <label>Multiple:</label>
-        <br>
         <input type="checkbox" ng-model="gradingTemplate.activity.isMultiple">
+        <label>Multiple</label>
       </div>
     </div>
     <div class="form-group">

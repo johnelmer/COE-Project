@@ -8,7 +8,7 @@ import '../views/change-password.html'
   url: '/settings/changepassword',	
 })
 @Component({
-  selector: 'settings-changePassword',
+  selector: 'settings-change',
   templateUrl: 'imports/client/views/change-password.html',
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
@@ -18,12 +18,22 @@ class ChangePasswordComponent {
     this.subscribe('settings')
     this.subscribe("currentUser")
     this.user = Meteor.user()
-
   }
+
   save() {
-    this.user.changePassword(oldPassword, newPassword, (err, doc) => {
-      console.log(err)
-    })
+    if (this.newPassword === this.retypedPassword) {
+      this.user.changePassword(this.oldPassword, this.newPassword, (err) => {
+        if (!err) {
+          this.oldPassword = ""
+          this.newPassword = ""
+          this.retypedPassword = ""
+        } else {
+          console.log(err)
+        }
+      })
+    } else {
+      alert("new password do not math with retyped password")
+    }
   }
 }
 
