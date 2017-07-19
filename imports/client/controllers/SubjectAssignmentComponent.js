@@ -73,6 +73,12 @@ class SubjectAssignmentComponent {
     }
   }
 
+  removeCourse(course) {
+    Course.remove({ _id: course._id }, (err) => {
+      if (err) { console.log(err) }
+    })
+  }
+
   update(course) {
     this.course = course
   }

@@ -59,8 +59,9 @@ class SubjectUpsertComponent {
     })
     this.ngToast = ngToast
   }
-  remove(id) {
-    Subject.remove(id)
+  
+  remove(subject) {
+    Subject.remove({ _id: subject._id })
   }
 
   save() {

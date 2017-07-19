@@ -33,7 +33,7 @@
             <td>{{ department.degree.name }}</td>
             <td>{{ department.name }}</td>
             <td align="center">
-              <button type="button" class="btn btn-danger">
+              <button type="button" class="btn btn-danger" ng-click="degreeUpsert.remove(department)">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>
