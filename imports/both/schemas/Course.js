@@ -12,11 +12,12 @@ const courseType = new SimpleSchema({
   },
   instructor: {
     type: Object,
+    optional: true,
   },
   'instructor._id': {
     type: String,
     optional: true,
-  },  
+  },
   'instructor.fullName': {
     type: String,
   },
@@ -37,7 +38,7 @@ const courseType = new SimpleSchema({
 
 export default new SimpleSchema({
   subject: {
-    type: subjectSchema.pick('_id', 'name', 'courseNumber', 'credits', 'units', 'laboratoryType'),
+    type: subjectSchema.pick('name', 'courseNumber', 'units', 'laboratoryType'),
   },
   stubcode: {
     type: Number,
@@ -63,14 +64,8 @@ export default new SimpleSchema({
     type: String,
     optional: true,
   },
-  gradingTemplate: {
-    type: Object,
-    optional: true,
-  },
-  'gradingTemplate._id': {
+  gradingTemplateId: {
     type: String,
-  },
-  'gradingTemplate.isApproved': {
-    type: Boolean,
+    optional: true,
   },
 })

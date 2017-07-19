@@ -19,7 +19,7 @@
               <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
               <ui-select-choices group-by="'department'" repeat="teacher in subjectAssign.teachers | filter: $select.search">
                 <span ng-bind-html="teacher.fullName | highlight: $select.search"></span>
-                <div>Subject Assignment
+                <div>{{ teacher.idNumber }}
                 </div>
                 <small ng-bind-html="teacher.departments[0] | highlight: $select.search"></small>
               </ui-select-choices>

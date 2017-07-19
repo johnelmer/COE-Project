@@ -47,7 +47,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Department:</label>
           <div class="col-md-9">
-            <select id="position" class="form-control" ng-model="teacherUpsert.teacher.department">
+            <select class="form-control" ng-model="teacherUpsert.teacher.department">
               <optgroup label="Department">
                 <option ng-repeat="department in teacherUpsert.departments" value="{{department.name}}"> {{department.name}} </option>
               </select>
@@ -157,7 +157,7 @@
               <div class="form-group">
                 <label class="col-md-2 control-label">Re-enter password:</label>
                 <div class="col-md-9">
-                  <input type="password" placeholder="Re-enter your Password" class="form-control"/>
+                  <input type="password" ng-model="teacherUpsert.teacher.reenterPassword" placeholder="Re-enter your Password" class="form-control"/>
                 </div>
               </div>
             </div>

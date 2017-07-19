@@ -15,7 +15,7 @@ import '../views/student-list.html'
     subsReady() {
       return new Promise((resolve) => {
         Tracker.autorun(() => {
-          const studentsSub = Meteor.subscribe('students')
+          const studentsSub = Meteor.subscribe('students-basic-infos')
           const subs = [studentsSub]
           const subsReady = subs.every(sub => sub.ready())
           if (subsReady) {
@@ -40,6 +40,9 @@ class StudentListComponent {
         return Student.find().fetch()
       },
     })
+    this.min = 10
+    this.limit = this.limit || this.min
+    this.max = this.students.length
   }
 
   get isStudentsReady() {

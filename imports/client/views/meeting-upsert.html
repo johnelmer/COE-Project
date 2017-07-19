@@ -75,18 +75,17 @@
       <uib-accordion close-others="oneAtATime">
         <div uib-accordion-group class="panel-info" ng-repeat="createdMeeting in meetingUpsert.meetings" is-open="status.open">
           <uib-accordion-heading>
-            <!-- NOTE: Date Created and Title-->
+            {{ createdMeeting.createdAt | date }} -
             {{ createdMeeting.title }}
              <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
           </uib-accordion-heading>
-          <!-- NOTE: The content -->
           <div class="form-group">
             <label class="col-md-offset-1 control-label">Title:</label>
             <span> {{ createdMeeting.title }} </span>
           </div>
           <div class="form-group">
             <label class="col-md-offset-1 control-label">Time & Date:</label>
-            <span>{{ createdMeeting.schedule.time | date: 'shortTime' }} {{ createdMeeting.schedule.date | date: 'longDate'}} </span>
+            <span>{{ createdMeeting.schedule | date: 'shortTime' }} - {{ createdMeeting.schedule | date: 'longDate'}} </span>
           </div>
           <div class="form-group">
             <label class="col-md-offset-1 control-label">Location:</label>
@@ -98,6 +97,9 @@
           </div>
           <div class="form-group">
             <label class="col-md-offset-1 control-label">Attendees:</label>
+            <ul class="col-md-offset-1" ng-repeat="attendee in createdMeeting.attendees track by attendee._id">
+              {{ attendee.fullName }}
+            </ul>
           </div>
         </div>
       </uib-accordion>

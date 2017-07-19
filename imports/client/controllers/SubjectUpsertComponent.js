@@ -61,13 +61,11 @@ class SubjectUpsertComponent {
   }
   remove(id) {
     Subject.remove(id)
-    // console.log(this.subjects.remove(id))
   }
 
   save() {
-    // console.log(this.subject);
-    // this.subject.credits = parseInt(this.subject.credits, 10)
-    // this.subject.units = parseInt(this.subject.units, 10)
+    this.subject.credits = parseInt(this.subject.credits, 10)
+    this.subject.units = parseInt(this.subject.units, 10)
     const subject = this.subject
     if (!this.hasLaboratory) {
       delete subject.laboratoryType
