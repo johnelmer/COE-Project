@@ -42,7 +42,8 @@ export default new SimpleSchema({
   },
   stubcode: {
     type: Number,
-    unique: true,
+    optional: true,
+    // unique: true,
   },
   lecture: {
     type: courseType,

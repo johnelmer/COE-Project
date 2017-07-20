@@ -29,6 +29,7 @@ export default new SimpleSchema({
   },
   department: {
     type: String,
+    optional: true,
   },
   status: {
     type: String,
