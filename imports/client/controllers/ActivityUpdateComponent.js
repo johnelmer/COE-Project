@@ -42,6 +42,7 @@ class ActivityUpdateComponent {
       }
     })
     this.ngToast = ngToast
+    this.$state = $state
   }
 
   save() {
@@ -71,6 +72,7 @@ class ActivityUpdateComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.course.classRecord', { courseId: this.activity.session.courseId })
   }
 
 }

@@ -68,6 +68,7 @@ class StudentUpsertComponent {
     this.popup = {
       opened: false,
     }
+    this.$state = $state
   }
 
   get defaultPicture() {
@@ -134,6 +135,7 @@ class StudentUpsertComponent {
         content: `${e.reason}`,
       })
     }
+    this.$state.go('app.student.view', { studentId: this.student._id })
   }
 
   get isInvalidFirstName() {
@@ -157,10 +159,10 @@ class StudentUpsertComponent {
   get isInvalidIdNumber() {
     try {
       const student = Student.findOne({ idNumber: this.student.idNumber })
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       if (student) {
         return true
       }
-      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {
       return true

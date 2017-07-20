@@ -7,45 +7,45 @@
           <h4>Personal Information</h4></div>
           <div class="panel-body">
             <div class="form-group has-feedback"
-            ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error': studentUpsert.isInvalidLastName}">
-            <label class="col-md-2 control-label">Last Name:</label>
+            ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber, 'has-success': studentUpsert.isInvalidIdNumber}">
+            <label class="col-md-2 control-label">Student ID</label>
             <div class="col-md-9">
-              <input type="text" name="last-name" placeholder="Enter Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
+              <input type="text" placeholder="Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
+              <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+            </div>
+          </div>
+            <div class="form-group has-feedback"
+            ng-keyup="studentUpsert.isInvalidLastName" ng-class="{'has-error' : studentUpsert.isInvalidLastName}">
+            <label class="col-md-2 control-label">Last Name</label>
+            <div class="col-md-9">
+              <input type="text" name="last-name" placeholder="Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
               <i ng-show="studentUpsert.isInvalidLastName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             </div>
           </div>
           <div class="form-group has-feedback" ng-keyup="studentUpsert.isInvalidFirstName" ng-class="{'has-error': studentUpsert.isInvalidFirstName}">
-            <label class="col-md-2 control-label">First Name:</label>
+            <label class="col-md-2 control-label">First Name</label>
             <div class="col-md-9">
-              <input type="text" name="first-name" placeholder="Enter First Name" class="form-control text-capitalize" ng-model="studentUpsert.student.firstName"/>
+              <input type="text" name="first-name" placeholder="First Name" class="form-control text-capitalize" ng-model="studentUpsert.student.firstName"/>
               <i ng-show="studentUpsert.isInvalidFirstName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             </div>
           </div>
           <div class="form-group has-feedback"
           ng-keyup="studentUpsert.isInvalidMiddleName" ng-class="{'has-error': studentUpsert.isInvalidMiddleName}">
-          <label class="col-md-2 control-label">Middle Name:</label>
+          <label class="col-md-2 control-label">Middle Name</label>
           <div class="col-md-9">
-            <input type="text" name="middle-name" placeholder="Enter Middle Name" class="form-control text-capitalize" ng-model="studentUpsert.student.middleName" />
+            <input type="text" name="middle-name" placeholder="Middle Name" class="form-control text-capitalize" ng-model="studentUpsert.student.middleName" />
             <i ng-show="studentUpsert.isInvalidMiddleName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
           </div>
         </div>
-        <div class="form-group has-feedback"
-        ng-keyup="studentUpsert.isInvalidIdNumber" ng-class="{'has-error': studentUpsert.isInvalidIdNumber}">
-        <label class="col-md-2 control-label">Student I.D:</label>
-        <div class="col-md-9">
-          <input type="text" placeholder="Enter Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
-          <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
-        </div>
-      </div>
       <div class="form-group">
-        <label class="col-md-2 control-label">Degree:</label>
+        <label class="col-md-2 control-label">Degree</label>
         <div class="col-md-4">
           <select class="form-control" ng-model="studentUpsert.student.degree">
             <optgroup label="Degree" />
             <option ng-repeat="degree in studentUpsert.degrees" value="{{degree.name}}"> {{degree.name}}</option>
           </select>
         </div>
-        <label class="col-md-2 control-label">Year Level:</label>
+        <label class="col-md-2 control-label">Year Level</label>
         <div class="col-md-3">
           <select class="form-control" ng-model="studentUpsert.student.yearLevel">
             <option value="1">1</option>
@@ -57,10 +57,10 @@
         </div>
       </div>
       <div class="form-group has-feedback">
-        <label class="col-md-2 control-label">Date of Birth:</label>
+        <label class="col-md-2 control-label">Date of Birth</label>
         <div class="col-md-4">
           <li class="input-group">
-            <input type="text" class="form-control" placeholder="MM/dd/yyyy" uib-datepicker-popup="MMMM dd, yyyy" ng-model="studentUpsert.student.birthday" ng-class="{'has-error': studentUpsert.isInvalidBirthday}" is-open="studentUpsert.popup.opened" datepicker-options="studentUpsert.dateOptions" ng-required="true" close-text="Close"/>
+            <input type="text" class="form-control" placeholder="mm/dd/yyyy" uib-datepicker-popup="MMMM dd, yyyy" ng-model="studentUpsert.student.birthday" ng-class="{'has-error': studentUpsert.isInvalidBirthday}" is-open="studentUpsert.popup.opened" datepicker-options="studentUpsert.dateOptions" ng-required="true" close-text="Close"/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="studentUpsert.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
@@ -68,7 +68,7 @@
           <i ng-show="studentUpsert.isInvalidBirthday" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
           <!-- <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-keyup="studentUpsert.isInvalidBirthday" ng-class="{'has-error': studentUpsert.isInvalidBirthday}" ng-model="studentUpsert.student.birthday" /> -->
         </div>
-        <label class="col-md-2 control-label">Gender:</label>
+        <label class="col-md-2 control-label">Gender</label>
         <div class="col-md-2">
           <div class="btn-group">
             <label class="btn btn-default" ng-model="studentUpsert.student.gender" uib-btn-radio="'Male'">Male</label>
@@ -78,49 +78,49 @@
       </div>
       <div class="form-group has-feedback"
       ng-keyup="studentUpsert.isInvalidHomeAddress" ng-class="{'has-error': studentUpsert.isInvalidHomeAddress}">
-      <label class="col-md-2 control-label">Home Address:</label>
+      <label class="col-md-2 control-label">Home Address</label>
       <div class="col-md-9">
-        <input type="text" name="home-address" placeholder="Enter Home Address" class="form-control" ng-model="studentUpsert.student.homeAddress" />
+        <input type="text" name="home-address" placeholder="Home Address" class="form-control" ng-model="studentUpsert.student.homeAddress" />
         <i ng-show="studentUpsert.isInvalidHomeAddress" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
       </div>
     </div>
     <div class="form-group has-feedback"
     ng-keyup="studentUpsert.isInvalidCityAddress" ng-class="{'has-error': studentUpsert.isInvalidCityAddress}">
-    <label class="col-md-2 control-label">City Address:</label>
+    <label class="col-md-2 control-label">City Address</label>
     <div class="col-md-9">
-      <input type="text" name="home-address" placeholder="Enter City Address" class="form-control" ng-model="studentUpsert.student.cityAddress" />
+      <input type="text" name="home-address" placeholder="City Address" class="form-control" ng-model="studentUpsert.student.cityAddress" />
       <i ng-show="studentUpsert.isInvalidCityAddress" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
     </div>
   </div>
   <div class="form-group has-feedback"
   ng-keyup="studentUpsert.isInvalidContactNumber" ng-class="{'has-error': studentUpsert.isInvalidContactNumber}">
-  <label class="col-md-2 control-label">Contact No.:</label>
+  <label class="col-md-2 control-label">Contact Number</label>
   <div class="col-md-9">
-    <input type="text" name="contact-number" placeholder="Enter Contact Number ex. 09912332211" class="form-control" ng-model="studentUpsert.student.contactNumber" />
+    <input type="text" name="contact-number" placeholder="Mobile Contact Number" class="form-control" ng-model="studentUpsert.student.contactNumber" />
     <i ng-show="studentUpsert.isInvalidContactNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
   </div>
 </div>
 <div class="form-group has-feedback"
 ng-keyup="studentUpsert.isInvalidReligion" ng-class="{'has-error': studentUpsert.isInvalidReligion}">
-<label class="col-md-2 control-label">Religion (Optional):</label>
+<label class="col-md-2 control-label">Religion (Optional)</label>
 <div class="col-md-9">
-  <input type="text" name="religion" placeholder="Enter Religion" class="form-control" ng-model="studentUpsert.student.religion" />
+  <input type="text" name="religion" placeholder="Religion" class="form-control" ng-model="studentUpsert.student.religion" />
   <i ng-show="studentUpsert.isInvalidReligion" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
 </div>
 </div>
 <div class="form-group has-feedback"
 ng-keyup="studentUpsert.isInvalidCitizenship" ng-class="{'has-error': studentUpsert.isInvalidCitizenship}">
-<label class="col-md-2 control-label">Citizenship(Optional):</label>
+<label class="col-md-2 control-label">Citizenship (Optional)</label>
 <div class="col-md-9">
-  <input type="text" name="citizenship" placeholder="Enter your Citizenship ex. Filipino" class="form-control" ng-model="studentUpsert.student.citizenship" />
+  <input type="text" name="citizenship" placeholder="Citizenship" class="form-control" ng-model="studentUpsert.student.citizenship" />
   <i ng-show="studentUpsert.isInvalidCitizenship" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
 </div>
 </div>
 <div class="form-group has-feedback"
 ng-keyup="studentUpsert.isInvalidEmail" ng-class="{'has-error': studentUpsert.isInvalidEmail}">
-<label class="col-md-2 control-label">Email Address:</label>
+<label class="col-md-2 control-label">Email Address</label>
 <div class="col-md-9">
-  <input type="email" name="e-mail" placeholder="ex. juan@amazing.com" class="form-control" ng-model="studentUpsert.student.email" />
+  <input type="email" name="e-mail" placeholder="Email Address" class="form-control" ng-model="studentUpsert.student.email" />
   <i ng-show="studentUpsert.isInvalidEmail" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
 </div>
 </div>
@@ -138,23 +138,23 @@ ng-keyup="studentUpsert.isInvalidEmail" ng-class="{'has-error': studentUpsert.is
     <h4>Emergency Contact Information</h4></div>
     <div class="panel-body">
       <div class="form-group">
-        <label class="col-md-2 control-label">Father:</label>
+        <label class="col-md-2 control-label">Father's Name</label>
         <div class="col-md-4">
-          <input type="text" name="parent-name" placeholder="Enter the name of your Father" class="form-control" ng-model="studentUpsert.student.father.fullName" />
+          <input type="text" name="parent-name" placeholder="Father's Name" class="form-control" ng-model="studentUpsert.student.father.fullName" />
         </div>
-        <label class="col-md-2 control-label">Contact No.:</label>
-        <div class="col-md-2">
-          <input type="text" name="parent-name" placeholder="ex. 09912332211" class="form-control" ng-model="studentUpsert.student.father.contactNumber" />
+        <label class="col-md-2 control-label">Contact Number</label>
+        <div class="col-md-3">
+          <input type="text" name="parent-name" placeholder="Contact Number" class="form-control" ng-model="studentUpsert.student.father.contactNumber" />
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-2 control-label">Mother:</label>
+        <label class="col-md-2 control-label">Mother's Name</label>
         <div class="col-md-4">
-          <input type="text" name="parent-name" placeholder="Enter the name of your Mother" class="form-control" ng-model="studentUpsert.student.mother.fullName" />
+          <input type="text" name="parent-name" placeholder="Mother's Name" class="form-control" ng-model="studentUpsert.student.mother.fullName" />
         </div>
-        <label class="col-md-2 control-label">Contact No.:</label>
-        <div class="col-md-2">
-          <input type="text" name="parent-name" placeholder="ex. 09912332211" class="form-control" ng-model="studentUpsert.student.mother.contactNumber" />
+        <label class="col-md-2 control-label">Contact Number</label>
+        <div class="col-md-3">
+          <input type="text" name="parent-name" placeholder="Contact Number" class="form-control" ng-model="studentUpsert.student.mother.contactNumber" />
         </div>
       </div>
     </div>
@@ -195,8 +195,6 @@ ng-keyup="studentUpsert.isInvalidEmail" ng-class="{'has-error': studentUpsert.is
           {{ studentUpsert.buttonLabel }}
         </button>
       </div>
-    </div>
-    <div class="panel-footer">
     </div>
   </div>
 </form>
