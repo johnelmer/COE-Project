@@ -17,6 +17,7 @@ import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 
 Meteor.publish('courses', () => Course.find())
 
+
 Meteor.publish('students', () => Student.find({}, { sort: { lastName: 1 } }))
 
 Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstName: 1, lastName: 1, idNumber: 1, degree: 1, yearLevel: 1 } }))
@@ -35,6 +36,7 @@ Meteor.publish('teachers', () => {
 })
 
 Meteor.publish('users', () => User.find({}, { fields: { services: 0 } }))
+Meteor.publish('user', id => User.find({ _id: id }, { fields: { services: 0 } }))
 
 Meteor.publish('currentUser', function () {
   return User.find({ _id: this.userId })
@@ -58,3 +60,8 @@ Meteor.publish('meetings', () => Meeting.find())
 Meteor.publish('notifications', () => Notification.find())
 
 Meteor.publish('grade-transmutations', () => GradeTransmutation.find())
+
+Meteor.publish('teacherCourses', (teacherId) => { // eslint-disable-line
+  const teacher = User.findOne({ _id: teacherId })
+  return Course.find({ _id: { $in: teacher.courseIds } })
+})

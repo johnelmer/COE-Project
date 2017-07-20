@@ -29,6 +29,7 @@ export default new SimpleSchema({
   },
   department: {
     type: String,
+    optional: true,
   },
   status: {
     type: String,
@@ -38,7 +39,7 @@ export default new SimpleSchema({
   },
   courseIds: {
     type: [String],
-    optional: true,
+    defaultValue: [],
   },
   gender: {
     type: String,
