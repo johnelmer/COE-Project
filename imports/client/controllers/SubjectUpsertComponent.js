@@ -37,7 +37,6 @@ class SubjectUpsertComponent {
   constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { subjectId } = $stateParams
-    this.subscribe('subjects')
     this.hasLaboratory = false;
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add'
@@ -53,13 +52,10 @@ class SubjectUpsertComponent {
         }
         return Subject.findOne(subjectId)
       },
-      subjects() {
-        return Subject.find().fetch()
-      },
     })
     this.ngToast = ngToast
   }
-  
+
   remove(subject) {
     Subject.remove({ _id: subject._id })
   }

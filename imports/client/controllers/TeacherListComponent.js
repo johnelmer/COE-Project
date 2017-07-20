@@ -1,5 +1,6 @@
 import User from '/imports/both/models/User'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/teacher-list.html'
 
@@ -10,6 +11,18 @@ import '../views/teacher-list.html'
     redirect($location) {
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
+    },
+    subs() {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const teachers = Meteor.subscribe('teachers')
+          const subs = [teachers]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            resolve(true)
+          }
+        })
+      })
     },
   },
 })
@@ -22,14 +35,11 @@ class TeacherListComponent {
 
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.subscribe('users', () => {
-      this.teachers = User.find({ roleName: 'faculty' }).fetch()
+    this.helpers({
+      teachers() {
+        return User.find().fetch()
+      },
     })
-    this.teacher = {}
-  }
-
-  get isTeachersReady() {
-    return this.teachers.length > 0
   }
 
   view(teacher) {
