@@ -20,7 +20,7 @@ const whitelist = {
     faculty: ['totalScore', 'description', 'isLocked', 'records', 'userId'],
   },
   course: {
-    faculty: ['lecture.sessions', 'laboratory.sessions', 'studentIds', 'gradingTemplateId'],
+    faculty: ['studentIds', 'gradingTemplateId'],
     secretary: ['subject', 'stubcode', 'lecture.instructor', 'lecture.time', 'lecture.room',
       'laboratory.instructor', 'laboratory.time', 'laboratory.room'],
   },
@@ -214,7 +214,15 @@ Course.collection.deny({
       return false
     } else if (isModifierAllowed(modifier)) {
       const updatedDoc = modifier.$set
-      return (isTeacher()) ? isRestricted(doc, updatedDoc, whitelist.course.faculty)
+      const clonedDoc = JSON.parse(JSON.stringify(doc))
+      const clonedUpdatedDoc = JSON.parse(JSON.stringify(updatedDoc))
+      delete clonedUpdatedDoc.lecture.sessions
+      delete clonedDoc.lecture.sessions
+      if (clonedDoc.laboratory) {
+        delete clonedDoc.laboratory.sessions
+        delete clonedUpdatedDoc.laboratory.sessions
+      }
+      return (isTeacher()) ? isRestricted(clonedDoc, clonedUpdatedDoc, whitelist.course.faculty)
             : isRestricted(doc, updatedDoc, whitelist.course.secretary)
     }
     return true
