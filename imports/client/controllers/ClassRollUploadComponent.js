@@ -122,6 +122,9 @@ class ClassRollUploadComponent {
           alert(`Enrolled ${length} to stubcode ${stubcode}`)
         })
       })
+      .then(() => {
+        this.file = undefined
+      })
     }
   }
 

@@ -225,6 +225,9 @@ class CourseUploadComponent {
       .then(() => {
         alert(`${population} courses added to database`)
       })
+      .then(() => {
+        this.file = undefined
+      })
     } else {
       alert('No file Uploaded')
     }

@@ -150,8 +150,12 @@ class StudentMassUploadComponent {
             }
           })
         }))
-      }).then(() => {
+      })
+      .then(() => {
         alert(`${this.students.length} students uploaded.`)
+      })
+      .then(() => {
+        this.file = undefined
       })
     } else {
       alert(`The file doesn't exist.`)
