@@ -10,6 +10,7 @@ import Session from './Session'
 import Student from './Student'
 import GradingTemplate from './GradingTemplate'
 import Activity from './Activity'
+import Subject from './Subject'
 import GradeTransmutation from './GradeTransmutation'
 
 @SetupCollection('Courses')
@@ -110,7 +111,18 @@ class Course extends Model {
   }
 
   get gradingTemplate() {
-    return GradingTemplate.findOne({ _id: this.gradingTemplateId })
+    const gradingTemplate = GradingTemplate.findOne({ _id: this.gradingTemplateId })
+    return (!gradingTemplate.isApproved) ? this.defaultGradingTemplate : gradingTemplate
+  }
+
+  get customGradingTemplate() {
+    const gradingTemplate = GradingTemplate.findOne({ _id: this.gradingTemplateId })
+    return (!gradingTemplate.isDefault) ? gradingTemplate : undefined
+  }
+
+  get defaultGradingTemplate() {
+    const subject = Subject.findOne({ courseNumber: this.subject.courseNumber })
+    return (subject) ? subject.defaultGradingTemplate : undefined
   }
 
   get activityRecords() {
@@ -131,7 +143,10 @@ class Course extends Model {
   }
 
   get activityTypes() {
-    const gradingTemplate = this.gradingTemplate
+    let gradingTemplate = this.gradingTemplate
+    if (!gradingTemplate.isApproved) {
+      gradingTemplate = this.defaultGradingTemplate
+    }
     return (this.isUserHandlesLabOnly) ? gradingTemplate.getActivityTypes('laboratory') : gradingTemplate.getActivityTypes()
   }
 
