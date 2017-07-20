@@ -23,7 +23,6 @@ Meteor.publish('students', () => Student.find({}, { sort: { lastName: 1 } }))
 Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstName: 1, lastName: 1, idNumber: 1, degree: 1, yearLevel: 1 } }))
 
 Meteor.publish('student', (id) => {
-  console.log(Student.find({ _id: id }).fetch());
   return Student.find({ _id: id })
 })
 

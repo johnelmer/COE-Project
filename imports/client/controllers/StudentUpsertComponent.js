@@ -3,9 +3,8 @@
 import Student from '/imports/both/models/Student'
 import schema from '/imports/both/schemas/Student'
 import Degree from '/imports/both/models/Degree'
-import Role from '/imports/both/models/Role'
-import XLSX from 'xlsx'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import 'ng-file-upload/dist/ng-file-upload.min.js'
 import '../views/student-upsert.html'
@@ -24,24 +23,40 @@ import '../styles/studentUpsert.scss'
 @State({
   name: 'app.student.edit',
   url: '/students/edit/:studentId',
+  resolve: {
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    },
+    subs($stateParams) {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const { studentId } = $stateParams
+          const student = Meteor.subscribe('student', studentId)
+          const degrees = Meteor.subscribe('degrees')
+          const subs = [student, degrees]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            resolve(true)
+          }
+        })
+      })
+    },
+  },
 })
 @Component({
   selector: 'student-upsert',
   templateUrl: 'imports/client/views/student-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast', 'Upload', '$timeout')
+@Inject('$scope', '$reactive', '$state', 'ngToast', 'Upload', '$timeout')
 class StudentUpsertComponent {
   static schema = schema
-  constructor($scope, $reactive, $state, $stateParams, ngToast, Upload, $timeout) {
+  constructor($scope, $reactive, $state, ngToast, Upload, $timeout) {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     this.message = ''
-    this.subscribe('students')
     this.Upload = Upload
     this.$timeout = $timeout
-    this.subscribe('users')
-    this.subscribe('degrees') // NOTE: added from temporary-branch
-    const { studentId } = $stateParams
     if ($state.current.name.endsWith('create')) {
       this.buttonLabel = 'Add Student'
       this.message = 'registered'
@@ -54,7 +69,7 @@ class StudentUpsertComponent {
         if ($state.current.name.endsWith('create')) {
           return new Student()
         }
-        return Student.findOne({ _id: studentId })
+        return Student.findOne()
       },
       degrees() {
         return Degree.find().fetch()

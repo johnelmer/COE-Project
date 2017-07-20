@@ -31,14 +31,15 @@ import '../views/student-view.html'
   selector: 'student-view',
   templateUrl: 'imports/client/views/student-view.html',
 })
-@Inject('$scope', '$reactive')
+@Inject('$scope', '$reactive', '$stateParams')
 class StudentViewComponent {
 
-  constructor($scope, $reactive) {
+  constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
+    const { studentId } = $stateParams
     this.helpers({
       student() {
-        return Student.findOne()
+        return Student.findOne({ _id: studentId })
       },
     })
   }
