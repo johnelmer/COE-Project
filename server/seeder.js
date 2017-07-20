@@ -72,6 +72,7 @@ const data = {
     {
       type: 'Semester Term',
       isDefault: true,
+      isApproved: true,
       lecture: {
         percentage: 100,
         activityTypes: semesterActivityTypes,
@@ -82,6 +83,7 @@ const data = {
     {
       type: 'Summer Term',
       isDefault: true,
+      isApproved: true,
       lecture: {
         percentage: 100,
         activityTypes: [
@@ -118,6 +120,7 @@ const data = {
     {
       type: 'Semester Term',
       isDefault: true,
+      isApproved: true,
       lecture: {
         percentage: 50,
         activityTypes: semesterActivityTypes,
@@ -149,6 +152,7 @@ const data = {
     {
       type: 'Semester Term',
       isDefault: true,
+      isApproved: true,
       lecture: {
         percentage: 80,
         activityTypes: semesterActivityTypes,
@@ -170,6 +174,7 @@ const data = {
     {
       type: 'Semester Term',
       isDefault: true,
+      isApproved: true,
       lecture: {
         percentage: 70,
         activityTypes: semesterActivityTypes,
