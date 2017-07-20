@@ -1,5 +1,6 @@
 import Student from '/imports/both/models/Student'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-view.html'
 
@@ -11,30 +12,33 @@ import '../views/student-view.html'
       const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $state.path('/login')
     },
-
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('faculty')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    subs($stateParams) {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const { studentId } = $stateParams
+          const student = Meteor.subscribe('student', studentId)
+          const subs = [student]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            resolve(true)
+          }
+        })
+      })
+    },
   },
 })
 @Component({
   selector: 'student-view',
   templateUrl: 'imports/client/views/student-view.html',
 })
-@Inject('$scope', '$reactive', '$stateParams')
+@Inject('$scope', '$reactive')
 class StudentViewComponent {
 
-  constructor($scope, $reactive, $stateParams) {
+  constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    const { studentId } = $stateParams
-    this.subscribe('students')
     this.helpers({
       student() {
-        return Student.findOne({ _id: studentId })
+        return Student.findOne()
       },
     })
   }
