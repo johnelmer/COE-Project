@@ -26,11 +26,15 @@ class Meeting extends Model {
       }
     })
   }
+    
+    @Idempotent
+    get attendees() {
+      return User.find({ _id: { $in: this.attendeeIds }}).fetch()
+    }
 
-  @Idempotent
-  get attendees() {
-    return User.find({ _id: { $in: this.attendeeIds }}).fetch()
+    get notification() {
+      return Notification.find({ _id: { $in: this.notificationId }})
+    }
   }
-}
 
 export default Meeting

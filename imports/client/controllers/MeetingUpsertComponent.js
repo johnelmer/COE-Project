@@ -45,9 +45,9 @@ class MeetingUpsertComponent {
       meetings() {
         return Meeting.find().fetch()
       },
-      // attendees() {
-      //   return User.find().fetch()
-      // },
+      attendees() {
+        return User.find().fetch()
+      },
       meeting() {
         if ($state.current.name.endsWith('create')) {
           return new Meeting()
