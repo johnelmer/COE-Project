@@ -3,10 +3,15 @@
     <div class="jumbotron">
       <table class="table">
         <thead>
-          <th>
+          <tr>
             <h2>Student Information</h2>
-          </th>
+          </tr>
         </thead>
+        <tr>
+          <td colspan="2" align="center">
+            <img src="{{ studentView.defaultPicture }}" alt="Student's Picture" class="img-circle">
+          </td>
+        </tr>
         <tr>
           <td>Full Name</td>
           <td> {{ studentView.student.lastName }} ,
@@ -67,11 +72,6 @@
           <tr>
             <td>Mother's Contact No.</td>
             <td>{{ studentView.student.mother.contactNumber }}</td>
-          </tr>
-          <tr>
-            <td>
-              <img src="{{ studentView.defaultPicture }}" alt="Student's Picture" width="100px" height="100px">
-            </td>
           </tr>
         </table>
       </div>
