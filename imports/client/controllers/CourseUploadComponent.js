@@ -80,6 +80,32 @@ class CourseUploadComponent {
           const properObjects = json.filter((object) => {
             return Object.keys(object).length > 5
           })
+          // TODO: Make this a getter later
+          const columns = properObjects.map((course) => {
+            return Object.keys(course)
+          })
+          const columnPatterns = _(columns).flatten()
+          const columnPattern = _(columnPatterns).uniq()
+          // columns followed as provided by dean
+          const presetColumns = [
+            'Stub No.',
+            'Course No. & Description',
+            'Time',
+            'Day',
+            'Room',
+            'Teacher',
+            'No. Of Units',
+            'No. Of Students',
+          ]
+          const isValidExcel = columnPattern.every((column) => {
+            return presetColumns.includes(column)
+          })
+          const isValid = (columns.length > 0) && isValidExcel
+          if (!isValid) {
+            this.file = undefined
+            throw new Error('Excel is different from specified format.')
+          }
+          // to here
           const lectures = properObjects.filter((course) => {
             const { type, units } = this.getCourseObj(course)
             return type === 'LEC' && units !== '-'
@@ -93,6 +119,9 @@ class CourseUploadComponent {
             return type === 'LAB'
           })
           this.collections = { labs, lectures, lecturesDashed }
+        })
+        .catch((e) => {
+          alert(e)
         })
       })
     }
@@ -195,6 +224,9 @@ class CourseUploadComponent {
       })
       .then(() => {
         alert(`${population} courses added to database`)
+      })
+      .then(() => {
+        this.file = undefined
       })
     } else {
       alert('No file Uploaded')

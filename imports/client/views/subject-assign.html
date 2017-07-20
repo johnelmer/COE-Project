@@ -54,7 +54,7 @@
     </div>
     <div class="panel-body">
       <div class="input-group col-md-12" id="searchBar">
-        <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
+        <input type="text" class="form-control" placeholder="Search for..." ng-model="subjectAssign.searchText">
       </div>
       <br>
       <div class="table-responsive">
@@ -100,7 +100,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="course in subjectAssign.courses | filter: searchText">
+            <tr ng-repeat="course in subjectAssign.courses | filter: subjectAssign.searchText">
               <td align="center"><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button>
                 <button type="button" class="btn btn-danger" ng-click="subjectAssign.removeCourse(course)">
                   <span class="glyphicon glyphicon-trash"></span>

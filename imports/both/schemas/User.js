@@ -39,7 +39,7 @@ export default new SimpleSchema({
   },
   courseIds: {
     type: [String],
-    optional: true,
+    defaultValue: [],
   },
   gender: {
     type: String,

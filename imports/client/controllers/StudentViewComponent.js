@@ -1,5 +1,6 @@
 import Student from '/imports/both/models/Student'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-view.html'
 
@@ -11,14 +12,19 @@ import '../views/student-view.html'
       const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $state.path('/login')
     },
-
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('faculty')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
+    subs($stateParams) {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const { studentId } = $stateParams
+          const student = Meteor.subscribe('student', studentId)
+          const subs = [student]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            resolve(true)
+          }
+        })
+      })
+    },
   },
 })
 @Component({
@@ -31,13 +37,25 @@ class StudentViewComponent {
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     const { studentId } = $stateParams
-    this.subscribe('students')
     this.helpers({
       student() {
         return Student.findOne({ _id: studentId })
       },
     })
   }
+
+  get defaultPicture() {
+    const gender = {
+      Male: '/defaults/default_male.png',
+      Female: '/defaults/default_female.png',
+    }
+    const isFemale = this.student.gender === 'Female'
+    const hasNoPicture = !(this.student.image.src)
+    let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
+    displayImage = this.student.image.src || displayImage
+    return displayImage
+  }
+
 
   edit(student) {
     this.student = student
