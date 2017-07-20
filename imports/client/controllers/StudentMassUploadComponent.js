@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
+import _ from 'underscore'
 import schema from '/imports/both/schemas/Student'
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
@@ -79,6 +80,30 @@ class StudentMassUploadComponent {
             })
             return !isDirty
           })
+          const columns = cleanJson.map((student) => {
+            return Object.keys(student)
+          })
+          const columnPatterns = _(columns).flatten()
+          const columnPattern = _(columnPatterns).uniq()
+          // columns followed as provided by dean
+          const presetColumns = [
+            'STIDNUM',
+            'SURNAME',
+            'GIVNAME',
+            'MIDDLENAME',
+            'COURSE',
+            'MAJOR',
+            'SEX',
+            'YEAR',
+          ]
+          const isValidExcel = columnPattern.every((column) => {
+            return presetColumns.includes(column)
+          })
+          const isValid = (columns.length > 0) && isValidExcel
+          if (!isValid) {
+            this.file = undefined
+            throw new Error('Excel is different from specified format.')
+          }
           const students = cleanJson.map((student) => {
             const {
               STIDNUM,
@@ -105,8 +130,10 @@ class StudentMassUploadComponent {
           })
           return students
         }).then((students) => {
-          console.log(students);
           this.students = students
+        })
+        .catch((e) => {
+          alert(e);
         })
       })
     }
