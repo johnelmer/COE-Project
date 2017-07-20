@@ -30,6 +30,16 @@ class StudentMassUploadComponent {
     this.$timeout = $timeout
   }
 
+  capitalizeFirstLetter(word) {
+    const lowCaseWord = word.toLowerCase()
+    const names = lowCaseWord.split(' ')
+    const upCaseNames = names.map((name) => {
+      const start = name.charAt(0).toUpperCase()
+      return `${start}${name.slice(1)}`
+    })
+    return upCaseNames.join(' ')
+  }
+
   uploadFiles(file, errFiles) {
     this.file = file
     this.errFile = errFiles && errFiles[0]
@@ -79,14 +89,18 @@ class StudentMassUploadComponent {
               SEX,
               YEAR,
             } = student
+            const gender = {
+              M: 'Male',
+              F: 'Female',
+            }
             return new Student({
               degree: COURSE.trim(),
               yearLevel: YEAR,
-              lastName: SURNAME.trim(),
-              firstName: GIVNAME.trim(),
-              middleName: MIDDLENAME.trim(),
+              lastName: this.capitalizeFirstLetter(SURNAME.trim()),
+              firstName: this.capitalizeFirstLetter(GIVNAME.trim()),
+              middleName: this.capitalizeFirstLetter(MIDDLENAME.trim()),
               idNumber: STIDNUM.trim(),
-              gender: SEX.trim(),
+              gender: gender[SEX.trim()],
             })
           })
           return students
