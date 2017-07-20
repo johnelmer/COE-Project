@@ -36,11 +36,14 @@ export default new SimpleSchema({
         }
       }
       this.unset();
-    }
+    },
   },
   description: {
     type: String,
     optional: true,
+  },
+  isApproved: {
+    type: Boolean,
   },
   isDefault: {
     type: Boolean,
