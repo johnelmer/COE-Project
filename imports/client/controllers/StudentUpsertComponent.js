@@ -19,26 +19,11 @@ import '../styles/studentUpsert.scss'
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
-
-    // redirect($auth, $location) {
-    //   $auth.awaitUser().then((user) => {
-    //     if (user.hasARole('secretary')) {
-    //       $location.path('/login')
-    //     }
-    //   })
-    // },
   },
 })
 @State({
   name: 'app.student.edit',
   url: '/students/edit/:studentId',
-  // resolve: {
-  //   redirect($state) {
-  //     const { roleName } = Meteor.user()
-  //     const role = Role.findOne({ name: roleName })
-  //     return role.hasARole('secretary') || $state.go('app.login')
-  //   },
-  // },
 })
 @Component({
   selector: 'student-upsert',
@@ -67,7 +52,7 @@ class StudentUpsertComponent {
     this.helpers({
       student() {
         if ($state.current.name.endsWith('create')) {
-          return new Student
+          return new Student()
         }
         return Student.findOne({ _id: studentId })
       },
@@ -83,6 +68,18 @@ class StudentUpsertComponent {
     this.popup = {
       opened: false,
     }
+  }
+
+  get defaultPicture() {
+    const gender = {
+      Male: '/defaults/default_male.png',
+      Female: '/defaults/default_female.png',
+    }
+    const isFemale = this.student.gender === 'Female'
+    const hasNoPicture = !(this.student.image.src)
+    let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
+    displayImage = this.student.image.src || displayImage
+    return displayImage
   }
 
   uploadFiles(file, errFiles) {
@@ -111,6 +108,7 @@ class StudentUpsertComponent {
       }).then(() => {
         Upload.base64DataUrl(file).then((url) => {
           this.student.image.src = url
+          this.displayImage = url
         })
       })
     }

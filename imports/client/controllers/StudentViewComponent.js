@@ -39,6 +39,19 @@ class StudentViewComponent {
     })
   }
 
+  get defaultPicture() {
+    const gender = {
+      Male: '/defaults/default_male.png',
+      Female: '/defaults/default_female.png',
+    }
+    const isFemale = this.student.gender === 'Female'
+    const hasNoPicture = !(this.student.image.src)
+    let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
+    displayImage = this.student.image.src || displayImage
+    return displayImage
+  }
+
+
   edit(student) {
     this.student = student
   }
