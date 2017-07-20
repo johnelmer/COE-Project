@@ -9,12 +9,9 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-2">
-              <label>
-                Teacher:
-              </label>
+              <label>Teacher</label>
             </div>
             <div class="col-md-4">
-            </ui-select>
             <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
               <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
               <ui-select-choices group-by="'department'" repeat="teacher in subjectAssign.teachers | filter: $select.search">
@@ -30,9 +27,7 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-2">
-            <label>
-              Subjects:
-            </label>
+            <label>Subjects</label>
           </div>
           <div class="col-md-4">
             <ui-select multiple ng-model="subjectAssign.subjectsAssigned" theme="bootstrap" close-on-select="false">
@@ -47,7 +42,7 @@
       </div>
       <div class="col-md-offset-4 col-md-2">
         <button class="btn btn-primary btn-md btn-block" ng-click="subjectAssign.assignSubject()">
-          <span class="glyphicon glyphicon-floppy-disk"></span> Save
+          Save
         </button>
       </div>
     </div>
@@ -107,7 +102,7 @@
           <tbody>
             <tr ng-repeat="course in subjectAssign.courses | filter: searchText">
               <td align="center"><button type="button" class="btn btn-primary" ui-sref="app.course.assign.update({ courseId: course._id })"><span class="glyphicon glyphicon-edit"></span></button>
-                <button type="button" class="btn btn-danger">
+                <button type="button" class="btn btn-danger" ng-click="subjectAssign.removeCourse(course)">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
               </td>
@@ -117,7 +112,7 @@
               <td> {{ course.subject.name }}</td>
               <td> {{ course.lecture.time }}</td>
               <td> {{ course.lecture.room }}</td>
-              <td> {{ course.subject.credits }}</td>
+              <td> {{ course.subject.units }}</td>
               <td> {{ course.laboratory.instructor.idNumber }}</td>
               <td> {{ course.laboratory.instructor.fullName }}</td>
               <td> {{ course.laboratory.room }}</td>

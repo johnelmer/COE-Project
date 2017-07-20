@@ -5,7 +5,7 @@ import '../views/change-password.html'
 
 @State({
   name: 'app.settings.changePassword',
-  url: '/settings/changepassword',	
+  url: '/settings/changepassword',
 })
 @Component({
   selector: 'settings-change',
@@ -27,12 +27,13 @@ class ChangePasswordComponent {
           this.oldPassword = ""
           this.newPassword = ""
           this.retypedPassword = ""
+          alert("Password changed")
         } else {
           console.log(err)
         }
       })
     } else {
-      alert("new password do not math with retyped password")
+      alert("The retyped password does not match with the new password")
     }
   }
 }
