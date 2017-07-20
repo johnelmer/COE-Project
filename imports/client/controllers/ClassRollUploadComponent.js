@@ -3,6 +3,7 @@
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
 import { Tracker } from 'meteor/tracker'
+import _ from 'underscore'
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import XLSX from 'xlsx'
@@ -73,12 +74,35 @@ class ClassRollUploadComponent {
           const firstSheetName = workbook.SheetNames[0]
           const workSheet = workbook.Sheets[firstSheetName]
           const json = XLSX.utils.sheet_to_json(workSheet, { range: 7, raw: true });
+          // TODO: Make this a getter later
+          const columns = json.map((course) => {
+            return Object.keys(course)
+          })
+          const columnPatterns = _(columns).flatten()
+          const columnPattern = _(columnPatterns).uniq()
+          // columns followed as provided by dean
+          const presetColumns = [
+            '#',
+            'ID. No.',
+            'Course/Yr.',
+            'Name',
+          ]
+          const isValidExcel = columnPattern.every((column) => {
+            return presetColumns.includes(column)
+          })
+          const isValid = (columns.length > 0) && isValidExcel
+          if (!isValid) {
+            this.file = undefined
+            throw new Error('Excel is different from specified format.')
+          }
+          // to here
           const stubcode = parseInt(workSheet.R3.v, 10)
           const studentIdNumbers = json.map(student => student['ID. No.'])
           this.course = Course.findOne({ stubcode: stubcode })
           this.students = Student.find({ idNumber: { $in: studentIdNumbers } }).fetch()
-          console.log(this.course);
-          console.log(this.students);
+        })
+        .catch((e) => {
+          alert(e)
         })
       })
     }
