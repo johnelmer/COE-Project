@@ -18,6 +18,20 @@ import '../styles/studentUpsert.scss'
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
+    subs($stateParams) {
+      return new Promise((resolve) => {
+        Tracker.autorun(() => {
+          const { studentId } = $stateParams
+          const student = Meteor.subscribe('student', studentId)
+          const degrees = Meteor.subscribe('degrees')
+          const subs = [student, degrees]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            resolve(true)
+          }
+        })
+      })
+    },
   },
 })
 @State({
