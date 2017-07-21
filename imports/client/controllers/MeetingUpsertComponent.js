@@ -79,18 +79,29 @@ class MeetingUpsertComponent {
     date.setMinutes(time.getMinutes())
     this.meeting.createdAt = new Date()
     this.meeting.schedule = date
-    console.log(`Final ${this.meeting.schedule}`);
-    this.meeting.attendeeIds = [];
+    this.meeting.attendeeIds = []
     this.selectedAttendees.forEach(attendee => {
       this.meeting.attendeeIds.push(attendee._id)
     })
-    this.meeting.save(err => {
-      if(err) {
-        console.log(err);
-      }
-    })
-    this.meeting = new Meeting
+    try {
+      schema.validate(this.meeting.doc)
+      this.meeting.save(() => {
+        this.meeting = new Meeting
+      })
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'success',
+        content: 'Meeting Successfully Created!',
+      })
+    } catch (e) {
+      this.ngToast.create({
+        dismissButton: true,
+        className: 'danger',
+        content: `${e.reason}`,
+      })
+    }
   }
+
   get isInvalidTitle() {
     try {
       schema.pick('title').validate({ title: this.meeting.title })
@@ -117,6 +128,15 @@ class MeetingUpsertComponent {
       return true
     }
   }
+
+  // get isInvalidSchedule() {
+  //   try {
+  //     schema.pick('schedule').validate({ schedule: this.meeting.schedule })
+  //     return false
+  //   } catch (e) {
+  //     return true
+  //   }
+  // }
 }
 
 export default MeetingUpsertComponent

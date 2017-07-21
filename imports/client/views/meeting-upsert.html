@@ -30,11 +30,12 @@
           <div uib-timepicker ng-model="meetingUpsert.time" ng-change="changed()"></div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" >
         <label class="col-md-2 control-label">Date</label>
         <div class="col-md-9">
           <li class="input-group">
-            <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy" ng-model="meetingUpsert.date"  placeholder="When will the meeting be scheduled" is-open="meetingUpsert.popup.opened" datepicker-options="meetingUpsert.dateOptions" ng-required="true" close-text="Close"/>
+            <input type="text" class="form-control" uib-datepicker-popup="MMMM dd, yyyy"
+            ng-model="meetingUpsert.date"  placeholder="When will the meeting be scheduled" is-open="meetingUpsert.popup.opened" datepicker-options="meetingUpsert.dateOptions" ng-required="true" close-text="Close"/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="meetingUpsert.openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
