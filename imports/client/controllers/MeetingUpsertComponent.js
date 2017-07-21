@@ -99,6 +99,24 @@ class MeetingUpsertComponent {
       return true
     }
   }
+
+  get isInvalidLocation() {
+    try {
+      schema.pick('location').validate({ location: this.meeting.location })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
+
+  get isInvalidDescription() {
+    try {
+      schema.pick('description').validate({ description: this.meeting.description })
+      return false
+    } catch (e) {
+      return true
+    }
+  }
 }
 
 export default MeetingUpsertComponent

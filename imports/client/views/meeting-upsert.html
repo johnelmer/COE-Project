@@ -41,16 +41,18 @@
           </li>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group has-feedback" ng-keyup="meetingUpsert.isInvalidLocation" ng-class="{'has-error': meetingUpsert.isInvalidLocation}">
         <label class="col-md-2 control-label">Location</label>
         <div class="col-md-9">
           <input type="text" name="meeting-location" placeholder="Set the location of your meeting" class="form-control" ng-model="meetingUpsert.meeting.location">
+          <i ng-show="meetingUpsert.isInvalidLocation" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group has-feedback" ng-keyup="meetingUpsert.isInvalidDescription" ng-class="{'has-error': meetingUpsert.isInvalidDescription}">
         <label class="col-md-2 control-label">Description</label>
         <div class="col-md-9">
           <textarea ng-model="meetingUpsert.meeting.description" style="resize:vertical" placeholder="Enter details of the meeting" class="form-control"></textarea>
+          <i ng-show="meetingUpsert.isInvalidDescription" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
           <!-- <input type="text" name="meeting-description" class="form-control" ng-model="meetingUpsert.meeting.description"> -->
         </div>
       </div>
