@@ -5,10 +5,11 @@
         <h4> Meeting</h4>
       </div>
       <div class="panel-body">
-        <div class="form-group">
+        <div class="form-group has-feedback" ng-keyup="meetingUpsert.isInvalidTitle" ng-class="{'has-error': meetingUpsert.isInvalidTitle}">
           <label class="col-md-2 control-label">Title</label>
           <div class="col-md-9">
             <input type="text" name="meeting-title" placeholder="Meeting Topic" class="form-control" ng-model="meetingUpsert.meeting.title">
+            <i ng-show="meetingUpsert.isInvalidTitle" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
           </div>
         </div>
       <div class="form-group">

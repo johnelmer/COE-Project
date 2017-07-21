@@ -3,6 +3,7 @@ import Meeting from '/imports/both/models/Meeting'
 import Notification from '/imports/both/models/Notification'
 import User from '/imports/both/models/User'
 import Role from '/imports/both/models/Role'
+import schema from '/imports/both/schemas/Meeting'
 import { Meteor } from 'meteor/meteor'
 import 'ui-select/dist/select.css'
 import '../views/meeting-upsert.html'
@@ -33,7 +34,7 @@ import '../views/meeting-upsert.html'
 })
 @Inject('$scope', '$reactive', '$state', '$stateParams')
 class MeetingUpsertComponent {
-
+  static schema = schema
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     const { meetingId } = $stateParams
@@ -89,6 +90,14 @@ class MeetingUpsertComponent {
       }
     })
     this.meeting = new Meeting
+  }
+  get isInvalidTitle() {
+    try {
+      schema.pick('title').validate({ title: this.meeting.title })
+      return false
+    } catch (e) {
+      return true
+    }
   }
 }
 
