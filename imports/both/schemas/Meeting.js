@@ -24,9 +24,9 @@ export default new SimpleSchema({
   attendeeIds: {
     type: [String],
     optional: true,
-    custom: function () {
-      console.log(this);
-    },
+    // custom: function () {
+    //   console.log(this);
+    // },
   },
   schedule: {
     type: Date,

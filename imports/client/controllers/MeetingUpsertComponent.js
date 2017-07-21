@@ -32,10 +32,10 @@ import '../views/meeting-upsert.html'
   selector: 'meeting-upsert',
   templateUrl: 'imports/client/views/meeting-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast')
 class MeetingUpsertComponent {
   static schema = schema
-  constructor($scope, $reactive, $state, $stateParams) {
+  constructor($scope, $reactive, $state, $stateParams, ngToast) {
     $reactive(this).attach($scope)
     const { meetingId } = $stateParams
     this.$state = $state
@@ -67,6 +67,7 @@ class MeetingUpsertComponent {
       isCustomHeaderOpen: false,
     }
     this.oneAtATime = true
+    this.ngToast = ngToast
   }
 
   openPicker() {
@@ -80,12 +81,14 @@ class MeetingUpsertComponent {
     this.meeting.createdAt = new Date()
     this.meeting.schedule = date
     this.meeting.attendeeIds = []
+    console.log(this.meeting)
     this.selectedAttendees.forEach(attendee => {
       this.meeting.attendeeIds.push(attendee._id)
     })
     try {
       schema.validate(this.meeting.doc)
       this.meeting.save(() => {
+        this.meeting.createNotification()
         this.meeting = new Meeting
       })
       this.ngToast.create({

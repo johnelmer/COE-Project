@@ -30,13 +30,13 @@
               <button type="button" class="btn btn-primary" ui-sref="app.course.enrollStudent({ courseId: classRecord.course._id })">Enroll Student</button>
               <button type="button" class="btn btn-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button>
             </div>
-            <div class="form-group">
-              <button type="button" class="btn btn-primary" ui-sref="app.template.update({ templateId: classRecord.gradingTemplate._id })">View template</button>
-              <div class="btn-group">
+            <!-- <div class="form-group">
+               <button type="button" class="btn btn-primary" ui-sref="app.template.update({ templateId: classRecord.course.customGradingTemplate._id })">Create/edit custom template</button> 
+              <div class="btn-group" ng-show="classRecord.shouldShowApproveDenyBtn">
                 <label class="btn btn-success" ng-model="classRecord.isApproved" uib-btn-radio="true">approve</label>
                 <label class="btn btn-danger" ng-model="classRecord.isApproved" uib-btn-radio="false">deny</label>
               </div>
-            </div>
+            </div> -->
          <!-- <button type="button" class="btn btn-outline-primary" ng-hide="classRecord.user.roleName === 'dean'" ng-click="classRecord.passClassRecord()">Pass Class Record</button> -->
 
       </div>
