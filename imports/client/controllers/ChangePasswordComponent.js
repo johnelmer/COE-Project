@@ -11,8 +11,8 @@ import '../views/change-password.html'
     subs() {
       return new Promise((resolve) => {
         Tracker.autorun(() => {
-          const settings = this.subscribe('settings')
-          const currentUser = this.subscribe('currentUser')
+          const settings = Meteor.subscribe('settings')
+          const currentUser = Meteor.subscribe('currentUser')
           const subs = [currentUser, settings]
           const isReady = subs.every(sub => sub.ready())
           if (isReady) {

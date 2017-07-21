@@ -16,15 +16,18 @@ class Meeting extends Model {
     notif.title = this.title
     notif.date = this.createdAt
     notif.userIds = this.attendeeIds
-    notif.content =  {
-      header:  `WHEN: ${this.scedule} WHERE: ${this.location}`,
-      body: this.description
+    notif.content = {
+      header:  `WHEN: ${this.schedule} WHERE: ${this.location}`,
+      body: this.description,
     }
     notif.save((err, doc) => {
-      if(!err) {
+      if (!err) {
         this.notificationId = doc
+        const notification = Notification.findOne({ _id: doc })
+        notification.notifyUsers()
       }
     })
+    //console.log(this.notification)
   }
     
     @Idempotent
@@ -33,7 +36,7 @@ class Meeting extends Model {
     }
 
     get notification() {
-      return Notification.find({ _id: { $in: this.notificationId }})
+      return Notification.findOne({ _id: this.notificationId })
     }
   }
 
