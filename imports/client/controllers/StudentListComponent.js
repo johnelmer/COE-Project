@@ -1,9 +1,9 @@
 import Student from '/imports/both/models/Student'
 import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import angular from 'angular'
 import XLSX from 'xlsx'
+import _ from 'underscore'
 import '../views/student-list.html'
 
 @State({
@@ -13,18 +13,6 @@ import '../views/student-list.html'
     redirect($location) {
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
-    subsReady() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const studentsSub = Meteor.subscribe('students-basic-infos')
-          const subs = [studentsSub]
-          const subsReady = subs.every(sub => sub.ready())
-          if (subsReady) {
-            resolve(true)
-          }
-        })
-      })
     },
   },
 })
@@ -37,15 +25,23 @@ class StudentListComponent {
 
   constructor($scope, $reactive, $location, $http) {
     $reactive(this).attach($scope)
+    this.isReady = false
     this.helpers({
       students() {
+        this.limit = this.limit || 20
+        const studentsSub = this.subscribe('students-basic-infos', () => {
+          return [this.getReactively('this.limit'), this.getReactively('this.searchText')]
+        })
+        const subs = [studentsSub]
+        const subsReady = subs.every(sub => sub.ready())
+        if (subsReady) {
+          this.isReady = true
+        }
         return Student.find().fetch()
       },
     })
     this.$http = $http
     this.$location = $location
-    this.min = 10
-    this.limit = this.limit || this.min
     this.max = this.students.length
     this.url = this.url || window.location.href
     this.fileName = this.fileName || 'Download.xlsx'
@@ -54,11 +50,16 @@ class StudentListComponent {
     // }, 1000)
   }
 
+  increaseLimit() {
+    this.limit += 10
+  }
+
   print() {
     const json = this.filteredStudents.map((entry) => {
       const properFormat = angular.copy(entry)
       const student = new Student(properFormat)
-      return student.doc
+      const { doc } = student
+      return _(doc).omit('image')
     })
     const sheet = XLSX.utils.json_to_sheet(json)
     //

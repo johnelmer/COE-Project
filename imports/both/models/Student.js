@@ -10,11 +10,6 @@ import Course from './Course'
 class Student extends Model {
   static schema = schema
 
-  constructor(doc) {
-    super(doc)
-    this.image = this.image || {}
-  }
-
   enrollACourse(course) {
     const courseDoc = course
     delete courseDoc.sessions
