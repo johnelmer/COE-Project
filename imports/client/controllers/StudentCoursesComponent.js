@@ -1,4 +1,5 @@
 import Student from '/imports/both/models/Student'
+import AppSetting from '/imports/both/models/AppSetting'
 import { Meteor } from 'meteor/meteor'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/student-courses.html'
@@ -37,8 +38,48 @@ class StudentCoursesComponent {
           && activitySubs.ready() && activityTypeSubs.ready() && gradingSubs.ready()
           && settingSubs.ready() && gradeTransmutationSubs.ready() && student) {
         this.records = student.coursesGrades
+        const settings = AppSetting.findOne()
+        this.selectedSchoolYear = settings.currentSchoolYear
+        this.selectedSemester = settings.currentSemester
       }
     })
+  }
+
+  get filteredRecords() {
+    const records = this.records
+    if (records) {
+      return this.records.filter((record) => {
+        const course = record.course
+        return course.schoolYear === this.selectedSchoolYear &&
+          course.semester === this.selectedSemester
+      })
+    }
+    return []
+  }
+
+  changeSemester(semester) {
+    this.selectedSemester = semester
+  }
+
+  changeSchoolYear(schoolYear) {
+    this.schoolYear = schoolYear
+  }
+
+  get schoolYearList() {
+    const currentYear = new Date().getFullYear()
+    const startYear = 2017
+    if ((currentYear - startYear) >= 0) {
+      const list = []
+      for (let i = 0; i <= currentYear - startYear; i += 1) {
+        list.push(`${startYear + i}-${startYear + i + 1}`)
+      }
+      return list
+    }
+    return []
+  }
+
+  get semesterList() {
+    return AppSetting.schema._schema.currentSemester.allowedValues
   }
 }
 
