@@ -1,8 +1,15 @@
 <nav ng-if="navBar.user" id="navBar" class="navbar navbar-fixed-top">
   <div class="navbar-header">
-    <a class="navbar-brand">COE</a>
+    <a class="navbar-brand" data-toggle="collapse" data-target=".nav-collapse">
+      <!-- <button type="button" name="button" id="hamburger-menu">
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+      </button> -->
+      COE
+    </a>
   </div>
-  <ul class="nav navbar-nav">
+  <ul class="nav navbar-nav nav-collapse collapse">
     <li><a ui-sref="app.teacher.main">Home</a></li>
     <li class="dropdown" ng-show="navBar.user.hasARole('secretary')">
       <a class="btn dropdown" data-toggle="dropdown">
@@ -51,20 +58,17 @@
       </ul>
     </li> -->
   </ul>
-  <ul class="nav navbar-nav navbar-right">
-    <!-- <li><a ui-sref="app.login"><span class="glyphicon glyphicon-log-in"></span>
-        Log-in</a></li> -->
+  <ul class="nav navbar-nav navbar-right nav-collapse collapse">
     <li class="dropdown" ng-show="navBar.user.hasARole('faculty')">
-      <a href="#" class="btn dropdown" data-toggle="dropdown">
-        Settings <span class="glyphicon glyphicon-menu-down"></span>
-      </a>
-      <ul class="dropdown-menu">
-        <li><a href="#" ui-sref="app.settings.update" ng-show="navBar.user.roleName === 'dean'">Change Semester</a></li>
-        <li><a href="#" ui-sref="app.settings.changePassword">Change Password</a></li>
-      </ul>
+      <a class="dropdown" data-toggle="dropdown">
+          Settings <span class="glyphicon glyphicon-menu-down"></span>
+        <ul class="dropdown-menu">
+          <li><a href="#" ui-sref="app.settings.update" ng-show="navBar.user.roleName === 'dean'">Change Semester</a></li>
+          <li><a href="#" ui-sref="app.settings.changePassword">Change Password</a></li>
+        </ul>
     </li>
     <li><a ui-sref="app.login" id="logout" ng-click="navBar.logout()" ><span class="glyphicon glyphicon-log-out"></span>
         Log-out</a></li>
-    <li><a><span class="glyphicon glyphicon-question-sign"></span></a></li>
+    <li></li>
   </ul>
 </nav>
