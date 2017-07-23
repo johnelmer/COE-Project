@@ -34,6 +34,14 @@ class Student extends Model {
     return this.courses.map(course => course.getStudentRecords(this))
   }
 
+  get failedCourses() {
+    return this.coursesGrades.filter(courseGrade => courseGrade.finalRating === '5.0')
+  }
+
+  get numberOfFailures() {
+    return this.failedCourses.length
+  }
+
   get degreeAndYear() {
     return `${this.degree} - ${this.yearLevel}`
   }
