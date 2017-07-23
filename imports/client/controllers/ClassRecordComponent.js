@@ -1,5 +1,6 @@
 import Course from '/imports/both/models/Course'
 import { Meteor } from 'meteor/meteor'
+import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/class-record.html'
 
@@ -11,6 +12,24 @@ import '../views/class-record.html'
       const isAuthorized = Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
+    // subsReady() {
+    //   return new Promise((resolve) => {
+    //     Tracker.autorun(() => {
+    //       const courses = Meteor.subscribe('courses')
+    //       const sessions = Meteor.subscribe('sessions')
+    //       const students = Meteor.subscribe('students')
+    //       const activities = Meteor.subscribe('activities')
+    //       const activityTypes = Meteor.subscribe('activity-types')
+    //       const gradingTemplates = Meteor.subscribe('grading-templates')
+    //       const settings = Meteor.subscribe('settings')
+    //       const gradeTransmutations = Meteor.subscribe('grade-transmutations')
+    //       const subs = [courses, sessions, students, activities, activityTypes,
+    //         gradingTemplates, settings, gradeTransmutations]
+    //       const subsReady = subs.every(sub => sub.ready())
+    //       if (subsReady) { resolve(true) }
+    //     })
+    //   })
+    // },
   },
 })
 @Component({
@@ -24,7 +43,36 @@ class ClassRecordComponent {
     $reactive(this).attach($scope)
     const { courseId } = $stateParams
     this.$state = $state
-    this.subscribe('courses', () => {
+    this.user = Meteor.user()
+    const user = this.user
+    const userId = user._id
+    // const courses = Meteor.subscribe('courses')
+    // const sessions = Meteor.subscribe('sessions')
+    // const students = Meteor.subscribe('students')
+    // const activities = Meteor.subscribe('activities')
+    // const activityTypes = Meteor.subscribe('activity-types')
+    // const gradingTemplates = Meteor.subscribe('grading-templates')
+    // const settings = Meteor.subscribe('settings')
+    // const gradeTransmutations = Meteor.subscribe('grade-transmutations')
+    // const subs = [courses, sessions, students, activities, activityTypes,
+    //   gradingTemplates, settings, gradeTransmutations]
+    // const isSubsReady = subs.every(sub => sub.ready())
+    // if (isSubsReady) {
+    //   this.isSubsReady = isSubsReady
+    //   this.course = Course.findOne({ _id: courseId })
+    //   const course = this.course
+    //   this.activityList = []
+    //   this.students = course.students
+    //   this.user = Meteor.user()
+    //   this.doc = course.classRecord
+    //   this.sessions = course.sessions
+    //   this.activityTypes = course.activityTypesWithScores
+    //   this.activities = course.activitiesWithDates
+    //   this.courseTypes = course.currentUserHandledTypes
+    //   this.newActivity = { date: new Date(), totalScore: 5, description: '' }
+    //   this.newAttendance = { date: new Date(), sessionType: this.courseTypes[0] }
+    // }
+    this.subscribe(('teacherCourses', userId), () => {
       const sessionSubs = this.subscribe('sessions')
       const studentSubs = this.subscribe('students')
       const activitySubs = this.subscribe('activities')
@@ -39,7 +87,6 @@ class ClassRecordComponent {
         && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready()
         && gradeTransmutationSubs.ready() && course) {
         this.students = course.students
-        this.user = Meteor.user()
         this.doc = course.classRecord
         this.sessions = course.sessions
         this.activityTypes = course.activityTypesWithScores
@@ -168,7 +215,6 @@ class ClassRecordComponent {
     const date = newAttendance.date
     const sessionType = newAttendance.sessionType
     const session = this.course.getSessionByDate(date, sessionType)
-
     session.save()
     this.course.save()
     this.$state.go('app.course.session.attendanceUpdate', { sessionId: session._id })
@@ -179,9 +225,19 @@ class ClassRecordComponent {
   }
 
   passClassRecord() {
-    console.log('hey')
     this.course.passClassRecord()
-    console.log('success')
+  }
+
+  get shouldShowApproveDenyBtn() {
+    // const course = this.course
+    // if (course) {
+    //   if (course.customGradingTemplate === undefined) {
+    //     return false
+    //   }
+    //   const custom = this.course.customGradingTemplate
+    //   return this.user.roleName === 'dean' && !custom.isApproved
+    // }
+    return false
   }
 
   openPicker() {

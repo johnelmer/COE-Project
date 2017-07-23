@@ -66,6 +66,9 @@ Meteor.publish('notifications', () => Notification.find())
 Meteor.publish('grade-transmutations', () => GradeTransmutation.find())
 
 Meteor.publish('teacherCourses', (teacherId) => { // eslint-disable-line
-  const teacher = User.findOne({ _id: teacherId })
-  return Course.find({ _id: { $in: teacher.courseIds } })
+  const user = User.findOne({ _id: teacherId })
+  if (user.roleName === 'dean') {
+    return Course.find()
+  }
+  return Course.find({ _id: { $in: user.courseIds } })
 })

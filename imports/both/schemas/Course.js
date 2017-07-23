@@ -38,12 +38,12 @@ const courseType = new SimpleSchema({
 
 export default new SimpleSchema({
   subject: {
-    type: subjectSchema.pick('name', 'courseNumber', 'units', 'laboratoryType'),
+    type: subjectSchema.pick('name', 'courseNumber', 'credits', 'units', 'laboratoryType'),
   },
   stubcode: {
     type: Number,
     optional: true,
-    // unique: true,
+  //  unique: true,
   },
   lecture: {
     type: courseType,

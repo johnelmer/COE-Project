@@ -19,7 +19,8 @@ class Course extends Model {
   static schema = schema
 
   get hasALaboratory() {
-    return typeof this.laboratory === 'object'
+    const laboratory = this.laboratory
+    return Object.keys(laboratory).length !== 0
   }
 
   enrollAStudent(student) {

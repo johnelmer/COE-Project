@@ -17,18 +17,16 @@ export default new SimpleSchema({
         meeting = Meeting.findOne({ title: this.value })
       }
       if (meeting) {
-          // return 'notAllowed'
           return 'alreadyExist'
       }
-      // return true
     }
   },
   attendeeIds: {
     type: [String],
     optional: true,
-    custom: function () {
-      console.log(this);
-    },
+    // custom: function () {
+    //   console.log(this);
+    // },
   },
   schedule: {
     type: Date,
