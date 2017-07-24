@@ -121,7 +121,7 @@ export default new SimpleSchema({
   image: {
     // TODO: Image upload
     type: Object,
-    optional: true,
+    defaultValue: {},
     blackbox: true,
   },
   courseIds: {

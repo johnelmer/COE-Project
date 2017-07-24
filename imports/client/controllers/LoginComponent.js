@@ -32,6 +32,8 @@ class LoginComponent {
   static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
     $reactive(this).attach($scope)
+    // this.usernameErrorMessage = ''
+    // this.passwordErrorMessage = ''
     this.user = {}
     this.$state = $state
     this.subscribe('users')
@@ -66,10 +68,12 @@ class LoginComponent {
   }
 
   get isInvalidUsername() {
+    this.usernameErrorMessage = 'Please enter username'
     return this.user.username === '' || this.user.username === null
   }
 
   get isInvalidPassword() {
+    this.passwordErrorMessage = 'Please enter password'
     return this.user.password === '' || this.user.username === null
   }
 }

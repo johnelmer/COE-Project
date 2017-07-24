@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import _ from 'underscore'
 import Course from '/imports/both/models/Course'
 import Student from '/imports/both/models/Student'
 import Subject from '/imports/both/models/Subject'
@@ -18,9 +19,28 @@ import GradeTransmutation from '/imports/both/models/GradeTransmutation'
 Meteor.publish('courses', () => Course.find())
 
 
-Meteor.publish('students', () => Student.find({}, { sort: { lastName: 1 } }))
+Meteor.publish('students', () => {
+  const opts = {
+    sort: {
+      lastName: 1,
+    },
+  }
+  return Student.find({}, opts)
+}
+)
 
-Meteor.publish('students-basic-infos', () => Student.find({}, { fields: { firstName: 1, lastName: 1, idNumber: 1, degree: 1, yearLevel: 1 } }))
+Meteor.publish('students-basic-infos', () => {
+  const opts = {
+    fields: {
+      firstName: 1,
+      lastName: 1,
+      idNumber: 1,
+      degree: 1,
+      yearLevel: 1,
+    },
+  }
+  return Student.find({}, opts)
+})
 
 Meteor.publish('student', (id) => {
   return Student.find({ _id: id })
@@ -67,8 +87,5 @@ Meteor.publish('grade-transmutations', () => GradeTransmutation.find())
 
 Meteor.publish('teacherCourses', (teacherId) => { // eslint-disable-line
   const user = User.findOne({ _id: teacherId })
-  if (user.roleName === 'dean') {
-    return Course.find()
-  }
   return Course.find({ _id: { $in: user.courseIds } })
 })
