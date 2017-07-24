@@ -13,12 +13,12 @@
       </div>
       <br>
       <div>
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           Limit: <input ng-model="studentList.limit" type="number" min="{{ studentList.min }}" max="{{ studentList.max }}">
-        </div>
+        </div> -->
       </div>
       <div class="form-group">
-        <table class="table table-bordered table-hover table-reponsive ">
+        <!-- <table class="table table-bordered table-hover table-reponsive ">
           <thead class="thead-inverse">
             <tr>
               <td>
@@ -49,7 +49,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="student in (studentList.filteredStudents = (studentList.students | filter:studentList.searchText | limitTo:studentList.limit | orderBy:'lastName'))">
+            <tr ng-repeat="student in studentList.filteredStudents">
               <td>{{ student.idNumber }}</td>
               <td>{{ student.lastName }}</td>
               <td>{{ student.firstName }}</td>
@@ -58,14 +58,21 @@
                 <button class="btn btn-primary btn-sm btn-block" ui-sref="app.student.view({ studentId: student._id })">
                   Details
                 </button>
-                <!-- <button type="button" class="btn btn-default btn-sm"  ui-sref="app.student.view({ studentId: student._id })">
-                <span class="glyphicon glyphicon-folder-close"></span> More...
-              </button> -->
             </td>
           </tr>
         </tbody>
-      </table>
-      <button class="btn btn-primary" ng-click="studentList.increaseLimit()">Show More</button>
+      </table> -->
+      <p>
+        <div class="gridStyle" ui-grid="studentList.gridOptions" ui-grid-exporter ui-grid-selection></div>
+      </p>
+      <p>
+        <a class="btn btn-success" ng-click="studentList.selectAll()">
+          Select All
+        </a>
+        <a class="btn btn-danger" ng-click="studentList.clearAll()">
+          Clear All
+        </a>
+      </p>
     </form>
   </div>
 </div>

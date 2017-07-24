@@ -44,9 +44,13 @@ class StudentViewComponent {
       Female: '/defaults/default_female.png',
     }
     const isFemale = this.student.gender === 'Female'
-    const hasNoPicture = !(this.student.image.src)
+    const hasNoPicture = this.student.image && !(this.student.image.src)
     let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
-    displayImage = this.student.image.src || displayImage
+    // this.student.image is sometimes undefined.
+    // so this.student.image is needed.
+    // since the this value is needed right after the DOM is loaded
+    // regardless of the readiness of subscriptions
+    displayImage = (this.student.image && this.student.image.src) || displayImage
     return displayImage
   }
 
