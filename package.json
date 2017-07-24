@@ -26,6 +26,7 @@
     "meteor-node-stubs": "~0.2.0",
     "ng-file-upload": "^12.2.13",
     "ng-toast": "^2.0.0",
+    "pdfmake": "^0.1.31",
     "ui-select": "^0.19.4",
     "underscore": "^1.8.3",
     "xlsx": "^0.10.8"
