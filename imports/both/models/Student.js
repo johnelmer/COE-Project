@@ -10,11 +10,6 @@ import Course from './Course'
 class Student extends Model {
   static schema = schema
 
-  constructor(doc) {
-    super(doc)
-    this.image = this.image || {}
-  }
-
   enrollACourse(course) {
     const courseDoc = course
     delete courseDoc.sessions
@@ -32,6 +27,14 @@ class Student extends Model {
 
   get coursesGrades() {
     return this.courses.map(course => course.getStudentRecords(this))
+  }
+
+  get failedCourses() {
+    return this.coursesGrades.filter(courseGrade => courseGrade.finalRating === '5.0')
+  }
+
+  get numberOfFailures() {
+    return this.failedCourses.length
   }
 
   get degreeAndYear() {

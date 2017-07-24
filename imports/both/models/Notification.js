@@ -9,13 +9,15 @@ class Notification extends Model {
 
   static schema = schema
 
-  notifyUser() {
+  notifyUsers() {
+    console.log(this.users)
     this.users.forEach((user) => {
         if (!user.notificationIds) {
           user.notificationIds = []
         }
         user.notificationIds.push(this._id)
-        user.save()
+        console.log(user)
+        user.save(err => console.log(err))
     });
   }
 

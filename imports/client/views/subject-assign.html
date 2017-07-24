@@ -6,16 +6,12 @@
         <h4>Subject Assigment</h4>
       </div>
       <div class="panel-body">
-
         <div class="form-group">
           <div class="row">
             <div class="col-md-2">
-              <label>
-                Teacher:
-              </label>
+              <label>Teacher</label>
             </div>
             <div class="col-md-4">
-            </ui-select>
             <ui-select ng-model="subjectAssign.teacher" theme="bootstrap" title="Choose a Teacher">
               <ui-select-match placeholder="Select or search a teacher in the list...">{{$select.selected.fullName}}</ui-select-match>
               <ui-select-choices group-by="'department'" repeat="teacher in subjectAssign.teachers | filter: $select.search">
@@ -31,9 +27,7 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-2">
-            <label>
-              Subjects:
-            </label>
+            <label>Subjects</label>
           </div>
           <div class="col-md-4">
             <ui-select multiple ng-model="subjectAssign.subjectsAssigned" theme="bootstrap" close-on-select="false">
@@ -48,7 +42,7 @@
       </div>
       <div class="col-md-offset-4 col-md-2">
         <button class="btn btn-primary btn-md btn-block" ng-click="subjectAssign.assignSubject()">
-          <span class="glyphicon glyphicon-floppy-disk"></span> Save
+          Save
         </button>
       </div>
     </div>

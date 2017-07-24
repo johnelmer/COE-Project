@@ -298,7 +298,6 @@ const seeder = {
         gender: random.arrayElement(data.genders),
         roleName: role,
         subjectAssignedIds: [],
-        courseIds: [],
         notificationIds: [],
       }).save()
     }

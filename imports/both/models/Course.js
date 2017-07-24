@@ -19,7 +19,11 @@ class Course extends Model {
   static schema = schema
 
   get hasALaboratory() {
-    return typeof this.laboratory === 'object'
+    const laboratory = this.laboratory
+    if (laboratory) {
+      return Object.keys(laboratory).length !== 0
+    }
+    return laboratory !== undefined
   }
 
   enrollAStudent(student) {
@@ -228,7 +232,7 @@ class Course extends Model {
       status = (doc.finalRating < this.gradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
     }
     doc.status = status
-    doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory')
+    doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory', 'semester', 'schoolYear')
     return doc
   }
 

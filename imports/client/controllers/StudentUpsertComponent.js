@@ -28,31 +28,18 @@ import '../styles/studentUpsert.scss'
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
-    subs($stateParams) {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const { studentId } = $stateParams
-          const student = Meteor.subscribe('student', studentId)
-          const degrees = Meteor.subscribe('degrees')
-          const subs = [student, degrees]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
   },
 })
 @Component({
   selector: 'student-upsert',
   templateUrl: 'imports/client/views/student-upsert.html',
 })
-@Inject('$scope', '$reactive', '$state', 'ngToast', 'Upload', '$timeout')
+@Inject('$scope', '$reactive', '$state', 'ngToast', 'Upload', '$timeout', '$stateParams')
 class StudentUpsertComponent {
   static schema = schema
-  constructor($scope, $reactive, $state, ngToast, Upload, $timeout) {
+  constructor($scope, $reactive, $state, ngToast, Upload, $timeout, $stateParams) {
     $reactive(this).attach($scope)
+    this.isReady = false
     this.buttonLabel = ''
     this.message = ''
     this.Upload = Upload
@@ -66,8 +53,21 @@ class StudentUpsertComponent {
     }
     this.helpers({
       student() {
+        const degrees = Meteor.subscribe('degrees')
         if ($state.current.name.endsWith('create')) {
+          const subs = [degrees]
+          const isReady = subs.every(sub => sub.ready())
+          if (isReady) {
+            this.isReady = true
+          }
           return new Student()
+        }
+        const { studentId } = $stateParams
+        const student = Meteor.subscribe('student', studentId)
+        const subs = [student, degrees]
+        const isReady = subs.every(sub => sub.ready())
+        if (isReady) {
+          this.isReady = true
         }
         return Student.findOne()
       },
@@ -91,10 +91,10 @@ class StudentUpsertComponent {
       Male: '/defaults/default_male.png',
       Female: '/defaults/default_female.png',
     }
-    const isFemale = this.student.gender === 'Female'
-    const hasNoPicture = !(this.student.image.src)
-    let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
-    displayImage = this.student.image.src || displayImage
+    let displayImage = gender[this.student.gender || 'Male']
+    if (this.student.image) {
+      displayImage = this.student.image.src || displayImage
+    }
     return displayImage
   }
 
@@ -123,6 +123,7 @@ class StudentUpsertComponent {
                                    (evt.loaded / evt.total), 10))
       }).then(() => {
         Upload.base64DataUrl(file).then((url) => {
+          this.student.image = this.student.image || {}
           this.student.image.src = url
           this.displayImage = url
         })

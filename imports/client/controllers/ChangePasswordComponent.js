@@ -11,8 +11,8 @@ import '../views/change-password.html'
     subs() {
       return new Promise((resolve) => {
         Tracker.autorun(() => {
-          const settings = this.subscribe('settings')
-          const currentUser = this.subscribe('currentUser')
+          const settings = Meteor.subscribe('settings')
+          const currentUser = Meteor.subscribe('currentUser')
           const subs = [currentUser, settings]
           const isReady = subs.every(sub => sub.ready())
           if (isReady) {
@@ -20,8 +20,8 @@ import '../views/change-password.html'
           }
         })
       })
-    }
-  }
+    },
+  },
 })
 @Component({
   selector: 'settings-change',
@@ -41,12 +41,13 @@ class ChangePasswordComponent {
           this.oldPassword = ""
           this.newPassword = ""
           this.retypedPassword = ""
+          alert("Password changed")
         } else {
           console.log(err)
         }
       })
     } else {
-      alert("new password do not math with retyped password")
+      alert("The retyped password does not match with the new password")
     }
   }
 }

@@ -67,6 +67,7 @@ class StudentMassUploadComponent {
       }).then(() => {
         Upload.base64DataUrl(file).then((url) => {
           const base64URL = url.split(',')[1]
+          console.log(url);
           return base64URL
         }).then((base64URL) => {
           const workbook = XLSX.read(base64URL, { type: 'base64' })

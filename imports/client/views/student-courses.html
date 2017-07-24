@@ -2,6 +2,24 @@
   <div>
     <h2>{{ studentCourses.student.fullName }}</h2>
     <h3>{{ studentCourses.student.degree }} - {{ studentCourses.student.yearLevel }}</h3>
+    <h6>Number of failures: {{ studentCourses.student.numberOfFailures }}</h6>
+  </div>
+  <label>Filter:</label>
+  <div class="btn-group" uib-dropdown keyboard-nav>
+    <button type="button" id="simple-btn-keyboard-nav" class="btn btn-primary" uib-dropdown-toggle>
+      {{ studentCourses.selectedSemester }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+      <li role="menuitem" ng-repeat="semester in studentCourses.semesterList"><a href ng-click="studentCourses.changeSemester(semester)">{{ semester }}</li>      
+    </ul>
+  </div>
+  <div class="btn-group" uib-dropdown keyboard-nav>
+    <button type="button" id="simple-btn-keyboard-nav" class="btn btn-primary" uib-dropdown-toggle>
+      {{ studentCourses.selectedSchoolYear }} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+      <li role="menuitem" ng-repeat="schoolYear in studentCourses.schoolYearList"><a href ng-click="studentCourses.changeSchoolYear(schoolYear)">{{ schoolYear }}</a></li>      
+    </ul>
   </div>
   <div>
     <table class="table table-bordered table-striped">
@@ -20,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="align" ng-repeat="record in studentCourses.records">
+        <tr class="align" ng-repeat="record in studentCourses.filteredRecords">
           <td>{{ record.course.subject.courseNumber }}</td>
           <td>{{ record.course.subject.name }}</td>
           <td>{{ record.course.lecture.instructor.fullName }}</td>

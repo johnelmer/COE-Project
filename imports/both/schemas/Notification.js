@@ -21,10 +21,10 @@ export default new SimpleSchema({
     type: Object,
   },
   'content.header': {
-    type: String
+    type: String,
   },
   'content.body': {
-    type: String
+    type: String,
   },
   date: {
     type: Date,

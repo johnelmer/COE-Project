@@ -115,7 +115,7 @@ Meteor.startup(() => {
       const students = Student.find({}, { skip: currentStudentSkip, limit: studentLimit }).fetch()
       courses.forEach((course) => {
         students.forEach((student) => {
-          course.enrollAStudent(student)
+          course.studentIds.push(student._id)
           student.courseIds.push(course._id)
           course.save()
           student.save()
