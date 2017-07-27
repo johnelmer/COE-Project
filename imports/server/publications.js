@@ -29,10 +29,8 @@ Meteor.publish('students', () => {
 }
 )
 
-Meteor.publish('students-basic-infos', (quantity, searchText) => {
-  console.log(searchText);
+Meteor.publish('students-basic-infos', () => {
   const opts = {
-    limit: quantity,
     fields: {
       firstName: 1,
       lastName: 1,
@@ -41,22 +39,7 @@ Meteor.publish('students-basic-infos', (quantity, searchText) => {
       yearLevel: 1,
     },
   }
-  if (!searchText) {
-    return Student.find({}, opts)
-  }
-  const regex = new RegExp(searchText, 'i')
-  const { fields } = opts
-  const keys = Object.keys(fields)
-  const searchFields = keys.map((key) => {
-    const obj = {}
-    obj[key] = regex
-    return obj
-  })
-  console.log(searchFields);
-  const query = {
-    $or: [...searchFields],
-  }
-  return Student.find(query, opts)
+  return Student.find({}, opts)
 })
 
 Meteor.publish('student', (id) => {

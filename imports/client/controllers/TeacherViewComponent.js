@@ -8,8 +8,8 @@ import '../views/teacher-view.html'
   name: 'app.teacher.view',
   url: '/teacher/view/:teacherId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('secretary')
+    redirect($location) {
+      const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
     subs($stateParams) {
@@ -43,6 +43,18 @@ class TeacherViewComponent {
         return Teacher.findOne({ _id: teacherId })
       },
     })
+  }
+
+  get defaultPicture() {
+    const gender = {
+      Male: '/defaults/default_male.png',
+      Female: '/defaults/default_female.png',
+    }
+    const isFemale = this.teacher.gender === 'Female'
+    const hasNoPicture = !(this.teacher.image.src)
+    let displayImage = (hasNoPicture && isFemale) ? gender.Female : gender.Male
+    displayImage = this.teacher.image.src || displayImage
+    return displayImage
   }
 
   viewCourses() {

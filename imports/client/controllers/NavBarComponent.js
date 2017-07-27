@@ -8,14 +8,14 @@ import '../views/nav-bar.html'
   selector: 'nav-bar',
   templateUrl: 'imports/client/views/nav-bar.html',
 })
-@Inject('$scope', '$reactive', 'ngToast')
-
+@Inject('$scope', '$reactive', '$state', 'ngToast')
 class NavBarComponent {
 
-  constructor($scope, $reactive, ngToast) {
+  constructor($scope, $reactive, $state, ngToast) {
     $reactive(this).attach($scope)
     this.user = this.currentUser
     this.ngToast = ngToast
+    this.$state = $state
     this.autorun(() => {
       const users = this.subscribe('currentUser')
       const roles = this.subscribe('roles')
@@ -30,6 +30,7 @@ class NavBarComponent {
 
   logout() {
     Meteor.logout()
+    this.$state.go('app.login')
   }
 }
 

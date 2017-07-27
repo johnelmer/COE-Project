@@ -8,6 +8,7 @@ import ngSanitize from 'angular-sanitize'
 import uiRouter from 'angular-ui-router'
 import uiSelect from 'ui-select'
 import ngFileUpload from 'ng-file-upload'
+import uiGrid from 'angular-ui-grid'
 import 'ng-toast'
 
 init()
@@ -21,6 +22,9 @@ const dependencies = [
   uiRouter,
   uiSelect,
   ngFileUpload,
+  uiGrid,
+  'ui.grid.exporter',
+  'ui.grid.selection',
 ]
 
 SetModule('app', dependencies)

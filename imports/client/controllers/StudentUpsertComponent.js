@@ -53,7 +53,7 @@ class StudentUpsertComponent {
     }
     this.helpers({
       student() {
-        const degrees = Meteor.subscribe('degrees')
+        const degrees = this.subscribe('degrees')
         if ($state.current.name.endsWith('create')) {
           const subs = [degrees]
           const isReady = subs.every(sub => sub.ready())
@@ -63,7 +63,9 @@ class StudentUpsertComponent {
           return new Student()
         }
         const { studentId } = $stateParams
-        const student = Meteor.subscribe('student', studentId)
+        const student = this.subscribe('student', () => {
+          return [studentId]
+        })
         const subs = [student, degrees]
         const isReady = subs.every(sub => sub.ready())
         if (isReady) {

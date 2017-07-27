@@ -1,30 +1,30 @@
-<div class="container">
-  <form class="form-horizontal" id="login_form">
-    <div class="jumbotron text-center">
-      <legend>
-        <h1>CPU College of Engineering</h1></legend>
-        <div class="form-group has-feedback" ng-focus="loginView.isInvalidUsername" ng-class="{'has-error': loginView.isInvalidUsername }">
-          <label class="col-sm-4 control-label">Username</label>
-          <div class="col-sm-4">
+<div class="container login">
+  <div class="row">
+    <div class="col-md-6" class="img-responsive">
+    </div>
+    <div class="col-md-6">
+      <form id="login_form">
+          <h4 align="center">
+            <img src="/defaults/coe-logo.png" alt="coe-logo" id="logo">
+          </h4>
+          <div class="form-group has-feedback" ng-keyup="loginView.isInvalidUsername" ng-class="{'has-error': loginView.isInvalidUsername }">
+            <label class="control-label">Username</label>
             <input type="text" name="username"  id="username" placeholder="Enter your username" class="form-control" ng-model="loginView.user.username" />
             <i ng-show="loginView.isInvalidUsername" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             <!-- <i ng-hide="loginView.isInvalidUsername" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></i> -->
             <div class="text-danger text-left" ng-show="loginView.isInvalidUsername">{{loginView.usernameErrorMessage}}</div>
           </div>
-        </div>
-        <div class="form-group has-feedback" ng-keyup="loginView.isInvalidPassword" ng-class="{'has-error': loginView.isInvalidPassword }">
-          <label class="col-sm-4 control-label">Password</label>
-          <div class="col-sm-4">
+          <div class="form-group has-feedback" ng-keyup="loginView.isInvalidPassword" ng-class="{'has-error': loginView.isInvalidPassword }">
+            <label class="control-label">Password</label>
             <input type="Password" name="password" id="password" placeholder="*****************" class="form-control" ng-model="loginView.user.password" />
             <i ng-show="loginView.isInvalidPassword" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
             <div class="text-danger text-left" ng-show="loginView.isInvalidPassword">{{ loginView.passwordErrorMessage}}</div>
           </div>
-        </div>
-        <div class="form-group">
-          <div class="col-md-offset-4 col-md-4">
-            <button id="submitButton" class="btn btn-primary btn-lg btn-block" ng-click="loginView.login()">Log In</button>
+          <div class="form-group">
+            <label></label>
+            <button id="submitButton" type="button" class="btn btn-primary btn-md btn-block" ng-click="loginView.login()">Log In</button>
           </div>
-        </div>
       </form>
     </div>
   </div>
+</div>
