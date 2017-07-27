@@ -71,11 +71,14 @@ export default new SimpleSchema({
   questRecords: {
     type: Array,
   },
+  'questRecords.$': {
+    type: Object,
+  },
   'questRecords.$.studentId': {
     type: String,
-    autoValue: [],
+    defaultValue: [],
   },
-  'quesrRecords.$.points': {
+  'questRecords.$.points': {
     type: Number,
     max: 5,
     min: 2.5,

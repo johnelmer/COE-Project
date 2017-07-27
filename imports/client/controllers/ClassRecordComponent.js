@@ -83,9 +83,10 @@ class ClassRecordComponent {
       this.course = Course.findOne({ _id: courseId })
       const course = this.course
       this.activityList = []
-      if (sessionSubs.ready() && studentSubs.ready() && activitySubs.ready()
-        && activityTypeSubs.ready() && gradingSubs.ready() && settingSubs.ready()
-        && gradeTransmutationSubs.ready() && course) {
+      const subs = [sessionSubs, studentSubs, activitySubs, activityTypeSubs,
+        gradingSubs, settingSubs, gradeTransmutationSubs]
+      const isDataReady = subs.every(sub => sub.ready())
+      if (isDataReady && course) {
         this.students = course.students
         this.doc = course.classRecord
         this.sessions = course.sessions
@@ -104,10 +105,6 @@ class ClassRecordComponent {
     this.popup = {
       opened: false,
     }
-  }
-
-  get isDataReady() {
-    return this.doc !== undefined
   }
 
   get ratingTableHeaders() {
@@ -160,10 +157,6 @@ class ClassRecordComponent {
     }
     return activity.isLocked
   }
-
-/*  toCamelCase(str) {
-    return str.toLowerCase().replace(/\W+(.)/g, (match, chr) => chr.toUppercase())
-  } */
 
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
