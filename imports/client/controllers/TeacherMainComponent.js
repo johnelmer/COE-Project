@@ -10,7 +10,8 @@ import '../views/teacher-main.html'
   resolve: {
     redirect($location) {
       return new Promise((resolve) => {
-        const isAuthorized = Meteor.user().hasARole('faculty')
+        const hasAUser = Meteor.user()
+        const isAuthorized = hasAUser && Meteor.user().hasARole('faculty')
         resolve(isAuthorized || $location.path('/login'))
       })
     },
