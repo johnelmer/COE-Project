@@ -19,7 +19,7 @@ import '../views/students-monitoring.html'
   selector: 'students-monitor',
   templateUrl: 'imports/client/views/students-monitoring.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive')
 class StudentsMonitoringComponent {
 
   constructor($scope, $reactive) {

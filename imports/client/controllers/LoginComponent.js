@@ -13,11 +13,10 @@ import 'ng-toast/dist/ngToast.css'
   name: 'app.login',
   url: '/login',
   resolve: {
-    redirect(user, $location) {
-      Tracker.autorun(() => {
-        if (user) {
-          $location.path('/teacher/courses')
-        }
+    redirect($location) {
+      return new Promise((resolve) => {
+        const hasNoUser = !(Meteor.user())
+        resolve(hasNoUser || $location.path('/teacher/main'))
       })
     },
   },
@@ -31,6 +30,7 @@ import 'ng-toast/dist/ngToast.css'
 class LoginComponent {
   static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
+    console.log($scope);
     $reactive(this).attach($scope)
     // this.usernameErrorMessage = ''
     // this.passwordErrorMessage = ''

@@ -9,7 +9,6 @@ import '../views/nav-bar.html'
   templateUrl: 'imports/client/views/nav-bar.html',
 })
 @Inject('$scope', '$reactive', 'ngToast')
-
 class NavBarComponent {
 
   constructor($scope, $reactive, ngToast) {

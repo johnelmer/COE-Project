@@ -27,7 +27,7 @@ import '../views/change-password.html'
   selector: 'settings-change',
   templateUrl: 'imports/client/views/change-password.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive')
 class ChangePasswordComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)

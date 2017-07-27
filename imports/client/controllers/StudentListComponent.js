@@ -25,10 +25,10 @@ import '../styles/studentList.scss'
   selector: 'student-list',
   templateUrl: 'imports/client/views/student-list.html',
 })
-@Inject('$scope', '$reactive', '$location', '$http', '$filter')
+@Inject('$scope', '$reactive', '$location', '$http', '$filter', '$state')
 class StudentListComponent {
 
-  constructor($scope, $reactive, $location, $http, $filter) {
+  constructor($scope, $reactive, $location, $http, $filter, $state) {
     $reactive(this).attach($scope)
     this.isReady = false
     this.filter = $filter('filter')
@@ -42,7 +42,6 @@ class StudentListComponent {
         if (subsReady) {
           this.isReady = true
           students = Student.find().fetch()
-          this.max = students.length
           this.filteredStudents = this.filter(students, this.getReactively('this.searchText'))
           this.gridOptions.data = this.filteredStudents
         }
@@ -60,11 +59,12 @@ class StudentListComponent {
       exporterPdfPageSize: 'LETTER',
       exporterPdfMaxGridWidth: 500,
       enableSorting: true,
-      enablePinning: true,
-      multiSelect: true,
-      enableRowHeaderSelection: false,
-      enableRowSelection: true,
-      // enableSelectAll: true,
+      enableRowHeaderSelection: true,
+      enableSelectAll: true,
+    //   rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}">' +
+    // '<div  ng-style="rowStyle" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'"' +
+    // 'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell ui-sref="app.student.view({ studentId: row.entity._id })" >' +
+    // '</div> </div>',
       columnDefs: [
         {
           field: 'idNumber',
@@ -75,11 +75,13 @@ class StudentListComponent {
           field: 'lastName',
           displayName: 'Last Name',
           minWidth: 120,
+          cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
         },
         {
           field: 'firstName',
           displayName: 'First Name',
           minWidth: 120,
+          cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
         },
         {
           field: 'degree',
@@ -107,8 +109,11 @@ class StudentListComponent {
     .success((data) => {
       this.gridOptions.data = data;
     });
-    this.url = this.url || window.location.href
-    this.fileName = this.fileName || 'Download.xlsx'
+    this.$state = $state
+  }
+
+  gridRowClick(row) {
+    console.log(row);
   }
 
   selectAll() {

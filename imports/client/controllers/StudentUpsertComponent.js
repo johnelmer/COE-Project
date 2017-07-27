@@ -63,7 +63,9 @@ class StudentUpsertComponent {
           return new Student()
         }
         const { studentId } = $stateParams
-        const student = this.subscribe('student', studentId)
+        const student = this.subscribe('student', () => {
+          return [studentId]
+        })
         const subs = [student, degrees]
         const isReady = subs.every(sub => sub.ready())
         if (isReady) {

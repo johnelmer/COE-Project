@@ -11,7 +11,7 @@ import '../views/settings.html'
   selector: 'settings-update',
   templateUrl: 'imports/client/views/settings.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams')
+@Inject('$scope', '$reactive', '$stateParams', '$state')
 class SettingsComponent {
   static schema = schema
   constructor($scope, $reactive, $stateParams, $state) {

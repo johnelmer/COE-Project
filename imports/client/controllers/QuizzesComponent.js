@@ -16,7 +16,7 @@ import '../views/classrecord-quizzes-view.html'
   selector: 'class-record-quizzes',
   templateUrl: 'classrecord-quizzes-view.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$uibModal')
+@Inject('$scope', '$reactive', '$state', '$stateParams')
 class QuizzesComponent {
 
   constructor($scope, $reactive, $state, $stateParams) {

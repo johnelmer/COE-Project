@@ -9,65 +9,44 @@ import '../views/teacher-main.html'
   url: '/teacher/courses',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
-      return isAuthorized || $location.path('/login')
-    },
-    subs() {
       return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const { _id } = Meteor.user()
-          const setting = Meteor.subscribe('settings')
-          const user = Meteor.subscribe('user', _id)
-          const courses = Meteor.subscribe('teacherCourses', _id)
-          const subs = [setting, user, courses]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
+        const isAuthorized = Meteor.user().hasARole('faculty')
+        resolve(isAuthorized || $location.path('/login'))
       })
     },
   },
 })
-
 @State({
   name: 'app.teacher.courses',
   url: '/teacher/courses/:teacherId',
   resolve: {
     redirect(user, $location) {
-      const isAuthorized = Meteor.user().hasARole('dean')
-      return isAuthorized || $location.path('/login')
-    },
-    subs($stateParams) {
       return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const { teacherId } = $stateParams
-          const setting = Meteor.subscribe('settings')
-          const user = Meteor.subscribe('user', teacherId)
-          const courses = Meteor.subscribe('teacherCourses', teacherId)
-          const subs = [setting, user, courses]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
+        const isAuthorized = Meteor.user().hasARole('dean')
+        resolve(isAuthorized || $location.path('/login'))
       })
     },
   },
 })
-
 @Component({
   selector: 'teacher-main',
   templateUrl: 'imports/client/views/teacher-main.html',
 })
-@Inject('$scope', '$reactive')
-
+@Inject('$scope', '$reactive', '$state', '$stateParams')
 export default class TeacherMainComponent {
 
-  constructor($scope, $reactive) {
+  constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
     this.helpers({
       courses() {
+        const setting = this.subscribe('settings')
+        const endsWithCourses = $state.current.name.endsWith('courses')
+        const teacherId = endsWithCourses && $stateParams.teacherId
+        const id = endsWithCourses ? teacherId : Meteor.userId()
+        const user = this.subscribe('user', () => [id])
+        const courses = this.subscribe('teacherCourses', () => [id])
+        const subs = [setting, user, courses]
+        this.isReady = subs.every(sub => sub.ready())
         return Course.find().fetch()
       },
       user() {
@@ -94,6 +73,12 @@ export default class TeacherMainComponent {
     //   }
     // })
   }
+
+  getLastUrlWord(word) { // word kai wala spaces
+    const words = word.split('/')
+    return words.pop()
+  }
+
   get isCoursesReady() {
     const user = this.user
     if (user && user.courseIds.length > 0) {

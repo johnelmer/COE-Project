@@ -19,7 +19,7 @@ import '../views/activity-update.html'
   selector: 'activity-update',
   templateUrl: 'imports/client/views/activity-update.html',
 })
-@Inject('$scope', '$reactive', '$state', '$stateParams', '$q', 'ngToast')
+@Inject('$scope', '$reactive', '$state', '$stateParams', 'ngToast', '$location')
 class ActivityUpdateComponent {
   static schema = schema
   constructor($scope, $reactive, $state, $stateParams, ngToast) {

@@ -27,7 +27,9 @@ class StudentViewComponent {
     this.helpers({
       student() {
         const { studentId } = $stateParams
-        const student = Meteor.subscribe('student', studentId)
+        const student = this.subscribe('student', () => {
+          return [studentId]
+        })
         const subs = [student]
         const isReady = subs.every(sub => sub.ready())
         if (isReady) {
