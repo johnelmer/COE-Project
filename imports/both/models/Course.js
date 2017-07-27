@@ -77,6 +77,39 @@ class Course extends Model {
     return (options) ? _.flatten(this.sessions.map(session => session.getFilteredActivities(options))) : this.activities
   }
 
+  // returns the activity types list already given by the teacher
+  get existingActivityTypes() {
+    return this.activityTypes.filter(type => this.hasActivity(type.name))
+  }
+
+  // returns current total percentage of all activities already given
+  get existingTotalPercentage() {
+    const activityTypes = this.existingActivityTypes
+    const arrayReduce = (arr) => {
+      const length = arr.length
+      if (length === 0) {
+        return 0
+      } else if (length === 1) {
+        return arr[0].percentage
+      }
+      return arr.reduce((acc, cur) => {
+        return { percentage: cur.percentage + acc.percentage }
+      }).percentage
+    }
+    if (this.hasALaboratory) {
+      const gradingTemplate = this.gradingTemplate
+      if (length === 1) {
+        return activityTypes[0].percentage * (gradingTemplate[activityTypes[0].name].percentage / 100)
+      }
+      const lectureActivities = activityTypes.filter(type => type.category === 'lecture')
+      const labActivities = activityTypes.filter(type => type.category === 'laboratory')
+      const lecturePercentage = arrayReduce(lectureActivities)
+      const labPercentage = arrayReduce(labActivities)
+      return (lecturePercentage * (gradingTemplate.lecture.percentage / 100)) + (labPercentage * (gradingTemplate.laboratory.percentage / 100))
+    }
+    return arrayReduce(activityTypes)
+  }
+
   getSessionByDate(date, type) {
     const formattedDate = date.toLocaleDateString()
     const category = this[type]
@@ -229,7 +262,7 @@ class Course extends Model {
     if (canDetermineFinalGrade) {
       status = (doc.finalGrade === '5.0') ? 'Failed' : 'Passed'
     } else if (this.hasActivity('Midterm Exam') || this.hasActivity('Midsummer Exam')) {
-      status = (doc.finalRating < this.gradingTemplate.passingPercentage) ? 'In danger of failing' : 'Passing'
+      status = (doc.finalRating < (this.existingTotalPercentage / 2)) ? 'In danger of failing' : 'Passing'
     }
     doc.status = status
     doc.course = _.pick(this, '_id', 'subject', 'stubcode', 'lecture', 'laboratory', 'semester', 'schoolYear')
