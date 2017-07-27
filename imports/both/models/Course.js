@@ -242,6 +242,18 @@ class Course extends Model {
     return { type: type, sessions: sessions, activityTypes: activityTypes, activities: activities, records: records }
   }
 
+  getStudentQuestPts(student) {
+    const records = this.questRecords
+    if (records) {
+      const index = records.findIndex(record => record.studentId === student._id)
+      if (index === -1) {
+        return 0
+      }
+      return records[index].points
+    }
+    return 0
+  }
+
   getStudentRecords(student) {
     const doc = { activitiesObj: {} }
     const activitiesObj = this.computeStudentActivityRecords(student)
@@ -252,6 +264,8 @@ class Course extends Model {
       return avg[Object.keys(avg)[0]].rating
     })
     doc.finalRating = (avgLength === 1) ? ratings[0][Object.keys(ratings[0])[0]].rating : ratingsValues.reduce((acc, cur) => acc + cur)
+    const questPts = this.getStudentQuestPts(student)
+    doc.finalRating += questPts
     doc.activitiesObj = activitiesObj
     doc.attendances = this.getStudentAttendances(student)
     const canDetermineFinalGrade = this.activityTypes.filter(type => !type.isMultiple) // get exam activity types
