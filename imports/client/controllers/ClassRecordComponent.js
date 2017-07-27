@@ -210,6 +210,10 @@ class ClassRecordComponent {
     this.$state.go('app.course.session.activityUpdate', { activityId: activity._id })
   }
 
+  getStudentQuestPts(student) {
+    return this.course.getStudentQuestPts(student)
+  }
+
   addNewAttendance() {
     const newAttendance = this.newAttendance
     const date = newAttendance.date
