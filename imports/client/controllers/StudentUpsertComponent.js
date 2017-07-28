@@ -178,11 +178,11 @@ class StudentUpsertComponent {
 
   get isInvalidIdNumber() {
     try {
-      const student = Student.findOne({ idNumber: this.student.idNumber })
-      if (student) {
-        this.idNumberErrorMessage = 'ID Number is already registered!'
-        return true
-      }
+      // const student = Student.findOne({ idNumber: this.student.idNumber })
+      // if (student) {
+        // this.idNumberErrorMessage = 'ID Number is already registered!'
+        // return true
+      // }
       schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {
@@ -266,7 +266,11 @@ class StudentUpsertComponent {
       schema.pick('email').validate({ email: this.student.email })
       return false
     } catch (e) {
-      this.emailErrorMessage = e.reason
+      if (e.reason.includes('regular expression')) {
+        this.emailErrorMessage = 'Invalid email address'
+      } else {
+        this.emailErrorMessage = e.reason
+      }
       return true
     }
   }

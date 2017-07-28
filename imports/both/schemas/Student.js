@@ -27,18 +27,6 @@ export default new SimpleSchema({
     unique: true,
     label: "Id Number",
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
-    // NOTE: Should not duplicate
-    // custom: function () {
-    //   const Student = require('/imports/both/models/Student').default
-    //   let student = {}
-    //   if (this.isSet) {
-    //     student = Student.findOne({ idNumber: this.value })
-    //   }
-    //   if (student) {
-    //       return 'alreadyExist'
-    //   }
-    //   // return true
-    // },
   },
   gender: {
     type: String,
@@ -62,7 +50,7 @@ export default new SimpleSchema({
   },
   cityAddress: {
     type: String,
-    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
     optional: true,
   },
   contactNumber: {
@@ -87,7 +75,7 @@ export default new SimpleSchema({
   email: {
     type: String,
     optional: true,
-    // regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
+    regEx: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,}))$/,
   },
   father: {
     type: Object,
@@ -99,7 +87,7 @@ export default new SimpleSchema({
   },
   'father.contactNumber': {
     type: String,
-    // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   mother: {
     type: Object,
@@ -107,11 +95,11 @@ export default new SimpleSchema({
   },
   'mother.fullName': {
     type: String,
-    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
   },
   'mother.contactNumber': {
     type: String,
-    // regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+    regEx: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
   },
   nameSuffix: {
     type: String,
