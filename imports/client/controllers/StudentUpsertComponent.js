@@ -161,6 +161,7 @@ class StudentUpsertComponent {
       schema.pick('firstName').validate({ firstName: this.student.firstName })
       return false
     } catch (e) {
+      this.firstNameErrorMessage = e.reason
       return true
     }
   }
@@ -170,6 +171,7 @@ class StudentUpsertComponent {
       schema.pick('lastName').validate({ lastName: this.student.lastName })
       return false
     } catch (e) {
+      this.lastNameErrorMessage = e.reason
       return true
     }
   }
@@ -177,12 +179,14 @@ class StudentUpsertComponent {
   get isInvalidIdNumber() {
     try {
       const student = Student.findOne({ idNumber: this.student.idNumber })
-      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       if (student) {
+        this.idNumberErrorMessage = 'ID Number is already registered!'
         return true
       }
+      schema.pick('idNumber').validate({ idNumber: this.student.idNumber })
       return false
     } catch (e) {
+      this.idNumberErrorMessage = e.reason
       return true
     }
   }
@@ -192,6 +196,7 @@ class StudentUpsertComponent {
       schema.pick('middleName').validate({ middleName: this.student.middleName })
       return false
     } catch (e) {
+      this.middleNameErrorMessage = e.reason
       return true
     }
   }
@@ -201,6 +206,7 @@ class StudentUpsertComponent {
       schema.pick('birthday').validate({ birthday: this.student.birthday })
       return false
     } catch (e) {
+      this.birthdayErrorMessage = e.reason
       return true
     }
   }
@@ -210,6 +216,7 @@ class StudentUpsertComponent {
       schema.pick('homeAddress').validate({ homeAddress: this.student.homeAddress })
       return false
     } catch (e) {
+      this.homeAddressErrorMessage = e.reason
       return true
     }
   }
@@ -219,6 +226,7 @@ class StudentUpsertComponent {
       schema.pick('cityAddress').validate({ cityAddress: this.student.cityAddress })
       return false
     } catch (e) {
+      this.cityAddressErrorMessage = e.reason
       return true
     }
   }
@@ -228,6 +236,7 @@ class StudentUpsertComponent {
       schema.pick('contactNumber').validate({ contactNumber: this.student.contactNumber })
       return false
     } catch (e) {
+      this.contactNumberErrorMessage = e.reason
       return true
     }
   }
@@ -237,6 +246,7 @@ class StudentUpsertComponent {
       schema.pick('religion').validate({ religion: this.student.religion })
       return false
     } catch (e) {
+      this.religionErrorMessage = e.reason
       return true
     }
   }
@@ -246,6 +256,7 @@ class StudentUpsertComponent {
       schema.pick('citizenship').validate({ citizenship: this.student.citizenship })
       return false
     } catch (e) {
+      this.citizenshipErrorMessage = e.reason
       return true
     }
   }
@@ -255,6 +266,7 @@ class StudentUpsertComponent {
       schema.pick('email').validate({ email: this.student.email })
       return false
     } catch (e) {
+      this.emailErrorMessage = e.reason
       return true
     }
   }

@@ -9,18 +9,18 @@ export default new SimpleSchema({
     type: String,
     min: 1,
     optional: true,
-    // regEx: /^[a-zA-Z\d\- ]{1,}$/,
+    regEx: /^[a-zA-Z\d\- ]{1,}$/,
   },
   lastName: {
     type: String,
     min: 2,
     optional: true,
-    // regEx: /^[a-zA-Z\d\- ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-ñÑ ]{2,}$/,
   },
   middleName: {
     type: String,
     optional: true,
-    // regEx: /^[a-zA-Z\d\- ]{2,}$/,
+    regEx: /^[a-zA-Z\d\- ]{2,}$/,
   },
   idNumber: {
     type: String,
@@ -57,7 +57,7 @@ export default new SimpleSchema({
   },
   homeAddress: {
     type: String,
-    // regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
     optional: true,
   },
   cityAddress: {
