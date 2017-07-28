@@ -154,6 +154,7 @@
           <label class="col-md-2 control-label">Father's Name</label>
           <div class="col-md-4">
             <input type="text" name="parent-name" placeholder="Father's Name" class="form-control" ng-model="studentUpsert.student.father.fullName" />
+            <div class="text-danger text-left" ng-show="studentUpsert.isInvalidFathersName">{{ studentUpsert.fathersNameErrorMessage }}</div>
           </div>
           <label class="col-md-2 control-label">Contact Number</label>
           <div class="col-md-3">

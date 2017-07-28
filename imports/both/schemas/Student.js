@@ -107,7 +107,6 @@ export default new SimpleSchema({
     optional: true,
   },
   image: {
-    // TODO: Image upload
     type: Object,
     defaultValue: {},
     blackbox: true,

@@ -275,6 +275,15 @@ class StudentUpsertComponent {
     }
   }
 
+  get isInvalidFathersName() {
+    try {
+      schema.pick('father.fullName').validate( { 'father.fullName': this.student.father.fullName })
+      return false
+    } catch (e) {
+      this.fathersNameErrorMessage = e.reason
+      return true
+    }
+  }
   openPicker() {
     this.popup.opened = true
   }
