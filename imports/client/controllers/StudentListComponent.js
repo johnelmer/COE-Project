@@ -194,33 +194,6 @@ class StudentListComponent {
     this.limit += 10
   }
 
-  print() {
-    const json = this.filteredStudents.map((entry) => {
-      const properFormat = angular.copy(entry)
-      const student = new Student(properFormat)
-      return student.doc
-    })
-    const sheet = XLSX.utils.json_to_sheet(json)
-    const workbook = {
-      SheetNames: [],
-      Sheets: {
-      },
-    }
-    const sheetName = 'Students List'
-    workbook.SheetNames.push(sheetName)
-    workbook.Sheets[sheetName] = sheet
-    const wopts = {
-      bookType: 'xlsx',
-      bookSST: false,
-      type: 'base64',
-    }
-    const base64URL = XLSX.write(workbook, wopts);
-    const dataType = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64'
-    const url = `${dataType},${base64URL}`
-    this.fileName = `${sheetName}.${wopts.bookType}`
-    this.url = url
-  }
-
   get isStudentsReady() {
     return this.students.length > 0
   }
