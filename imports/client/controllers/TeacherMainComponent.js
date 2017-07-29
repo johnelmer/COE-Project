@@ -1,7 +1,7 @@
 import { Component, State, Inject } from 'angular2-now'
 import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
 import Course from '/imports/both/models/Course'
+import User from '/imports/both/models/User'
 import '../views/teacher-main.html'
 
 @State({
@@ -51,7 +51,12 @@ export default class TeacherMainComponent {
         return Course.find().fetch()
       },
       user() {
-        return Meteor.user()
+        const endsWithMain = $state.current.name.endsWith('main')
+        const { teacherId } = $stateParams
+        if (endsWithMain) {
+          return Meteor.user()
+        }
+        return User.findOne({ _id: teacherId })
       },
     })
     // this.subscribe('users', () => {

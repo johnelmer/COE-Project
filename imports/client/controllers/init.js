@@ -23,6 +23,7 @@ const dependencies = [
   uiSelect,
   ngFileUpload,
   uiGrid,
+  'ui.grid',
   'ui.grid.exporter',
   'ui.grid.selection',
 ]

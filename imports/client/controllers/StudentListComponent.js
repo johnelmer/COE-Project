@@ -25,13 +25,14 @@ import '../styles/studentList.scss'
   selector: 'student-list',
   templateUrl: 'imports/client/views/student-list.html',
 })
-@Inject('$scope', '$reactive', '$location', '$http', '$filter', '$state')
+@Inject('$scope', '$reactive', '$location', '$http', '$filter', '$state', 'uiGridConstants')
 class StudentListComponent {
 
-  constructor($scope, $reactive, $location, $http, $filter, $state) {
+  constructor($scope, $reactive, $location, $http, $filter, $state, uiGridConstants) {
     $reactive(this).attach($scope)
     this.isReady = false
     this.filter = $filter('filter')
+    this.gridOptions = this.gridOptions || {}
     this.helpers({
       students() {
         this.searchText = this.searchText || ''
@@ -42,6 +43,17 @@ class StudentListComponent {
         if (subsReady) {
           this.isReady = true
           students = Student.find().fetch()
+          this.degrees = students.map(student => student.degree)
+                      .filter((degree, index, degrees) => {
+                        return index === degrees.indexOf(degree)
+                      })
+          this.degreeOptions = this.degrees.map((degree) => {
+            const obj = {
+              value: degree,
+              label: degree,
+            }
+            return obj
+          })
           this.filteredStudents = this.filter(students, this.getReactively('this.searchText'))
           this.gridOptions.data = this.filteredStudents
         }
@@ -52,64 +64,118 @@ class StudentListComponent {
     this.$location = $location
     this.buttonTemplate = "<button class='btn btn-primary btn-sm btn-block'"
     this.buttonTemplate += "ui-sref='app.student.view({ studentId: student._id })'"
-    this.gridOptions = {
-      enableGridMenu: true,
-      exporterMenuCsv: false,
-      exporterPdfOrientation: 'portrait',
-      exporterPdfPageSize: 'LETTER',
-      exporterPdfMaxGridWidth: 500,
-      enableSorting: true,
-      enableRowHeaderSelection: true,
-      enableSelectAll: true,
-    //   rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}">' +
-    // '<div  ng-style="rowStyle" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'"' +
-    // 'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell ui-sref="app.student.view({ studentId: row.entity._id })" >' +
-    // '</div> </div>',
-      columnDefs: [
-        {
-          field: 'idNumber',
-          displayName: 'ID Number',
-          minWidth: 120,
+    this.autorun(() => {
+      const gridOptions = {
+        enableGridMenu: true,
+        exporterMenuCsv: false,
+        exporterPdfOrientation: 'portrait',
+        exporterPdfPageSize: 'LETTER',
+        exporterPdfMaxGridWidth: 500,
+        enableSorting: true,
+        enableRowHeaderSelection: false,
+        enableRowSelection: true,
+        enableSelectAll: true,
+        enableFiltering: false,
+        onRegisterApi: (gridApi) => {
+          this.gridApi = gridApi
         },
-        {
-          field: 'lastName',
-          displayName: 'Last Name',
-          minWidth: 120,
-          cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
-        },
-        {
-          field: 'firstName',
-          displayName: 'First Name',
-          minWidth: 120,
-          cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
-        },
-        {
-          field: 'degree',
-          displayName: 'Degree',
-          minWidth: 120,
-        },
-        {
-          field: 'yearLevel',
-          displayName: 'Year Level',
-          minWidth: 120,
-        },
-        // {
-        //   name: 'Action'
-        //   displayName: 'Actions',
-        //   cellTem
-        // },
-      ],
-    }
+      //   rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}">' +
+      // '<div  ng-style="rowStyle" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'"' +
+      // 'class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell ui-sref="app.student.view({ studentId: row.entity._id })" >' +
+      // '</div> </div>',
+        columnDefs: [
+          {
+            field: 'idNumber',
+            displayName: 'ID Number',
+            minWidth: 120,
+            filter: {
+              condition: uiGridConstants.filter.CONTAINS,
+              placeholder: 'Contains',
+            },
+          },
+          {
+            field: 'lastName',
+            displayName: 'Last Name',
+            minWidth: 120,
+            cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
+            filter: {
+              condition: uiGridConstants.filter.CONTAINS,
+              placeholder: 'Contains',
+            },
+          },
+          {
+            field: 'firstName',
+            displayName: 'First Name',
+            minWidth: 120,
+            cellTemplate: '<a class="ui-grid-cell-contents link" ui-sref="app.student.view({ studentId: row.entity._id })">{{grid.getCellValue(row, col)}}</a>',
+            filter: {
+              condition: uiGridConstants.filter.CONTAINS,
+              placeholder: 'Contains',
+            },
+          },
+          {
+            field: 'gender',
+            displayName: 'Gender',
+            minWidth: 120,
+            filter: {
+              type: uiGridConstants.filter.SELECT,
+              condition: uiGridConstants.filter.EXACT,
+              selectOptions: [
+                {
+                  value: 'Male',
+                  label: 'Male',
+                },
+                {
+                  value: 'Female',
+                  label: 'Female',
+                },
+              ],
+            },
+            // cellFilter: 'genderFilter',
+          },
+          {
+            field: 'degree',
+            displayName: 'Degree',
+            minWidth: 120,
+            filter: {
+              type: uiGridConstants.filter.SELECT,
+              selectOptions: this.getReactively('this.degreeOptions'),
+            },
+          },
+          {
+            field: 'yearLevel',
+            displayName: 'Year Level',
+            minWidth: 120,
+            filters: [
+              {
+                condition: uiGridConstants.filter.LESS_THAN,
+                placeholder: 'Less Than',
+              },
+              {
+                condition: uiGridConstants.filter.GREATER_THAN,
+                placeholder: 'Greater Than',
+              },
+            ],
+          },
+        ],
+      }
+      Object.assign(this.gridOptions, gridOptions)
+    })
     // 'this' is different when inside gridOptions
     // had to separate
-    this.gridOptions.onRegisterApi = (gridApi) => {
-      this.gridApi = gridApi
-    }
-    $http.get('/data/100.json')
-    .success((data) => {
-      this.gridOptions.data = data;
-    });
+    // this.gridOptions.onRegisterApi = (gridApi) => {
+    //   $scope.gridApi = gridApi
+    // }
+    this.uiGridConstants = uiGridConstants
     this.$state = $state
+    this.$scope = $scope
+  }
+
+  toggleAdvancedFilter() {
+    const { uiGridConstants, gridOptions } = this
+    const { enableFiltering } = gridOptions
+    this.gridOptions.enableFiltering = !enableFiltering
+    this.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN)
   }
 
   gridRowClick(row) {
