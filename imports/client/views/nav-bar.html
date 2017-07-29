@@ -1,16 +1,15 @@
 <nav ng-if="navBar.user" id="navBar" class="navbar navbar-fixed-top">
   <div class="navbar-header">
-    <a class="navbar-brand" data-toggle="collapse" data-target=".nav-collapse">
-      <button type="button" hidden="true" name="button" id="hamburger-menu">
-        <!-- <div class="hamburger">-</div>
-        <div class="hamburger">-</div>
-        <div class="hamburger">-</div> -->
-        <!-- COE -->
-      </button>
+    <div id="hamburger" class="customContainer" ng-click="navBar.toggle()">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+    <a id="brand" class="navbar-brand">
       COE
     </a>
   </div>
-  <ul class="nav navbar-nav nav-collapse collapse">
+  <ul id="items" class="nav navbar-nav">
     <li><a ui-sref="app.teacher.main">Home</a></li>
     <li class="dropdown" ng-show="navBar.user.hasARole('secretary')">
       <a class="btn dropdown" data-toggle="dropdown">
