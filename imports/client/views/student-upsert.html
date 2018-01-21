@@ -14,6 +14,7 @@
               <div class="col-md-9">
                 <input type="text" placeholder="Student ID" class="form-control" ng-model="studentUpsert.student.idNumber">
                 <i ng-show="studentUpsert.isInvalidIdNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+                <div class="text-danger text-left" ng-show="studentUpsert.isInvalidIdNumber">{{ studentUpsert.idNumberErrorMessage }}</div>
               </div>
             </div>
               <div class="form-group has-feedback"
@@ -22,6 +23,7 @@
               <div class="col-md-9">
                 <input type="text" name="last-name" placeholder="Last Name" class="form-control text-capitalize" style="text-transform:uppercase" ng-model="studentUpsert.student.lastName" />
                 <i ng-show="studentUpsert.isInvalidLastName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+                <div class="text-danger text-left" ng-show="studentUpsert.isInvalidLastName">{{ studentUpsert.lastNameErrorMessage }}</div>
               </div>
             </div>
             <div class="form-group has-feedback" ng-keyup="studentUpsert.isInvalidFirstName" ng-class="{'has-error': studentUpsert.isInvalidFirstName}">
@@ -29,6 +31,7 @@
               <div class="col-md-9">
                 <input type="text" name="first-name" placeholder="First Name" class="form-control text-capitalize" ng-model="studentUpsert.student.firstName"/>
                 <i ng-show="studentUpsert.isInvalidFirstName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+                <div class="text-danger text-left" ng-show="studentUpsert.isInvalidFirstName">{{ studentUpsert.firstNameErrorMessage }}</div>
               </div>
             </div>
             <div class="form-group has-feedback"
@@ -37,6 +40,7 @@
             <div class="col-md-9">
               <input type="text" name="middle-name" placeholder="Middle Name" class="form-control text-capitalize" ng-model="studentUpsert.student.middleName" />
               <i ng-show="studentUpsert.isInvalidMiddleName" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+              <div class="text-danger text-left" ng-show="studentUpsert.isInvalidMiddleName">{{ studentUpsert.middleNameErrorMessage }}</div>
             </div>
           </div>
         <div class="form-group">
@@ -68,6 +72,7 @@
               </span>
             </li>
             <i ng-show="studentUpsert.isInvalidBirthday" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+            <div class="text-danger text-left" ng-show="studentUpsert.isInvalidBirthday">{{ studentUpsert.birthdayErrorMessage }}</div>
             <!-- <input type="date" placeholder="yyyy-mm-dd" class="form-control" ng-keyup="studentUpsert.isInvalidBirthday" ng-class="{'has-error': studentUpsert.isInvalidBirthday}" ng-model="studentUpsert.student.birthday" /> -->
           </div>
           <label class="col-md-2 control-label">Gender</label>
@@ -84,6 +89,7 @@
         <div class="col-md-9">
           <input type="text" name="home-address" placeholder="Home Address" class="form-control" ng-model="studentUpsert.student.homeAddress" />
           <i ng-show="studentUpsert.isInvalidHomeAddress" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+          <div class="text-danger text-left" ng-show="studentUpsert.isInvalidHomeAddress">{{ studentUpsert.homeAddressErrorMessage }}</div>
         </div>
       </div>
       <div class="form-group has-feedback"
@@ -92,6 +98,7 @@
       <div class="col-md-9">
         <input type="text" name="home-address" placeholder="City Address" class="form-control" ng-model="studentUpsert.student.cityAddress" />
         <i ng-show="studentUpsert.isInvalidCityAddress" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+        <div class="text-danger text-left" ng-show="studentUpsert.isInvalidCityAddress">{{ studentUpsert.cityAddressErrorMessage }}</div>
       </div>
     </div>
     <div class="form-group has-feedback"
@@ -100,6 +107,7 @@
     <div class="col-md-9">
       <input type="text" name="contact-number" placeholder="Mobile Contact Number" class="form-control" ng-model="studentUpsert.student.contactNumber" />
       <i ng-show="studentUpsert.isInvalidContactNumber" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+      <div class="text-danger text-left" ng-show="studentUpsert.isInvalidContactNumber">{{ studentUpsert.contactNumberErrorMessage }}</div>
     </div>
   </div>
   <div class="form-group has-feedback"
@@ -108,6 +116,7 @@
   <div class="col-md-9">
     <input type="text" name="religion" placeholder="Religion" class="form-control" ng-model="studentUpsert.student.religion" />
     <i ng-show="studentUpsert.isInvalidReligion" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+    <div class="text-danger text-left" ng-show="studentUpsert.isInvalidReligion">{{ studentUpsert.religionErrorMessage }}</div>
   </div>
   </div>
   <div class="form-group has-feedback"
@@ -116,6 +125,7 @@
   <div class="col-md-9">
     <input type="text" name="citizenship" placeholder="Citizenship" class="form-control" ng-model="studentUpsert.student.citizenship" />
     <i ng-show="studentUpsert.isInvalidCitizenship" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+    <div class="text-danger text-left" ng-show="studentUpsert.isInvalidContactNumber">{{ studentUpsert.citizenshipErrorMessage }}</div>
   </div>
   </div>
   <div class="form-group has-feedback"
@@ -124,6 +134,7 @@
   <div class="col-md-9">
     <input type="email" name="e-mail" placeholder="Email Address" class="form-control" ng-model="studentUpsert.student.email" />
     <i ng-show="studentUpsert.isInvalidEmail" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></i>
+    <div class="text-danger text-left" ng-show="studentUpsert.isInvalidEmail">{{ studentUpsert.emailErrorMessage }}</div>
   </div>
   </div>
   <div class="form-group">
@@ -143,6 +154,7 @@
           <label class="col-md-2 control-label">Father's Name</label>
           <div class="col-md-4">
             <input type="text" name="parent-name" placeholder="Father's Name" class="form-control" ng-model="studentUpsert.student.father.fullName" />
+            <div class="text-danger text-left" ng-show="studentUpsert.isInvalidFathersName">{{ studentUpsert.fathersNameErrorMessage }}</div>
           </div>
           <label class="col-md-2 control-label">Contact Number</label>
           <div class="col-md-3">

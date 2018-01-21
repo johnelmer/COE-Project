@@ -3,7 +3,6 @@
   <div class="container" ng-switch-when="true">
     <div class="col-sm-6"></div>
     <div class="col-sm-4"></div>
-    <a class="btn btn-success col-sm-2" ng-href="{{studentList.url}}" download="{{studentList.fileName}}" ng-click="studentList.print()">Print to Excel</a>
     <form class="form-horizontal">
       <legend>
         <h1>List of Students</h1>
@@ -24,6 +23,9 @@
         </a>
         <a class="btn btn-danger" ng-click="studentList.clearAll()">
           Clear All
+        </a>
+        <a class="btn btn-info" ng-click="studentList.toggleAdvancedFilter()">
+          Toggle Advanced Filter
         </a>
       </p>
     </form>

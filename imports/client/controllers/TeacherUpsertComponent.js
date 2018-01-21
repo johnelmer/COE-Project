@@ -93,6 +93,7 @@ class TeacherUpsertComponent {
 
   save() {
     try {
+
       schema.validate(_.omit(this.teacher.doc, ['password', 'reenterPassword']))
       this.teacher.save(() => {
         this.teacher = new User()
@@ -115,6 +116,24 @@ class TeacherUpsertComponent {
 
   openPicker() {
     this.popup.opened = true
+  }
+
+  get isInvalidLastName() {
+    try {
+      schema.pick('lastName').validate({ lastName: this.teacher.lastName })
+      return false
+    } catch (e) {
+      this.invalidLastNameMessage = e.reason
+      return true
+    }
+  }
+
+  get isInvalidFirstName() {
+
+  }
+
+  get isInvalidMiddleName() {
+
   }
 }
 

@@ -1,59 +1,59 @@
-<div class="container">
-  <!-- <div class="animationload" ng-hide="teacherList.isTeachersReady">
-    <div class="osahanloading"></div>
-  </div> -->
-  <form class="form-horizontal">
-      <legend>
-        <h2>List of Teachers</h2></legend>
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
-        </div>
-        <br>
-        <div class="form-group">
-          <table class="table table-bordered table-hover table-reponsive">
-            <thead>
-              <tr>
-                <td>
-                  <label>
-                    ID no.
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    Last Name
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    First Name
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    Department
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    Action
-                  </label>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="teacher in teacherList.teachers | filter: searchText">
-                <td>{{ teacher.idNumber }}</td>
-                <td>{{ teacher.lastName }}</td>
-                <td>{{ teacher.firstName }}</td>
-                <td>{{ teacher.department }}</td>
-                <td class="text-center">
-                  <button class="btn btn-primary btn-sm btn-block" ui-sref="app.teacher.view({ teacherId: teacher._id })">
-                    Details
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-    </form>
+<div ng-switch="teacherList.isReady">
+  <spinner ng-switch-when="false"></spinner>
+  <div class="container" ng-switch-when="true">
+    <form class="form-horizontal">
+        <legend>
+          <h2>List of Teachers</h2></legend>
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText" class="form-control">
+          </div>
+          <br>
+          <div class="form-group">
+            <table class="table table-bordered table-hover table-reponsive">
+              <thead>
+                <tr>
+                  <td>
+                    <label>
+                      ID no.
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      Last Name
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      First Name
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      Department
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      Action
+                    </label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="teacher in teacherList.teachers | filter: searchText">
+                  <td>{{ teacher.idNumber }}</td>
+                  <td>{{ teacher.lastName }}</td>
+                  <td>{{ teacher.firstName }}</td>
+                  <td>{{ teacher.department }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-primary btn-sm btn-block" ui-sref="app.teacher.view({ teacherId: teacher._id })">
+                      Details
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </form>
+  </div>
 </div>

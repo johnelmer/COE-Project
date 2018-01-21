@@ -26,8 +26,7 @@ Meteor.publish('students', () => {
     },
   }
   return Student.find({}, opts)
-}
-)
+})
 
 Meteor.publish('students-basic-infos', () => {
   const opts = {
@@ -37,6 +36,7 @@ Meteor.publish('students-basic-infos', () => {
       idNumber: 1,
       degree: 1,
       yearLevel: 1,
+      gender: 1,
     },
   }
   return Student.find({}, opts)

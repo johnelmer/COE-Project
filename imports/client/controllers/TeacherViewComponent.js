@@ -12,19 +12,6 @@ import '../views/teacher-view.html'
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
-    subs($stateParams) {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const { teacherId } = $stateParams
-          const teacher = Meteor.subscribe('user', teacherId)
-          const subs = [teacher]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
   },
 })
 @Component({
@@ -36,10 +23,19 @@ class TeacherViewComponent {
 
   constructor($scope, $reactive, $state, $stateParams) {
     $reactive(this).attach($scope)
-    const { teacherId } = $stateParams
+    this.isReady = false
     this.$state = $state
     this.helpers({
       teacher() {
+        const { teacherId } = $stateParams
+        const teacher = this.subscribe('user', () => {
+          return [teacherId]
+        })
+        const subs = [teacher]
+        const isReady = subs.every(sub => sub.ready())
+        if (isReady) {
+          this.isReady = true
+        }
         return Teacher.findOne({ _id: teacherId })
       },
     })
