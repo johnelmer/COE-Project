@@ -10,7 +10,7 @@ import '../views/activity-update.html'
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

@@ -9,27 +9,9 @@ import '../views/class-record.html'
   url: '/teacher/course/classrecord/:courseId',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
-    // subsReady() {
-    //   return new Promise((resolve) => {
-    //     Tracker.autorun(() => {
-    //       const courses = Meteor.subscribe('courses')
-    //       const sessions = Meteor.subscribe('sessions')
-    //       const students = Meteor.subscribe('students')
-    //       const activities = Meteor.subscribe('activities')
-    //       const activityTypes = Meteor.subscribe('activity-types')
-    //       const gradingTemplates = Meteor.subscribe('grading-templates')
-    //       const settings = Meteor.subscribe('settings')
-    //       const gradeTransmutations = Meteor.subscribe('grade-transmutations')
-    //       const subs = [courses, sessions, students, activities, activityTypes,
-    //         gradingTemplates, settings, gradeTransmutations]
-    //       const subsReady = subs.every(sub => sub.ready())
-    //       if (subsReady) { resolve(true) }
-    //     })
-    //   })
-    // },
   },
 })
 @Component({

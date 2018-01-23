@@ -10,7 +10,7 @@ import '../views/attendance-update.html'
   url: '/teacher/course/session/attendance/:sessionId',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },
