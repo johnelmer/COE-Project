@@ -9,7 +9,7 @@ import '../views/teacher-view.html'
   url: '/teacher/view/:teacherId',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('secretary')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
   },

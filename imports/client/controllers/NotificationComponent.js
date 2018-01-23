@@ -5,11 +5,11 @@ import { Component, State, Inject } from 'angular2-now'
 import '../views/notification.html'
 
 @State({
-	name: 'app.notification.show',
+  name: 'app.notification.show',
   url: '/notifications',
   resolve: {
-		redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+    redirect($location) {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },
