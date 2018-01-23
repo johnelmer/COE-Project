@@ -30,13 +30,11 @@ import 'ng-toast/dist/ngToast.css'
 class LoginComponent {
   static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
-    console.log($scope);
     $reactive(this).attach($scope)
     // this.usernameErrorMessage = ''
     // this.passwordErrorMessage = ''
     this.user = {}
     this.$state = $state
-    this.subscribe('users')
     this.ngToast = ngToast
   }
 
