@@ -31,10 +31,7 @@ class ClassRollUploadComponent {
         this.subscribe('students-basic-infos'),
         this.subscribe('courses'),
       ]
-      const isReady = subs.every(sub => sub.ready())
-      if (isReady) {
-        this.isReady = true
-      }
+      this.isReady = subs.every(sub => sub.ready())
     })
   }
 

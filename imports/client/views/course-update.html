@@ -1,4 +1,5 @@
-<div class="container">
+<spinner ng-if="!courseDataUpdate.isReady"></spinner>
+<div class="container" ng-if="courseDataUpdate.isReady">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4>Course Update</h4>

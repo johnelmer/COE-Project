@@ -11,8 +11,10 @@ import '../views/course-update.html'
   url: '/course/update/:courseId',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
-      return isAuthorized || $location.path('/login')
+      return new Promise((resolve) => {
+        const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
+        resolve(isAuthorized || $location.path('/login'))
+      })
     },
     resolve() {
       return new Promise((resolve) => {
@@ -38,8 +40,13 @@ class CourseUpdateComponent {
   constructor($scope, $reactive, $stateParams) {
     $reactive(this).attach($scope)
     const { courseId } = $stateParams
+    this.isReady = false
     this.helpers({
       course() {
+        const courses = Meteor.subscribe('courses')
+        const teachers = Meteor.subscribe('teachers')
+        const subs = [teachers, courses]
+        this.isReady = subs.every(sub => sub.ready())
         return Course.findOne({ _id: courseId })
       },
       teachers() {
