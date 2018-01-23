@@ -7,6 +7,12 @@ import '../views/change-password.html'
 @State({
   name: 'app.settings.changePassword',
   url: '/settings/changepassword',
+  resolve: {
+    redirect($location) {
+      const isAuthorized = Meteor.user()
+      return isAuthorized || $location.path('/login')
+    },
+  },
 })
 @Component({
   selector: 'settings-change',
