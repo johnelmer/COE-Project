@@ -16,19 +16,6 @@ import '../views/course-update.html'
         resolve(isAuthorized || $location.path('/login'))
       })
     },
-    resolve() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const courses = Meteor.subscribe('courses')
-          const teachers = Meteor.subscribe('teachers')
-          const subs = [teachers, courses]
-          const subsReady = subs.every(sub => sub.ready())
-          if (subsReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
   },
 })
 @Component({
