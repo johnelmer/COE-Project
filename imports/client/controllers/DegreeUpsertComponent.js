@@ -10,7 +10,7 @@ import '../views/degree-upsert.html'
   url: '/degree/create',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('dean')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
   },
