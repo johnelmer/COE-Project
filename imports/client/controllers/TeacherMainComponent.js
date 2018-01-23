@@ -12,7 +12,10 @@ import '../views/teacher-main.html'
       return new Promise((resolve) => {
         const hasAUser = Meteor.user()
         const isAuthorized = hasAUser && Meteor.user().hasARole('faculty')
-        resolve(isAuthorized || $location.path('/login'))
+        if (!isAuthorized) {
+          $location.path('/login')
+        }
+        resolve(isAuthorized)
       })
     },
   },
@@ -24,7 +27,10 @@ import '../views/teacher-main.html'
     redirect(user, $location) {
       return new Promise((resolve) => {
         const isAuthorized = Meteor.user().hasARole('dean')
-        resolve(isAuthorized || $location.path('/login'))
+        if (!isAuthorized) {
+          $location.path('/login')
+        }
+        resolve(isAuthorized)
       })
     },
   },
@@ -40,9 +46,9 @@ export default class TeacherMainComponent {
     $reactive(this).attach($scope)
     this.helpers({
       courses() {
-        const setting = this.subscribe('settings')
         const endsWithCourses = $state.current.name.endsWith('courses')
         const teacherId = endsWithCourses && $stateParams.teacherId
+        const setting = this.subscribe('settings')
         const id = endsWithCourses ? teacherId : Meteor.userId()
         const user = this.subscribe('user', () => [id])
         const courses = this.subscribe('teacherCourses', () => [id])
