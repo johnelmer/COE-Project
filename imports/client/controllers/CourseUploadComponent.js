@@ -15,19 +15,6 @@ import '../views/course-upload.html'
   name: 'app.course.upload',
   url: '/course/upload',
   resolve: {
-    subs() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const courses = Meteor.subscribe('courses')
-          const teachers = Meteor.subscribe('teachers')
-          const subs = [courses, teachers]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
   },
 })
 @Component({
@@ -41,6 +28,14 @@ class CourseUploadComponent {
     $reactive(this).attach($scope)
     this.Upload = Upload
     this.$timeout = $timeout
+    this.isReady = false
+    this.autorun(() => {
+      const subs = [
+        this.subscribe('courses'),
+        this.subscribe('teachers'),
+      ]
+      this.isReady = subs.every(sub => sub.ready())
+    })
   }
 
   uploadFiles(file, errFiles) {
