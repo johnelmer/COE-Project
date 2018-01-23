@@ -13,7 +13,7 @@ import '../views/subject-assign.html'
   url: '/subject/assign',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('department head')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('department head')
       return isAuthorized || $location.path('/login')
     },
   },

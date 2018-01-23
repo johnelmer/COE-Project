@@ -11,7 +11,7 @@ import '../views/department-upsert.html'
   url: '/department/create',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('dean')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
 

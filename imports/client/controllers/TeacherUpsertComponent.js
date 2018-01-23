@@ -12,7 +12,7 @@ import '../views/teacher-upsert.html'
   url: '/teacher/create',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('secretary')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
     subs() {

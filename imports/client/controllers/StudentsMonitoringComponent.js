@@ -10,7 +10,7 @@ import '../views/students-monitoring.html'
   url: '/students/monitor',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
     },
   },

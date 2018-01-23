@@ -21,7 +21,7 @@ class NavBarComponent {
       const users = this.subscribe('currentUser')
       const roles = this.subscribe('roles')
       const notifications = this.subscribe('notifications')
-      const subs = [users, roles]
+      const subs = [users, roles, notifications]
       const subsReady = subs.every(sub => sub.ready())
       if (subsReady) {
         this.user = Meteor.user()
@@ -34,8 +34,13 @@ class NavBarComponent {
   }
 
   logout() {
-    Meteor.logout()
-    this.$state.go('app.login')
+    Meteor.logout((err) => {
+      if (err) {
+        alert(err)
+      } else {
+        this.$state.go('app.login')
+      }
+    })
   }
 }
 

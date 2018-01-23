@@ -13,21 +13,6 @@ import '../views/classroll-upload.html'
 @State({
   name: 'app.classroll.upload',
   url: '/classroll/upload',
-  resolve: {
-    subs() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const students = Meteor.subscribe('students-basic-infos')
-          const courses = Meteor.subscribe('courses')
-          const subs = [courses, students]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
-  },
 })
 @Component({
   selector: 'classroll-upload',
@@ -40,6 +25,14 @@ class ClassRollUploadComponent {
     $reactive(this).attach($scope)
     this.Upload = Upload
     this.$timeout = $timeout
+    this.isReady = false
+    this.autorun(() => {
+      const subs = [
+        this.subscribe('students-basic-infos'),
+        this.subscribe('courses'),
+      ]
+      this.isReady = subs.every(sub => sub.ready())
+    })
   }
 
   uploadFiles(file, errFiles) {

@@ -8,18 +8,9 @@ import '../views/change-password.html'
   name: 'app.settings.changePassword',
   url: '/settings/changepassword',
   resolve: {
-    subs() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const settings = Meteor.subscribe('settings')
-          const currentUser = Meteor.subscribe('currentUser')
-          const subs = [currentUser, settings]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
+    redirect($location) {
+      const isAuthorized = Meteor.user()
+      return isAuthorized || $location.path('/login')
     },
   },
 })
@@ -31,7 +22,16 @@ import '../views/change-password.html'
 class ChangePasswordComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.user = Meteor.user()
+    this.helpers({
+      user() {
+        const subs = [
+          this.subscribe('currentUser'),
+          this.subscribe('settings'),
+        ]
+        this.isReady = subs.every(sub => sub.ready())
+        return Meteor.user()
+      },
+    })
   }
 
   save() {
