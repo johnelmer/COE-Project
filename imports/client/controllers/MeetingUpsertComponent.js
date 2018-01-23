@@ -13,7 +13,7 @@ import '../views/meeting-upsert.html'
   url: '/meeting/create',
   resolve: {
     redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('dean')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
   },
