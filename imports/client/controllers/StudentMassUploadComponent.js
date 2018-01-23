@@ -13,7 +13,7 @@ import '../views/mass-upload.html'
   name: 'app.student.upload',
   url: '/students/upload',
   redirect($location) {
-    const isAuthorized = Meteor.user().hasARole('secretary')
+    const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
     return isAuthorized || $location.path('/login')
   },
 })
