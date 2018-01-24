@@ -38,10 +38,9 @@ class StudentListComponent {
         this.searchText = this.searchText || ''
         const studentsSub = this.subscribe('students-basic-infos')
         const subs = [studentsSub]
-        const subsReady = subs.every(sub => sub.ready())
+        this.isReady = subs.every(sub => sub.ready())
         let students
-        if (subsReady) {
-          this.isReady = true
+        if (this.isReady) {
           students = Student.find().fetch()
           this.degrees = students.map(student => student.degree)
                       .filter((degree, index, degrees) => {
