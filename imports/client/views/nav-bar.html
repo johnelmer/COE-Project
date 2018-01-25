@@ -1,15 +1,10 @@
 <nav ng-if="navBar.user" id="navBar" class="navbar navbar-fixed-top">
   <div class="navbar-header">
-    <div id="hamburger" class="customContainer" ng-click="navBar.toggle()">
-      <div class="bar1"></div>
-      <div class="bar2"></div>
-      <div class="bar3"></div>
-    </div>
-    <a id="brand" class="navbar-brand">
+    <a class="navbar-brand" data-toggle="collapse" data-target=".nav-collapse">
       COE
     </a>
   </div>
-  <ul id="items" class="nav navbar-nav">
+  <ul class="nav navbar-nav">
     <li><a ui-sref="app.teacher.main">Home</a></li>
     <li class="dropdown" ng-show="navBar.user.hasARole('secretary')">
       <a class="btn dropdown" data-toggle="dropdown">
@@ -58,7 +53,7 @@
       </ul>
     </li> -->
   </ul>
-  <ul class="nav navbar-nav navbar-right nav-collapse collapse">
+  <ul class="nav navbar-nav navbar-right">
     <li class="dropdown" ng-show="navBar.user.hasARole('faculty')">
       <a class="dropdown" data-toggle="dropdown">
           Settings <span class="glyphicon glyphicon-menu-down"></span>
