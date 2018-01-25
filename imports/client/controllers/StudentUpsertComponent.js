@@ -138,7 +138,8 @@ class StudentUpsertComponent {
     try {
       schema.validate(this.student.doc)
       const { firstName, lastName } = this.student
-      this.student.save(() => {
+      const studentId = this.student.save(() => {
+        this.$state.go('app.student.view', { studentId: studentId })
         this.student = new Student
       })
       this.ngToast.create({
@@ -153,7 +154,6 @@ class StudentUpsertComponent {
         content: `${e.reason}`,
       })
     }
-    this.$state.go('app.student.view', { studentId: this.student._id })
   }
 
   get isInvalidFirstName() {
