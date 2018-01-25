@@ -14,10 +14,8 @@ import 'ng-toast/dist/ngToast.css'
   url: '/login',
   resolve: {
     redirect($location) {
-      return new Promise((resolve) => {
-        const hasUser = Meteor.user()
-        resolve(!hasUser || $location.path('/teacher/courses'))
-      })
+      const hasUser = Meteor.user()
+      return !hasUser || $location.path('/teacher/courses')
     },
   },
   defaultRoute: true,

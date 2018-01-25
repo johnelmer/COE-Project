@@ -22,13 +22,16 @@ import '../views/change-password.html'
 class ChangePasswordComponent {
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
+    this.isReady = false
+    this.autorun(() => {
+      const settingsSub = this.subscribe('settings')
+      const subs = [
+        settingsSub,
+      ]
+      this.isReady = subs.every(sub => sub.ready())
+    })
     this.helpers({
       user() {
-        const subs = [
-          this.subscribe('currentUser'),
-          this.subscribe('settings'),
-        ]
-        this.isReady = subs.every(sub => sub.ready())
         return Meteor.user()
       },
     })

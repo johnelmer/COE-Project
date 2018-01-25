@@ -1,7 +1,5 @@
-<div class="container">
-  <div>
-    
-  </div>
+<spinner ng-if="!studentsMonitor.isReady"> </spinner>
+<div ng-if="studentsMonitor.isReady" class="container">
   <uib-tabset active="active">
     <uib-tab heading="In danger of failing">
       <div id="block" class="table-responsive">
@@ -60,7 +58,4 @@
       </div>
     </uib-tab>
   </uib-tabset>
-  <div class="animationload" ng-hide="studentsMonitor.isRecordReady">
-    <div class="osahanloading"></div>
-  </div>
 </div>
