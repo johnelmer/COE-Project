@@ -14,10 +14,8 @@ import 'ng-toast/dist/ngToast.css'
   url: '/login',
   resolve: {
     redirect($location) {
-      return new Promise((resolve) => {
-        const hasUser = Meteor.user()
-        resolve(!hasUser || $location.path('/teacher/courses'))
-      })
+      const hasUser = Meteor.user()
+      return !hasUser || $location.path('/teacher/courses')
     },
   },
   defaultRoute: true,
@@ -30,13 +28,11 @@ import 'ng-toast/dist/ngToast.css'
 class LoginComponent {
   static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
-    console.log($scope);
     $reactive(this).attach($scope)
     // this.usernameErrorMessage = ''
     // this.passwordErrorMessage = ''
     this.user = {}
     this.$state = $state
-    this.subscribe('users')
     this.ngToast = ngToast
   }
 

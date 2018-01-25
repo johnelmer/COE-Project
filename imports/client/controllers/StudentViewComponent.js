@@ -9,7 +9,7 @@ import '../views/student-view.html'
   url: '/students/view/:studentId',
   resolve: {
     redirect($state) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $state.path('/login')
     },
   },
