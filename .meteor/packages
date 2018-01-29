@@ -27,3 +27,4 @@ dispatch:mocha
 accounts-base
 aldeed:simple-schema
 aldeed:collection2
+force-ssl
