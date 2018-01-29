@@ -1,4 +1,5 @@
 import { Component, State, Inject } from 'angular2-now'
+import { Meteor } from 'meteor/meteor'
 import AppSetting from '/imports/both/models/AppSetting'
 import schema from '/imports/both/schemas/AppSetting'
 import '../views/settings.html'
@@ -6,6 +7,12 @@ import '../views/settings.html'
 @State({
   name: 'app.settings.update',
   url: '/settings/update',
+  resolve: {
+    redirect($location) {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
+      return isAuthorized || $location.path('login')
+    },
+  },
 })
 @Component({
   selector: 'settings-update',
