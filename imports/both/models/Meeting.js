@@ -17,7 +17,7 @@ class Meeting extends Model {
     notif.date = this.createdAt
     notif.userIds = this.attendeeIds
     notif.content = {
-      header:  `WHEN: ${this.schedule} WHERE: ${this.location}`,
+      header:  `WHEN: ${this.schedule.toLocaleString()} WHERE: ${this.location}`,
       body: this.description,
     }
     notif.save((err, doc) => {

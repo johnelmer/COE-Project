@@ -62,7 +62,7 @@ class StudentCoursesComponent {
   }
 
   changeSchoolYear(schoolYear) {
-    this.schoolYear = schoolYear
+    this.selectedSchoolYear = schoolYear
   }
 
   get schoolYearList() {

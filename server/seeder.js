@@ -302,6 +302,46 @@ const seeder = {
       }).save()
     }
   },
+  dean: () => {
+    new User({
+      username: 'admin',
+      password: data.defaultPassword,
+      firstName: 'To be updated',
+      lastName: 'To be updated',
+      middleName: 'To be updated',
+      idNumber: '00-000-00',
+      contactNumber: '09090000000',
+      civilStatus: 'Single',
+      address: 'To be updated',
+      department: 'To be updated',
+      status: 'Active',
+      birthday: faker.date.past(35),
+      gender: 'Male',
+      roleName: 'dean',
+      subjectAssignedIds: [],
+      notificationIds: [],
+    }).save()
+  },
+  secretary: () => {
+    new User({
+      username: 'secretary',
+      password: data.defaultPassword,
+      firstName: 'To be updated',
+      lastName: 'To be updated',
+      middleName: 'To be updated',
+      idNumber: '00-000-01',
+      contactNumber: '09090000001',
+      civilStatus: 'Single',
+      address: 'To be updated',
+      department: 'To be updated',
+      status: 'Active',
+      birthday: faker.date.past(35),
+      gender: 'Female',
+      roleName: 'secretary',
+      subjectAssignedIds: [],
+      notificationIds: [],
+    }).save()
+  },
   appSetting: (schoolYear, semester) => {
     new AppSetting({ type: 'Main', currentSchoolYear: schoolYear, currentSemester: semester }).save()
   },

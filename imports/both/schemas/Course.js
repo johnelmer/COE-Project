@@ -50,6 +50,7 @@ export default new SimpleSchema({
   },
   laboratory: {
     type: courseType,
+    optional: true,
   },
   // TODO: specify fields
   studentIds: {
