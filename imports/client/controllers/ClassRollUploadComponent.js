@@ -13,6 +13,12 @@ import '../views/classroll-upload.html'
 @State({
   name: 'app.classroll.upload',
   url: '/classroll/upload',
+  resolve: {
+    redirect($location) {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary');
+      return isAuthorized || $location.path('/login')
+    },
+  },
 })
 @Component({
   selector: 'classroll-upload',
