@@ -15,19 +15,6 @@ import '../views/teacher-upsert.html'
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
     },
-    subs() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const departments = Meteor.subscribe('departments')
-          const teachers = Meteor.subscribe('teachers')
-          const subs = [departments, teachers]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
-    },
   },
 })
 @State({
@@ -37,19 +24,6 @@ import '../views/teacher-upsert.html'
     redirect($location) {
       const isAuthorized = Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
-    subs() {
-      return new Promise((resolve) => {
-        Tracker.autorun(() => {
-          const departments = Meteor.subscribe('departments')
-          const teachers = Meteor.subscribe('teachers')
-          const subs = [departments, teachers]
-          const isReady = subs.every(sub => sub.ready())
-          if (isReady) {
-            resolve(true)
-          }
-        })
-      })
     },
   },
 })
@@ -64,11 +38,18 @@ class TeacherUpsertComponent {
     $reactive(this).attach($scope)
     this.buttonLabel = ''
     const { teacherId } = $stateParams
-    if ($state.current.name.endsWith('create')) {
-      this.buttonLabel = 'Register'
-    } else {
-      this.buttonLabel = 'Update'
-    }
+    this.autorun(() => {
+      const departments = this.subscribe('departments')
+      let subs = [departments];
+      if ($state.current.name.endsWith('create')) {
+        this.buttonLabel = 'Register'
+      } else {
+        const teacherSub = this.subscribe('user', () => [teacherId])
+        subs = [departments, teacherSub];
+        this.buttonLabel = 'Update'
+      }
+      this.isReady = subs.every(sub => sub.ready())
+    })
     this.helpers({
       teacher() {
         if ($state.current.name.endsWith('create')) {
@@ -93,7 +74,6 @@ class TeacherUpsertComponent {
 
   save() {
     try {
-
       schema.validate(_.omit(this.teacher.doc, ['password', 'reenterPassword']))
       this.teacher.save(() => {
         this.teacher = new User()

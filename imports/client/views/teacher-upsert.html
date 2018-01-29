@@ -1,4 +1,5 @@
-<div class="container">
+<spinner ng-if="!teacherUpsert.isReady"></spinner>
+<div class="container" ng-if="teacherUpsert.isReady">
   <form class="form-horizontal">
     <legend><h1>Teacher Information</h1></legend>
     <div class="panel panel-default">
