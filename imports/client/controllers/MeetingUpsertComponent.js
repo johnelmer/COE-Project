@@ -22,8 +22,8 @@ import '../views/meeting-upsert.html'
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
   resolve: {
-    redirect(user, $location) {
-      const isAuthorized = user.hasARole('teacher')
+    redirect($location) {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
   },

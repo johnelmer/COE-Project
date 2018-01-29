@@ -18,7 +18,7 @@ import '../views/teacher-main.html'
   name: 'app.teacher.courses',
   url: '/teacher/courses/:teacherId',
   resolve: {
-    redirect(user, $location) {
+    redirect($location) {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
     },
