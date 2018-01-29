@@ -50,6 +50,7 @@ export default new SimpleSchema({
   },
   laboratory: {
     type: courseType,
+    optional: true,
   },
   // TODO: specify fields
   studentIds: {
@@ -67,5 +68,20 @@ export default new SimpleSchema({
   gradingTemplateId: {
     type: String,
     optional: true,
+  },
+  questRecords: {
+    type: Array,
+  },
+  'questRecords.$': {
+    type: Object,
+  },
+  'questRecords.$.studentId': {
+    type: String,
+    defaultValue: [],
+  },
+  'questRecords.$.points': {
+    type: Number,
+    max: 5,
+    min: 2.5,
   },
 })

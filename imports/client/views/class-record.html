@@ -173,8 +173,25 @@
             </table>
           </div>
         </uib-tab>
+        <uib-tab heading="Quest">
+          <div id="block" class="table-reponsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-inverse">
+                <tr>
+                  <td><label>Name of Students</label></td>
+                  <td>Points</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="student in classRecord.students track by student._id">
+                  <td>{{ student.fullName }}</td>
+                  <td>{{ classRecord.getStudentQuestPts(student) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </uib-tab>
       </form>
-      </uib-tabset>
-    </div>
+    </uib-tabset>
   </form>
 </div>

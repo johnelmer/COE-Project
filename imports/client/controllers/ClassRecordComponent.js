@@ -1,6 +1,6 @@
 import Course from '/imports/both/models/Course'
 import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
+// import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/class-record.html'
 
@@ -94,6 +94,14 @@ class ClassRecordComponent {
         }
       }
     })
+    this.dateOptions = {
+      formatYear: 'yy',
+      maxDate: new Date(), // cannot select date after the current day onwards
+      startingDay: 1,
+    }
+    this.popup = {
+      opened: false,
+    }
     this.helpers({
       course() {
         return Course.findOne({ _id: courseId })
@@ -152,10 +160,6 @@ class ClassRecordComponent {
     return activity.isLocked
   }
 
-/*  toCamelCase(str) {
-    return str.toLowerCase().replace(/\W+(.)/g, (match, chr) => chr.toUppercase())
-  } */
-
   getAttendanceValue(type) {
     return (type === 'Present') ? 'P' : (type === 'Late') ? 'L' : (type === 'Absent') ? 'A' : (type === 'Excuse') ? 'E' : ''
   }
@@ -199,6 +203,10 @@ class ClassRecordComponent {
     session.save()
     this.course.save()
     this.$state.go('app.course.session.activityUpdate', { activityId: activity._id })
+  }
+
+  getStudentQuestPts(student) {
+    return this.course.getStudentQuestPts(student)
   }
 
   addNewAttendance() {
