@@ -19,10 +19,8 @@ import '../views/teacher-main.html'
   url: '/teacher/courses/:teacherId',
   resolve: {
     redirect(user, $location) {
-      return new Promise((resolve) => {
-        const isAuthorized = Meteor.user().hasARole('dean')
-        resolve(isAuthorized || $location.path('/login'))
-      })
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
+      return isAuthorized || $location.path('/login')
     },
   },
 })

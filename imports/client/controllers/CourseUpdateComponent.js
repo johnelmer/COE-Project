@@ -11,10 +11,8 @@ import '../views/course-update.html'
   url: '/course/update/:courseId',
   resolve: {
     redirect($location) {
-      return new Promise((resolve) => {
-        const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
-        resolve(isAuthorized || $location.path('/login'))
-      })
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
+      return isAuthorized || $location.path('/login')
     },
   },
 })
