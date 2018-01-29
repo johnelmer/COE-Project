@@ -8,10 +8,10 @@ import '../views/student-view.html'
   name: 'app.student.view',
   url: '/students/view/:studentId',
   resolve: {
-    redirect($state) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
-      return isAuthorized || $state.path('/login')
-    },
+      return isAuthorized || $location.path('/login')
+    }],
   },
 })
 @Component({

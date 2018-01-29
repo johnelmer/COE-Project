@@ -9,10 +9,10 @@ import '../views/students-monitoring.html'
   name: 'app.student.monitor',
   url: '/students/monitor',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

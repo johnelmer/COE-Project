@@ -11,20 +11,20 @@ import '../views/teacher-upsert.html'
   name: 'app.teacher.create',
   url: '/teacher/create',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @State({
   name: 'app.teacher.edit',
   url: '/teacher/edit/:teacherId',
   resolve: {
-    redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('secretary')
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

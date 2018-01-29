@@ -9,10 +9,10 @@ import '../views/activity-update.html'
   name: 'app.course.session.activityUpdate',
   url: '/teacher/course/session/activity/:activityId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

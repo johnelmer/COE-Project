@@ -12,20 +12,20 @@ import '../views/meeting-upsert.html'
   name: 'app.meeting.create',
   url: '/meeting/create',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @State({
   name: 'app.meeting.edit',
   url: '/meeting/edit/:meetingId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

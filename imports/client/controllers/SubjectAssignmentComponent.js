@@ -12,10 +12,10 @@ import '../views/subject-assign.html'
   name: 'app.subject.assign',
   url: '/subject/assign',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('department head')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

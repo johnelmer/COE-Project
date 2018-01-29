@@ -8,10 +8,10 @@ import '../views/notification.html'
   name: 'app.notification.show',
   url: '/notifications',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

@@ -15,10 +15,10 @@ import '../styles/studentList.scss'
   name: 'app.student.list',
   url: '/students/list',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

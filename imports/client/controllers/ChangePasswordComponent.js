@@ -8,10 +8,10 @@ import '../views/change-password.html'
   name: 'app.settings.changePassword',
   url: '/settings/changepassword',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user()
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

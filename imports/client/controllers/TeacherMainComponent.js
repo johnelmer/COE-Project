@@ -8,20 +8,20 @@ import '../views/teacher-main.html'
   name: 'app.teacher.main',
   url: '/teacher/courses',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @State({
   name: 'app.teacher.courses',
   url: '/teacher/courses/:teacherId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

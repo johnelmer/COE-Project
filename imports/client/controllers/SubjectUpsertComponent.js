@@ -10,21 +10,20 @@ import '../views/subject-upsert.html'
   name: 'app.subject.create',
   url: '/subjects/create',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @State({
   name: 'app.subject.edit',
   url: '/subjects/edit/:subjectId',
   resolve: {
-    redirect($state) {
-      const { roleName } = Meteor.user()
-      const role = Role.findOne({ name: roleName })
-      return role.hasARole('secretary') || $state.go('app.login')
-    },
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    }],
   },
 })
 @Component({

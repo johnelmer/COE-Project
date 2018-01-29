@@ -13,10 +13,10 @@ import 'ng-toast/dist/ngToast.css'
   name: 'app.login',
   url: '/login',
   resolve: {
-    redirect($location) {
-      const hasUser = Meteor.user()
-      return !hasUser || $location.path('/teacher/courses')
-    },
+    redirect: ['$location', ($location) => {
+      const isAuthorized = !Meteor.user()
+      return isAuthorized || $location.path('/teacher/courses')
+    }],
   },
   defaultRoute: true,
 })

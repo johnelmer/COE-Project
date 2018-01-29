@@ -10,10 +10,10 @@ import '../views/course-update.html'
   name: 'app.course.assign.update',
   url: '/course/update/:courseId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

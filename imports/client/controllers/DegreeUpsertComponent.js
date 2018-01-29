@@ -9,10 +9,10 @@ import '../views/degree-upsert.html'
   name: 'app.degree.create',
   url: '/degree/create',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

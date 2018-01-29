@@ -8,10 +8,10 @@ import '../views/class-record.html'
   name: 'app.course.classRecord',
   url: '/teacher/course/classrecord/:courseId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

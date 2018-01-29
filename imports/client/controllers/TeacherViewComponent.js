@@ -8,10 +8,10 @@ import '../views/teacher-view.html'
   name: 'app.teacher.view',
   url: '/teacher/view/:teacherId',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

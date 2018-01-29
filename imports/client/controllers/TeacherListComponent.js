@@ -7,10 +7,10 @@ import '../views/teacher-list.html'
   name: 'app.teacher.list',
   url: '/teacher/list',
   resolve: {
-    redirect($location) {
-      const isAuthorized = Meteor.user() && Meteor.user() && Meteor.user().hasARole('secretary')
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

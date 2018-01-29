@@ -15,10 +15,10 @@ import '../views/course-upload.html'
   name: 'app.course.upload',
   url: '/course/upload',
   resolve: {
-    redirect($location) {
-      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary');
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

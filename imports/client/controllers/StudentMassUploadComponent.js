@@ -12,9 +12,11 @@ import '../views/mass-upload.html'
 @State({
   name: 'app.student.upload',
   url: '/students/upload',
-  redirect($location) {
-    const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
-    return isAuthorized || $location.path('/login')
+  resolve: {
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
+      return isAuthorized || $location.path('/login')
+    }],
   },
 })
 @Component({

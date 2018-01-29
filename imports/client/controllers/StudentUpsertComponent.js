@@ -15,20 +15,20 @@ import '../styles/studentUpsert.scss'
   name: 'app.student.create',
   url: '/students/create',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @State({
   name: 'app.student.edit',
   url: '/students/edit/:studentId',
   resolve: {
-    redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('secretary')
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('secretary')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({

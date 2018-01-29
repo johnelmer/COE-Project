@@ -8,10 +8,10 @@ import '../views/settings.html'
   name: 'app.settings.update',
   url: '/settings/update',
   resolve: {
-    redirect($location) {
+    redirect: ['$location', ($location) => {
       const isAuthorized = Meteor.user() && Meteor.user().hasARole('dean')
-      return isAuthorized || $location.path('login')
-    },
+      return isAuthorized || $location.path('/login')
+    }],
   },
 })
 @Component({

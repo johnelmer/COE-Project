@@ -9,10 +9,10 @@ import '../views/course-student-enroll.html'
   name: 'app.course.enrollStudent',
   url: '/teacher/course/enroll/:courseId',
   resolve: {
-    redirect($location) {
-      const isAuthorized = Meteor.user().hasARole('faculty')
+    redirect: ['$location', ($location) => {
+      const isAuthorized = Meteor.user() && Meteor.user().hasARole('faculty')
       return isAuthorized || $location.path('/login')
-    },
+    }],
   },
 })
 @Component({
