@@ -29,19 +29,19 @@ class LoginComponent {
   static schema = schema
   constructor($scope, $reactive, $state, ngToast) {
     $reactive(this).attach($scope)
-    // this.usernameErrorMessage = ''
-    // this.passwordErrorMessage = ''
+    this.userContext = schema.namedContext()
     this.user = {}
     this.$state = $state
     this.ngToast = ngToast
   }
 
   login() {
+    this.validateFields()
     if (this.isInvalidUsername || this.isInvalidPassword) {
       this.ngToast.create({
         dismissButton: true,
         className: 'danger',
-        content: 'Please fill in the fields accurately!',
+        content: 'Please fill in the fields completely!',
       })
     } else {
       Meteor.loginWithPassword(this.user.username, this.user.password, (err) => {
@@ -63,14 +63,27 @@ class LoginComponent {
     }
   }
 
-  get isInvalidUsername() {
-    this.usernameErrorMessage = 'Please enter username'
-    return this.user.username === '' || this.user.username === null
+  validateFields() {
+    this.validateUsername()
+    this.validatePassword()
   }
 
-  get isInvalidPassword() {
-    this.passwordErrorMessage = 'Please enter password'
-    return this.user.password === '' || this.user.username === null
+  validateUsername() {
+    if (this.userContext.validateOne(this.user, 'username')) {
+      this.isInvalidUsername = false
+    } else {
+      this.isInvalidUsername = true
+      this.usernameErrorMessage = this.userContext.keyErrorMessage('username')
+    }
+  }
+
+  validatePassword() {
+    if (this.user.password === '' || this.user.password === null) {
+      this.isInvalidPassword = true
+      this.passwordErrorMessage = 'Please fill in your password'
+    } else {
+      this.isInvalidPassword = false
+    }
   }
 }
 

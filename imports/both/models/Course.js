@@ -356,7 +356,6 @@ class Course extends Model {
 
   passClassRecord() {
     this.activities.forEach((activity) => {
-      console.log(activity)
       activity.isLocked = true
       activity.save(err => console.log(err))
     })

@@ -2,30 +2,44 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 SimpleSchema.messages({
   alreadyExist: '[label] already exist',
+  'regEx idNumber': [{
+    msg: 'Please correctly encode ID number with dashes',
+  }],
+  'regEx email': [{
+    msg: 'Email is not a valid format',
+  }],
+  'regEx firstName': [{
+    msg: 'First Name cannot contain special characters',
+  }],
+  'regEx contactNumber': [{
+    msg: 'Please review the contact number you encoded',
+  }],
+  'minString firstName': 'First Name must be at least 1 chracter',
 })
 
 export default new SimpleSchema({
   firstName: {
     type: String,
     min: 1,
-    optional: true,
-    regEx: /^[a-zA-Z\d\- ]{1,}$/,
+    label: 'First Name',
+    // regEx: /^[a-zA-Z\d\-ñÑ ]$/,
   },
   lastName: {
     type: String,
     min: 2,
-    optional: true,
-    regEx: /^[a-zA-Z\d\-ñÑ ]{2,}$/,
+    label: 'Last Name',
+    // regEx: /^[a-zA-Z\d\-ñÑ ]$/,
   },
   middleName: {
     type: String,
+    label: 'Middle Name',
     optional: true,
-    regEx: /^[a-zA-Z\d\- ]{2,}$/,
+    // regEx: /^[a-zA-Z\d\- ]$/,
   },
   idNumber: {
     type: String,
     unique: true,
-    label: "Id Number",
+    label: 'ID Number',
     regEx: /^\d{2}\-\d{4}\-\d{2}$/,
   },
   gender: {
@@ -45,12 +59,12 @@ export default new SimpleSchema({
   },
   homeAddress: {
     type: String,
-    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-\., ]$/,
     optional: true,
   },
   cityAddress: {
     type: String,
-    regEx: /^[a-zA-Z\d\-\., ]{2,}$/,
+    regEx: /^[a-zA-Z\d\-\., ]$/,
     optional: true,
   },
   contactNumber: {
@@ -109,6 +123,7 @@ export default new SimpleSchema({
   image: {
     type: Object,
     defaultValue: {},
+    optional: true,
     blackbox: true,
   },
   courseIds: {

@@ -1,4 +1,5 @@
-<div id="classRecordTemplate">
+<spinner ng-if="!classRecord.isReady"></spinner>
+<div ng-if="classRecord.isReady" id="classRecordTemplate">
   <form>
     <div id="block">
       <div class="panel panel-default">
@@ -193,7 +194,4 @@
       </form>
     </uib-tabset>
   </form>
-  <div class="animationload" ng-hide="classRecord.isDataReady">
-    <div class="osahanloading"></div>
-  </div>
 </div>

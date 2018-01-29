@@ -24,15 +24,20 @@ class StudentsMonitoringComponent {
 
   constructor($scope, $reactive) {
     $reactive(this).attach($scope)
-    this.subscribe('courses')
-    this.subscribe('students')
-    this.subscribe('sessions')
-    this.subscribe('activities')
-    this.subscribe('activity-types')
-    this.subscribe('grading-templates')
-    this.subscribe('settings')
-    this.subscribe('grade-transmutations')
-    this.isThereData = false
+    this.ready = false
+    this.autorun(() => {
+      const subs = [
+        this.subscribe('courses'),
+        this.subscribe('students'),
+        this.subscribe('sessions'),
+        this.subscribe('activities'),
+        this.subscribe('activity-types'),
+        this.subscribe('grading-templates'),
+        this.subscribe('settings'),
+        this.subscribe('grade-transmutations'),
+      ]
+      this.isReady = subs.every(sub => sub.ready())
+    })
     this.helpers({
       records() {
         const isPossible = Activity.find({ type: { $in: ['Midterm Exam', 'Midsummer Exam'] } }).count() > 0
@@ -44,13 +49,6 @@ class StudentsMonitoringComponent {
         return []
       },
     })
-  }
-
-  get isRecordReady() {
-    if (this.isThereData) {
-      return this.records.length > 1
-    }
-    return false
   }
 
   getFilteredRecords(type) {

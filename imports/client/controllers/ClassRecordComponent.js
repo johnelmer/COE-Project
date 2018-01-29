@@ -1,6 +1,6 @@
 import Course from '/imports/both/models/Course'
 import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
+// import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/class-record.html'
 
@@ -54,39 +54,51 @@ class ClassRecordComponent {
     //   this.newActivity = { date: new Date(), totalScore: 5, description: '' }
     //   this.newAttendance = { date: new Date(), sessionType: this.courseTypes[0] }
     // }
-    this.subscribe(('teacherCourses', userId), () => {
-      const sessionSubs = this.subscribe('sessions')
-      const studentSubs = this.subscribe('students')
-      const activitySubs = this.subscribe('activities')
-      const activityTypeSubs = this.subscribe('activity-types')
-      const gradingSubs = this.subscribe('grading-templates')
-      const settingSubs = this.subscribe('settings')
-      const gradeTransmutationSubs = this.subscribe('grade-transmutations')
-      this.course = Course.findOne({ _id: courseId })
-      const course = this.course
+    this.autorun(() => {
+      const subs = [
+        this.subscribe('teacherCourses', () => [userId]),
+        this.subscribe('sessions'),
+        this.subscribe('students'),
+        this.subscribe('activities'),
+        this.subscribe('activity-types'),
+        this.subscribe('grading-templates'),
+        this.subscribe('settings'),
+        this.subscribe('grade-transmutations'),
+      ]
+      this.isReady = subs.every(sub => sub.ready())
       this.activityList = []
-      const subs = [sessionSubs, studentSubs, activitySubs, activityTypeSubs,
-        gradingSubs, settingSubs, gradeTransmutationSubs]
-      const isDataReady = subs.every(sub => sub.ready())
-      if (isDataReady && course) {
-        this.students = course.students
-        this.doc = course.classRecord
-        this.sessions = course.sessions
-        this.activityTypes = course.activityTypesWithScores
-        this.activities = course.activitiesWithDates
-        this.courseTypes = course.currentUserHandledTypes
+      if (this.isReady) {
+        const {
+          students,
+          classRecord,
+          sessions,
+          activityTypesWithScores,
+          activitiesWithDates,
+          currentUserHandledTypes,
+        } = this.course
+        this.students = students
+        this.doc = classRecord
+        this.sessions = sessions
+        this.activityTypes = activityTypesWithScores
+        this.activities = activitiesWithDates
+        this.courseTypes = currentUserHandledTypes
         this.newActivity = { date: new Date(), totalScore: 5, description: '' }
         this.newAttendance = { date: new Date(), sessionType: this.courseTypes[0] }
+        this.dateOptions = {
+          formatYear: 'yy',
+          maxDate: new Date(), // cannot select date after the current day onwards
+          startingDay: 1,
+        }
+        this.popup = {
+          opened: false,
+        }
       }
     })
-    this.dateOptions = {
-      formatYear: 'yy',
-      maxDate: new Date(), // cannot select date after the current day onwards
-      startingDay: 1,
-    }
-    this.popup = {
-      opened: false,
-    }
+    this.helpers({
+      course() {
+        return Course.findOne({ _id: courseId })
+      },
+    })
   }
 
   get ratingTableHeaders() {

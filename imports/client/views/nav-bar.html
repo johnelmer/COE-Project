@@ -1,11 +1,11 @@
 <nav ng-if="navBar.user" id="navBar" class="navbar navbar-fixed-top">
   <div class="navbar-header">
-    <div id="hamburger" class="customContainer" ng-click="navBar.toggle()"  data-toggle="collapse" data-target=".navbar-collapse">
+    <div id="hamburger" class="customContainer">
       <div class="bar1"></div>
       <div class="bar2"></div>
       <div class="bar3"></div>
     </div>
-    <a id="brand" class="navbar-brand">
+    <a id="brand" class="navbar-brand"  ng-click="navBar.toggle()"  data-toggle="collapse" data-target=".navbar-collapse">
       COE
     </a>
   </div>
@@ -50,7 +50,7 @@
     <li><a href="#" ui-sref="app.degree.create" ng-show="navBar.user.hasARole('department head')">Degree & Department</a></li>
     <li><a href="#" ui-sref="app.notification.show" ng-show="navBar.user.hasARole('faculty')">Notifications</a></li>
   </ul>
-  <ul class="nav navbar-nav navbar-right nav-collapse collapse">
+  <ul class="nav navbar-nav navbar-right navbar-collapse collapse">
     <li class="dropdown" ng-show="navBar.user.hasARole('faculty')">
       <a class="dropdown" data-toggle="dropdown">
           Settings <span class="glyphicon glyphicon-menu-down"></span>

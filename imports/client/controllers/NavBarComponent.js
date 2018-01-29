@@ -3,7 +3,7 @@ import { Component, Inject } from 'angular2-now'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 import 'ng-toast/dist/ngToast.css'
 import '../views/nav-bar.html'
-import '../styles/navBar.scss'
+// import '../styles/navBar.scss'
 
 @Component({
   selector: 'nav-bar',
@@ -30,7 +30,7 @@ class NavBarComponent {
   }
 
   toggle() {
-    document.querySelector('#hamburger').classList.toggle("change")
+    document.querySelector('#brand').classList.toggle('change')
   }
 
   logout() {
