@@ -1,6 +1,6 @@
 import Course from '/imports/both/models/Course'
 import { Meteor } from 'meteor/meteor'
-import { Tracker } from 'meteor/tracker'
+// import { Tracker } from 'meteor/tracker'
 import { Component, State, Inject } from 'angular2-now'
 import '../views/class-record.html'
 
