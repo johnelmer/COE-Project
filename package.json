@@ -20,7 +20,7 @@
     "@uirouter/angularjs": "1.0.13",
     "angular2-now": "^1.1.6",
     "babel-runtime": "^6.22.0",
-    "bcrypt": "^1.0.2",
+    "bcrypt": "^5.0.0",
     "bootstrap-sass": "^3.3.7",
     "imports": "^1.0.0",
     "meteor-node-stubs": "~0.2.0",
